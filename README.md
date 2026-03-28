@@ -192,9 +192,11 @@ Activity
 
 ```
 Kotlin:           2.0.0
-Compose BOM:       2024.09.00
+Compose BOM:       2026.03.01
 AGP:              9.1.0
 Navigation:       2.8.5
-Coroutines:       1.8.0
-Lifecycle:         2.6.1
+Coroutines:       1.9.0
+Lifecycle:         2.8.0
+Activity:          1.9.0
+Core-ktx:         1.15.0
 ```
