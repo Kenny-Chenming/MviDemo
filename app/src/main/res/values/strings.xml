@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- App -->
+    <string name="app_name">MyMviProject</string>
+
+    <!-- Home Screen -->
+    <string name="home_title">Home</string>
+    <string name="home_no_user">No user logged in</string>
+    <string name="home_load_user">Load User</string>
+    <string name="home_edit">Edit</string>
+    <string name="home_logout">Logout</string>
+    <string name="home_edit_name_title">Edit Name</string>
+    <string name="home_name_label">Name</string>
+    <string name="home_confirm">Confirm</string>
+    <string name="home_cancel">Cancel</string>
+
+    <!-- Settings -->
+    <string name="settings_title">Settings</string>
+    <string name="settings_theme">Theme</string>
+    <string name="settings_language">Language</string>
+    <string name="theme_light">Light</string>
+    <string name="theme_dark">Dark</string>
+    <string name="theme_system">Follow System</string>
+
+    <!-- Login -->
+    <string name="login_title">Login</string>
+    <string name="login_subtitle">Sign in to continue</string>
+    <string name="login_email">Email</string>
+    <string name="login_password">Password</string>
+    <string name="login_btn">Sign In</string>
+    <string name="login_hint">Test account: test@example.com / 123456</string>
+
+    <!-- List -->
+    <string name="list_title">List</string>
+    <string name="list_empty">No items yet</string>
+    <string name="list_retry">Retry</string>
+    <string name="list_delete">Delete</string>
+
+    <!-- Profile -->
+    <string name="profile_title">Profile</string>
+    <string name="profile_login">Login</string>
+    <string name="profile_logout">Logout</string>
+
+    <!-- Common -->
+    <string name="common_retry">Retry</string>
+    <string name="common_loading">Loading…</string>
+    <string name="common_error">Error</string>
+    <string name="common_success">Success</string>
+    <string name="common_cancel">Cancel</string>
+    <string name="common_ok">OK</string>
+</resources>

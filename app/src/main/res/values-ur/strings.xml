@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- App -->
+    <string name="app_name">MyMviProject</string>
+
+    <!-- Home Screen -->
+    <string name="home_title">ہوم</string>
+    <string name="home_no_user">کوئی صارف لاگ ان نہیں ہے</string>
+    <string name="home_load_user">صارف لوڈ کریں</string>
+    <string name="home_edit">ترمیم</string>
+    <string name="home_logout">لاگ آؤٹ</string>
+    <string name="home_edit_name_title">نام تبدیل کریں</string>
+    <string name="home_name_label">نام</string>
+    <string name="home_confirm">تصدیق</string>
+    <string name="home_cancel">منسوخ</string>
+
+    <!-- Settings -->
+    <string name="settings_title">ترتیبات</string>
+    <string name="settings_theme">تھیم</string>
+    <string name="settings_language">زبان</string>
+    <string name="theme_light">روشن</string>
+    <string name="theme_dark">تاریک</string>
+    <string name="theme_system">نظام کے مطابق</string>
+
+    <!-- Login -->
+    <string name="login_title">لاگ ان</string>
+    <string name="login_subtitle">جاري رکھنے کے لیے سائن ان کریں</string>
+    <string name="login_email">ای میل</string>
+    <string name="login_password">پاس ورڈ</string>
+    <string name="login_btn">سائن ان</string>
+    <string name="login_hint">ٹیسٹ اکاؤنٹ: test@example.com / 123456</string>
+
+    <!-- List -->
+    <string name="list_title">فہرست</string>
+    <string name="list_empty">کوئی آئٹم نہیں ہے</string>
+    <string name="list_retry">دوبارہ کوشش</string>
+    <string name="list_delete">حذف</string>
+
+    <!-- Common -->
+    <string name="common_retry">دوبارہ کوشش</string>
+    <string name="common_loading">لوڈ ہو رہا ہے…</string>
+    <string name="common_error">غلطی</string>
+    <string name="common_success">کامیابی</string>
+    <string name="common_cancel">منسوخ</string>
+    <string name="common_ok">ٹھیک ہے</string>
+</resources>
