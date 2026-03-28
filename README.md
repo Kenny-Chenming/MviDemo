@@ -197,6 +197,6 @@ AGP:              9.1.0
 Navigation:       2.8.5
 Coroutines:       1.9.0
 Lifecycle:         2.8.0
-Activity:          1.9.0
+Activity:          1.13.0
 Core-ktx:         1.15.0
 ```
