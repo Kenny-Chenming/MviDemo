@@ -2,7 +2,10 @@ package com.mvi.kenny.feature.chat
 
 import android.widget.Toast
 import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.animation.core.RepeatMode
+import androidx.compose.animation.core.animateFloat
+import androidx.compose.animation.core.infiniteRepeatable
+import androidx.compose.animation.core.rememberInfiniteTransition
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
@@ -17,6 +20,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.imePadding
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
@@ -29,32 +33,24 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.Send
+import androidx.compose.material.icons.filled.Send
 import androidx.compose.material.icons.filled.Brush
-import androidx.compose.material.icons.filled.Delete
-import androidx.compose.material.icons.filled.Person
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
-import androidx.compose.material3.SmallFloatingActionButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.draw.rotate
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
@@ -64,7 +60,6 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.mvi.kenny.R
 import com.mvi.kenny.base.TopBarActions
 import com.mvi.kenny.base.TopBarConfig
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
 /**
@@ -372,32 +367,31 @@ private fun AiTypingIndicator() {
 
 /**
  * 单个跳动的圆点
- * 使用 animateFloatAsState 实现上下弹跳动画
+ * 使用 rememberInfiniteTransition 实现无限循环弹跳动画
  *
  * @param delayMs 动画延迟（错开三个圆点的动画时机）
  */
 @Composable
 private fun TypingDot(delayMs: Int) {
-    var visible by remember { mutableStateOf(false) }
+    val infiniteTransition = rememberInfiniteTransition(label = "typing_dot")
 
-    // 启动弹跳动画
-    LaunchedEffect(Unit) {
-        kotlinx.coroutines.delay(delayMs.toLong())
-        visible = true
-    }
-
-    val offset by animateFloatAsState(
-        targetValue = if (visible) -4f else 4f,
-        animationSpec = tween(durationMillis = 400),
-        label = "typing_dot"
+    // 圆点上下弹跳：从 0f → -4f → 0f，无限循环
+    val offsetY by infiniteTransition.animateFloat(
+        initialValue = 0f,
+        targetValue = -4f,
+        animationSpec = infiniteRepeatable(
+            animation = tween(durationMillis = 400, delayMillis = delayMs, easing = androidx.compose.animation.core.FastOutSlowInEasing),
+            repeatMode = RepeatMode.Reverse
+        ),
+        label = "dot_bounce"
     )
 
     Box(
         modifier = Modifier
             .size(8.dp)
+            .offset(y = offsetY.dp)
             .clip(CircleShape)
             .background(MaterialTheme.colorScheme.onSecondaryContainer.copy(alpha = 0.6f))
-            .padding(top = offset.dp)
     )
 }
 
@@ -464,7 +458,7 @@ private fun ChatInputBar(
             }
         ) {
             Icon(
-                imageVector = Icons.AutoMirrored.Filled.Send,
+                imageVector = Icons.Default.Send,
                 contentDescription = stringResource(R.string.chat_send),
                 tint = if (inputText.isNotBlank()) {
                     MaterialTheme.colorScheme.onPrimary

@@ -41,6 +41,11 @@
     <string name="profile_login">لاگ ان</string>
     <string name="profile_logout">لاگ آؤٹ</string>
 
+    <!-- Chat -->
+    <string name="chat_title">AI اسسٹنٹ</string>
+    <string name="chat_input_hint">پیغام ٹائپ کریں…</string>
+    <string name="chat_send">بھیجیں</string>
+
     <!-- Common -->
     <string name="common_retry">دوبارہ کوشش</string>
     <string name="common_loading">لوڈ ہو رہا ہے…</string>
