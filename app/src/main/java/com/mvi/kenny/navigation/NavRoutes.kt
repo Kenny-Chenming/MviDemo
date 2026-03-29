@@ -1,8 +1,9 @@
 package com.mvi.kenny.navigation
 
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.Chat
+import androidx.compose.material.icons.automirrored.filled.List
 import androidx.compose.material.icons.filled.Home
-import androidx.compose.material.icons.filled.List
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.ui.graphics.vector.ImageVector
 
@@ -36,7 +37,7 @@ sealed class BottomNavRoute(
     data object List : BottomNavRoute(
         route = "list",
         title = "列表",
-        icon = Icons.Default.List
+        icon = Icons.AutoMirrored.Filled.List
     )
 
     /** 个人中心 Tab */
@@ -44,6 +45,13 @@ sealed class BottomNavRoute(
         route = "profile",
         title = "我的",
         icon = Icons.Default.Person
+    )
+
+    /** AI 聊天 Tab */
+    data object Chat : BottomNavRoute(
+        route = "chat",
+        title = "AI 助手",
+        icon = Icons.AutoMirrored.Filled.Chat
     )
 }
 
@@ -55,7 +63,7 @@ sealed class BottomNavRoute(
  *
  * 注意：
  * - 这里的路由字符串必须与 HorizontalPager 的 page index 对应
- * - 0 = home, 1 = list, 2 = profile（见 MainScreen.kt）
+ * - 0 = home, 1 = list, 2 = profile, 3 = chat（见 MainScreen.kt）
  *
  * @see com.mvi.kenny.ui.screen.MainScreen 中的 Pager 实现
  */
@@ -68,6 +76,9 @@ object NavRoutes {
 
     /** 个人中心路由 */
     const val PROFILE = "profile"
+
+    /** AI 聊天页路由 */
+    const val CHAT = "chat"
 
     /** 登录页路由（用于 Intent 跳转） */
     const val LOGIN = "login"

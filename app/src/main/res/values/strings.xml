@@ -41,6 +41,12 @@
     <string name="profile_login">Login</string>
     <string name="profile_logout">Logout</string>
 
+    <!-- Chat -->
+    <string name="chat_title">AI Chat</string>
+    <string name="chat_input_hint">Type a message…</string>
+    <string name="chat_send">Send</string>
+    <string name="chat_clear">Clear Chat</string>
+
     <!-- Common -->
     <string name="common_retry">Retry</string>
     <string name="common_loading">Loading…</string>

@@ -1,8 +1,9 @@
 package com.mvi.kenny.base
 
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
-import androidx.compose.material.icons.filled.List
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.automirrored.filled.List
+import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.ui.graphics.vector.ImageVector
@@ -94,7 +95,7 @@ object TopBarActions {
      * @return 预配置的 TopBarAction
      */
     fun list(onClick: () -> Unit) = TopBarAction(
-        icon = Icons.Default.List,
+        icon = Icons.AutoMirrored.Filled.List,
         contentDescription = "列表",
         onClick = onClick
     )
@@ -119,8 +120,21 @@ object TopBarActions {
      * @return 预配置的 TopBarAction
      */
     fun back(onClick: () -> Unit) = TopBarAction(
-        icon = Icons.Default.ArrowBack,
+        icon = Icons.AutoMirrored.Filled.ArrowBack,
         contentDescription = "返回",
+        onClick = onClick
+    )
+
+    /**
+     * 删除/清空按钮（垃圾桶图标）
+     * 用于聊天页等需要清空操作的场景
+     *
+     * @param onClick 点击回调
+     * @return 预配置的 TopBarAction
+     */
+    fun delete(onClick: () -> Unit) = TopBarAction(
+        icon = Icons.Default.Delete,
+        contentDescription = "清空",
         onClick = onClick
     )
 }
