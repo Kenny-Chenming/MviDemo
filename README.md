@@ -7,12 +7,12 @@
 | 分类 | 技术 |
 |------|------|
 | **语言** | Kotlin 2.0 |
-| **UI 框架** | Jetpack Compose (BOM 2024.09.00) |
+| **UI 框架** | Jetpack Compose (BOM 2026.03.01) |
 | **架构模式** | MVI (Model-View-Intent) |
 | **导航** | HorizontalPager + BottomNavigationBar（Tab 间滑动切换） |
 | **状态管理** | StateFlow + Channel |
 | **DI** | 手动 ViewModel 获取（viewModel() 扩展函数） |
-| **目标 SDK** | 35 / minSdk 24 |
+| **目标 SDK** | 36 / minSdk 24 |
 
 ## 项目结构
 
