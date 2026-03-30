@@ -5,6 +5,9 @@ import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.automirrored.filled.List
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.Person
+import androidx.compose.material.icons.filled.Pause
+import androidx.compose.material.icons.filled.PlayArrow
+import androidx.compose.material.icons.filled.Refresh
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.ui.graphics.vector.ImageVector
 
@@ -135,6 +138,33 @@ object TopBarActions {
     fun delete(onClick: () -> Unit) = TopBarAction(
         icon = Icons.Default.Delete,
         contentDescription = "清空",
+        onClick = onClick
+    )
+
+    /**
+     * 动画播放/暂停按钮（播放或暂停图标）
+     * 用于动画展示页，根据 isPlaying 状态切换图标
+     *
+     * @param isPlaying 是否正在播放（决定显示播放还是暂停图标）
+     * @param onClick 点击回调
+     * @return 预配置的 TopBarAction
+     */
+    fun animationPlayPause(isPlaying: Boolean, onClick: () -> Unit) = TopBarAction(
+        icon = if (isPlaying) Icons.Default.Pause else Icons.Default.PlayArrow,
+        contentDescription = if (isPlaying) "暂停" else "播放",
+        onClick = onClick
+    )
+
+    /**
+     * 动画重置按钮（刷新图标）
+     * 用于动画展示页，重置所有动画到初始状态
+     *
+     * @param onClick 点击回调
+     * @return 预配置的 TopBarAction
+     */
+    fun animationReset(onClick: () -> Unit) = TopBarAction(
+        icon = Icons.Default.Refresh,
+        contentDescription = "重置",
         onClick = onClick
     )
 }

@@ -26,6 +26,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.mvi.kenny.base.TopBarConfig
+import com.mvi.kenny.feature.animation.AnimationScreen
 import com.mvi.kenny.feature.chat.ChatScreen
 import com.mvi.kenny.feature.home.HomeScreen
 import com.mvi.kenny.feature.list.ListScreen
@@ -87,7 +88,8 @@ fun MainScreen(
         BottomNavRoute.Home,
         BottomNavRoute.List,
         BottomNavRoute.Profile,
-        BottomNavRoute.Chat
+        BottomNavRoute.Chat,
+        BottomNavRoute.Animation
     )
 
     // Pager 状态，管理当前是第几页
@@ -102,13 +104,15 @@ fun MainScreen(
     var listTopBar by remember { mutableStateOf(TopBarConfig(title = "List")) }
     var profileTopBar by remember { mutableStateOf(TopBarConfig(title = "Profile")) }
     var chatTopBar by remember { mutableStateOf(TopBarConfig(title = "AI Chat")) }
+    var animationTopBar by remember { mutableStateOf(TopBarConfig(title = "Animation")) }
 
     // 根据当前页码决定显示哪个 TopBar 配置
     val currentTopBar = when (pagerState.currentPage) {
         0 -> homeTopBar
         1 -> listTopBar
         2 -> profileTopBar
-        else -> chatTopBar
+        3 -> chatTopBar
+        else -> animationTopBar
     }
 
     // ============================================================
@@ -190,6 +194,9 @@ fun MainScreen(
                     )
                     3 -> ChatScreen(
                         onUpdateTopBar = { chatTopBar = it }
+                    )
+                    4 -> AnimationScreen(
+                        onUpdateTopBar = { animationTopBar = it }
                     )
                 }
             }

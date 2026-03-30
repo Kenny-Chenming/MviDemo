@@ -47,6 +47,9 @@
     <string name="chat_send">Send</string>
     <string name="chat_clear">Clear Chat</string>
 
+    <!-- Animation -->
+    <string name="animation_title">Animation</string>
+
     <!-- Common -->
     <string name="common_retry">Retry</string>
     <string name="common_loading">Loading…</string>

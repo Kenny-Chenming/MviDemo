@@ -46,6 +46,9 @@
     <string name="chat_input_hint">输入消息…</string>
     <string name="chat_send">发送</string>
 
+    <!-- Animation -->
+    <string name="animation_title">动画</string>
+
     <!-- Common -->
     <string name="common_retry">重试</string>
     <string name="common_loading">加载中…</string>

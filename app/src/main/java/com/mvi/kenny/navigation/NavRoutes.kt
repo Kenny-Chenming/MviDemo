@@ -5,6 +5,7 @@ import androidx.compose.material.icons.automirrored.filled.Chat
 import androidx.compose.material.icons.automirrored.filled.List
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Person
+import androidx.compose.material.icons.filled.Star
 import androidx.compose.ui.graphics.vector.ImageVector
 
 /**
@@ -53,6 +54,13 @@ sealed class BottomNavRoute(
         title = "AI 助手",
         icon = Icons.AutoMirrored.Filled.Chat
     )
+
+    /** 动画展示 Tab */
+    data object Animation : BottomNavRoute(
+        route = "animation",
+        title = "动画",
+        icon = Icons.Default.Star
+    )
 }
 
 /**
@@ -79,6 +87,9 @@ object NavRoutes {
 
     /** AI 聊天页路由 */
     const val CHAT = "chat"
+
+    /** 动画展示页路由 */
+    const val ANIMATION = "animation"
 
     /** 登录页路由（用于 Intent 跳转） */
     const val LOGIN = "login"
