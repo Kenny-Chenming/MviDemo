@@ -31,6 +31,7 @@ import com.mvi.kenny.feature.chat.ChatScreen
 import com.mvi.kenny.feature.home.HomeScreen
 import com.mvi.kenny.feature.list.ListScreen
 import com.mvi.kenny.feature.locationpermission.LocationPermissionScreen
+import com.mvi.kenny.feature.mcp.McpScreen
 import com.mvi.kenny.feature.profile.ProfileScreen
 import com.mvi.kenny.navigation.BottomNavRoute
 
@@ -84,14 +85,15 @@ import com.mvi.kenny.navigation.BottomNavRoute
 fun MainScreen(
     onNavigateToLogin: () -> Unit
 ) {
-    // 定义六个 Tab 的路由配置
+    // 定义七个 Tab 的路由配置
     val bottomNavItems = listOf(
         BottomNavRoute.Home,
         BottomNavRoute.List,
         BottomNavRoute.Profile,
         BottomNavRoute.Chat,
         BottomNavRoute.Animation,
-        BottomNavRoute.LocationPermission
+        BottomNavRoute.LocationPermission,
+        BottomNavRoute.MCP
     )
 
     // Pager 状态，管理当前是第几页
@@ -108,6 +110,7 @@ fun MainScreen(
     var chatTopBar by remember { mutableStateOf(TopBarConfig(title = "AI Chat")) }
     var animationTopBar by remember { mutableStateOf(TopBarConfig(title = "Animation")) }
     var locationPermissionTopBar by remember { mutableStateOf(TopBarConfig(title = "位置权限")) }
+    var mcpTopBar by remember { mutableStateOf(TopBarConfig(title = "MCP Server")) }
 
     // 根据当前页码决定显示哪个 TopBar 配置
     val currentTopBar = when (pagerState.currentPage) {
@@ -116,7 +119,8 @@ fun MainScreen(
         2 -> profileTopBar
         3 -> chatTopBar
         4 -> animationTopBar
-        else -> locationPermissionTopBar
+        5 -> locationPermissionTopBar
+        else -> mcpTopBar
     }
 
     // ============================================================
@@ -204,6 +208,9 @@ fun MainScreen(
                     )
                     5 -> LocationPermissionScreen(
                         onUpdateTopBar = { locationPermissionTopBar = it }
+                    )
+                    6 -> McpScreen(
+                        onUpdateTopBar = { mcpTopBar = it }
                     )
                 }
             }

@@ -5,6 +5,8 @@ import androidx.compose.material.icons.automirrored.filled.Chat
 import androidx.compose.material.icons.automirrored.filled.List
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Person
+import androidx.compose.material.icons.filled.Memory
+import androidx.compose.material.icons.filled.DeveloperBoard
 import androidx.compose.material.icons.filled.Shield
 import androidx.compose.material.icons.filled.Star
 import androidx.compose.ui.graphics.vector.ImageVector
@@ -69,6 +71,13 @@ sealed class BottomNavRoute(
         title = "位置权限",
         icon = Icons.Default.Shield
     )
+
+    /** Android MCP Server 工具包 Tab (PRD-011) */
+    data object MCP : BottomNavRoute(
+        route = "mcp",
+        title = "MCP Server",
+        icon = Icons.Default.DeveloperBoard
+    )
 }
 
 /**
@@ -101,6 +110,9 @@ object NavRoutes {
 
     /** 位置权限管控页路由 (PRD-008) */
     const val LOCATION_PERMISSION = "location_permission"
+
+    /** Android MCP Server 工具包路由 (PRD-011) */
+    const val MCP = "mcp"
 
     /** 登录页路由（用于 Intent 跳转） */
     const val LOGIN = "login"
