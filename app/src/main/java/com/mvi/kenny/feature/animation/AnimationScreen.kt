@@ -112,21 +112,23 @@ fun AnimationScreen(
     // ============================================================
     // TopBar 配置（播放/暂停 + 重置按钮）
     // ============================================================
-    LaunchedEffect(state.isAnimating) {
-        onUpdateTopBar(
-            TopBarConfig(
-                title = stringResource(R.string.animation_title),
-                actions = listOf(
-                    TopBarActions.animationPlayPause(
-                        isPlaying = state.isAnimating,
-                        onClick = { viewModel.sendIntent(AnimationIntent.ToggleAnimation) }
-                    ),
-                    TopBarActions.animationReset(
-                        onClick = { viewModel.sendIntent(AnimationIntent.ResetAnimation) }
-                    )
-                )
+    // 注意：TopBarConfig 的创建在 Composable 上下文中执行（LaunchedEffect 外部），
+    // 以支持 stringResource 等 @Composable 调用。
+    // LaunchedEffect 仅负责在 isAnimating 变化时触发更新。
+    val topBarConfig = TopBarConfig(
+        title = stringResource(R.string.animation_title),
+        actions = listOf(
+            TopBarActions.animationPlayPause(
+                isPlaying = state.isAnimating,
+                onClick = { viewModel.sendIntent(AnimationIntent.ToggleAnimation) }
+            ),
+            TopBarActions.animationReset(
+                onClick = { viewModel.sendIntent(AnimationIntent.ResetAnimation) }
             )
         )
+    )
+    LaunchedEffect(state.isAnimating) {
+        onUpdateTopBar(topBarConfig)
     }
 
     // ============================================================

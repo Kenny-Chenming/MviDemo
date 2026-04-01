@@ -5,6 +5,7 @@ import androidx.compose.material.icons.automirrored.filled.Chat
 import androidx.compose.material.icons.automirrored.filled.List
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Person
+import androidx.compose.material.icons.filled.Shield
 import androidx.compose.material.icons.filled.Star
 import androidx.compose.ui.graphics.vector.ImageVector
 
@@ -61,6 +62,13 @@ sealed class BottomNavRoute(
         title = "动画",
         icon = Icons.Default.Star
     )
+
+    /** 位置权限管控 Tab (PRD-008) */
+    data object LocationPermission : BottomNavRoute(
+        route = "location_permission",
+        title = "位置权限",
+        icon = Icons.Default.Shield
+    )
 }
 
 /**
@@ -90,6 +98,9 @@ object NavRoutes {
 
     /** 动画展示页路由 */
     const val ANIMATION = "animation"
+
+    /** 位置权限管控页路由 (PRD-008) */
+    const val LOCATION_PERMISSION = "location_permission"
 
     /** 登录页路由（用于 Intent 跳转） */
     const val LOGIN = "login"
