@@ -78,6 +78,13 @@ sealed class BottomNavRoute(
         title = "MCP Server",
         icon = Icons.Default.DeveloperBoard
     )
+
+    /** AI Agent 隐私优先框架 Tab (PRD-001) */
+    data object AIAgent : BottomNavRoute(
+        route = "ai_agent",
+        title = "AI Agent",
+        icon = Icons.Default.Memory
+    )
 }
 
 /**
@@ -113,6 +120,9 @@ object NavRoutes {
 
     /** Android MCP Server 工具包路由 (PRD-011) */
     const val MCP = "mcp"
+
+    /** AI Agent 隐私优先框架路由 (PRD-001) */
+    const val AI_AGENT = "ai_agent"
 
     /** 登录页路由（用于 Intent 跳转） */
     const val LOGIN = "login"
