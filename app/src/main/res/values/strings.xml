@@ -50,6 +50,30 @@
     <!-- Animation -->
     <string name="animation_title">Animation</string>
 
+    <!-- AI Agent (PRD-001) -->
+    <string name="agent_title">AI Agent</string>
+    <string name="agent_input_hint">输入消息与 AI 对话…</string>
+    <string name="agent_send">发送</string>
+    <string name="agent_tools">工具箱</string>
+    <string name="agent_privacy_mode_on">🔒 隐私模式已开启</string>
+    <string name="agent_privacy_mode_off">🌐 隐私模式已关闭</string>
+
+    <!-- Android 17 Migration (PRD-003) -->
+    <string name="migration_filter_all">全部</string>
+    <string name="migration_filter_critical">严重</string>
+    <string name="migration_filter_warning">警告</string>
+    <string name="migration_filter_info">提示</string>
+    <string name="migration_total">总计</string>
+    <string name="migration_critical">严重</string>
+    <string name="migration_warning">警告</string>
+    <string name="migration_info">提示</string>
+    <string name="migration_fixed">已修复</string>
+    <string name="migration_scan_start">开始扫描</string>
+    <string name="migration_scan_cancel">取消扫描</string>
+    <string name="migration_auto_fix">自动修复</string>
+    <string name="migration_export">导出报告</string>
+    <string name="migration_ignore">忽略</string>
+
     <!-- Common -->
     <string name="common_retry">Retry</string>
     <string name="common_loading">Loading…</string>

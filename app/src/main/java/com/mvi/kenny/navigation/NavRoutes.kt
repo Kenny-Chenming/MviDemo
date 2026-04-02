@@ -9,6 +9,7 @@ import androidx.compose.material.icons.filled.Memory
 import androidx.compose.material.icons.filled.DeveloperBoard
 import androidx.compose.material.icons.filled.Shield
 import androidx.compose.material.icons.filled.Star
+import androidx.compose.material.icons.filled.SystemUpdate
 import androidx.compose.ui.graphics.vector.ImageVector
 
 /**
@@ -78,6 +79,20 @@ sealed class BottomNavRoute(
         title = "MCP Server",
         icon = Icons.Default.DeveloperBoard
     )
+
+    /** AI Agent 框架 Tab (PRD-001) */
+    data object AIAgent : BottomNavRoute(
+        route = "ai_agent",
+        title = "AI Agent",
+        icon = Icons.Default.Memory
+    )
+
+    /** Android 17 迁移助手 Tab (PRD-003) */
+    data object Android17Migration : BottomNavRoute(
+        route = "android17_migration",
+        title = "迁移助手",
+        icon = Icons.Default.SystemUpdate
+    )
 }
 
 /**
@@ -113,6 +128,12 @@ object NavRoutes {
 
     /** Android MCP Server 工具包路由 (PRD-011) */
     const val MCP = "mcp"
+
+    /** AI Agent 框架路由 (PRD-001) */
+    const val AI_AGENT = "ai_agent"
+
+    /** Android 17 迁移助手路由 (PRD-003) */
+    const val ANDROID17_MIGRATION = "android17_migration"
 
     /** 登录页路由（用于 Intent 跳转） */
     const val LOGIN = "login"
