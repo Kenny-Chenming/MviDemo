@@ -33,6 +33,8 @@ import com.mvi.kenny.feature.list.ListScreen
 import com.mvi.kenny.feature.locationpermission.LocationPermissionScreen
 import com.mvi.kenny.feature.mcp.McpScreen
 import com.mvi.kenny.feature.android17migration.MigrationDashboardScreen
+import com.mvi.kenny.feature.aiagent.AIAgentScreen
+import com.mvi.kenny.feature.qaframework.QAFrameworkScreen
 import com.mvi.kenny.feature.profile.ProfileScreen
 import com.mvi.kenny.navigation.BottomNavRoute
 
@@ -95,7 +97,9 @@ fun MainScreen(
         BottomNavRoute.Animation,
         BottomNavRoute.LocationPermission,
         BottomNavRoute.MCP,
-        BottomNavRoute.Android17Migration
+        BottomNavRoute.Android17Migration,
+        BottomNavRoute.AIAgent,
+        BottomNavRoute.QAFramework
     )
 
     // Pager 状态，管理当前是第几页
@@ -114,6 +118,8 @@ fun MainScreen(
     var locationPermissionTopBar by remember { mutableStateOf(TopBarConfig(title = "位置权限")) }
     var mcpTopBar by remember { mutableStateOf(TopBarConfig(title = "MCP Server")) }
     var android17MigrationTopBar by remember { mutableStateOf(TopBarConfig(title = "Android 17 Migration")) }
+    var aiAgentTopBar by remember { mutableStateOf(TopBarConfig(title = "AI Agent")) }
+    var qaFrameworkTopBar by remember { mutableStateOf(TopBarConfig(title = "QA 框架")) }
 
     // 根据当前页码决定显示哪个 TopBar 配置
     val currentTopBar = when (pagerState.currentPage) {
@@ -124,7 +130,10 @@ fun MainScreen(
         4 -> animationTopBar
         5 -> locationPermissionTopBar
         6 -> mcpTopBar
-        else -> android17MigrationTopBar
+        7 -> android17MigrationTopBar
+        8 -> aiAgentTopBar
+        9 -> qaFrameworkTopBar
+        else -> homeTopBar
     }
 
     // ============================================================
@@ -218,6 +227,12 @@ fun MainScreen(
                     )
                     7 -> MigrationDashboardScreen(
                         onUpdateTopBar = { android17MigrationTopBar = it }
+                    )
+                    8 -> AIAgentScreen(
+                        onUpdateTopBar = { aiAgentTopBar = it }
+                    )
+                    9 -> QAFrameworkScreen(
+                        onUpdateTopBar = { qaFrameworkTopBar = it }
                     )
                 }
             }
