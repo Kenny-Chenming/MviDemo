@@ -34,6 +34,7 @@ import com.mvi.kenny.feature.android17migration.MigrationDashboardScreen
 import com.mvi.kenny.feature.aiagent.AIAgentScreen
 import com.mvi.kenny.feature.qaframework.QAFrameworkScreen
 import com.mvi.kenny.feature.appfunctions.AppFuncDesignToolScreen
+import com.mvi.kenny.feature.nav3tool.NavToolScreen
 import com.mvi.kenny.navigation.BottomNavRoute
 
 /**
@@ -94,7 +95,8 @@ fun MainScreen(
         BottomNavRoute.AIAgent,
         BottomNavRoute.QAFramework,
         BottomNavRoute.MCP,
-        BottomNavRoute.AppFuncDesignTool
+        BottomNavRoute.AppFuncDesignTool,
+        BottomNavRoute.Nav3Tool
     )
 
     // Pager 状态，管理当前是第几页
@@ -112,6 +114,7 @@ fun MainScreen(
     var qaFrameworkTopBar by remember { mutableStateOf(TopBarConfig(title = "QA 框架")) }
     var mcpTopBar by remember { mutableStateOf(TopBarConfig(title = "MCP Server")) }
     var appFuncTopBar by remember { mutableStateOf(TopBarConfig(title = "AppFunctions 工具台")) }
+    var nav3ToolTopBar by remember { mutableStateOf(TopBarConfig(title = "Navigation 3 迁移工具")) }
 
     // 根据当前页码决定显示哪个 TopBar 配置
     val currentTopBar = when (pagerState.currentPage) {
@@ -122,6 +125,7 @@ fun MainScreen(
         4 -> qaFrameworkTopBar
         5 -> mcpTopBar
         6 -> appFuncTopBar
+        7 -> nav3ToolTopBar
         else -> homeTopBar
     }
 
@@ -213,6 +217,9 @@ fun MainScreen(
                     )
                     6 -> AppFuncDesignToolScreen(
                         onUpdateTopBar = { appFuncTopBar = it }
+                    )
+                    7 -> NavToolScreen(
+                        onNavigateTo = { /* Feature internal navigation */ }
                     )
                 }
             }

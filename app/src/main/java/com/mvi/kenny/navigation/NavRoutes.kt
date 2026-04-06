@@ -35,6 +35,7 @@ sealed class BottomNavRoute(
     data object Android17Migration : BottomNavRoute(route = "android17_migration", title = "迁移助手", icon = Icons.Default.SystemUpdate)
     data object QAFramework : BottomNavRoute(route = "qa_framework", title = "QA 框架", icon = Icons.Default.BugReport)
     data object AppFuncDesignTool : BottomNavRoute(route = "app_func_design_tool", title = "AppFunctions", icon = Icons.Default.DeveloperBoard)
+    data object Nav3Tool : BottomNavRoute(route = "nav3_tool", title = "Nav3迁移", icon = Icons.AutoMirrored.Filled.List)
 }
 
 /**
@@ -54,5 +55,6 @@ object NavRoutes {
     const val ANDROID17_MIGRATION = "android17_migration"
     const val QA_FRAMEWORK = "qa_framework"
     const val APP_FUNC_DESIGN_TOOL = "app_func_design_tool"
+    const val NAV3_TOOL = "nav3_tool"
     const val LOGIN = "login"
 }
