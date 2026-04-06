@@ -195,7 +195,7 @@ fun McpScreen(
                 Text(
                     text = "Tools",
                     color = MaterialTheme.colorScheme.primary,
-                    fontSize = 14.sp,
+                    style = MaterialTheme.typography.bodyMedium,
                     fontWeight = FontWeight.Medium,
                     modifier = Modifier.padding(top = 8.dp)
                 )
@@ -220,7 +220,7 @@ fun McpScreen(
                 Text(
                     text = "Devices",
                     color = MaterialTheme.colorScheme.primary,
-                    fontSize = 14.sp,
+                    style = MaterialTheme.typography.bodyMedium,
                     fontWeight = FontWeight.Medium,
                     modifier = Modifier.padding(top = 8.dp)
                 )
@@ -253,7 +253,7 @@ fun McpScreen(
                 Text(
                     text = "Logs",
                     color = MaterialTheme.colorScheme.primary,
-                    fontSize = 14.sp,
+                    style = MaterialTheme.typography.bodyMedium,
                     fontWeight = FontWeight.Medium,
                     modifier = Modifier.padding(top = 8.dp)
                 )
@@ -280,10 +280,10 @@ private fun ServerStatusCard(
 ) {
     val statusColor by animateColorAsState(
         targetValue = when (serverStatus) {
-            ServerStatus.IDLE -> Color(0xFF9E9E9E)
-            ServerStatus.STARTING, ServerStatus.STOPPING -> Color(0xFFFFB74D)
-            ServerStatus.RUNNING -> Color(0xFF4CAF50)
-            ServerStatus.ERROR -> Color(0xFFEF5350)
+            ServerStatus.IDLE -> MaterialTheme.colorScheme.outline
+            ServerStatus.STARTING, ServerStatus.STOPPING -> MaterialTheme.colorScheme.tertiary
+            ServerStatus.RUNNING -> MaterialTheme.colorScheme.primary
+            ServerStatus.ERROR -> MaterialTheme.colorScheme.error
         },
         animationSpec = tween(300),
         label = "statusColor"
@@ -321,14 +321,14 @@ private fun ServerStatusCard(
                     Text(
                         text = statusText,
                         color = MaterialTheme.colorScheme.onSurface,
-                        fontSize = 16.sp,
+                        style = MaterialTheme.typography.titleSmall,
                         fontWeight = FontWeight.Medium
                     )
                     if (serverStatus == ServerStatus.RUNNING) {
                         Text(
                             text = "Port: $serverPort",
                             color = MaterialTheme.colorScheme.onSurfaceVariant,
-                            fontSize = 12.sp
+                            fontSize = MaterialTheme.typography.bodySmall.fontSize
                         )
                     }
                 }
@@ -383,13 +383,13 @@ private fun ToolListItem(
                 Text(
                     text = tool.name,
                     color = MaterialTheme.colorScheme.onSurface,
-                    fontSize = 14.sp,
+                    style = MaterialTheme.typography.bodyMedium,
                     fontWeight = FontWeight.Medium
                 )
                 Text(
                     text = tool.description,
                     color = MaterialTheme.colorScheme.onSurfaceVariant,
-                    fontSize = 12.sp,
+                    style = MaterialTheme.typography.bodySmall,
                     maxLines = 1
                 )
             }
@@ -427,7 +427,7 @@ private fun DeviceListItem(device: AndroidDevice) {
         DeviceType.XR -> Icons.Default.Vrpano
     }
 
-    val connectedColor = if (device.connected) Color(0xFF4CAF50) else Color(0xFF9E9E9E)
+    val connectedColor = if (device.connected) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.outline
 
     Card(
         modifier = Modifier.fillMaxWidth(),
@@ -452,7 +452,7 @@ private fun DeviceListItem(device: AndroidDevice) {
                 Text(
                     text = device.name,
                     color = MaterialTheme.colorScheme.onSurface,
-                    fontSize = 14.sp
+                    fontSize = MaterialTheme.typography.bodyMedium.fontSize
                 )
             }
             Box(
@@ -464,7 +464,7 @@ private fun DeviceListItem(device: AndroidDevice) {
                 Text(
                     text = if (device.connected) "Connected" else "Offline",
                     color = connectedColor,
-                    fontSize = 12.sp
+                    fontSize = MaterialTheme.typography.bodySmall.fontSize
                 )
             }
         }
@@ -501,7 +501,7 @@ private fun ConnectionLogViewer(logs: List<LogEntry>) {
                 Text(
                     text = "No logs yet",
                     color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.4f),
-                    fontSize = 12.sp
+                    fontSize = MaterialTheme.typography.bodySmall.fontSize
                 )
             }
         } else {
@@ -558,7 +558,7 @@ private fun ToolDetailSheet(
         Text(
             text = tool.description,
             color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.6f),
-            fontSize = 14.sp
+            fontSize = MaterialTheme.typography.bodyMedium.fontSize
         )
         Spacer(Modifier.height(16.dp))
 
@@ -566,8 +566,8 @@ private fun ToolDetailSheet(
         if (tool.callHistory.isNotEmpty()) {
             Text(
                 text = "Recent Calls",
-                color = Color(0xFF4FC3F7),
-                fontSize = 14.sp,
+                color = MaterialTheme.colorScheme.primary,
+                style = MaterialTheme.typography.bodyMedium,
                 fontWeight = FontWeight.Medium
             )
             Spacer(Modifier.height(8.dp))
@@ -609,7 +609,7 @@ private fun ToolDetailSheet(
             Text(
                 text = "No call history yet",
                 color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.4f),
-                fontSize = 12.sp
+                fontSize = MaterialTheme.typography.bodySmall.fontSize
             )
         }
 
