@@ -323,7 +323,7 @@ private fun AgentUserBubble(content: String) {
                 bottomEnd = 18.dp
             ),
             colors = CardDefaults.cardColors(
-                containerColor = Color(0xFF512DA8) // Deep Purple 700
+                containerColor = MaterialTheme.colorScheme.primary // Deep Purple 700
             ),
             modifier = Modifier.widthIn(max = 280.dp)
         ) {
@@ -361,7 +361,7 @@ private fun AgentAssistantBubble(
                 modifier = Modifier
                     .size(32.dp)
                     .clip(CircleShape)
-                    .background(Color(0xFF512DA8)),
+                    .background(MaterialTheme.colorScheme.primary),
                 contentAlignment = Alignment.Center
             ) {
                 Icon(
@@ -383,7 +383,7 @@ private fun AgentAssistantBubble(
                     bottomEnd = 18.dp
                 ),
                 colors = CardDefaults.cardColors(
-                    containerColor = Color(0xFF1E1E2E) // 深灰
+                    containerColor = MaterialTheme.colorScheme.surfaceVariant // 深灰
                 ),
                 modifier = Modifier.widthIn(max = 280.dp)
             ) {
@@ -418,7 +418,7 @@ private fun AgentSystemText(content: String, privacyMode: Boolean) {
         modifier = Modifier.fillMaxWidth(),
         textAlign = TextAlign.Center,
         style = MaterialTheme.typography.bodySmall,
-        color = Color(0xFF26A69A) // Teal 400
+        color = MaterialTheme.colorScheme.tertiary // Teal 400
     )
 }
 
@@ -436,9 +436,9 @@ private fun ToolCallCard(
     onExpand: () -> Unit
 ) {
     val borderColor = when {
-        toolCall.isExecuting -> Color(0xFF512DA8)
-        result?.isError == true -> Color.Red
-        result != null -> Color(0xFF26A69A) // Teal 400
+        toolCall.isExecuting -> MaterialTheme.colorScheme.primary
+        result?.isError == true -> MaterialTheme.colorScheme.error
+        result != null -> MaterialTheme.colorScheme.tertiary // Teal 400
         else -> Color(0xFF2D2D3A)
     }
 
@@ -448,7 +448,7 @@ private fun ToolCallCard(
             .clickable { onExpand() },
         shape = RoundedCornerShape(12.dp),
         colors = CardDefaults.cardColors(
-            containerColor = Color(0xFF1E1E2E)
+            containerColor = MaterialTheme.colorScheme.surfaceVariant
         ),
         border = androidx.compose.foundation.BorderStroke(1.dp, borderColor)
     ) {
@@ -494,14 +494,14 @@ private fun ToolCallCard(
                     Text(
                         text = "参数：${toolCall.arguments}",
                         style = MaterialTheme.typography.bodySmall,
-                        color = Color.Gray
+                        color = MaterialTheme.colorScheme.onSurfaceVariant
                     )
                     if (result != null) {
                         Spacer(modifier = Modifier.height(4.dp))
                         Text(
                             text = "结果：${result.output}",
                             style = MaterialTheme.typography.bodySmall,
-                            color = if (result.isError) Color.Red else Color(0xFF26A69A)
+                            color = if (result.isError) MaterialTheme.colorScheme.error else MaterialTheme.colorScheme.tertiary
                         )
                     }
                 }
@@ -525,15 +525,15 @@ private fun ToolResultItem(result: ToolResult?) {
         Card(
             shape = RoundedCornerShape(8.dp),
             colors = CardDefaults.cardColors(
-                containerColor = if (result.isError) Color.Red.copy(alpha = 0.1f)
-                else Color(0xFF26A69A).copy(alpha = 0.1f)
+                containerColor = if (result.isError) MaterialTheme.colorScheme.error.copy(alpha = 0.1f)
+                else MaterialTheme.colorScheme.tertiary.copy(alpha = 0.1f)
             )
         ) {
             Text(
                 text = "🔧 ${result.output}",
                 modifier = Modifier.padding(8.dp),
                 style = MaterialTheme.typography.bodySmall,
-                color = if (result.isError) Color.Red else Color(0xFF26A69A)
+                color = if (result.isError) MaterialTheme.colorScheme.error else MaterialTheme.colorScheme.tertiary
             )
         }
     }
@@ -567,7 +567,7 @@ private fun AgentInputBar(
             Icon(
                 imageVector = Icons.Default.Build,
                 contentDescription = "工具面板",
-                tint = if (privacyMode) Color(0xFF26A69A) else MaterialTheme.colorScheme.onSurface
+                tint = if (privacyMode) MaterialTheme.colorScheme.tertiary else MaterialTheme.colorScheme.onSurface
             )
         }
 
@@ -592,7 +592,7 @@ private fun AgentInputBar(
             ),
             shape = RoundedCornerShape(24.dp),
             colors = androidx.compose.material3.OutlinedTextFieldDefaults.colors(
-                focusedBorderColor = Color(0xFF512DA8),
+                focusedBorderColor = MaterialTheme.colorScheme.primary,
                 unfocusedBorderColor = MaterialTheme.colorScheme.outline.copy(alpha = 0.5f)
             )
         )
@@ -604,7 +604,7 @@ private fun AgentInputBar(
             FloatingActionButton(
                 onClick = onSend,
                 modifier = Modifier.size(48.dp),
-                containerColor = if (inputText.isNotBlank()) Color(0xFF512DA8)
+                containerColor = if (inputText.isNotBlank()) MaterialTheme.colorScheme.primary
                 else MaterialTheme.colorScheme.surfaceVariant
             ) {
                 Icon(
@@ -633,7 +633,7 @@ private fun AiTypingIndicator() {
             modifier = Modifier
                 .size(32.dp)
                 .clip(CircleShape)
-                .background(Color(0xFF512DA8)),
+                .background(MaterialTheme.colorScheme.primary),
             contentAlignment = Alignment.Center
         ) {
             Icon(
@@ -654,7 +654,7 @@ private fun AiTypingIndicator() {
                 bottomEnd = 18.dp
             ),
             colors = CardDefaults.cardColors(
-                containerColor = Color(0xFF1E1E2E).copy(alpha = 0.7f)
+                containerColor = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.7f)
             )
         ) {
             Row(
@@ -714,7 +714,7 @@ private fun CircularLoadingIndicator() {
         modifier = Modifier
             .size(16.dp)
             .rotate(rotation),
-        tint = Color(0xFF512DA8)
+        tint = MaterialTheme.colorScheme.primary
     )
 }
 
@@ -739,7 +739,7 @@ private fun ToolDrawerSheet(
     ModalBottomSheet(
         onDismissRequest = onDismiss,
         sheetState = sheetState,
-        containerColor = Color(0xFF1E1E2E)
+        containerColor = MaterialTheme.colorScheme.surfaceVariant
     ) {
         Column(
             modifier = Modifier
@@ -765,15 +765,15 @@ private fun ToolDrawerSheet(
                     Text(
                         text = if (state.privacyMode) "🔐 已开启" else "🔓 已关闭",
                         style = MaterialTheme.typography.bodySmall,
-                        color = if (state.privacyMode) Color(0xFF26A69A) else Color.Gray
+                        color = if (state.privacyMode) MaterialTheme.colorScheme.tertiary else MaterialTheme.colorScheme.onSurfaceVariant
                     )
                     Spacer(modifier = Modifier.width(8.dp))
                     Switch(
                         checked = state.privacyMode,
                         onCheckedChange = { onTogglePrivacyMode() },
                         colors = SwitchDefaults.colors(
-                            checkedThumbColor = Color(0xFF26A69A),
-                            checkedTrackColor = Color(0xFF26A69A).copy(alpha = 0.5f)
+                            checkedThumbColor = MaterialTheme.colorScheme.tertiary,
+                            checkedTrackColor = MaterialTheme.colorScheme.tertiary.copy(alpha = 0.5f)
                         )
                     )
                 }
@@ -793,9 +793,9 @@ private fun ToolDrawerSheet(
 
             // 模型选择按钮
             TextButton(onClick = { showModelSelector = !showModelSelector }) {
-                Icon(Icons.Default.SwapVert, contentDescription = null, tint = Color(0xFF512DA8))
+                Icon(Icons.Default.SwapVert, contentDescription = null, tint = MaterialTheme.colorScheme.primary)
                 Spacer(modifier = Modifier.width(4.dp))
-                Text("切换模型", color = Color(0xFF512DA8))
+                Text("切换模型", color = MaterialTheme.colorScheme.primary)
             }
 
             // 模型选择列表
@@ -811,10 +811,10 @@ private fun ToolDrawerSheet(
                                     showModelSelector = false
                                 },
                             colors = CardDefaults.cardColors(
-                                containerColor = if (isSelected) Color(0xFF512DA8).copy(alpha = 0.2f)
+                                containerColor = if (isSelected) MaterialTheme.colorScheme.primary.copy(alpha = 0.2f)
                                 else Color.Transparent
                             ),
-                            border = if (isSelected) androidx.compose.foundation.BorderStroke(1.dp, Color(0xFF512DA8))
+                            border = if (isSelected) androidx.compose.foundation.BorderStroke(1.dp, MaterialTheme.colorScheme.primary)
                             else null
                         ) {
                             Row(
@@ -825,13 +825,13 @@ private fun ToolDrawerSheet(
                             ) {
                                 Text(
                                     text = model.name,
-                                    color = if (isSelected) Color(0xFF512DA8) else Color.White,
+                                    color = if (isSelected) MaterialTheme.colorScheme.primary else Color.White,
                                     style = MaterialTheme.typography.bodyMedium
                                 )
                                 if (model.isLocal) {
                                     Text(
                                         text = "本地",
-                                        color = Color(0xFF26A69A),
+                                        color = MaterialTheme.colorScheme.tertiary,
                                         style = MaterialTheme.typography.labelSmall
                                     )
                                 }
@@ -870,15 +870,15 @@ private fun ToolDrawerSheet(
                         Text(
                             text = tool.description,
                             style = MaterialTheme.typography.bodySmall,
-                            color = Color.Gray
+                            color = MaterialTheme.colorScheme.onSurfaceVariant
                         )
                     }
                     Switch(
                         checked = tool.isEnabled,
                         onCheckedChange = { onToggleTool(tool.id) },
                         colors = SwitchDefaults.colors(
-                            checkedThumbColor = Color(0xFF26A69A),
-                            checkedTrackColor = Color(0xFF26A69A).copy(alpha = 0.5f)
+                            checkedThumbColor = MaterialTheme.colorScheme.tertiary,
+                            checkedTrackColor = MaterialTheme.colorScheme.tertiary.copy(alpha = 0.5f)
                         )
                     )
                 }
@@ -900,20 +900,20 @@ private fun ToolDrawerSheet(
                     Icon(
                         imageVector = Icons.Default.Key,
                         contentDescription = null,
-                        tint = Color.Gray,
+                        tint = MaterialTheme.colorScheme.onSurfaceVariant,
                         modifier = Modifier.size(20.dp)
                     )
                     Spacer(modifier = Modifier.width(8.dp))
                     Text(
                         text = "API 密钥设置",
                         style = MaterialTheme.typography.bodyMedium,
-                        color = Color.Gray
+                        color = MaterialTheme.colorScheme.onSurfaceVariant
                     )
                 }
                 Icon(
                     imageVector = Icons.AutoMirrored.Filled.List,
                     contentDescription = null,
-                    tint = Color.Gray
+                    tint = MaterialTheme.colorScheme.onSurfaceVariant
                 )
             }
 
@@ -923,23 +923,23 @@ private fun ToolDrawerSheet(
                     Text(
                         text = "OpenAI API Key（已加密存储）",
                         style = MaterialTheme.typography.labelSmall,
-                        color = Color.Gray
+                        color = MaterialTheme.colorScheme.onSurfaceVariant
                     )
                     Spacer(modifier = Modifier.height(4.dp))
                     OutlinedTextField(
                         value = "",
                         onValueChange = { /* Save API key */ },
                         modifier = Modifier.fillMaxWidth(),
-                        placeholder = { Text("sk-...", color = Color.Gray) },
+                        placeholder = { Text("sk-...", color = MaterialTheme.colorScheme.onSurfaceVariant) },
                         singleLine = true,
                         visualTransformation = PasswordVisualTransformation(),
                         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
                         colors = androidx.compose.material3.OutlinedTextFieldDefaults.colors(
                             focusedTextColor = Color.White,
                             unfocusedTextColor = Color.White,
-                            focusedBorderColor = Color(0xFF512DA8),
-                            unfocusedBorderColor = Color.Gray,
-                            cursorColor = Color(0xFF512DA8)
+                            focusedBorderColor = MaterialTheme.colorScheme.primary,
+                            unfocusedBorderColor = MaterialTheme.colorScheme.onSurfaceVariant,
+                            cursorColor = MaterialTheme.colorScheme.primary
                         )
                     )
                 }

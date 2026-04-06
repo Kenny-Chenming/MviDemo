@@ -26,16 +26,13 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.mvi.kenny.base.TopBarConfig
-import com.mvi.kenny.feature.animation.AnimationScreen
-import com.mvi.kenny.feature.chat.ChatScreen
 import com.mvi.kenny.feature.home.HomeScreen
 import com.mvi.kenny.feature.list.ListScreen
-import com.mvi.kenny.feature.locationpermission.LocationPermissionScreen
+import com.mvi.kenny.feature.profile.ProfileScreen
 import com.mvi.kenny.feature.mcp.McpScreen
 import com.mvi.kenny.feature.android17migration.MigrationDashboardScreen
 import com.mvi.kenny.feature.aiagent.AIAgentScreen
 import com.mvi.kenny.feature.qaframework.QAFrameworkScreen
-import com.mvi.kenny.feature.profile.ProfileScreen
 import com.mvi.kenny.navigation.BottomNavRoute
 
 /**
@@ -88,18 +85,14 @@ import com.mvi.kenny.navigation.BottomNavRoute
 fun MainScreen(
     onNavigateToLogin: () -> Unit
 ) {
-    // 定义九个 Tab 的路由配置
+    // 定义六个 Tab 的路由配置（已移除无价值 Tab：Animation、LocationPermission、Chat）
     val bottomNavItems = listOf(
         BottomNavRoute.Home,
         BottomNavRoute.List,
         BottomNavRoute.Profile,
-        BottomNavRoute.Chat,
-        BottomNavRoute.Animation,
-        BottomNavRoute.LocationPermission,
-        BottomNavRoute.MCP,
-        BottomNavRoute.Android17Migration,
         BottomNavRoute.AIAgent,
-        BottomNavRoute.QAFramework
+        BottomNavRoute.QAFramework,
+        BottomNavRoute.MCP
     )
 
     // Pager 状态，管理当前是第几页
@@ -113,26 +106,18 @@ fun MainScreen(
     var homeTopBar by remember { mutableStateOf(TopBarConfig(title = "Home")) }
     var listTopBar by remember { mutableStateOf(TopBarConfig(title = "List")) }
     var profileTopBar by remember { mutableStateOf(TopBarConfig(title = "Profile")) }
-    var chatTopBar by remember { mutableStateOf(TopBarConfig(title = "AI Chat")) }
-    var animationTopBar by remember { mutableStateOf(TopBarConfig(title = "Animation")) }
-    var locationPermissionTopBar by remember { mutableStateOf(TopBarConfig(title = "位置权限")) }
-    var mcpTopBar by remember { mutableStateOf(TopBarConfig(title = "MCP Server")) }
-    var android17MigrationTopBar by remember { mutableStateOf(TopBarConfig(title = "Android 17 Migration")) }
     var aiAgentTopBar by remember { mutableStateOf(TopBarConfig(title = "AI Agent")) }
     var qaFrameworkTopBar by remember { mutableStateOf(TopBarConfig(title = "QA 框架")) }
+    var mcpTopBar by remember { mutableStateOf(TopBarConfig(title = "MCP Server")) }
 
     // 根据当前页码决定显示哪个 TopBar 配置
     val currentTopBar = when (pagerState.currentPage) {
         0 -> homeTopBar
         1 -> listTopBar
         2 -> profileTopBar
-        3 -> chatTopBar
-        4 -> animationTopBar
-        5 -> locationPermissionTopBar
-        6 -> mcpTopBar
-        7 -> android17MigrationTopBar
-        8 -> aiAgentTopBar
-        9 -> qaFrameworkTopBar
+        3 -> aiAgentTopBar
+        4 -> qaFrameworkTopBar
+        5 -> mcpTopBar
         else -> homeTopBar
     }
 
@@ -213,26 +198,14 @@ fun MainScreen(
                         onNavigateToLogin = onNavigateToLogin,
                         onUpdateTopBar = { profileTopBar = it }
                     )
-                    3 -> ChatScreen(
-                        onUpdateTopBar = { chatTopBar = it }
-                    )
-                    4 -> AnimationScreen(
-                        onUpdateTopBar = { animationTopBar = it }
-                    )
-                    5 -> LocationPermissionScreen(
-                        onUpdateTopBar = { locationPermissionTopBar = it }
-                    )
-                    6 -> McpScreen(
-                        onUpdateTopBar = { mcpTopBar = it }
-                    )
-                    7 -> MigrationDashboardScreen(
-                        onUpdateTopBar = { android17MigrationTopBar = it }
-                    )
-                    8 -> AIAgentScreen(
+                    3 -> AIAgentScreen(
                         onUpdateTopBar = { aiAgentTopBar = it }
                     )
-                    9 -> QAFrameworkScreen(
+                    4 -> QAFrameworkScreen(
                         onUpdateTopBar = { qaFrameworkTopBar = it }
+                    )
+                    5 -> McpScreen(
+                        onUpdateTopBar = { mcpTopBar = it }
                     )
                 }
             }

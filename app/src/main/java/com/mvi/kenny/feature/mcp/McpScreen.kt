@@ -144,21 +144,21 @@ fun McpScreen(
                     )
                 },
                 colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = Color(0xFF1E1E1E),
-                    titleContentColor = Color.White
+                    containerColor = MaterialTheme.colorScheme.surfaceVariant,
+                    titleContentColor = MaterialTheme.colorScheme.onSurfaceVariant
                 ),
                 actions = {
                     IconButton(onClick = { viewModel.sendIntent(McpIntent.RefreshDevices) }) {
                         Icon(
                             imageVector = Icons.Default.Refresh,
                             contentDescription = "Refresh Devices",
-                            tint = Color.White
+                            tint = MaterialTheme.colorScheme.onSurfaceVariant
                         )
                     }
                 }
             )
         },
-        containerColor = Color(0xFF121212)
+        containerColor = MaterialTheme.colorScheme.surface
     ) { padding ->
         LazyColumn(
             modifier = Modifier
@@ -194,7 +194,7 @@ fun McpScreen(
             item {
                 Text(
                     text = "Tools",
-                    color = Color(0xFF4FC3F7),
+                    color = MaterialTheme.colorScheme.primary,
                     fontSize = 14.sp,
                     fontWeight = FontWeight.Medium,
                     modifier = Modifier.padding(top = 8.dp)
@@ -219,7 +219,7 @@ fun McpScreen(
             item {
                 Text(
                     text = "Devices",
-                    color = Color(0xFF4FC3F7),
+                    color = MaterialTheme.colorScheme.primary,
                     fontSize = 14.sp,
                     fontWeight = FontWeight.Medium,
                     modifier = Modifier.padding(top = 8.dp)
@@ -232,7 +232,7 @@ fun McpScreen(
                         onClick = { viewModel.sendIntent(McpIntent.RefreshDevices) },
                         modifier = Modifier.fillMaxWidth(),
                         colors = ButtonDefaults.outlinedButtonColors(
-                            contentColor = Color(0xFF4FC3F7)
+                            contentColor = MaterialTheme.colorScheme.primary
                         )
                     ) {
                         Icon(Icons.Default.Refresh, contentDescription = null)
@@ -252,7 +252,7 @@ fun McpScreen(
             item {
                 Text(
                     text = "Logs",
-                    color = Color(0xFF4FC3F7),
+                    color = MaterialTheme.colorScheme.primary,
                     fontSize = 14.sp,
                     fontWeight = FontWeight.Medium,
                     modifier = Modifier.padding(top = 8.dp)
@@ -299,7 +299,7 @@ private fun ServerStatusCard(
 
     Card(
         modifier = Modifier.fillMaxWidth(),
-        colors = CardDefaults.cardColors(containerColor = Color(0xFF1E1E1E)),
+        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant),
         shape = RoundedCornerShape(12.dp)
     ) {
         Row(
@@ -320,14 +320,14 @@ private fun ServerStatusCard(
                 Column {
                     Text(
                         text = statusText,
-                        color = Color.White,
+                        color = MaterialTheme.colorScheme.onSurface,
                         fontSize = 16.sp,
                         fontWeight = FontWeight.Medium
                     )
                     if (serverStatus == ServerStatus.RUNNING) {
                         Text(
                             text = "Port: $serverPort",
-                            color = Color.White.copy(alpha = 0.6f),
+                            color = MaterialTheme.colorScheme.onSurfaceVariant,
                             fontSize = 12.sp
                         )
                     }
@@ -338,13 +338,13 @@ private fun ServerStatusCard(
                 onClick = onToggle,
                 enabled = serverStatus != ServerStatus.STARTING && serverStatus != ServerStatus.STOPPING,
                 colors = ButtonDefaults.buttonColors(
-                    containerColor = if (serverStatus == ServerStatus.RUNNING) Color(0xFFEF5350) else Color(0xFF4FC3F7)
+                    containerColor = if (serverStatus == ServerStatus.RUNNING) MaterialTheme.colorScheme.error else MaterialTheme.colorScheme.primary
                 )
             ) {
                 if (serverStatus == ServerStatus.STARTING || serverStatus == ServerStatus.STOPPING) {
                     CircularProgressIndicator(
                         modifier = Modifier.size(16.dp),
-                        color = Color.White,
+                        color = MaterialTheme.colorScheme.onPrimary,
                         strokeWidth = 2.dp
                     )
                 } else {
@@ -369,7 +369,7 @@ private fun ToolListItem(
         modifier = Modifier
             .fillMaxWidth()
             .clickable(onClick = onClick),
-        colors = CardDefaults.cardColors(containerColor = Color(0xFF1E1E1E)),
+        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant),
         shape = RoundedCornerShape(12.dp)
     ) {
         Row(
@@ -382,13 +382,13 @@ private fun ToolListItem(
             Column(modifier = Modifier.weight(1f)) {
                 Text(
                     text = tool.name,
-                    color = Color.White,
+                    color = MaterialTheme.colorScheme.onSurface,
                     fontSize = 14.sp,
                     fontWeight = FontWeight.Medium
                 )
                 Text(
                     text = tool.description,
-                    color = Color.White.copy(alpha = 0.6f),
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
                     fontSize = 12.sp,
                     maxLines = 1
                 )
@@ -399,14 +399,14 @@ private fun ToolListItem(
                     checked = tool.enabled,
                     onCheckedChange = onToggle,
                     colors = SwitchDefaults.colors(
-                        checkedThumbColor = Color(0xFF4FC3F7),
-                        checkedTrackColor = Color(0xFF4FC3F7).copy(alpha = 0.4f)
+                        checkedThumbColor = MaterialTheme.colorScheme.primary,
+                        checkedTrackColor = MaterialTheme.colorScheme.primary.copy(alpha = 0.4f)
                     )
                 )
                 Icon(
                     imageVector = Icons.Default.ChevronRight,
                     contentDescription = "Details",
-                    tint = Color.White.copy(alpha = 0.4f),
+                    tint = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.4f),
                     modifier = Modifier.padding(start = 8.dp)
                 )
             }
@@ -431,7 +431,7 @@ private fun DeviceListItem(device: AndroidDevice) {
 
     Card(
         modifier = Modifier.fillMaxWidth(),
-        colors = CardDefaults.cardColors(containerColor = Color(0xFF1E1E1E)),
+        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant),
         shape = RoundedCornerShape(12.dp)
     ) {
         Row(
@@ -451,7 +451,7 @@ private fun DeviceListItem(device: AndroidDevice) {
                 Spacer(Modifier.width(12.dp))
                 Text(
                     text = device.name,
-                    color = Color.White,
+                    color = MaterialTheme.colorScheme.onSurface,
                     fontSize = 14.sp
                 )
             }
@@ -490,7 +490,7 @@ private fun ConnectionLogViewer(logs: List<LogEntry>) {
         modifier = Modifier
             .fillMaxWidth()
             .height(200.dp),
-        colors = CardDefaults.cardColors(containerColor = Color(0xFF0D0D0D)),
+        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
         shape = RoundedCornerShape(12.dp)
     ) {
         if (logs.isEmpty()) {
@@ -500,7 +500,7 @@ private fun ConnectionLogViewer(logs: List<LogEntry>) {
             ) {
                 Text(
                     text = "No logs yet",
-                    color = Color.White.copy(alpha = 0.4f),
+                    color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.4f),
                     fontSize = 12.sp
                 )
             }
@@ -515,14 +515,14 @@ private fun ConnectionLogViewer(logs: List<LogEntry>) {
                     Row(modifier = Modifier.fillMaxWidth()) {
                         Text(
                             text = entry.timestamp,
-                            color = Color.White.copy(alpha = 0.4f),
+                            color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.4f),
                             fontSize = 11.sp,
                             fontFamily = FontFamily.Monospace
                         )
                         Spacer(Modifier.width(8.dp))
                         Text(
                             text = entry.message,
-                            color = if (entry.level == LogLevel.ERROR) Color(0xFFEF5350) else Color(0xFF81C784),
+                            color = if (entry.level == LogLevel.ERROR) MaterialTheme.colorScheme.error else MaterialTheme.colorScheme.tertiary,
                             fontSize = 11.sp,
                             fontFamily = FontFamily.Monospace
                         )
@@ -577,7 +577,7 @@ private fun ToolDetailSheet(
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(vertical = 4.dp),
-                    colors = CardDefaults.cardColors(containerColor = Color(0xFF0D0D0D))
+                    colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface)
                 ) {
                     Column(modifier = Modifier.padding(12.dp)) {
                         Row(
@@ -586,18 +586,18 @@ private fun ToolDetailSheet(
                         ) {
                             Text(
                                 text = call.timestamp,
-                                color = Color.White.copy(alpha = 0.5f),
+                                color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.5f),
                                 fontSize = 11.sp
                             )
                             Text(
                                 text = if (call.success) "✓ Success" else "✗ Failed",
-                                color = if (call.success) Color(0xFF4CAF50) else Color(0xFFEF5350),
+                                color = if (call.success) MaterialTheme.colorScheme.tertiary else MaterialTheme.colorScheme.error,
                                 fontSize = 11.sp
                             )
                         }
                         Text(
                             text = call.rawOutput.take(100) + if (call.rawOutput.length > 100) "..." else "",
-                            color = Color(0xFF81C784),
+                            color = MaterialTheme.colorScheme.tertiary,
                             fontSize = 11.sp,
                             fontFamily = FontFamily.Monospace,
                             modifier = Modifier.padding(top = 4.dp)
@@ -608,7 +608,7 @@ private fun ToolDetailSheet(
         } else {
             Text(
                 text = "No call history yet",
-                color = Color.White.copy(alpha = 0.4f),
+                color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.4f),
                 fontSize = 12.sp
             )
         }
@@ -620,7 +620,7 @@ private fun ToolDetailSheet(
             onClick = { onCallTool(emptyMap()) },
             modifier = Modifier.fillMaxWidth(),
             enabled = !isLoading,
-            colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF4FC3F7))
+            colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.primary)
         ) {
             if (isLoading) {
                 CircularProgressIndicator(

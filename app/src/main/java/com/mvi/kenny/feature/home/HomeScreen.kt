@@ -26,7 +26,6 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.OutlinedTextField
-import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
@@ -135,17 +134,15 @@ fun HomeScreen(
     // ============================================================
     // 页面主体
     // ============================================================
-    Scaffold { innerPadding ->
-        Box(modifier = Modifier.fillMaxSize()) {
-            // 主内容区域（可滚动）
-            Column(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(innerPadding)
-                    .verticalScroll(rememberScrollState())  // 内容超出时可滚动
-                    .padding(16.dp),
-                horizontalAlignment = Alignment.CenterHorizontally
-            ) {
+    Box(modifier = Modifier.fillMaxSize()) {
+        // 主内容区域（可滚动）
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .verticalScroll(rememberScrollState())  // 内容超出时可滚动
+                .padding(16.dp),
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
                 // 加载指示器（初始加载时显示）
                 if (state.isLoading) {
                     CircularProgressIndicator()
@@ -202,8 +199,6 @@ fun HomeScreen(
                 }
             }
         }
-    }
-
     // 编辑昵称对话框
     if (showEditDialog) {
         EditNameDialog(
