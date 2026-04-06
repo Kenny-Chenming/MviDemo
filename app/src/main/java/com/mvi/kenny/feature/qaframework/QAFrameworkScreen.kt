@@ -28,7 +28,7 @@ import androidx.compose.material.icons.filled.BugReport
 import androidx.compose.material.icons.filled.CheckCircle
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.Delete
-import androidx.compose.material.icons.filled.DeviceHub
+
 import androidx.compose.material.icons.filled.Error
 import androidx.compose.material.icons.filled.Info
 import androidx.compose.material.icons.filled.KeyboardArrowDown
@@ -175,11 +175,10 @@ fun QAFrameworkScreen(
                 OutlinedTextField(value = localPackageName, onValueChange = { localPackageName = it; onIntent(MainIntent.UpdatePackageName(it)) }, label = { Text("App 包名 / Package Name") }, placeholder = { Text("com.example.app") }, modifier = Modifier.fillMaxWidth(), singleLine = true, leadingIcon = { Icon(Icons.Default.Android, contentDescription = null) })
                 Spacer(modifier = Modifier.height(12.dp))
                 Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                    FilledTonalButton(onClick = { onIntent(MainIntent.ShowDeviceSheet) }, modifier = Modifier.weight(1f)) { Icon(Icons.Default.DeviceHub, contentDescription = null, modifier = Modifier.size(18.dp)); Spacer(modifier = Modifier.width(4.dp)); Text(mainState.availableDevices.find { it.id == mainState.selectedDeviceId }?.name ?: "选择设备") }
-                    TextButton(onClick = { onIntent(MainIntent.RefreshDevices) }) { Icon(Icons.Default.Refresh, contentDescription = "刷新设备") }
+                    FilledTonalButton(onClick = { }, modifier = Modifier.weight(1f), enabled = false) { Icon(Icons.Default.Android, contentDescription = null, modifier = Modifier.size(18.dp)); Spacer(modifier = Modifier.width(4.dp)); Text("本机自检模式") }
                 }
                 Spacer(modifier = Modifier.height(16.dp))
-                FilledTonalButton(onClick = { val deviceId = mainState.selectedDeviceId; if (localPackageName.isNotBlank() && deviceId != null) { onIntent(MainIntent.StartScan(localPackageName, deviceId)) } }, modifier = Modifier.fillMaxWidth(), enabled = localPackageName.isNotBlank() && mainState.selectedDeviceId != null) { Icon(Icons.Default.PlayArrow, contentDescription = null); Spacer(modifier = Modifier.width(8.dp)); Text("开始扫描 / Start Scan") }
+                FilledTonalButton(onClick = { if (localPackageName.isNotBlank()) { onIntent(MainIntent.StartScan(localPackageName)) } }, modifier = Modifier.fillMaxWidth(), enabled = localPackageName.isNotBlank()) { Icon(Icons.Default.PlayArrow, contentDescription = null); Spacer(modifier = Modifier.width(8.dp)); Text("开始扫描") }
             }
         }
         Spacer(modifier = Modifier.height(16.dp))
@@ -187,12 +186,7 @@ fun QAFrameworkScreen(
         when {
             mainState.isLoading -> Box(modifier = Modifier.fillMaxWidth().height(100.dp), contentAlignment = Alignment.Center) { CircularProgressIndicator(color = MaterialTheme.colorScheme.primary) }
             mainState.recentTasks.isEmpty() -> Card(modifier = Modifier.fillMaxWidth(), colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant)) { Box(modifier = Modifier.fillMaxWidth().padding(32.dp), contentAlignment = Alignment.Center) { Text("暂无历史任务 / No recent tasks", color = MaterialTheme.colorScheme.outline) } }
-            else -> mainState.recentTasks.forEach { task -> TaskItemCard(task = task, onClick = { onIntent(MainIntent.StartScan(task.packageName, task.deviceId)) }, onDelete = { onIntent(MainIntent.DeleteTask(task.id)) }); Spacer(modifier = Modifier.height(8.dp)) }
-        }
-    }
-    if (mainState.showDeviceSheet) {
-        ModalBottomSheet(onDismissRequest = { onIntent(MainIntent.HideDeviceSheet) }, sheetState = sheetState, containerColor = MaterialTheme.colorScheme.surfaceVariant) {
-            DeviceSelectSheet(devices = mainState.availableDevices, selectedDeviceId = mainState.selectedDeviceId, onSelectDevice = { onIntent(MainIntent.SelectDevice(it)) })
+            else -> mainState.recentTasks.forEach { task -> TaskItemCard(task = task, onClick = { onIntent(MainIntent.StartScan(task.packageName)) }, onDelete = { onIntent(MainIntent.DeleteTask(task.id)) }); Spacer(modifier = Modifier.height(8.dp)) }
         }
     }
 }
@@ -210,22 +204,6 @@ fun QAFrameworkScreen(
             }
             IconButton(onClick = onDelete) { Icon(Icons.Default.Delete, contentDescription = "删除", tint = Color.Gray) }
         }
-    }
-}
-
-@Composable private fun DeviceSelectSheet(devices: List<ConnectedDevice>, selectedDeviceId: String?, onSelectDevice: (String) -> Unit) {
-    Column(modifier = Modifier.padding(16.dp)) {
-        Text("选择设备 / Select Device", style = MaterialTheme.typography.titleMedium, color = MaterialTheme.colorScheme.onSurface, fontWeight = FontWeight.Bold, modifier = Modifier.padding(bottom = 16.dp))
-        devices.forEach { device ->
-            ListItem(
-                headlineContent = { Text(device.name, color = MaterialTheme.colorScheme.onSurface) },
-                supportingContent = { Text(device.androidVersion, color = MaterialTheme.colorScheme.outline) },
-                leadingContent = { RadioButton(selected = device.id == selectedDeviceId, onClick = { onSelectDevice(device.id) }) },
-                trailingContent = { if (device.isConnected) Icon(Icons.Default.CheckCircle, contentDescription = "已连接", tint = SuccessColor) },
-                modifier = Modifier.clickable { onSelectDevice(device.id) }
-            )
-        }
-        Spacer(modifier = Modifier.height(32.dp))
     }
 }
 

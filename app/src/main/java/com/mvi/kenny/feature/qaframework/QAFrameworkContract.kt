@@ -88,7 +88,6 @@ enum class IssueSeverity {
 data class ScanTask(
     val id: String,
     val packageName: String,
-    val deviceId: String,
     val status: ScanTaskStatus = ScanTaskStatus.IDLE,
     val screenCount: Int = 0,
     val issueCount: Int = 0,
@@ -164,11 +163,9 @@ data class ReportSummary(
 data class MainState(
     val packageName: String = "",
     val recentTasks: List<ScanTask> = emptyList(),
-    val availableDevices: List<ConnectedDevice> = emptyList(),
-    val selectedDeviceId: String? = null,
     val isLoading: Boolean = false,
     val error: String? = null,
-    val showDeviceSheet: Boolean = false
+    val isSelfMode: Boolean = true
 ) {
     companion object {
         /** 初始状态 / Initial state */
@@ -283,25 +280,10 @@ sealed interface MainIntent {
      */
     data class DeleteTask(val taskId: String) : MainIntent
 
-    /** 开始扫描
+    /** 开始扫描（自检模式，不需要外部设备）
      * @param packageName 包名
-     * @param deviceId 设备 ID
      */
-    data class StartScan(val packageName: String, val deviceId: String) : MainIntent
-
-    /** 显示设备选择 BottomSheet */
-    data object ShowDeviceSheet : MainIntent
-
-    /** 隐藏设备选择 BottomSheet */
-    data object HideDeviceSheet : MainIntent
-
-    /** 选择设备
-     * @param deviceId 设备 ID
-     */
-    data class SelectDevice(val deviceId: String) : MainIntent
-
-    /** 刷新设备列表 */
-    data object RefreshDevices : MainIntent
+    data class StartScan(val packageName: String) : MainIntent
 }
 
 /**
@@ -324,7 +306,7 @@ sealed interface ScanIntent {
      * @param packageName 包名
      * @param deviceId 设备 ID
      */
-    data class InitScan(val taskId: String, val packageName: String, val deviceId: String) : ScanIntent
+    data class InitScan(val taskId: String, val packageName: String) : ScanIntent
 }
 
 /**
