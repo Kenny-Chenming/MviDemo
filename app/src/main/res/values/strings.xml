@@ -98,6 +98,35 @@
     <string name="mcp_error">Error</string>
     <string name="mcp_success">Success</string>
 
+    <!-- AppFunctions Developer Toolkit (PRD-030) -->
+    <string name="appfunc_title">AppFunctions 工具台</string>
+    <string name="appfunc_validator">校验台</string>
+    <string name="appfunc_mock">Mock 测试</string>
+    <string name="appfunc_templates">模板库</string>
+    <string name="appfunc_compat">兼容检测</string>
+    <string name="appfunc_scan_functions">扫描函数</string>
+    <string name="appfunc_scanning">正在扫描…</string>
+    <string name="appfunc_scan_complete">扫描完成，发现 %d 个 @AppFunction</string>
+    <string name="appfunc_no_functions">尚未扫描</string>
+    <string name="appfunc_no_functions_hint">点击右下角按钮扫描项目中的 @AppFunction</string>
+    <string name="appfunc_run_mock">发送 Mock 请求</string>
+    <string name="appfunc_mock_running">测试中…</string>
+    <string name="appfunc_select_function">选择函数</string>
+    <string name="appfunc_params">请求参数 (JSON)</string>
+    <string name="appfunc_history">最近调用</string>
+    <string name="appfunc_no_history">尚无调用记录</string>
+    <string name="appfunc_apply_template">应用模板</string>
+    <string name="appfunc_template_confirm">确认应用</string>
+    <string name="appfunc_template_success">%s 应用成功！</string>
+    <string name="appfunc_compat_note">AppFunctions 要求 Android 16+ (API 36)。检测结果仅供参考。</string>
+    <string name="appfunc_compat_check_all">检测全部</string>
+    <string name="appfunc_compat_running">正在检测兼容性…</string>
+    <string name="appfunc_compat_complete">兼容性检测完成: %d/%d 版本通过</string>
+    <string name="appfunc_no_report">尚未检测</string>
+    <string name="appfunc_no_report_hint">点击「检测全部」开始兼容性检测</string>
+    <string name="appfunc_agent_visible">已对 Agent 可见</string>
+    <string name="appfunc_agent_hidden">已隐藏</string>
+
     <!-- QA Framework (PRD-014) -->
     <string name="qa_title">QA Framework</string>
     <string name="qa_quick_start">Quick Start</string>

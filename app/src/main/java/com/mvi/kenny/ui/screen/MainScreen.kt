@@ -33,6 +33,7 @@ import com.mvi.kenny.feature.mcp.McpScreen
 import com.mvi.kenny.feature.android17migration.MigrationDashboardScreen
 import com.mvi.kenny.feature.aiagent.AIAgentScreen
 import com.mvi.kenny.feature.qaframework.QAFrameworkScreen
+import com.mvi.kenny.feature.appfunctions.AppFuncDesignToolScreen
 import com.mvi.kenny.navigation.BottomNavRoute
 
 /**
@@ -92,7 +93,8 @@ fun MainScreen(
         BottomNavRoute.Profile,
         BottomNavRoute.AIAgent,
         BottomNavRoute.QAFramework,
-        BottomNavRoute.MCP
+        BottomNavRoute.MCP,
+        BottomNavRoute.AppFuncDesignTool
     )
 
     // Pager 状态，管理当前是第几页
@@ -109,6 +111,7 @@ fun MainScreen(
     var aiAgentTopBar by remember { mutableStateOf(TopBarConfig(title = "AI Agent")) }
     var qaFrameworkTopBar by remember { mutableStateOf(TopBarConfig(title = "QA 框架")) }
     var mcpTopBar by remember { mutableStateOf(TopBarConfig(title = "MCP Server")) }
+    var appFuncTopBar by remember { mutableStateOf(TopBarConfig(title = "AppFunctions 工具台")) }
 
     // 根据当前页码决定显示哪个 TopBar 配置
     val currentTopBar = when (pagerState.currentPage) {
@@ -118,6 +121,7 @@ fun MainScreen(
         3 -> aiAgentTopBar
         4 -> qaFrameworkTopBar
         5 -> mcpTopBar
+        6 -> appFuncTopBar
         else -> homeTopBar
     }
 
@@ -206,6 +210,9 @@ fun MainScreen(
                     )
                     5 -> McpScreen(
                         onUpdateTopBar = { mcpTopBar = it }
+                    )
+                    6 -> AppFuncDesignToolScreen(
+                        onUpdateTopBar = { appFuncTopBar = it }
                     )
                 }
             }
