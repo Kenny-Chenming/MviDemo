@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- MCP Server -->
+    <string name="mcp_title">MCP 服务器</string>
+    <string name="mcp_scan_devices">扫描设备</string>
+    <string name="mcp_tools">工具</string>
+    <string name="mcp_no_device">无设备连接</string>
+    <string name="mcp_connect">连接</string>
+    <string name="mcp_disconnect">断开</string>
+    <string name="mcp_start_server">启动服务器</string>
+    <string name="mcp_stop_server">停止服务器</string>
+    <string name="mcp_server_running">服务器运行中</string>
+    <string name="mcp_server_stopped">服务器已停止</string>
+    <string name="mcp_port">端口</string>
+    <string name="mcp_host">主机</string>
+    <string name="mcp_status">状态</string>
+    <string name="mcp_call_history">调用历史</string>
+    <string name="mcp_recent_calls">最近调用</string>
+    <string name="mcp_no_calls">暂无调用记录</string>
+    <string name="mcp_available_tools">可用工具</string>
+    <string name="mcp_device_id">设备 ID</string>
+    <string name="mcp_call_tool">调用</string>
+    <string name="mcp_clear_log">清空日志</string>
+    <string name="mcp_error">错误</string>
+    <string name="mcp_success">成功</string>
+
+    <!-- QA Framework -->
+    <string name="qa_title">QA 框架</string>
+    <string name="qa_quick_start">快速开始</string>
+    <string name="qa_package_name">应用包名</string>
+    <string name="qa_package_hint">com.example.app</string>
+    <string name="qa_start_scan">开始扫描</string>
+    <string name="qa_recent_tasks">最近任务</string>
+    <string name="qa_no_tasks">暂无历史任务</string>
+    <string name="qa_select_device">选择设备</string>
+    <string name="qa_no_device">未检测到设备</string>
+    <string name="qa_android_version">Android</string>
+    <string name="qa_pause_scan">暂停</string>
+    <string name="qa_resume_scan">继续</string>
+    <string name="qa_cancel_scan">取消扫描</string>
+    <string name="qa_analyzing">分析中…</string>
+    <string name="qa_scan_complete">扫描完成</string>
+    <string name="qa_issues_found">个问题</string>
+    <string name="qa_screens_scanned">屏已扫描</string>
+    <string name="qa_ai_analysis">AI 分析</string>
+    <string name="qa_operation_suggestions">操作建议</string>
+    <string name="qa_accessibility_issue">可访问性问题</string>
+    <string name="qa_readability_issue">可读性问题</string>
+    <string name="qa_touch_target_issue">触控区域问题</string>
+    <string name="qa_contrast_issue">对比度问题</string>
+    <string name="qa_loading">加载中…</string>
+    <string name="qa_export">导出</string>
+    <string name="qa_share">分享</string>
+    <string name="qa_settings">设置</string>
+    <string name="qa_cdp_host">CDP 主机</string>
+    <string name="qa_cdp_port">CDP 端口</string>
+    <string name="qa_ai_model">AI 模型</string>
+    <string name="qa_parallel_devices">并行设备数</string>
+    <string name="qa_screenshot_quality">截图质量</string>
+    <string name="qa_export_format">导出格式</string>
+    <string name="qa_connected_devices">已连接设备</string>
+
+    <!-- Common -->
+    <string name="common_retry">重试</string>
+    <string name="common_confirm">确认</string>
+    <string name="common_cancel">取消</string>
+    <string name="common_delete">删除</string>
+    <string name="common_save">保存</string>
+    <string name="common_loading">加载中…</string>
+    <string name="common_error">出错了</string>
+    <string name="common_success">成功</string>
+    <string name="common_no_data">暂无数据</string>
+</resources>

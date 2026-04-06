@@ -74,6 +74,66 @@
     <string name="migration_export">导出报告</string>
     <string name="migration_ignore">忽略</string>
 
+    <!-- MCP Server (PRD-011) -->
+    <string name="mcp_title">MCP Server</string>
+    <string name="mcp_scan_devices">Scan Devices</string>
+    <string name="mcp_tools">Tools</string>
+    <string name="mcp_no_device">No device connected</string>
+    <string name="mcp_connect">Connect</string>
+    <string name="mcp_disconnect">Disconnect</string>
+    <string name="mcp_start_server">Start Server</string>
+    <string name="mcp_stop_server">Stop Server</string>
+    <string name="mcp_server_running">Server running</string>
+    <string name="mcp_server_stopped">Server stopped</string>
+    <string name="mcp_port">Port</string>
+    <string name="mcp_host">Host</string>
+    <string name="mcp_status">Status</string>
+    <string name="mcp_call_history">Call History</string>
+    <string name="mcp_recent_calls">Recent Calls</string>
+    <string name="mcp_no_calls">No call history</string>
+    <string name="mcp_available_tools">Available Tools</string>
+    <string name="mcp_device_id">Device ID</string>
+    <string name="mcp_call_tool">Call</string>
+    <string name="mcp_clear_log">Clear Log</string>
+    <string name="mcp_error">Error</string>
+    <string name="mcp_success">Success</string>
+
+    <!-- QA Framework (PRD-014) -->
+    <string name="qa_title">QA Framework</string>
+    <string name="qa_quick_start">Quick Start</string>
+    <string name="qa_package_name">App Package Name</string>
+    <string name="qa_package_hint">com.example.app</string>
+    <string name="qa_start_scan">Start Scan</string>
+    <string name="qa_recent_tasks">Recent Tasks</string>
+    <string name="qa_no_tasks">No recent tasks</string>
+    <string name="qa_select_device">Select Device</string>
+    <string name="qa_no_device">No device detected</string>
+    <string name="qa_android_version">Android</string>
+    <string name="qa_pause_scan">Pause</string>
+    <string name="qa_resume_scan">Resume</string>
+    <string name="qa_cancel_scan">Cancel Scan</string>
+    <string name="qa_analyzing">Analyzing…</string>
+    <string name="qa_scan_complete">Scan Complete</string>
+    <string name="qa_issues_found">issues found</string>
+    <string name="qa_screens_scanned">screens scanned</string>
+    <string name="qa_ai_analysis">AI Analysis</string>
+    <string name="qa_operation_suggestions">Operation Suggestions</string>
+    <string name="qa_accessibility_issue">Accessibility Issue</string>
+    <string name="qa_readability_issue">Readability Issue</string>
+    <string name="qa_touch_target_issue">Touch Target Issue</string>
+    <string name="qa_contrast_issue">Contrast Issue</string>
+    <string name="qa_loading">Loading…</string>
+    <string name="qa_export">Export</string>
+    <string name="qa_share">Share</string>
+    <string name="qa_settings">Settings</string>
+    <string name="qa_cdp_host">CDP Host</string>
+    <string name="qa_cdp_port">CDP Port</string>
+    <string name="qa_ai_model">AI Model</string>
+    <string name="qa_parallel_devices">Parallel Devices</string>
+    <string name="qa_screenshot_quality">Screenshot Quality</string>
+    <string name="qa_export_format">Export Format</string>
+    <string name="qa_connected_devices">Connected Devices</string>
+
     <!-- Common -->
     <string name="common_retry">Retry</string>
     <string name="common_loading">Loading…</string>

@@ -59,6 +59,8 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
+import com.mvi.kenny.R
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
@@ -214,7 +216,7 @@ fun McpScreen(
                     ) {
                         Icon(Icons.Default.Refresh, contentDescription = null)
                         Spacer(Modifier.width(8.dp))
-                        Text("Scan Devices")
+                        Text(stringResource(R.string.mcp_scan_devices))
                     }
                 }
             } else {
@@ -267,11 +269,11 @@ private fun ServerStatusCard(
     )
 
     val statusText = when (serverStatus) {
-        ServerStatus.IDLE -> "Stopped"
+        ServerStatus.IDLE -> stringResource(R.string.mcp_server_stopped)
         ServerStatus.STARTING -> "Starting..."
-        ServerStatus.RUNNING -> "Running"
+        ServerStatus.RUNNING -> stringResource(R.string.mcp_server_running)
         ServerStatus.STOPPING -> "Stopping..."
-        ServerStatus.ERROR -> "Error"
+        ServerStatus.ERROR -> stringResource(R.string.mcp_error)
     }
 
     Card(
@@ -303,7 +305,7 @@ private fun ServerStatusCard(
                     )
                     if (serverStatus == ServerStatus.RUNNING) {
                         Text(
-                            text = "Port: $serverPort",
+                            text = stringResource(R.string.mcp_port) + ": $serverPort",
                             color = MaterialTheme.colorScheme.onSurfaceVariant,
                             fontSize = MaterialTheme.typography.bodySmall.fontSize
                         )
@@ -542,7 +544,7 @@ private fun ToolDetailSheet(
         // Call History（调用历史）
         if (tool.callHistory.isNotEmpty()) {
             Text(
-                text = "Recent Calls",
+                text = stringResource(R.string.mcp_recent_calls),
                 color = MaterialTheme.colorScheme.primary,
                 style = MaterialTheme.typography.bodyMedium,
                 fontWeight = FontWeight.Medium
