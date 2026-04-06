@@ -304,7 +304,7 @@ private fun FixSuggestionCard(
     Card(
         modifier = Modifier.fillMaxWidth(),
         colors = CardDefaults.cardColors(
-            containerColor = Color(0xFF1E1E1E)
+            containerColor = MaterialTheme.colorScheme.surfaceVariant
         )
     ) {
         Column(modifier = Modifier.fillMaxWidth()) {
@@ -319,7 +319,7 @@ private fun FixSuggestionCard(
                     text = "Fix Suggestion / 修复建议",
                     style = MaterialTheme.typography.titleSmall,
                     fontWeight = FontWeight.Bold,
-                    color = Color.White
+                    color = MaterialTheme.colorScheme.onSurface
                 )
                 IconButton(onClick = onCopyClick) {
                     Icon(

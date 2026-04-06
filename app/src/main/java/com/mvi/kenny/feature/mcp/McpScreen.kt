@@ -550,14 +550,14 @@ private fun ToolDetailSheet(
     ) {
         Text(
             text = tool.name,
-            color = Color.White,
+            color = MaterialTheme.colorScheme.onSurface,
             fontSize = 20.sp,
             fontWeight = FontWeight.Bold
         )
         Spacer(Modifier.height(8.dp))
         Text(
             text = tool.description,
-            color = Color.White.copy(alpha = 0.6f),
+            color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.6f),
             fontSize = 14.sp
         )
         Spacer(Modifier.height(16.dp))
@@ -625,7 +625,7 @@ private fun ToolDetailSheet(
             if (isLoading) {
                 CircularProgressIndicator(
                     modifier = Modifier.size(16.dp),
-                    color = Color.White,
+                    color = MaterialTheme.colorScheme.onSurface,
                     strokeWidth = 2.dp
                 )
                 Spacer(Modifier.width(8.dp))

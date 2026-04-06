@@ -89,8 +89,6 @@ import java.util.Date
 import java.util.Locale
 
 private val PrimaryColor = Color(0xFF6750A4)
-private val BackgroundColor = Color(0xFF121212)
-private val SurfaceColor = Color(0xFF1C1B1F)
 private val ErrorColor = Color(0xFFB3261E)
 private val WarningColor = Color(0xFFF9A825)
 private val SuccessColor = Color(0xFF2E7D32)
@@ -149,7 +147,7 @@ fun QAFrameworkScreen(
     }
     Scaffold(
         snackbarHost = { SnackbarHost(snackbarHostState) },
-        containerColor = BackgroundColor
+        containerColor = MaterialTheme.colorScheme.background
     ) { innerPadding ->
         Box(modifier = Modifier.padding(innerPadding)) {
             when (currentSubPage) {
@@ -166,13 +164,13 @@ fun QAFrameworkScreen(
 @Composable private fun MainSubScreen(mainState: MainState, onIntent: (MainIntent) -> Unit) {
     var localPackageName by remember(mainState.packageName) { mutableStateOf(mainState.packageName) }
     val sheetState = rememberModalBottomSheetState()
-    Column(modifier = Modifier.fillMaxSize().background(BackgroundColor).verticalScroll(rememberScrollState()).padding(16.dp)) {
-        ElevatedCard(modifier = Modifier.fillMaxWidth(), colors = CardDefaults.elevatedCardColors(containerColor = SurfaceColor)) {
+    Column(modifier = Modifier.fillMaxSize().background(MaterialTheme.colorScheme.background).verticalScroll(rememberScrollState()).padding(16.dp)) {
+        ElevatedCard(modifier = Modifier.fillMaxWidth(), colors = CardDefaults.elevatedCardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant)) {
             Column(modifier = Modifier.padding(16.dp)) {
                 Row(verticalAlignment = Alignment.CenterVertically, modifier = Modifier.padding(bottom = 12.dp)) {
                     Icon(imageVector = Icons.Default.QrCodeScanner, contentDescription = null, tint = PrimaryColor, modifier = Modifier.size(24.dp))
                     Spacer(modifier = Modifier.width(8.dp))
-                    Text("快速开始 / Quick Start", style = MaterialTheme.typography.titleMedium, color = Color.White, fontWeight = FontWeight.Bold)
+                    Text("快速开始 / Quick Start", style = MaterialTheme.typography.titleMedium, color = MaterialTheme.colorScheme.onSurface, fontWeight = FontWeight.Bold)
                 }
                 OutlinedTextField(value = localPackageName, onValueChange = { localPackageName = it; onIntent(MainIntent.UpdatePackageName(it)) }, label = { Text("App 包名 / Package Name") }, placeholder = { Text("com.example.app") }, modifier = Modifier.fillMaxWidth(), singleLine = true, leadingIcon = { Icon(Icons.Default.Android, contentDescription = null) })
                 Spacer(modifier = Modifier.height(12.dp))
@@ -185,15 +183,15 @@ fun QAFrameworkScreen(
             }
         }
         Spacer(modifier = Modifier.height(16.dp))
-        Text("最近任务 / Recent Tasks", style = MaterialTheme.typography.titleMedium, color = Color.White, fontWeight = FontWeight.Bold, modifier = Modifier.padding(bottom = 8.dp))
+        Text("最近任务 / Recent Tasks", style = MaterialTheme.typography.titleMedium, color = MaterialTheme.colorScheme.onSurface, fontWeight = FontWeight.Bold, modifier = Modifier.padding(bottom = 8.dp))
         when {
-            mainState.isLoading -> Box(modifier = Modifier.fillMaxWidth().height(100.dp), contentAlignment = Alignment.Center) { CircularProgressIndicator(color = PrimaryColor) }
-            mainState.recentTasks.isEmpty() -> Card(modifier = Modifier.fillMaxWidth(), colors = CardDefaults.cardColors(containerColor = SurfaceColor)) { Box(modifier = Modifier.fillMaxWidth().padding(32.dp), contentAlignment = Alignment.Center) { Text("暂无历史任务 / No recent tasks", color = Color.Gray) } }
+            mainState.isLoading -> Box(modifier = Modifier.fillMaxWidth().height(100.dp), contentAlignment = Alignment.Center) { CircularProgressIndicator(color = MaterialTheme.colorScheme.primary) }
+            mainState.recentTasks.isEmpty() -> Card(modifier = Modifier.fillMaxWidth(), colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant)) { Box(modifier = Modifier.fillMaxWidth().padding(32.dp), contentAlignment = Alignment.Center) { Text("暂无历史任务 / No recent tasks", color = MaterialTheme.colorScheme.outline) } }
             else -> mainState.recentTasks.forEach { task -> TaskItemCard(task = task, onClick = { onIntent(MainIntent.StartScan(task.packageName, task.deviceId)) }, onDelete = { onIntent(MainIntent.DeleteTask(task.id)) }); Spacer(modifier = Modifier.height(8.dp)) }
         }
     }
     if (mainState.showDeviceSheet) {
-        ModalBottomSheet(onDismissRequest = { onIntent(MainIntent.HideDeviceSheet) }, sheetState = sheetState, containerColor = SurfaceColor) {
+        ModalBottomSheet(onDismissRequest = { onIntent(MainIntent.HideDeviceSheet) }, sheetState = sheetState, containerColor = MaterialTheme.colorScheme.surfaceVariant) {
             DeviceSelectSheet(devices = mainState.availableDevices, selectedDeviceId = mainState.selectedDeviceId, onSelectDevice = { onIntent(MainIntent.SelectDevice(it)) })
         }
     }
@@ -201,14 +199,14 @@ fun QAFrameworkScreen(
 
 @Composable private fun TaskItemCard(task: ScanTask, onClick: () -> Unit, onDelete: () -> Unit) {
     val (icon, iconColor) = when (task.status) { ScanTaskStatus.COMPLETED -> Icons.Default.CheckCircle to SuccessColor; ScanTaskStatus.FAILED -> Icons.Default.Error to ErrorColor; ScanTaskStatus.RUNNING -> Icons.Default.PlayArrow to PrimaryColor; ScanTaskStatus.PAUSED -> Icons.Default.Pause to WarningColor; ScanTaskStatus.IDLE -> Icons.Default.BugReport to Color.Gray }
-    ElevatedCard(modifier = Modifier.fillMaxWidth().clickable(onClick = onClick), colors = CardDefaults.elevatedCardColors(containerColor = SurfaceColor)) {
+    ElevatedCard(modifier = Modifier.fillMaxWidth().clickable(onClick = onClick), colors = CardDefaults.elevatedCardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant)) {
         Row(modifier = Modifier.fillMaxWidth().padding(12.dp), verticalAlignment = Alignment.CenterVertically) {
             Icon(imageVector = icon, contentDescription = null, tint = iconColor, modifier = Modifier.size(32.dp))
             Spacer(modifier = Modifier.width(12.dp))
             Column(modifier = Modifier.weight(1f)) {
-                Text(task.packageName, style = MaterialTheme.typography.bodyLarge, color = Color.White, maxLines = 1, overflow = TextOverflow.Ellipsis)
-                Text("屏幕: ${task.screenCount} | 问题: ${task.issueCount}", style = MaterialTheme.typography.bodySmall, color = Color.Gray)
-                Text(formatTimestamp(task.createdAt), style = MaterialTheme.typography.labelSmall, color = Color.Gray)
+                Text(task.packageName, style = MaterialTheme.typography.bodyLarge, color = MaterialTheme.colorScheme.onSurface, maxLines = 1, overflow = TextOverflow.Ellipsis)
+                Text("屏幕: ${task.screenCount} | 问题: ${task.issueCount}", style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.outline)
+                Text(formatTimestamp(task.createdAt), style = MaterialTheme.typography.labelSmall, color = MaterialTheme.colorScheme.outline)
             }
             IconButton(onClick = onDelete) { Icon(Icons.Default.Delete, contentDescription = "删除", tint = Color.Gray) }
         }
@@ -217,11 +215,11 @@ fun QAFrameworkScreen(
 
 @Composable private fun DeviceSelectSheet(devices: List<ConnectedDevice>, selectedDeviceId: String?, onSelectDevice: (String) -> Unit) {
     Column(modifier = Modifier.padding(16.dp)) {
-        Text("选择设备 / Select Device", style = MaterialTheme.typography.titleMedium, color = Color.White, fontWeight = FontWeight.Bold, modifier = Modifier.padding(bottom = 16.dp))
+        Text("选择设备 / Select Device", style = MaterialTheme.typography.titleMedium, color = MaterialTheme.colorScheme.onSurface, fontWeight = FontWeight.Bold, modifier = Modifier.padding(bottom = 16.dp))
         devices.forEach { device ->
             ListItem(
-                headlineContent = { Text(device.name, color = Color.White) },
-                supportingContent = { Text(device.androidVersion, color = Color.Gray) },
+                headlineContent = { Text(device.name, color = MaterialTheme.colorScheme.onSurface) },
+                supportingContent = { Text(device.androidVersion, color = MaterialTheme.colorScheme.outline) },
                 leadingContent = { RadioButton(selected = device.id == selectedDeviceId, onClick = { onSelectDevice(device.id) }) },
                 trailingContent = { if (device.isConnected) Icon(Icons.Default.CheckCircle, contentDescription = "已连接", tint = SuccessColor) },
                 modifier = Modifier.clickable { onSelectDevice(device.id) }
@@ -233,25 +231,25 @@ fun QAFrameworkScreen(
 
 @Composable private fun ScanProgressSubScreen(scanState: ScanProgressState, onIntent: (ScanIntent) -> Unit) {
     val animatedProgress by animateFloatAsState(targetValue = scanState.progress, label = "progress")
-    Column(modifier = Modifier.fillMaxSize().background(BackgroundColor).padding(16.dp)) {
-        ElevatedCard(modifier = Modifier.fillMaxWidth(), colors = CardDefaults.elevatedCardColors(containerColor = SurfaceColor)) {
+    Column(modifier = Modifier.fillMaxSize().background(MaterialTheme.colorScheme.background).padding(16.dp)) {
+        ElevatedCard(modifier = Modifier.fillMaxWidth(), colors = CardDefaults.elevatedCardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant)) {
             Column(modifier = Modifier.padding(16.dp)) {
                 Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween, verticalAlignment = Alignment.CenterVertically) {
-                    Text("扫描进度 / Progress", style = MaterialTheme.typography.titleMedium, color = Color.White, fontWeight = FontWeight.Bold)
-                    Text("${scanState.currentScreen} / ${scanState.totalScreens}", style = MaterialTheme.typography.titleMedium, color = PrimaryColor)
+                    Text("扫描进度 / Progress", style = MaterialTheme.typography.titleMedium, color = MaterialTheme.colorScheme.onSurface, fontWeight = FontWeight.Bold)
+                    Text("${scanState.currentScreen} / ${scanState.totalScreens}", style = MaterialTheme.typography.titleMedium, color = MaterialTheme.colorScheme.primary)
                 }
                 Spacer(modifier = Modifier.height(16.dp))
-                LinearProgressIndicator(progress = { animatedProgress }, modifier = Modifier.fillMaxWidth().height(8.dp).clip(RoundedCornerShape(4.dp)), color = PrimaryColor, trackColor = Color.Gray.copy(alpha = 0.3f))
+                LinearProgressIndicator(progress = { animatedProgress }, modifier = Modifier.fillMaxWidth().height(8.dp).clip(RoundedCornerShape(4.dp)), color = MaterialTheme.colorScheme.primary, trackColor = Color.Gray.copy(alpha = 0.3f))
                 Spacer(modifier = Modifier.height(8.dp))
-                Text("屏幕 ${scanState.currentScreen} / ${scanState.totalScreens} — ${(scanState.progress * 100).toInt()}%", style = MaterialTheme.typography.bodySmall, color = Color.Gray)
+                Text("屏幕 ${scanState.currentScreen} / ${scanState.totalScreens} — ${(scanState.progress * 100).toInt()}%", style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.outline)
             }
         }
         Spacer(modifier = Modifier.height(16.dp))
-        ElevatedCard(modifier = Modifier.fillMaxWidth(), colors = CardDefaults.elevatedCardColors(containerColor = SurfaceColor)) {
+        ElevatedCard(modifier = Modifier.fillMaxWidth(), colors = CardDefaults.elevatedCardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant)) {
             Column(modifier = Modifier.padding(16.dp)) {
                 Row(verticalAlignment = Alignment.CenterVertically) {
-                    if (scanState.isAnalyzing) { CircularProgressIndicator(modifier = Modifier.size(20.dp), color = PrimaryColor, strokeWidth = 2.dp); Spacer(modifier = Modifier.width(8.dp)); Text("AI 分析中 / Analyzing...", style = MaterialTheme.typography.bodyMedium, color = PrimaryColor) }
-                    else { Icon(Icons.Default.CheckCircle, contentDescription = null, tint = SuccessColor); Spacer(modifier = Modifier.width(8.dp)); Text(scanState.aiAnalysisResult ?: "等待开始...", style = MaterialTheme.typography.bodyMedium, color = Color.White) }
+                    if (scanState.isAnalyzing) { CircularProgressIndicator(modifier = Modifier.size(20.dp), color = MaterialTheme.colorScheme.primary, strokeWidth = 2.dp); Spacer(modifier = Modifier.width(8.dp)); Text("AI 分析中 / Analyzing...", style = MaterialTheme.typography.bodyMedium, color = MaterialTheme.colorScheme.primary) }
+                    else { Icon(Icons.Default.CheckCircle, contentDescription = null, tint = SuccessColor); Spacer(modifier = Modifier.width(8.dp)); Text(scanState.aiAnalysisResult ?: "等待开始...", style = MaterialTheme.typography.bodyMedium, color = MaterialTheme.colorScheme.onSurface) }
                 }
                 if (scanState.issuesFound.isNotEmpty()) {
                     Spacer(modifier = Modifier.height(12.dp))
@@ -266,13 +264,13 @@ fun QAFrameworkScreen(
             }
         }
         Spacer(modifier = Modifier.height(16.dp))
-        ElevatedCard(modifier = Modifier.fillMaxWidth().height(200.dp), colors = CardDefaults.elevatedCardColors(containerColor = SurfaceColor)) {
+        ElevatedCard(modifier = Modifier.fillMaxWidth().height(200.dp), colors = CardDefaults.elevatedCardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant)) {
             Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
                 Column(horizontalAlignment = Alignment.CenterHorizontally) {
                     Icon(Icons.Default.QrCodeScanner, contentDescription = null, tint = Color.Gray, modifier = Modifier.size(48.dp))
                     Spacer(modifier = Modifier.height(8.dp))
-                    Text("截图预览区域（CDP 截图接入后显示）", style = MaterialTheme.typography.bodySmall, color = Color.Gray)
-                    Text("Screen ${scanState.currentScreen} preview", style = MaterialTheme.typography.labelSmall, color = Color.Gray)
+                    Text("截图预览区域（CDP 截图接入后显示）", style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.outline)
+                    Text("Screen ${scanState.currentScreen} preview", style = MaterialTheme.typography.labelSmall, color = MaterialTheme.colorScheme.outline)
                 }
             }
         }
@@ -288,14 +286,14 @@ fun QAFrameworkScreen(
 @Composable private fun ReportSubScreen(reportState: ReportState, onIntent: (ReportIntent) -> Unit, onNavigateToDetail: () -> Unit, onNavigateBack: () -> Unit) {
     var expandedIssueId by remember { mutableStateOf<String?>(null) }
     val summary = reportState.summary
-    Column(modifier = Modifier.fillMaxSize().background(BackgroundColor).padding(16.dp)) {
+    Column(modifier = Modifier.fillMaxSize().background(MaterialTheme.colorScheme.background).padding(16.dp)) {
         when {
-            reportState.isLoading -> Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) { CircularProgressIndicator(color = PrimaryColor) }
-            summary == null -> Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) { Column(horizontalAlignment = Alignment.CenterHorizontally) { Icon(Icons.Default.BugReport, contentDescription = null, tint = Color.Gray, modifier = Modifier.size(64.dp)); Spacer(modifier = Modifier.height(16.dp)); Text("暂无报告 / No reports", color = Color.Gray); Spacer(modifier = Modifier.height(16.dp)); FilledTonalButton(onClick = onNavigateBack) { Text("返回 / Go Back") } } }
+            reportState.isLoading -> Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) { CircularProgressIndicator(color = MaterialTheme.colorScheme.primary) }
+            summary == null -> Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) { Column(horizontalAlignment = Alignment.CenterHorizontally) { Icon(Icons.Default.BugReport, contentDescription = null, tint = Color.Gray, modifier = Modifier.size(64.dp)); Spacer(modifier = Modifier.height(16.dp)); Text("暂无报告 / No reports", color = MaterialTheme.colorScheme.outline); Spacer(modifier = Modifier.height(16.dp)); FilledTonalButton(onClick = onNavigateBack) { Text("返回 / Go Back") } } }
             else -> {
-                ElevatedCard(modifier = Modifier.fillMaxWidth(), colors = CardDefaults.elevatedCardColors(containerColor = SurfaceColor)) {
+                ElevatedCard(modifier = Modifier.fillMaxWidth(), colors = CardDefaults.elevatedCardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant)) {
                     Column(modifier = Modifier.padding(16.dp)) {
-                        Text("报告摘要 / Summary", style = MaterialTheme.typography.titleMedium, color = Color.White, fontWeight = FontWeight.Bold)
+                        Text("报告摘要 / Summary", style = MaterialTheme.typography.titleMedium, color = MaterialTheme.colorScheme.onSurface, fontWeight = FontWeight.Bold)
                         Spacer(modifier = Modifier.height(12.dp))
                         Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceEvenly) {
                             StatItem("${summary.totalScreens}", "总屏幕数", PrimaryColor)
@@ -307,7 +305,7 @@ fun QAFrameworkScreen(
                     }
                 }
                 Spacer(modifier = Modifier.height(16.dp))
-                Text("问题列表 / Issues (${reportState.issues.size})", style = MaterialTheme.typography.titleMedium, color = Color.White, fontWeight = FontWeight.Bold, modifier = Modifier.padding(bottom = 8.dp))
+                Text("问题列表 / Issues (${reportState.issues.size})", style = MaterialTheme.typography.titleMedium, color = MaterialTheme.colorScheme.onSurface, fontWeight = FontWeight.Bold, modifier = Modifier.padding(bottom = 8.dp))
                 LazyColumn(verticalArrangement = Arrangement.spacedBy(8.dp)) {
                     items(reportState.issues, key = { it.id }) { issue -> IssueCard(issue = issue, isExpanded = expandedIssueId == issue.id, onToggle = { expandedIssueId = if (expandedIssueId == issue.id) null else issue.id }, onViewDetail = onNavigateToDetail) }
                     item { Spacer(modifier = Modifier.height(80.dp)) }
@@ -318,29 +316,29 @@ fun QAFrameworkScreen(
     if (summary != null) {
         Box(modifier = Modifier.fillMaxSize().padding(16.dp), contentAlignment = Alignment.BottomEnd) {
             LargeFloatingActionButton(onClick = { onIntent(ReportIntent.ExportReport(ExportFormat.PDF)) }, containerColor = PrimaryColor) {
-                if (reportState.isExporting) { CircularProgressIndicator(color = Color.White, modifier = Modifier.size(24.dp)) } else { Icon(Icons.Default.Share, contentDescription = "导出报告", tint = Color.White) }
+                if (reportState.isExporting) { CircularProgressIndicator(color = MaterialTheme.colorScheme.onSurface, modifier = Modifier.size(24.dp)) } else { Icon(Icons.Default.Share, contentDescription = "导出报告", tint = Color.White) }
             }
         }
     }
 }
 
-@Composable private fun StatItem(value: String, label: String, color: Color) { Column(horizontalAlignment = Alignment.CenterHorizontally) { Text(value, style = MaterialTheme.typography.titleLarge, color = color, fontWeight = FontWeight.Bold); Text(label, style = MaterialTheme.typography.labelSmall, color = Color.Gray) } }
+@Composable private fun StatItem(value: String, label: String, color: Color) { Column(horizontalAlignment = Alignment.CenterHorizontally) { Text(value, style = MaterialTheme.typography.titleLarge, color = color, fontWeight = FontWeight.Bold); Text(label, style = MaterialTheme.typography.labelSmall, color = MaterialTheme.colorScheme.outline) } }
 
 @Composable private fun IssueCard(issue: QAIssue, isExpanded: Boolean, onToggle: () -> Unit, onViewDetail: () -> Unit) {
     val (icon, color) = when (issue.severity) { IssueSeverity.ERROR -> Icons.Default.Error to ErrorColor; IssueSeverity.WARNING -> Icons.Default.Warning to WarningColor; IssueSeverity.INFO -> Icons.Default.Info to InfoColor }
-    ElevatedCard(modifier = Modifier.fillMaxWidth().animateContentSize().clickable(onClick = onToggle), colors = CardDefaults.elevatedCardColors(containerColor = SurfaceColor)) {
+    ElevatedCard(modifier = Modifier.fillMaxWidth().animateContentSize().clickable(onClick = onToggle), colors = CardDefaults.elevatedCardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant)) {
         Column(modifier = Modifier.padding(12.dp)) {
             Row(verticalAlignment = Alignment.CenterVertically) {
                 Icon(imageVector = icon, contentDescription = null, tint = color, modifier = Modifier.size(20.dp))
                 Spacer(modifier = Modifier.width(8.dp))
                 Column(modifier = Modifier.weight(1f)) {
-                    Text("屏幕 ${issue.screenIndex + 1}", style = MaterialTheme.typography.titleSmall, color = Color.White, fontWeight = FontWeight.Bold)
-                    Text(issue.description, style = MaterialTheme.typography.bodySmall, color = Color.Gray, maxLines = if (isExpanded) Int.MAX_VALUE else 2, overflow = TextOverflow.Ellipsis)
+                    Text("屏幕 ${issue.screenIndex + 1}", style = MaterialTheme.typography.titleSmall, color = MaterialTheme.colorScheme.onSurface, fontWeight = FontWeight.Bold)
+                    Text(issue.description, style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.outline, maxLines = if (isExpanded) Int.MAX_VALUE else 2, overflow = TextOverflow.Ellipsis)
                 }
             }
             AnimatedVisibility(visible = isExpanded) {
                 Column(modifier = Modifier.padding(top = 12.dp)) {
-                    issue.suggestions.forEach { suggestion -> Row(modifier = Modifier.padding(vertical = 2.dp)) { Text("• ", color = SuccessColor); Text(suggestion, style = MaterialTheme.typography.bodySmall, color = Color.White) } }
+                    issue.suggestions.forEach { suggestion -> Row(modifier = Modifier.padding(vertical = 2.dp)) { Text("• ", color = SuccessColor); Text(suggestion, style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurface) } }
                     Spacer(modifier = Modifier.height(8.dp))
                     TextButton(onClick = onViewDetail) { Text("查看详情 / View Detail") }
                 }
@@ -351,19 +349,19 @@ fun QAFrameworkScreen(
 
 @Composable private fun ReportDetailSubScreen(reportState: ReportState, onNavigateBack: () -> Unit) {
     val selectedIssue = reportState.issues.firstOrNull()
-    Column(modifier = Modifier.fillMaxSize().background(BackgroundColor)) {
-        Row(modifier = Modifier.fillMaxWidth().padding(8.dp), verticalAlignment = Alignment.CenterVertically) { IconButton(onClick = onNavigateBack) { Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "返回", tint = Color.White) }; Text(selectedIssue?.let { "屏幕 ${it.screenIndex + 1} 详情" } ?: "报告详情", style = MaterialTheme.typography.titleMedium, color = Color.White) }
-        if (selectedIssue == null) { Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) { Text("无详情数据 / No details", color = Color.Gray) } }
+    Column(modifier = Modifier.fillMaxSize().background(MaterialTheme.colorScheme.background)) {
+        Row(modifier = Modifier.fillMaxWidth().padding(8.dp), verticalAlignment = Alignment.CenterVertically) { IconButton(onClick = onNavigateBack) { Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "返回", tint = Color.White) }; Text(selectedIssue?.let { "屏幕 ${it.screenIndex + 1} 详情" } ?: "报告详情", style = MaterialTheme.typography.titleMedium, color = MaterialTheme.colorScheme.onSurface) }
+        if (selectedIssue == null) { Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) { Text("无详情数据 / No details", color = MaterialTheme.colorScheme.outline) } }
         else {
             Column(modifier = Modifier.fillMaxSize().verticalScroll(rememberScrollState()).padding(16.dp)) {
-                OutlinedCard(modifier = Modifier.fillMaxWidth().height(240.dp)) { Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) { Column(horizontalAlignment = Alignment.CenterHorizontally) { Icon(Icons.Default.QrCodeScanner, contentDescription = null, tint = Color.Gray, modifier = Modifier.size(48.dp)); Spacer(modifier = Modifier.height(8.dp)); Text("截图预览（CDP 截图接入后显示）", style = MaterialTheme.typography.bodySmall, color = Color.Gray) } } }
+                OutlinedCard(modifier = Modifier.fillMaxWidth().height(240.dp)) { Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) { Column(horizontalAlignment = Alignment.CenterHorizontally) { Icon(Icons.Default.QrCodeScanner, contentDescription = null, tint = Color.Gray, modifier = Modifier.size(48.dp)); Spacer(modifier = Modifier.height(8.dp)); Text("截图预览（CDP 截图接入后显示）", style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.outline) } } }
                 Spacer(modifier = Modifier.height(16.dp))
                 val (icon, color, label) = when (selectedIssue.severity) { IssueSeverity.ERROR -> Triple(Icons.Default.Error, ErrorColor, "严重错误"); IssueSeverity.WARNING -> Triple(Icons.Default.Warning, WarningColor, "警告"); IssueSeverity.INFO -> Triple(Icons.Default.Info, InfoColor, "信息提示") }
                 Row(verticalAlignment = Alignment.CenterVertically) { Icon(imageVector = icon, contentDescription = null, tint = color, modifier = Modifier.size(20.dp)); Spacer(modifier = Modifier.width(4.dp)); Text(label, style = MaterialTheme.typography.labelMedium, color = color) }
                 Spacer(modifier = Modifier.height(12.dp))
-                ElevatedCard(modifier = Modifier.fillMaxWidth(), colors = CardDefaults.elevatedCardColors(containerColor = SurfaceColor)) { Column(modifier = Modifier.padding(16.dp)) { Text("AI 分析 / AI Analysis", style = MaterialTheme.typography.titleSmall, color = Color.White, fontWeight = FontWeight.Bold); Spacer(modifier = Modifier.height(8.dp)); Text(selectedIssue.description, style = MaterialTheme.typography.bodyMedium, color = Color.White) } }
+                ElevatedCard(modifier = Modifier.fillMaxWidth(), colors = CardDefaults.elevatedCardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant)) { Column(modifier = Modifier.padding(16.dp)) { Text("AI 分析 / AI Analysis", style = MaterialTheme.typography.titleSmall, color = MaterialTheme.colorScheme.onSurface, fontWeight = FontWeight.Bold); Spacer(modifier = Modifier.height(8.dp)); Text(selectedIssue.description, style = MaterialTheme.typography.bodyMedium, color = MaterialTheme.colorScheme.onSurface) } }
                 Spacer(modifier = Modifier.height(16.dp))
-                ElevatedCard(modifier = Modifier.fillMaxWidth(), colors = CardDefaults.elevatedCardColors(containerColor = SurfaceColor)) { Column(modifier = Modifier.padding(16.dp)) { Text("操作建议 / Suggestions", style = MaterialTheme.typography.titleSmall, color = Color.White, fontWeight = FontWeight.Bold); Spacer(modifier = Modifier.height(8.dp)); selectedIssue.suggestions.forEachIndexed { index, suggestion -> Row(modifier = Modifier.padding(vertical = 4.dp)) { Text("${index + 1}. ", style = MaterialTheme.typography.bodyMedium, color = SuccessColor); Text(suggestion, style = MaterialTheme.typography.bodyMedium, color = Color.White) } } } }
+                ElevatedCard(modifier = Modifier.fillMaxWidth(), colors = CardDefaults.elevatedCardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant)) { Column(modifier = Modifier.padding(16.dp)) { Text("操作建议 / Suggestions", style = MaterialTheme.typography.titleSmall, color = MaterialTheme.colorScheme.onSurface, fontWeight = FontWeight.Bold); Spacer(modifier = Modifier.height(8.dp)); selectedIssue.suggestions.forEachIndexed { index, suggestion -> Row(modifier = Modifier.padding(vertical = 4.dp)) { Text("${index + 1}. ", style = MaterialTheme.typography.bodyMedium, color = SuccessColor); Text(suggestion, style = MaterialTheme.typography.bodyMedium, color = MaterialTheme.colorScheme.onSurface) } } } }
             }
         }
     }
@@ -375,12 +373,12 @@ fun QAFrameworkScreen(
     var cdpPortText by remember(settingsState.cdpPort) { mutableStateOf(settingsState.cdpPort.toString()) }
     var showAIModelMenu by remember { mutableStateOf(false) }
     var showExportFormatMenu by remember { mutableStateOf(false) }
-    Column(modifier = Modifier.fillMaxSize().background(BackgroundColor).verticalScroll(rememberScrollState()).padding(16.dp)) {
-        Row(modifier = Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) { IconButton(onClick = onNavigateBack) { Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "返回", tint = Color.White) }; Spacer(modifier = Modifier.width(4.dp)); Text("设置 / Settings", style = MaterialTheme.typography.titleLarge, color = Color.White, fontWeight = FontWeight.Bold) }
+    Column(modifier = Modifier.fillMaxSize().background(MaterialTheme.colorScheme.background).verticalScroll(rememberScrollState()).padding(16.dp)) {
+        Row(modifier = Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) { IconButton(onClick = onNavigateBack) { Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "返回", tint = Color.White) }; Spacer(modifier = Modifier.width(4.dp)); Text("设置 / Settings", style = MaterialTheme.typography.titleLarge, color = MaterialTheme.colorScheme.onSurface, fontWeight = FontWeight.Bold) }
         Spacer(modifier = Modifier.height(16.dp))
-        ElevatedCard(modifier = Modifier.fillMaxWidth(), colors = CardDefaults.elevatedCardColors(containerColor = SurfaceColor)) {
+        ElevatedCard(modifier = Modifier.fillMaxWidth(), colors = CardDefaults.elevatedCardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant)) {
             Column(modifier = Modifier.padding(16.dp)) {
-                Text("CDP 连接配置 / CDP Connection", style = MaterialTheme.typography.titleMedium, color = Color.White, fontWeight = FontWeight.Bold)
+                Text("CDP 连接配置 / CDP Connection", style = MaterialTheme.typography.titleMedium, color = MaterialTheme.colorScheme.onSurface, fontWeight = FontWeight.Bold)
                 Spacer(modifier = Modifier.height(12.dp))
                 OutlinedTextField(value = cdpHostText, onValueChange = { cdpHostText = it }, label = { Text("主机地址 / Host") }, placeholder = { Text("127.0.0.1") }, modifier = Modifier.fillMaxWidth(), singleLine = true)
                 Spacer(modifier = Modifier.height(8.dp))
@@ -390,14 +388,14 @@ fun QAFrameworkScreen(
             }
         }
         Spacer(modifier = Modifier.height(16.dp))
-        ElevatedCard(modifier = Modifier.fillMaxWidth(), colors = CardDefaults.elevatedCardColors(containerColor = SurfaceColor)) {
+        ElevatedCard(modifier = Modifier.fillMaxWidth(), colors = CardDefaults.elevatedCardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant)) {
             Column(modifier = Modifier.padding(16.dp)) {
-                Text("AI 模型 / AI Model", style = MaterialTheme.typography.titleMedium, color = Color.White, fontWeight = FontWeight.Bold)
+                Text("AI 模型 / AI Model", style = MaterialTheme.typography.titleMedium, color = MaterialTheme.colorScheme.onSurface, fontWeight = FontWeight.Bold)
                 Spacer(modifier = Modifier.height(12.dp))
                 Box {
                     ListItem(
-                        headlineContent = { Text("模型类型 / Model Type", color = Color.White) },
-                        supportingContent = { Text(when (settingsState.aiModel) { AIModel.LOCAL -> "本地模型（Google ML Kit / Llama）"; AIModel.CLOUD -> "云端模型（OpenAI Vision API）" }, color = Color.Gray) },
+                        headlineContent = { Text("模型类型 / Model Type", color = MaterialTheme.colorScheme.onSurface) },
+                        supportingContent = { Text(when (settingsState.aiModel) { AIModel.LOCAL -> "本地模型（Google ML Kit / Llama）"; AIModel.CLOUD -> "云端模型（OpenAI Vision API）" }, color = MaterialTheme.colorScheme.outline) },
                         trailingContent = { IconButton(onClick = { showAIModelMenu = true }) { Icon(Icons.Default.KeyboardArrowDown, contentDescription = "展开", tint = Color.White) } },
                         modifier = Modifier.clickable { showAIModelMenu = true }
                     )
@@ -409,34 +407,34 @@ fun QAFrameworkScreen(
             }
         }
         Spacer(modifier = Modifier.height(16.dp))
-        ElevatedCard(modifier = Modifier.fillMaxWidth(), colors = CardDefaults.elevatedCardColors(containerColor = SurfaceColor)) {
+        ElevatedCard(modifier = Modifier.fillMaxWidth(), colors = CardDefaults.elevatedCardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant)) {
             Column(modifier = Modifier.padding(16.dp)) {
-                Text("并行设备数 / Parallel Devices", style = MaterialTheme.typography.titleMedium, color = Color.White, fontWeight = FontWeight.Bold)
+                Text("并行设备数 / Parallel Devices", style = MaterialTheme.typography.titleMedium, color = MaterialTheme.colorScheme.onSurface, fontWeight = FontWeight.Bold)
                 Spacer(modifier = Modifier.height(12.dp))
-                Text("当前值: ${settingsState.parallelDevices} 台", style = MaterialTheme.typography.bodyMedium, color = PrimaryColor)
+                Text("当前值: ${settingsState.parallelDevices} 台", style = MaterialTheme.typography.bodyMedium, color = MaterialTheme.colorScheme.primary)
                 Slider(value = settingsState.parallelDevices.toFloat(), onValueChange = { onIntent(SettingsIntent.UpdateParallelDevices(it.toInt())) }, valueRange = 1f..5f, steps = 3, modifier = Modifier.fillMaxWidth())
-                Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) { Text("1", style = MaterialTheme.typography.labelSmall, color = Color.Gray); Text("5", style = MaterialTheme.typography.labelSmall, color = Color.Gray) }
+                Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) { Text("1", style = MaterialTheme.typography.labelSmall, color = MaterialTheme.colorScheme.outline); Text("5", style = MaterialTheme.typography.labelSmall, color = MaterialTheme.colorScheme.outline) }
             }
         }
         Spacer(modifier = Modifier.height(16.dp))
-        ElevatedCard(modifier = Modifier.fillMaxWidth(), colors = CardDefaults.elevatedCardColors(containerColor = SurfaceColor)) {
+        ElevatedCard(modifier = Modifier.fillMaxWidth(), colors = CardDefaults.elevatedCardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant)) {
             Column(modifier = Modifier.padding(16.dp)) {
-                Text("截图质量 / Screenshot Quality", style = MaterialTheme.typography.titleMedium, color = Color.White, fontWeight = FontWeight.Bold)
+                Text("截图质量 / Screenshot Quality", style = MaterialTheme.typography.titleMedium, color = MaterialTheme.colorScheme.onSurface, fontWeight = FontWeight.Bold)
                 Spacer(modifier = Modifier.height(12.dp))
-                Text("当前值: ${settingsState.screenshotQuality}%", style = MaterialTheme.typography.bodyMedium, color = PrimaryColor)
+                Text("当前值: ${settingsState.screenshotQuality}%", style = MaterialTheme.typography.bodyMedium, color = MaterialTheme.colorScheme.primary)
                 Slider(value = settingsState.screenshotQuality.toFloat(), onValueChange = { onIntent(SettingsIntent.UpdateScreenshotQuality(it.toInt())) }, valueRange = 10f..100f, modifier = Modifier.fillMaxWidth())
-                Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) { Text("10%", style = MaterialTheme.typography.labelSmall, color = Color.Gray); Text("100%", style = MaterialTheme.typography.labelSmall, color = Color.Gray) }
+                Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) { Text("10%", style = MaterialTheme.typography.labelSmall, color = MaterialTheme.colorScheme.outline); Text("100%", style = MaterialTheme.typography.labelSmall, color = MaterialTheme.colorScheme.outline) }
             }
         }
         Spacer(modifier = Modifier.height(16.dp))
-        ElevatedCard(modifier = Modifier.fillMaxWidth(), colors = CardDefaults.elevatedCardColors(containerColor = SurfaceColor)) {
+        ElevatedCard(modifier = Modifier.fillMaxWidth(), colors = CardDefaults.elevatedCardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant)) {
             Column(modifier = Modifier.padding(16.dp)) {
-                Text("导出格式 / Export Format", style = MaterialTheme.typography.titleMedium, color = Color.White, fontWeight = FontWeight.Bold)
+                Text("导出格式 / Export Format", style = MaterialTheme.typography.titleMedium, color = MaterialTheme.colorScheme.onSurface, fontWeight = FontWeight.Bold)
                 Spacer(modifier = Modifier.height(12.dp))
                 Box {
                     ListItem(
-                        headlineContent = { Text("当前格式 / Current Format", color = Color.White) },
-                        supportingContent = { Text(when (settingsState.exportFormat) { ExportFormat.PDF -> "PDF 文档"; ExportFormat.JSON -> "JSON 数据" }, color = Color.Gray) },
+                        headlineContent = { Text("当前格式 / Current Format", color = MaterialTheme.colorScheme.onSurface) },
+                        supportingContent = { Text(when (settingsState.exportFormat) { ExportFormat.PDF -> "PDF 文档"; ExportFormat.JSON -> "JSON 数据" }, color = MaterialTheme.colorScheme.outline) },
                         trailingContent = { IconButton(onClick = { showExportFormatMenu = true }) { Icon(Icons.Default.KeyboardArrowDown, contentDescription = "展开", tint = Color.White) } },
                         modifier = Modifier.clickable { showExportFormatMenu = true }
                     )
