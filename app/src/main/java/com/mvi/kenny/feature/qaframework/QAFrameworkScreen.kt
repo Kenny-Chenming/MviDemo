@@ -198,7 +198,7 @@ fun QAFrameworkScreen(
 }
 
 @Composable private fun TaskItemCard(task: ScanTask, onClick: () -> Unit, onDelete: () -> Unit) {
-    val (icon, iconColor) = when (task.status) { ScanTaskStatus.COMPLETED -> Icons.Default.CheckCircle to SuccessColor; ScanTaskStatus.FAILED -> Icons.Default.Error to ErrorColor; ScanTaskStatus.RUNNING -> Icons.Default.PlayArrow to PrimaryColor; ScanTaskStatus.PAUSED -> Icons.Default.Pause to WarningColor; ScanTaskStatus.IDLE -> Icons.Default.BugReport to Color.Gray }
+    val (icon, iconColor) = when (task.status) { ScanTaskStatus.COMPLETED -> Icons.Default.CheckCircle to SuccessColor; ScanTaskStatus.FAILED -> Icons.Default.Error to ErrorColor; ScanTaskStatus.RUNNING -> Icons.Default.PlayArrow to PrimaryColor; ScanTaskStatus.PAUSED -> Icons.Default.Pause to WarningColor; ScanTaskStatus.IDLE -> Icons.Default.BugReport to MaterialTheme.colorScheme.outline; ScanTaskStatus.CANCELLED -> Icons.Default.Close to MaterialTheme.colorScheme.error }
     ElevatedCard(modifier = Modifier.fillMaxWidth().clickable(onClick = onClick), colors = CardDefaults.elevatedCardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant)) {
         Row(modifier = Modifier.fillMaxWidth().padding(12.dp), verticalAlignment = Alignment.CenterVertically) {
             Icon(imageVector = icon, contentDescription = null, tint = iconColor, modifier = Modifier.size(32.dp))

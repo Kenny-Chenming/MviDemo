@@ -53,7 +53,8 @@ enum class ScanTaskStatus {
     RUNNING,
     PAUSED,
     COMPLETED,
-    FAILED
+    FAILED,
+    CANCELLED
 }
 
 /**
