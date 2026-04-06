@@ -287,7 +287,7 @@ sealed interface MainIntent {
      * @param packageName 包名
      * @param deviceId 设备 ID
      */
-    data class StartScan(val packageName: String, val deviceId: String) : MainIntent
+    data class StartScan(val packageName: String) : MainIntent
 
     /** 显示设备选择 BottomSheet */
     data object ShowDeviceSheet : MainIntent
