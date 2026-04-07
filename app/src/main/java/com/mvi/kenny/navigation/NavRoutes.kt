@@ -2,6 +2,7 @@ package com.mvi.kenny.navigation
 
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.Chat
+import androidx.compose.material.icons.automirrored.filled.ArrowForward
 import androidx.compose.material.icons.automirrored.filled.List
 import androidx.compose.material.icons.filled.BugReport
 import androidx.compose.material.icons.filled.DeveloperBoard
@@ -37,6 +38,7 @@ sealed class BottomNavRoute(
     data object AppFuncDesignTool : BottomNavRoute(route = "app_func_design_tool", title = "AppFunctions", icon = Icons.Default.DeveloperBoard)
     data object Nav3Tool : BottomNavRoute(route = "nav3_tool", title = "Nav3迁移", icon = Icons.AutoMirrored.Filled.List)
     data object Page16Kb : BottomNavRoute(route = "page16kb", title = "16KB迁移", icon = Icons.Default.Memory)
+    data object SwiftPMMigration : BottomNavRoute(route = "swiftpm_migration", title = "SwiftPM迁移", icon = Icons.AutoMirrored.Filled.ArrowForward)
 }
 
 /**
@@ -58,5 +60,6 @@ object NavRoutes {
     const val APP_FUNC_DESIGN_TOOL = "app_func_design_tool"
     const val NAV3_TOOL = "nav3_tool"
     const val PAGE16KB = "page16kb"
+    const val SWIFTPM_MIGRATION = "swiftpm_migration"
     const val LOGIN = "login"
 }
