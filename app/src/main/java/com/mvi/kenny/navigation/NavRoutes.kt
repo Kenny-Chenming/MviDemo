@@ -36,6 +36,7 @@ sealed class BottomNavRoute(
     data object QAFramework : BottomNavRoute(route = "qa_framework", title = "QA 框架", icon = Icons.Default.BugReport)
     data object AppFuncDesignTool : BottomNavRoute(route = "app_func_design_tool", title = "AppFunctions", icon = Icons.Default.DeveloperBoard)
     data object Nav3Tool : BottomNavRoute(route = "nav3_tool", title = "Nav3迁移", icon = Icons.AutoMirrored.Filled.List)
+    data object Page16Kb : BottomNavRoute(route = "page16kb", title = "16KB迁移", icon = Icons.Default.Memory)
 }
 
 /**
@@ -56,5 +57,6 @@ object NavRoutes {
     const val QA_FRAMEWORK = "qa_framework"
     const val APP_FUNC_DESIGN_TOOL = "app_func_design_tool"
     const val NAV3_TOOL = "nav3_tool"
+    const val PAGE16KB = "page16kb"
     const val LOGIN = "login"
 }
