@@ -7,6 +7,7 @@ import androidx.compose.material.icons.filled.BugReport
 import androidx.compose.material.icons.filled.DeveloperBoard
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Memory
+import androidx.compose.material.icons.filled.Watch
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.Shield
 import androidx.compose.material.icons.filled.Star
@@ -37,6 +38,7 @@ sealed class BottomNavRoute(
     data object AppFuncDesignTool : BottomNavRoute(route = "app_func_design_tool", title = "AppFunctions", icon = Icons.Default.DeveloperBoard)
     data object Nav3Tool : BottomNavRoute(route = "nav3_tool", title = "Nav3迁移", icon = Icons.AutoMirrored.Filled.List)
     data object Page16Kb : BottomNavRoute(route = "page16kb", title = "16KB迁移", icon = Icons.Default.Memory)
+    data object WearOs64Bit : BottomNavRoute(route = "wearos64bit", title = "WearOS 64位", icon = Icons.Default.Watch)
 }
 
 /**
@@ -58,5 +60,6 @@ object NavRoutes {
     const val APP_FUNC_DESIGN_TOOL = "app_func_design_tool"
     const val NAV3_TOOL = "nav3_tool"
     const val PAGE16KB = "page16kb"
+    const val WEAROS64BIT = "wearos64bit"
     const val LOGIN = "login"
 }
