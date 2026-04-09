@@ -749,7 +749,7 @@ private fun AAPMStatusCard(state: AAPMonitorState, onIntent: (AAPMonitorIntent) 
     val alpha by infiniteTransition.animateFloat(
         initialValue = 1f,
         targetValue = 0.3f,
-        animationSpec = infiniteRepeatableAnimation(
+        animationSpec = infiniteRepeatable(
             animation = tween(800),
             repeatMode = RepeatMode.Reverse
         ),
@@ -1057,28 +1057,35 @@ private fun ComplianceStepContent(step: Int, onStepChange: (Int) -> Unit) {
         shape = RoundedCornerShape(16.dp)
     ) {
         Column(modifier = Modifier.padding(20.dp)) {
-            val (title, description, content) = when (step) {
-                1 -> Triple(
-                    "理解 Android 17 AAPM 要求",
-                    "了解高级保护模式对辅助工具的影响",
-                    Step1Content()
-                )
-                2 -> Triple(
-                    "检查应用资格",
-                    "确认您的应用是否符合辅助工具认证条件",
-                    Step2Content()
-                )
-                3 -> Triple(
-                    "设置 isAccessibilityTool 标志",
-                    "在 AndroidManifest.xml 中正确配置",
-                    Step3Content()
-                )
-                4 -> Triple(
-                    "申请辅助工具认证",
-                    "提交 Google 认证申请流程",
-                    Step4Content()
-                )
-                else -> return
+            val title: String
+            val description: String
+            val content: @Composable () -> Unit
+            when (step) {
+                1 -> {
+                    title = "理解 Android 17 AAPM 要求"
+                    description = "了解高级保护模式对辅助工具的影响"
+                    content = @Composable { Step1Content() }
+                }
+                2 -> {
+                    title = "检查应用资格"
+                    description = "确认您的应用是否符合辅助工具认证条件"
+                    content = @Composable { Step2Content() }
+                }
+                3 -> {
+                    title = "设置 isAccessibilityTool 标志"
+                    description = "在 AndroidManifest.xml 中正确配置"
+                    content = @Composable { Step3Content() }
+                }
+                4 -> {
+                    title = "申请辅助工具认证"
+                    description = "提交 Google 认证申请流程"
+                    content = @Composable { Step4Content() }
+                }
+                else -> {
+                    title = ""
+                    description = ""
+                    content = @Composable { }
+                }
             }
 
             Text(

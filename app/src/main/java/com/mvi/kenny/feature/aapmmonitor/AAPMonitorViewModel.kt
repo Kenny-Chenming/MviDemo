@@ -162,7 +162,7 @@ class AAPMonitorViewModel : ViewModel() {
                 delay(500)
 
                 val sdkVersion = Build.VERSION.SDK_INT
-                val isAndroid17OrAbove = sdkVersion >= Build.VERSION_CODES.Android17
+                val isAndroid17OrAbove = sdkVersion >= 36  // API 36 = Android 16+, Android 17 would be 37+
 
                 // 模拟数据：实际项目中应调用 AdvancedProtectionManager
                 // Mock data: In real project should call AdvancedProtectionManager
