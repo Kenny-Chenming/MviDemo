@@ -5,13 +5,16 @@ import androidx.compose.material.icons.automirrored.filled.Chat
 import androidx.compose.material.icons.automirrored.filled.ArrowForward
 import androidx.compose.material.icons.automirrored.filled.List
 import androidx.compose.material.icons.filled.BugReport
+import androidx.compose.material.icons.filled.Contacts
 import androidx.compose.material.icons.filled.DeveloperBoard
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Memory
 import androidx.compose.material.icons.filled.Person
+import androidx.compose.material.icons.filled.Security
 import androidx.compose.material.icons.filled.Shield
 import androidx.compose.material.icons.filled.Star
 import androidx.compose.material.icons.filled.SystemUpdate
+import androidx.compose.material.icons.filled.Window
 import androidx.compose.ui.graphics.vector.ImageVector
 
 /**
@@ -39,6 +42,9 @@ sealed class BottomNavRoute(
     data object Nav3Tool : BottomNavRoute(route = "nav3_tool", title = "Nav3迁移", icon = Icons.AutoMirrored.Filled.List)
     data object Page16Kb : BottomNavRoute(route = "page16kb", title = "16KB迁移", icon = Icons.Default.Memory)
     data object SwiftPMMigration : BottomNavRoute(route = "swiftpm_migration", title = "SwiftPM迁移", icon = Icons.AutoMirrored.Filled.ArrowForward)
+    data object ContactsPicker : BottomNavRoute(route = "contacts_picker", title = "联系人", icon = Icons.Default.Contacts)
+    data object AAPMonitor : BottomNavRoute(route = "aapm_monitor", title = "AAPM检测", icon = Icons.Default.Security)
+    data object Adaptive17 : BottomNavRoute(route = "adaptive17", title = "自适应布局", icon = Icons.Default.Window)
 }
 
 /**
@@ -61,5 +67,8 @@ object NavRoutes {
     const val NAV3_TOOL = "nav3_tool"
     const val PAGE16KB = "page16kb"
     const val SWIFTPM_MIGRATION = "swiftpm_migration"
+    const val CONTACTS_PICKER = "contacts_picker"
+    const val AAPM_MONITOR = "aapm_monitor"
+    const val ADAPTIVE17 = "adaptive17"
     const val LOGIN = "login"
 }
