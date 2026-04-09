@@ -18,6 +18,7 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
@@ -37,6 +38,12 @@ import com.mvi.kenny.feature.appfunctions.AppFuncDesignToolScreen
 import com.mvi.kenny.feature.nav3tool.NavToolScreen
 import com.mvi.kenny.feature.page16kb.Page16KbScreen
 import com.mvi.kenny.feature.swiftpmmigration.SwiftPMMigrationScreen
+import com.mvi.kenny.feature.aapmmonitor.AAPMonitorScreen
+import com.mvi.kenny.feature.aapmmonitor.AAPMonitorViewModel
+import com.mvi.kenny.feature.adaptive17.AdaptiveLayoutScreen
+import com.mvi.kenny.feature.adaptive17.AdaptiveScanViewModel
+import com.mvi.kenny.feature.adaptive17.TemplateGeneratorViewModel
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.mvi.kenny.navigation.BottomNavRoute
 
 /**
@@ -100,7 +107,9 @@ fun MainScreen(
         BottomNavRoute.AppFuncDesignTool,
         BottomNavRoute.Nav3Tool,
         BottomNavRoute.Page16Kb,
-        BottomNavRoute.SwiftPMMigration
+        BottomNavRoute.SwiftPMMigration,
+        BottomNavRoute.AAPMonitor,
+        BottomNavRoute.Adaptive17
     )
 
     // Pager 状态，管理当前是第几页
@@ -121,6 +130,15 @@ fun MainScreen(
     var nav3ToolTopBar by remember { mutableStateOf(TopBarConfig(title = "Navigation 3 迁移工具")) }
     var page16KbTopBar by remember { mutableStateOf(TopBarConfig(title = "16KB 迁移助手")) }
     var swiftPMMigrationTopBar by remember { mutableStateOf(TopBarConfig(title = "SwiftPM 迁移助手")) }
+    var aapmMonitorTopBar by remember { mutableStateOf(TopBarConfig(title = "AAPM 检测工具")) }
+    var adaptive17TopBar by remember { mutableStateOf(TopBarConfig(title = "Android 17 自适应布局")) }
+
+    // AAPMonitor ViewModel
+    val aapmViewModel: AAPMonitorViewModel = viewModel()
+
+    // Adaptive Layout ViewModels
+    val adaptiveScanViewModel: AdaptiveScanViewModel = viewModel()
+    val templateGeneratorViewModel: TemplateGeneratorViewModel = viewModel()
 
     // 根据当前页码决定显示哪个 TopBar 配置
     val currentTopBar = when (pagerState.currentPage) {
@@ -134,6 +152,8 @@ fun MainScreen(
         7 -> nav3ToolTopBar
         8 -> page16KbTopBar
         9 -> swiftPMMigrationTopBar
+        10 -> aapmMonitorTopBar
+        11 -> adaptive17TopBar
         else -> homeTopBar
     }
 
@@ -234,6 +254,15 @@ fun MainScreen(
                     )
                     9 -> SwiftPMMigrationScreen(
                         onNavigateTo = { /* Feature internal navigation */ }
+                    )
+                    10 -> AAPMonitorScreen(
+                        state = aapmViewModel.state.collectAsState().value,
+                        onIntent = aapmViewModel::processIntent,
+                        modifier = Modifier.fillMaxSize()
+                    )
+                    11 -> AdaptiveLayoutScreen(
+                        scanViewModel = adaptiveScanViewModel,
+                        templateViewModel = templateGeneratorViewModel
                     )
                 }
             }
