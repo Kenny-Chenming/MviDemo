@@ -37,6 +37,7 @@ import com.mvi.kenny.feature.appfunctions.AppFuncDesignToolScreen
 import com.mvi.kenny.feature.nav3tool.NavToolScreen
 import com.mvi.kenny.feature.page16kb.Page16KbScreen
 import com.mvi.kenny.feature.swiftpmmigration.SwiftPMMigrationScreen
+import com.mvi.kenny.feature.devverification.ComplianceDashboardScreen
 import com.mvi.kenny.navigation.BottomNavRoute
 
 /**
@@ -100,7 +101,8 @@ fun MainScreen(
         BottomNavRoute.AppFuncDesignTool,
         BottomNavRoute.Nav3Tool,
         BottomNavRoute.Page16Kb,
-        BottomNavRoute.SwiftPMMigration
+        BottomNavRoute.SwiftPMMigration,
+        BottomNavRoute.DevVerification
     )
 
     // Pager 状态，管理当前是第几页
@@ -121,6 +123,7 @@ fun MainScreen(
     var nav3ToolTopBar by remember { mutableStateOf(TopBarConfig(title = "Navigation 3 迁移工具")) }
     var page16KbTopBar by remember { mutableStateOf(TopBarConfig(title = "16KB 迁移助手")) }
     var swiftPMMigrationTopBar by remember { mutableStateOf(TopBarConfig(title = "SwiftPM 迁移助手")) }
+    var devVerificationTopBar by remember { mutableStateOf(TopBarConfig(title = "Dev Verification")) }
 
     // 根据当前页码决定显示哪个 TopBar 配置
     val currentTopBar = when (pagerState.currentPage) {
@@ -134,6 +137,7 @@ fun MainScreen(
         7 -> nav3ToolTopBar
         8 -> page16KbTopBar
         9 -> swiftPMMigrationTopBar
+        10 -> devVerificationTopBar
         else -> homeTopBar
     }
 
@@ -234,6 +238,11 @@ fun MainScreen(
                     )
                     9 -> SwiftPMMigrationScreen(
                         onNavigateTo = { /* Feature internal navigation */ }
+                    )
+                    10 -> ComplianceDashboardScreen(
+                        onNavigateToWizard = { /* internal state nav */ },
+                        onNavigateToMDM = { /* internal state nav */ },
+                        onNavigateToSettings = { /* internal state nav */ }
                     )
                 }
             }
