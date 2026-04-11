@@ -41,6 +41,7 @@ import com.mvi.kenny.feature.swiftpmmigration.SwiftPMMigrationScreen
 import com.mvi.kenny.feature.devverification.ComplianceDashboardScreen
 import com.mvi.kenny.feature.locationbutton.LocationButtonScreen
 import com.mvi.kenny.feature.agp9migration.AGP9MigrationScreen
+import com.mvi.kenny.feature.cardatal.CarDataScreen
 import com.mvi.kenny.navigation.BottomNavRoute
 
 /**
@@ -108,7 +109,8 @@ fun MainScreen(
         BottomNavRoute.SwiftPMMigration,
         BottomNavRoute.DevVerification,
         BottomNavRoute.LocationButton,
-        BottomNavRoute.AGP9Migration
+        BottomNavRoute.AGP9Migration,
+        BottomNavRoute.CarData
     )
 
     // Pager 状态，管理当前是第几页
@@ -131,6 +133,7 @@ fun MainScreen(
     var devVerificationTopBar by remember { mutableStateOf(TopBarConfig(title = "Dev Verification")) }
     var locationButtonTopBar by remember { mutableStateOf(TopBarConfig(title = "Location Button")) }
     var agp9MigrationTopBar by remember { mutableStateOf(TopBarConfig(title = "AGP 9.0 迁移")) }
+    var carDataTopBar by remember { mutableStateOf(TopBarConfig(title = "车辆数据 / Car Data")) }
 
     // 根据当前页码决定显示哪个 TopBar 配置
     val currentTopBar = when (pagerState.currentPage) {
@@ -148,6 +151,7 @@ fun MainScreen(
         11 -> devVerificationTopBar
         12 -> locationButtonTopBar
         13 -> agp9MigrationTopBar
+        14 -> carDataTopBar
         else -> homeTopBar
     }
 
@@ -229,6 +233,9 @@ fun MainScreen(
                     )
                     12 -> LocationButtonScreen(onUpdateTopBar = { locationButtonTopBar = it })
                     13 -> AGP9MigrationScreen()
+                    14 -> CarDataScreen(
+                        onUpdateTopBar = { carDataTopBar = it }
+                    )
                 }
             }
         }

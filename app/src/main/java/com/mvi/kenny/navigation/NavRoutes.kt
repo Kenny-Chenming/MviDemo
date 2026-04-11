@@ -16,6 +16,7 @@ import androidx.compose.material.icons.filled.SystemUpdate
 import androidx.compose.material.icons.filled.VerifiedUser
 import androidx.compose.material.icons.filled.LocationOn
 import androidx.compose.material.icons.filled.SystemUpdateAlt
+import androidx.compose.material.icons.filled.DirectionsCar
 import androidx.compose.ui.graphics.vector.ImageVector
 
 /**
@@ -50,6 +51,8 @@ sealed class BottomNavRoute(
     data object LocationButton : BottomNavRoute(route = "location_button", title = "Location Button", icon = Icons.Default.LocationOn)
     // PRD-082: AGP 9.0 KMP NDK/C++ Migration Toolkit
     data object AGP9Migration : BottomNavRoute(route = "agp9_migration", title = "AGP9迁移", icon = Icons.Default.SystemUpdateAlt)
+    // PRD-080: Android Auto Car App Library API Level 3 Vehicle Data Toolkit
+    data object CarData : BottomNavRoute(route = "car_data", title = "车辆数据", icon = Icons.Default.DirectionsCar)
 }
 
 /**
@@ -83,4 +86,6 @@ object NavRoutes {
     const val LOCATION_BUTTON = "location_button"
     // PRD-082: AGP 9.0 KMP NDK/C++ Migration Toolkit
     const val AGP9_MIGRATION = "agp9_migration"
+    // PRD-080: Android Auto Car App Library API Level 3 Vehicle Data Toolkit
+    const val CAR_DATA = "car_data"
 }
