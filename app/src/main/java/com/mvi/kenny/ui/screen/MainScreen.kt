@@ -39,6 +39,7 @@ import com.mvi.kenny.feature.page16kb.Page16KbScreen
 import com.mvi.kenny.feature.swiftpmmigration.SwiftPMMigrationScreen
 import com.mvi.kenny.feature.devverification.ComplianceDashboardScreen
 import com.mvi.kenny.feature.locationbutton.LocationButtonScreen
+import com.mvi.kenny.feature.agp9migration.AGP9MigrationScreen
 import com.mvi.kenny.navigation.BottomNavRoute
 
 /**
@@ -104,7 +105,8 @@ fun MainScreen(
         BottomNavRoute.Page16Kb,
         BottomNavRoute.SwiftPMMigration,
         BottomNavRoute.DevVerification,
-        BottomNavRoute.LocationButton
+        BottomNavRoute.LocationButton,
+        BottomNavRoute.AGP9Migration
     )
 
     // Pager 状态，管理当前是第几页
@@ -127,6 +129,7 @@ fun MainScreen(
     var swiftPMMigrationTopBar by remember { mutableStateOf(TopBarConfig(title = "SwiftPM 迁移助手")) }
     var devVerificationTopBar by remember { mutableStateOf(TopBarConfig(title = "Dev Verification")) }
     var locationButtonTopBar by remember { mutableStateOf(TopBarConfig(title = "Location Button")) }
+    var agp9MigrationTopBar by remember { mutableStateOf(TopBarConfig(title = "AGP 9.0 迁移")) }
 
     // 根据当前页码决定显示哪个 TopBar 配置
     val currentTopBar = when (pagerState.currentPage) {
@@ -142,6 +145,7 @@ fun MainScreen(
         9 -> swiftPMMigrationTopBar
         10 -> devVerificationTopBar
         11 -> locationButtonTopBar
+        12 -> agp9MigrationTopBar
         else -> homeTopBar
     }
 
@@ -251,6 +255,7 @@ fun MainScreen(
                     11 -> LocationButtonScreen(
                         onUpdateTopBar = { locationButtonTopBar = it }
                     )
+                    12 -> AGP9MigrationScreen()
                 }
             }
         }

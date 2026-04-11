@@ -14,6 +14,7 @@ import androidx.compose.material.icons.filled.Star
 import androidx.compose.material.icons.filled.SystemUpdate
 import androidx.compose.material.icons.filled.VerifiedUser
 import androidx.compose.material.icons.filled.LocationOn
+import androidx.compose.material.icons.filled.SystemUpdateAlt
 import androidx.compose.ui.graphics.vector.ImageVector
 
 /**
@@ -45,6 +46,8 @@ sealed class BottomNavRoute(
     data object DevVerification : BottomNavRoute(route = "dev_verification", title = "Dev验证", icon = Icons.Default.VerifiedUser)
     // PRD-081: Android 17 Location Button Jetpack Library
     data object LocationButton : BottomNavRoute(route = "location_button", title = "Location Button", icon = Icons.Default.LocationOn)
+    // PRD-082: AGP 9.0 KMP NDK/C++ Migration Toolkit
+    data object AGP9Migration : BottomNavRoute(route = "agp9_migration", title = "AGP9迁移", icon = Icons.Default.SystemUpdateAlt)
 }
 
 /**
@@ -75,4 +78,6 @@ object NavRoutes {
     const val DEV_VERIFICATION_SETTINGS = "dev_verification_settings"
     // PRD-081: Android 17 Location Button Jetpack Library
     const val LOCATION_BUTTON = "location_button"
+    // PRD-082: AGP 9.0 KMP NDK/C++ Migration Toolkit
+    const val AGP9_MIGRATION = "agp9_migration"
 }
