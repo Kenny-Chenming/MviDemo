@@ -14,6 +14,7 @@ import androidx.compose.material.icons.filled.Star
 import androidx.compose.material.icons.filled.SystemUpdate
 import androidx.compose.material.icons.filled.VerifiedUser
 import androidx.compose.material.icons.filled.LocationOn
+import androidx.compose.material.icons.filled.DirectionsCar
 import androidx.compose.ui.graphics.vector.ImageVector
 
 /**
@@ -45,6 +46,8 @@ sealed class BottomNavRoute(
     data object DevVerification : BottomNavRoute(route = "dev_verification", title = "Dev验证", icon = Icons.Default.VerifiedUser)
     // PRD-081: Android 17 Location Button Jetpack Library
     data object LocationButton : BottomNavRoute(route = "location_button", title = "Location Button", icon = Icons.Default.LocationOn)
+    // PRD-080: Android Auto Car App Library API Level 3 Vehicle Data Toolkit
+    data object CarData : BottomNavRoute(route = "car_data", title = "车辆数据", icon = Icons.Default.DirectionsCar)
 }
 
 /**
@@ -75,4 +78,6 @@ object NavRoutes {
     const val DEV_VERIFICATION_SETTINGS = "dev_verification_settings"
     // PRD-081: Android 17 Location Button Jetpack Library
     const val LOCATION_BUTTON = "location_button"
+    // PRD-080: Android Auto Car App Library API Level 3 Vehicle Data Toolkit
+    const val CAR_DATA = "car_data"
 }
