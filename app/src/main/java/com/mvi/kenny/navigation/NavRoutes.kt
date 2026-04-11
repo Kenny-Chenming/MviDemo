@@ -13,6 +13,7 @@ import androidx.compose.material.icons.filled.Shield
 import androidx.compose.material.icons.filled.Star
 import androidx.compose.material.icons.filled.SystemUpdate
 import androidx.compose.material.icons.filled.VerifiedUser
+import androidx.compose.material.icons.filled.LocationOn
 import androidx.compose.ui.graphics.vector.ImageVector
 
 /**
@@ -42,6 +43,8 @@ sealed class BottomNavRoute(
     data object SwiftPMMigration : BottomNavRoute(route = "swiftpm_migration", title = "SwiftPM迁移", icon = Icons.AutoMirrored.Filled.ArrowForward)
     // PRD-078: Android Developer Verification Compliance Toolkit
     data object DevVerification : BottomNavRoute(route = "dev_verification", title = "Dev验证", icon = Icons.Default.VerifiedUser)
+    // PRD-081: Android 17 Location Button Jetpack Library
+    data object LocationButton : BottomNavRoute(route = "location_button", title = "Location Button", icon = Icons.Default.LocationOn)
 }
 
 /**
@@ -70,4 +73,6 @@ object NavRoutes {
     const val DEV_VERIFICATION_WIZARD = "dev_verification_wizard"
     const val DEV_VERIFICATION_MDM = "dev_verification_mdm"
     const val DEV_VERIFICATION_SETTINGS = "dev_verification_settings"
+    // PRD-081: Android 17 Location Button Jetpack Library
+    const val LOCATION_BUTTON = "location_button"
 }
