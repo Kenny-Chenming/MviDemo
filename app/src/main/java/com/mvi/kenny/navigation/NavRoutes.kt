@@ -2,6 +2,7 @@ package com.mvi.kenny.navigation
 
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.Chat
+import androidx.compose.material.icons.automirrored.filled.ArrowForward
 import androidx.compose.material.icons.automirrored.filled.List
 import androidx.compose.material.icons.filled.BugReport
 import androidx.compose.material.icons.filled.DeveloperBoard
@@ -12,6 +13,9 @@ import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.Shield
 import androidx.compose.material.icons.filled.Star
 import androidx.compose.material.icons.filled.SystemUpdate
+import androidx.compose.material.icons.filled.VerifiedUser
+import androidx.compose.material.icons.filled.LocationOn
+import androidx.compose.material.icons.filled.SystemUpdateAlt
 import androidx.compose.ui.graphics.vector.ImageVector
 
 /**
@@ -39,6 +43,13 @@ sealed class BottomNavRoute(
     data object Nav3Tool : BottomNavRoute(route = "nav3_tool", title = "Nav3迁移", icon = Icons.AutoMirrored.Filled.List)
     data object Page16Kb : BottomNavRoute(route = "page16kb", title = "16KB迁移", icon = Icons.Default.Memory)
     data object WearOs64Bit : BottomNavRoute(route = "wearos64bit", title = "WearOS 64位", icon = Icons.Default.Watch)
+    data object SwiftPMMigration : BottomNavRoute(route = "swiftpm_migration", title = "SwiftPM迁移", icon = Icons.AutoMirrored.Filled.ArrowForward)
+    // PRD-078: Android Developer Verification Compliance Toolkit
+    data object DevVerification : BottomNavRoute(route = "dev_verification", title = "Dev验证", icon = Icons.Default.VerifiedUser)
+    // PRD-081: Android 17 Location Button Jetpack Library
+    data object LocationButton : BottomNavRoute(route = "location_button", title = "Location Button", icon = Icons.Default.LocationOn)
+    // PRD-082: AGP 9.0 KMP NDK/C++ Migration Toolkit
+    data object AGP9Migration : BottomNavRoute(route = "agp9_migration", title = "AGP9迁移", icon = Icons.Default.SystemUpdateAlt)
 }
 
 /**
@@ -61,5 +72,15 @@ object NavRoutes {
     const val NAV3_TOOL = "nav3_tool"
     const val PAGE16KB = "page16kb"
     const val WEAROS64BIT = "wearos64bit"
+    const val SWIFTPM_MIGRATION = "swiftpm_migration"
     const val LOGIN = "login"
+    // PRD-078: Android Developer Verification Compliance Toolkit
+    const val DEV_VERIFICATION = "dev_verification"
+    const val DEV_VERIFICATION_WIZARD = "dev_verification_wizard"
+    const val DEV_VERIFICATION_MDM = "dev_verification_mdm"
+    const val DEV_VERIFICATION_SETTINGS = "dev_verification_settings"
+    // PRD-081: Android 17 Location Button Jetpack Library
+    const val LOCATION_BUTTON = "location_button"
+    // PRD-082: AGP 9.0 KMP NDK/C++ Migration Toolkit
+    const val AGP9_MIGRATION = "agp9_migration"
 }

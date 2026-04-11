@@ -37,6 +37,10 @@ import com.mvi.kenny.feature.appfunctions.AppFuncDesignToolScreen
 import com.mvi.kenny.feature.nav3tool.NavToolScreen
 import com.mvi.kenny.feature.page16kb.Page16KbScreen
 import com.mvi.kenny.feature.wearos64bit.WearOs64BitScreen
+import com.mvi.kenny.feature.swiftpmmigration.SwiftPMMigrationScreen
+import com.mvi.kenny.feature.devverification.ComplianceDashboardScreen
+import com.mvi.kenny.feature.locationbutton.LocationButtonScreen
+import com.mvi.kenny.feature.agp9migration.AGP9MigrationScreen
 import com.mvi.kenny.navigation.BottomNavRoute
 
 /**
@@ -63,7 +67,7 @@ import com.mvi.kenny.navigation.BottomNavRoute
  *                  └──────────────────────────────────┘
  *                  ┌──────────────────────────────────┐
  *                  │       BottomNavigationBar        │
- *                  │   [首页]  [列表]  [我的]          │
+ *                  │   [首页]  [列表]  [我的]        │
  *                  └──────────────────────────────────┘
  *
  * 为什么不用 Navigation Compose NavHost？
@@ -89,7 +93,7 @@ import com.mvi.kenny.navigation.BottomNavRoute
 fun MainScreen(
     onNavigateToLogin: () -> Unit
 ) {
-    // 定义六个 Tab 的路由配置（已移除无价值 Tab：Animation、LocationPermission、Chat）
+    // 定义底部导航 Tab（按顺序排列，共 14 个）
     val bottomNavItems = listOf(
         BottomNavRoute.Home,
         BottomNavRoute.List,
@@ -100,17 +104,19 @@ fun MainScreen(
         BottomNavRoute.AppFuncDesignTool,
         BottomNavRoute.Nav3Tool,
         BottomNavRoute.Page16Kb,
-        BottomNavRoute.WearOs64Bit
+        BottomNavRoute.WearOs64Bit,
+        BottomNavRoute.SwiftPMMigration,
+        BottomNavRoute.DevVerification,
+        BottomNavRoute.LocationButton,
+        BottomNavRoute.AGP9Migration
     )
 
     // Pager 状态，管理当前是第几页
-    // pageCount 是 LazyListState 的参数，返回总页数
     val pagerState = rememberPagerState(pageCount = { bottomNavItems.size })
 
     // ============================================================
     // 各页面的 TopBar 配置（通过子组件的 onUpdateTopBar 回调设置）
     // ============================================================
-    // 初始值，避免在子组件未挂载前 TopAppBar 空白
     var homeTopBar by remember { mutableStateOf(TopBarConfig(title = "Home")) }
     var listTopBar by remember { mutableStateOf(TopBarConfig(title = "List")) }
     var profileTopBar by remember { mutableStateOf(TopBarConfig(title = "Profile")) }
@@ -118,9 +124,13 @@ fun MainScreen(
     var qaFrameworkTopBar by remember { mutableStateOf(TopBarConfig(title = "QA 框架")) }
     var mcpTopBar by remember { mutableStateOf(TopBarConfig(title = "MCP Server")) }
     var appFuncTopBar by remember { mutableStateOf(TopBarConfig(title = "AppFunctions 工具台")) }
-    var nav3ToolTopBar by remember { mutableStateOf(TopBarConfig(title = "Navigation 3 迁移工具")) }
+    var nav3ToolTopBar by remember { mutableStateOf(TopBarConfig(title = "Nav3 迁移工具")) }
     var page16KbTopBar by remember { mutableStateOf(TopBarConfig(title = "16KB 迁移助手")) }
     var wearOs64BitTopBar by remember { mutableStateOf(TopBarConfig(title = "Wear OS 64位合规")) }
+    var swiftPMMigrationTopBar by remember { mutableStateOf(TopBarConfig(title = "SwiftPM 迁移助手")) }
+    var devVerificationTopBar by remember { mutableStateOf(TopBarConfig(title = "Dev Verification")) }
+    var locationButtonTopBar by remember { mutableStateOf(TopBarConfig(title = "Location Button")) }
+    var agp9MigrationTopBar by remember { mutableStateOf(TopBarConfig(title = "AGP 9.0 迁移")) }
 
     // 根据当前页码决定显示哪个 TopBar 配置
     val currentTopBar = when (pagerState.currentPage) {
@@ -134,18 +144,18 @@ fun MainScreen(
         7 -> nav3ToolTopBar
         8 -> page16KbTopBar
         9 -> wearOs64BitTopBar
+        10 -> swiftPMMigrationTopBar
+        11 -> devVerificationTopBar
+        12 -> locationButtonTopBar
+        13 -> agp9MigrationTopBar
         else -> homeTopBar
     }
 
     // ============================================================
     // 底部 Tab 点击 → 驱动 Pager 切换
     // ============================================================
-    // pendingTabToSelect 作为中间状态，LaunchedEffect 监听其变化后执行切换
-    // 这样避免在 recomposition 期间直接调用 animateScrollToPage
     var pendingTabToSelect by remember { mutableIntStateOf(-1) }
 
-    // LaunchedEffect 监听 pendingTabToSelect 状态，
-    // 值为 >= 0 时执行页面切换动画，然后重置为 -1
     LaunchedEffect(pendingTabToSelect) {
         if (pendingTabToSelect >= 0) {
             pagerState.animateScrollToPage(pendingTabToSelect)
@@ -157,12 +167,10 @@ fun MainScreen(
     // 页面结构：Scaffold（TopAppBar + BottomNavigation + Content）
     // ============================================================
     Scaffold(
-        // 顶部导航栏：标题 + 右侧 action 按钮
         topBar = {
             TopAppBar(
                 title = { Text(currentTopBar.title) },
                 actions = {
-                    // 遍历当前页面的 action 按钮列表，渲染 IconButton
                     currentTopBar.actions.forEach { action ->
                         IconButton(onClick = action.onClick) {
                             Icon(
@@ -178,15 +186,12 @@ fun MainScreen(
                 )
             )
         },
-
-        // 底部导航栏：三个 Tab（首页 / 列表 / 我的）
         bottomBar = {
             NavigationBar {
                 bottomNavItems.forEachIndexed { index, tab ->
                     NavigationBarItem(
                         icon = { Icon(tab.icon, contentDescription = tab.title) },
                         label = { Text(tab.title) },
-                        // 当前选中的 Tab 高亮（与 Pager 当前页同步）
                         selected = pagerState.currentPage == index,
                         onClick = { pendingTabToSelect = index }
                     )
@@ -194,48 +199,36 @@ fun MainScreen(
             }
         }
     ) { innerPadding ->
-        // 内容区域：HorizontalPager（支持左右滑动）
         Box(modifier = Modifier.padding(innerPadding)) {
             HorizontalPager(
                 state = pagerState,
                 modifier = Modifier.fillMaxSize()
             ) { page ->
-                // 根据页码渲染对应的子页面
                 when (page) {
-                    0 -> HomeScreen(
-                        // 首页传递 TopBar 更新回调（首页需要设置按钮）
-                        onUpdateTopBar = { homeTopBar = it }
-                    )
-                    1 -> ListScreen(
-                        // 列表页传递 TopBar 更新回调（列表页需要刷新按钮）
-                        onUpdateTopBar = { listTopBar = it }
-                    )
+                    0 -> HomeScreen(onUpdateTopBar = { homeTopBar = it })
+                    1 -> ListScreen(onUpdateTopBar = { listTopBar = it })
                     2 -> ProfileScreen(
                         onNavigateToLogin = onNavigateToLogin,
                         onUpdateTopBar = { profileTopBar = it }
                     )
-                    3 -> AIAgentScreen(
-                        onUpdateTopBar = { aiAgentTopBar = it }
-                    )
-                    4 -> QAFrameworkScreen(
-                        onUpdateTopBar = { qaFrameworkTopBar = it }
-                    )
-                    5 -> McpScreen(
-                        onUpdateTopBar = { mcpTopBar = it }
-                    )
-                    6 -> AppFuncDesignToolScreen(
-                        onUpdateTopBar = { appFuncTopBar = it }
-                    )
-                    7 -> NavToolScreen(
-                        onNavigateTo = { /* Feature internal navigation */ }
-                    )
-                    8 -> Page16KbScreen(
-                        onNavigateBack = { pendingTabToSelect = 0 }
-                    )
+                    3 -> AIAgentScreen(onUpdateTopBar = { aiAgentTopBar = it })
+                    4 -> QAFrameworkScreen(onUpdateTopBar = { qaFrameworkTopBar = it })
+                    5 -> McpScreen(onUpdateTopBar = { mcpTopBar = it })
+                    6 -> AppFuncDesignToolScreen(onUpdateTopBar = { appFuncTopBar = it })
+                    7 -> NavToolScreen(onNavigateTo = { /* Feature internal navigation */ })
+                    8 -> Page16KbScreen(onNavigateBack = { pendingTabToSelect = 0 })
                     9 -> WearOs64BitScreen(
                         onUpdateTopBar = { wearOs64BitTopBar = it },
                         onNavigateBack = { pendingTabToSelect = 0 }
                     )
+                    10 -> SwiftPMMigrationScreen(onNavigateTo = { /* Feature internal navigation */ })
+                    11 -> ComplianceDashboardScreen(
+                        onNavigateToWizard = { /* internal state nav */ },
+                        onNavigateToMDM = { /* internal state nav */ },
+                        onNavigateToSettings = { /* internal state nav */ }
+                    )
+                    12 -> LocationButtonScreen(onUpdateTopBar = { locationButtonTopBar = it })
+                    13 -> AGP9MigrationScreen()
                 }
             }
         }
