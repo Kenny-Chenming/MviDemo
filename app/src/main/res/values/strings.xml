@@ -170,4 +170,111 @@
     <string name="common_success">Success</string>
     <string name="common_cancel">Cancel</string>
     <string name="common_ok">OK</string>
+
+    <!-- PRD-092: Android 17 App Bubbles -->
+    <string name="bubbles_title">App Bubbles</string>
+    <string name="bubbles_tab_intro">接入引导</string>
+    <string name="bubbles_tab_components">组件库</string>
+    <string name="bubbles_tab_templates">场景模板</string>
+
+    <!-- Intro Screen -->
+    <string name="bubbles_intro_preview">App Bubbles Preview</string>
+    <string name="bubbles_intro_tap_to_toggle">Tap to toggle animation</string>
+    <string name="bubbles_intro_capabilities">Core Capabilities / 核心能力</string>
+    <string name="bubbles_intro_quick_start">Quick Start / 快速开始</string>
+    <string name="bubbles_intro_quick_start_desc">Integrate App Bubbles into your project in 5 steps</string>
+    <string name="bubbles_intro_quick_start_desc_zh">5 步完成浮动窗口接入</string>
+    <string name="bubbles_intro_start_wizard">Start Gradle Wizard</string>
+    <string name="bubbles_intro_vs_pip">Bubbles vs PiP / 决策参考</string>
+
+    <!-- Gradle Wizard -->
+    <string name="bubbles_wizard_step1">Select Target Module</string>
+    <string name="bubbles_wizard_step1_zh">选择目标 Module</string>
+    <string name="bubbles_wizard_step2">Select Activities to Bubbleify</string>
+    <string name="bubbles_wizard_step2_zh">选择要浮动化的 Activity</string>
+    <string name="bubbles_wizard_step3">Configure BubbleMetadata</string>
+    <string name="bubbles_wizard_step3_zh">配置 Bubble 元数据</string>
+    <string name="bubbles_wizard_step4">Preview Manifest</string>
+    <string name="bubbles_wizard_step4_zh">预览 Manifest</string>
+    <string name="bubbles_wizard_step5">Complete</string>
+    <string name="bubbles_wizard_step5_zh">完成</string>
+    <string name="bubbles_wizard_next">Next / 下一步</string>
+    <string name="bubbles_wizard_back">Back</string>
+    <string name="bubbles_wizard_apply">Apply / 应用</string>
+    <string name="bubbles_wizard_preview_manifest">Preview Manifest / 预览 Manifest</string>
+    <string name="bubbles_wizard_applying">Applying changes… / 应用变更中…</string>
+    <string name="bubbles_wizard_congrats">Congratulations! / 恭喜！</string>
+    <string name="bubbles_wizard_success">App Bubbles has been configured successfully</string>
+    <string name="bubbles_wizard_success_zh">浮动窗口配置成功！</string>
+    <string name="bubbles_wizard_reset">Start Over / 重新开始</string>
+
+    <!-- Metadata Config -->
+    <string name="bubbles_metadata_icon">Icon Resource ID / 图标资源 ID</string>
+    <string name="bubbles_metadata_title">Bubble Title / 浮动窗口标题</string>
+    <string name="bubbles_metadata_shortcut">Shortcut ID / 快捷方式 ID</string>
+    <string name="bubbles_metadata_badge">Badge Icon Resource ID / 徽章图标资源 ID</string>
+    <string name="bubbles_metadata_selected_activities">Selected Activities / 已选 Activity</string>
+
+    <!-- Components -->
+    <string name="bubbles_components_title">Components / 组件库</string>
+    <string name="bubbles_components_api_docs">API 文档</string>
+    <string name="bubbles_components_playground">Playground</string>
+    <string name="bubbles_components_overview">Overview / 概述</string>
+    <string name="bubbles_components_usage">Usage / 使用方法</string>
+    <string name="bubbles_components_params">Parameters / 参数</string>
+    <string name="bubbles_components_preview_controls">Preview Controls / 预览控制</string>
+    <string name="bubbles_components_small">Small</string>
+    <string name="bubbles_components_medium">Medium</string>
+    <string name="bubbles_components_large">Large</string>
+
+    <!-- Size Config -->
+    <string name="bubbles_size_presets">Presets / 预设模板</string>
+    <string name="bubbles_size_custom">Custom Size / 自定义尺寸</string>
+    <string name="bubbles_size_width">Width / 宽度</string>
+    <string name="bubbles_size_height">Height / 高度</string>
+    <string name="bubbles_size_corner_radius">Corner Radius / 圆角</string>
+    <string name="bubbles_size_elevation">Elevation / 阴影</string>
+    <string name="bubbles_size_target_screen">Target Screen / 目标屏幕</string>
+    <string name="bubbles_size_simulator">Live Simulator / 实时模拟</string>
+    <string name="bubbles_size_foldable">Foldable Adaptation / 折叠屏适配</string>
+    <string name="bubbles_size_foldable_desc">When foldable device switches between folded/unfolded state, bubble will auto-adjust using WindowInfoTracker.</string>
+    <string name="bubbles_size_folded">Folded →</string>
+    <string name="bubbles_size_unfolded">← Unfolded</string>
+
+    <!-- Templates -->
+    <string name="bubbles_templates_title">Scenario Demos / 场景 Demo</string>
+    <string name="bubbles_templates_desc">Choose a scenario to see implementation details</string>
+
+    <!-- Component Categories -->
+    <string name="bubbles_category_container">容器</string>
+    <string name="bubbles_category_state">状态管理</string>
+    <string name="bubbles_category_lifecycle">生命周期</string>
+    <string name="bubbles_category_permission">权限</string>
+    <string name="bubbles_category_ui">UI 组件</string>
+
+    <!-- Presets -->
+    <string name="bubbles_preset_music">Music Player</string>
+    <string name="bubbles_preset_navigation">Navigation</string>
+    <string name="bubbles_preset_notes">Quick Notes</string>
+    <string name="bubbles_preset_translation">Translation</string>
+    <string name="bubbles_preset_video">Video Player</string>
+    <string name="bubbles_preset_custom">Custom</string>
+
+    <!-- Screen Sizes -->
+    <string name="bubbles_screen_phone">Phone</string>
+    <string name="bubbles_screen_foldable">Foldable</string>
+    <string name="bubbles_screen_tablet">Tablet</string>
+
+    <!-- Comparison -->
+    <string name="bubbles_vs_pip_dimension">Dimension</string>
+    <string name="bubbles_vs_pip_use_case">Use Case</string>
+    <string name="bubbles_vs_pip_api_level">API Level</string>
+    <string name="bubbles_vs_pip_compose">Compose Support</string>
+    <string name="bubbles_vs_pip_drag_resize">Drag and Resize</string>
+    <string name="bubbles_vs_pip_multiple">Multiple Bubbles</string>
+    <string name="bubbles_vs_pip_taskbar">Taskbar Integration</string>
+    <string name="bubbles_vs_pip_sync">Cross-window Sync</string>
+    <string name="bubbles_vs_pip_recommendation">Recommendation</string>
+    <string name="bubbles_vs_pip_recommendation_text">Interactive panels, multi-window, Compose support → Bubbles
+Pure video playback, compatibility priority → PiP</string>
 </resources>

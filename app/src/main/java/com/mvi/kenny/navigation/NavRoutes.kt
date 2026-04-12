@@ -17,6 +17,8 @@ import androidx.compose.material.icons.filled.VerifiedUser
 import androidx.compose.material.icons.filled.LocationOn
 import androidx.compose.material.icons.filled.SystemUpdateAlt
 import androidx.compose.material.icons.filled.DirectionsCar
+import androidx.compose.material.icons.filled.Widgets
+import androidx.compose.material.icons.filled.Share
 import androidx.compose.ui.graphics.vector.ImageVector
 
 /**
@@ -53,6 +55,10 @@ sealed class BottomNavRoute(
     data object AGP9Migration : BottomNavRoute(route = "agp9_migration", title = "AGP9迁移", icon = Icons.Default.SystemUpdateAlt)
     // PRD-080: Android Auto Car App Library API Level 3 Vehicle Data Toolkit
     data object CarData : BottomNavRoute(route = "car_data", title = "车辆数据", icon = Icons.Default.DirectionsCar)
+    // PRD-092: Android 17 App Bubbles Floating Window Toolkit
+    data object AppBubbles : BottomNavRoute(route = "app_bubbles", title = "App Bubbles", icon = Icons.Default.Widgets)
+    // PRD-091: Android 17 Cross-Device Handoff API 开发者接入工具包
+    data object Handoff : BottomNavRoute(route = "handoff", title = "Handoff", icon = Icons.Default.Share)
 }
 
 /**
@@ -88,4 +94,8 @@ object NavRoutes {
     const val AGP9_MIGRATION = "agp9_migration"
     // PRD-080: Android Auto Car App Library API Level 3 Vehicle Data Toolkit
     const val CAR_DATA = "car_data"
+    // PRD-092: Android 17 App Bubbles Floating Window Toolkit
+    const val APP_BUBBLES = "app_bubbles"
+    // PRD-091: Android 17 Cross-Device Handoff API 开发者接入工具包
+    const val HANDOFF = "handoff"
 }

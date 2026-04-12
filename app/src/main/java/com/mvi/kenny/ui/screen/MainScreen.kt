@@ -42,6 +42,7 @@ import com.mvi.kenny.feature.devverification.ComplianceDashboardScreen
 import com.mvi.kenny.feature.locationbutton.LocationButtonScreen
 import com.mvi.kenny.feature.agp9migration.AGP9MigrationScreen
 import com.mvi.kenny.feature.cardatal.CarDataScreen
+import com.mvi.kenny.feature.bubbles.BubblesMainScreen
 import com.mvi.kenny.navigation.BottomNavRoute
 
 /**
@@ -110,7 +111,8 @@ fun MainScreen(
         BottomNavRoute.DevVerification,
         BottomNavRoute.LocationButton,
         BottomNavRoute.AGP9Migration,
-        BottomNavRoute.CarData
+        BottomNavRoute.CarData,
+        BottomNavRoute.AppBubbles
     )
 
     // Pager 状态，管理当前是第几页
@@ -134,6 +136,7 @@ fun MainScreen(
     var locationButtonTopBar by remember { mutableStateOf(TopBarConfig(title = "Location Button")) }
     var agp9MigrationTopBar by remember { mutableStateOf(TopBarConfig(title = "AGP 9.0 迁移")) }
     var carDataTopBar by remember { mutableStateOf(TopBarConfig(title = "车辆数据 / Car Data")) }
+    var appBubblesTopBar by remember { mutableStateOf(TopBarConfig(title = "App Bubbles · 接入引导")) }
 
     // 根据当前页码决定显示哪个 TopBar 配置
     val currentTopBar = when (pagerState.currentPage) {
@@ -152,6 +155,7 @@ fun MainScreen(
         12 -> locationButtonTopBar
         13 -> agp9MigrationTopBar
         14 -> carDataTopBar
+        15 -> appBubblesTopBar
         else -> homeTopBar
     }
 
@@ -235,6 +239,9 @@ fun MainScreen(
                     13 -> AGP9MigrationScreen()
                     14 -> CarDataScreen(
                         onUpdateTopBar = { carDataTopBar = it }
+                    )
+                    15 -> BubblesMainScreen(
+                        onUpdateTopBar = { appBubblesTopBar = it }
                     )
                 }
             }
