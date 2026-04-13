@@ -277,4 +277,50 @@
     <string name="bubbles_vs_pip_recommendation">Recommendation</string>
     <string name="bubbles_vs_pip_recommendation_text">Interactive panels, multi-window, Compose support → Bubbles
 Pure video playback, compatibility priority → PiP</string>
+
+    <!-- PRD-098: Gemma 4 × Android Studio Agent Mode Toolkit -->
+    <string name="gemma4_title">Gemma 4 Agent Toolkit</string>
+    <string name="gemma4_connect">连接 / Connect</string>
+    <string name="gemma4_disconnect">断开 / Disconnect</string>
+    <string name="gemma4_status_connected">已连接 / Connected</string>
+    <string name="gemma4_status_connecting">连接中… / Connecting…</string>
+    <string name="gemma4_status_disconnected">未连接 / Disconnected</string>
+    <string name="gemma4_session">当前会话 / Session</string>
+    <string name="gemma4_token_usage">Token 消耗 / Token Usage</string>
+    <string name="gemma4_tool_calls">工具调用 / Tool Calls</string>
+    <string name="gemma4_success_rate">成功率 / Success Rate</string>
+    <string name="gemma4_variant">模型变体 / Model Variant</string>
+    <string name="gemma4_variant_2b">2B 轻量版 / 2B Lite</string>
+    <string name="gemma4_variant_7b">7B 均衡版 / 7B Balanced</string>
+    <string name="gemma4_variant_9b">9B 全性能 / 9B Full</string>
+    <string name="gemma4_tab_dashboard">仪表盘</string>
+    <string name="gemma4_tab_variant">变体选型</string>
+    <string name="gemma4_tab_toolcall">调用追踪</string>
+    <string name="gemma4_tab_context">上下文注入</string>
+    <string name="gemma4_tab_benchmark">质量基准</string>
+    <string name="gemma4_tab_fallback">降级策略</string>
+    <string name="gemma4_realtime_mode">实时模式 / Real-time</string>
+    <string name="gemma4_replay_mode">回放模式 / Replay</string>
+    <string name="gemma4_clear_history">清空历史 / Clear</string>
+    <string name="gemma4_no_calls">暂无工具调用 / No tool calls yet</string>
+    <string name="gemma4_connect_hint">连接 Agent 后开始追踪 / Connect Agent to start tracking</string>
+    <string name="gemma4_context_types">上下文类型 / Context Types</string>
+    <string name="gemma4_context_enabled">已启用 / Enabled</string>
+    <string name="gemma4_custom_context">自定义上下文 / Custom Context</string>
+    <string name="gemma4_add_context">添加上下文 / Add Context</string>
+    <string name="gemma4_benchmark_run">开始基准测试 / Run Benchmark</string>
+    <string name="gemma4_benchmark_running">测试运行中… / Running…</string>
+    <string name="gemma4_benchmark_history">历史记录 / History</string>
+    <string name="gemma4_fallback_mode">降级模式 / Fallback Mode</string>
+    <string name="gemma4_fallback_local_only">仅本地 Gemma / Local Only</string>
+    <string name="gemma4_fallback_auto">自动降级 / Auto Switch</string>
+    <string name="gemma4_fallback_manual">手动选择 / Manual</string>
+    <string name="gemma4_trigger_token">Token 消耗阈值 / Token Threshold</string>
+    <string name="gemma4_trigger_failure">连续失败次数 / Failure Threshold</string>
+    <string name="gemma4_trigger_timeout">推理超时 / Timeout</string>
+    <string name="gemma4_analyze">开始分析 / Analyze</string>
+    <string name="gemma4_analyzing">分析中… / Analyzing…</string>
+    <string name="gemma4_confidence">置信度 / Confidence</string>
+    <string name="gemma4_vram_req">显存需求 / VRAM Requirement</string>
+    <string name="gemma4_speed">推理速度 / Speed</string>
 </resources>

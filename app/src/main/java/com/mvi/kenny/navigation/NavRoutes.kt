@@ -19,6 +19,7 @@ import androidx.compose.material.icons.filled.SystemUpdateAlt
 import androidx.compose.material.icons.filled.DirectionsCar
 import androidx.compose.material.icons.filled.Widgets
 import androidx.compose.material.icons.filled.Share
+import androidx.compose.material.icons.filled.AutoAwesome
 import androidx.compose.ui.graphics.vector.ImageVector
 
 /**
@@ -59,6 +60,8 @@ sealed class BottomNavRoute(
     data object AppBubbles : BottomNavRoute(route = "app_bubbles", title = "App Bubbles", icon = Icons.Default.Widgets)
     // PRD-091: Android 17 Cross-Device Handoff API 开发者接入工具包
     data object Handoff : BottomNavRoute(route = "handoff", title = "Handoff", icon = Icons.Default.Share)
+    // PRD-098: Gemma 4 × Android Studio Agent Mode 本地编码 Agent 工具链
+    data object Gemma4 : BottomNavRoute(route = "gemma4", title = "Gemma 4", icon = Icons.Default.AutoAwesome)
 }
 
 /**
@@ -98,4 +101,6 @@ object NavRoutes {
     const val APP_BUBBLES = "app_bubbles"
     // PRD-091: Android 17 Cross-Device Handoff API 开发者接入工具包
     const val HANDOFF = "handoff"
+    // PRD-098: Gemma 4 × Android Studio Agent Mode 本地编码 Agent 工具链
+    const val GEMMA4 = "gemma4"
 }
