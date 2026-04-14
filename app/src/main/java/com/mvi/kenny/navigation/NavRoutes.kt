@@ -21,6 +21,8 @@ import androidx.compose.material.icons.filled.Widgets
 import androidx.compose.material.icons.filled.Share
 import androidx.compose.material.icons.filled.AutoAwesome
 import androidx.compose.material.icons.filled.FactCheck
+import androidx.compose.material.icons.filled.Speed
+import androidx.compose.material.icons.filled.Dashboard
 import androidx.compose.ui.graphics.vector.ImageVector
 
 /**
@@ -67,6 +69,10 @@ sealed class BottomNavRoute(
     data object GeminiTestQuality : BottomNavRoute(route = "gemini_test_quality", title = "Gemini测试", icon = Icons.Default.FactCheck)
     // PRD-106: Android 16 细粒度健康权限迁移检测与合规工具包
     data object HealthPermissions : BottomNavRoute(route = "health_permissions", title = "健康权限", icon = Icons.Default.Shield)
+    // PRD-108: Android Emulator 36.5 多设备 P2P 网络测试框架工具包
+    data object EmulatorToolkit : BottomNavRoute(route = "emulator_toolkit", title = "Emulator Toolkit", icon = Icons.Default.Speed)
+    // PRD-109: Jetpack Compose Remote Server-Driven Native UI 开发工具包
+    data object RemoteToolkit : BottomNavRoute(route = "remote_toolkit", title = "Remote UI", icon = Icons.Default.Dashboard)
 }
 
 /**
@@ -112,4 +118,8 @@ object NavRoutes {
     const val GEMINI_TEST_QUALITY = "gemini_test_quality"
     // PRD-106: Android 16 细粒度健康权限迁移检测与合规工具包
     const val HEALTH_PERMISSIONS = "health_permissions"
+    // PRD-108: Android Emulator 36.5 多设备 P2P 网络测试框架工具包
+    const val EMULATOR_TOOLKIT = "emulator_toolkit"
+    // PRD-109: Jetpack Compose Remote Server-Driven Native UI 开发工具包
+    const val REMOTE_TOOLKIT = "remote_toolkit"
 }

@@ -355,4 +355,13 @@ Pure video playback, compatibility priority → PiP</string>
     <string name="gemini_test_ci_provider">CI Provider / CI 提供商</string>
     <string name="gemini_test_auto_regen">失败时自动重新生成 / Auto-Regenerate on Failure</string>
     <string name="gemini_test_yaml_preview">YAML 配置预览 / YAML Preview</string>
+    <!-- PRD-108: Android Emulator 36.5 多设备 P2P 网络测试框架工具包 -->
+    <string name="emulator_toolkit_title">Emulator 36.5 Toolkit</string>
+    <string name="emulator_toolkit_avd_manager">AVD Session Manager / AVD 会话管理</string>
+    <string name="emulator_toolkit_topology">Topology / 拓扑编排</string>
+    <string name="emulator_toolkit_network_sim">Network Simulation / 网络模拟</string>
+    <string name="emulator_toolkit_wifi_p2p">Wi-Fi P2P SDK</string>
+    <string name="emulator_toolkit_ble">BLE Emulator / BLE 模拟</string>
+    <string name="emulator_toolkit_debugger">Cross-Device Debugger / 跨设备调试</string>
+    <string name="emulator_toolkit_benchmark">Performance Benchmark / 性能基准</string>
 </resources>
