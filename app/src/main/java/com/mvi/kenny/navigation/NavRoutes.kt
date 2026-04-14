@@ -20,6 +20,7 @@ import androidx.compose.material.icons.filled.DirectionsCar
 import androidx.compose.material.icons.filled.Widgets
 import androidx.compose.material.icons.filled.Share
 import androidx.compose.material.icons.filled.AutoAwesome
+import androidx.compose.material.icons.filled.BugReport
 import androidx.compose.ui.graphics.vector.ImageVector
 
 /**
@@ -62,6 +63,8 @@ sealed class BottomNavRoute(
     data object Handoff : BottomNavRoute(route = "handoff", title = "Handoff", icon = Icons.Default.Share)
     // PRD-098: Gemma 4 × Android Studio Agent Mode 本地编码 Agent 工具链
     data object Gemma4 : BottomNavRoute(route = "gemma4", title = "Gemma 4", icon = Icons.Default.AutoAwesome)
+    // PRD-099: Journeys E2E Testing Toolkit
+    data object Journeys : BottomNavRoute(route = "journeys", title = "Journeys", icon = Icons.Default.BugReport)
 }
 
 /**
@@ -103,4 +106,11 @@ object NavRoutes {
     const val HANDOFF = "handoff"
     // PRD-098: Gemma 4 × Android Studio Agent Mode 本地编码 Agent 工具链
     const val GEMMA4 = "gemma4"
+    // PRD-099: Journeys E2E Testing Toolkit
+    const val JOURNEYS = "journeys"
+    const val JOURNEY_EDITOR = "journey_editor"
+    const val JOURNEY_RESULT = "journey_result"
+    const val JOURNEY_TEMPLATE_LIBRARY = "journey_template_library"
+    const val JOURNEY_CI_CONFIG = "journey_ci_config"
+    const val JOURNEY_FRAMEWORK_COMPARISON = "journey_framework_comparison"
 }
