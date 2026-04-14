@@ -323,4 +323,36 @@ Pure video playback, compatibility priority → PiP</string>
     <string name="gemma4_confidence">置信度 / Confidence</string>
     <string name="gemma4_vram_req">显存需求 / VRAM Requirement</string>
     <string name="gemma4_speed">推理速度 / Speed</string>
+
+    <!-- PRD-104: Gemini Test Quality Toolkit -->
+    <string name="gemini_test_title">Gemini 测试质量中心</string>
+    <string name="gemini_test_tab_dashboard">质量仪表盘</string>
+    <string name="gemini_test_tab_custom_gen">框架定制</string>
+    <string name="gemini_test_tab_spec">规范引擎</string>
+    <string name="gemini_test_tab_trace">可追溯性</string>
+    <string name="gemini_test_tab_blind">盲区分析</string>
+    <string name="gemini_test_tab_ci">CI/CD 集成</string>
+    <string name="gemini_test_quality_score">质量评分 / Quality Score</string>
+    <string name="gemini_test_overall">综合评分 / Overall</string>
+    <string name="gemini_test_coverage_heatmap">覆盖率热力图 / Coverage Heatmap</string>
+    <string name="gemini_test_generated_tests">Gemini 生成测试 / Generated Tests</string>
+    <string name="gemini_test_no_tests">Run Gemini Test Generation first</string>
+    <string name="gemini_test_framework">测试框架 / Test Framework</string>
+    <string name="gemini_test_source_file">源文件 / Source File</string>
+    <string name="gemini_test_coverage_strategy">覆盖策略 / Coverage Strategy</string>
+    <string name="gemini_test_boundary">边界值测试 / Boundary Value</string>
+    <string name="gemini_test_equivalence">等价类划分 / Equivalence Class</string>
+    <string name="gemini_test_path_coverage">路径覆盖 / Path Coverage</string>
+    <string name="gemini_test_exception_path">异常路径 / Exception Path</string>
+    <string name="gemini_test_generate">Gemini 生成测试 / Generate with Gemini</string>
+    <string name="gemini_test_spec_templates">规范模板库 / Spec Templates</string>
+    <string name="gemini_test_no_specs">No spec templates yet</string>
+    <string name="gemini_test_trace_title">源码变更 → 测试影响 / Source Changes → Test Impact</string>
+    <string name="gemini_test_no_records">No traceability records yet</string>
+    <string name="gemini_test_blind_title">测试盲区 / Blind Spots</string>
+    <string name="gemini_test_analyze">开始分析</string>
+    <string name="gemini_test_all_covered">All branches covered! 🎉</string>
+    <string name="gemini_test_ci_provider">CI Provider / CI 提供商</string>
+    <string name="gemini_test_auto_regen">失败时自动重新生成 / Auto-Regenerate on Failure</string>
+    <string name="gemini_test_yaml_preview">YAML 配置预览 / YAML Preview</string>
 </resources>

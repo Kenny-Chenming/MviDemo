@@ -20,6 +20,7 @@ import androidx.compose.material.icons.filled.DirectionsCar
 import androidx.compose.material.icons.filled.Widgets
 import androidx.compose.material.icons.filled.Share
 import androidx.compose.material.icons.filled.AutoAwesome
+import androidx.compose.material.icons.filled.FactCheck
 import androidx.compose.ui.graphics.vector.ImageVector
 
 /**
@@ -62,6 +63,10 @@ sealed class BottomNavRoute(
     data object Handoff : BottomNavRoute(route = "handoff", title = "Handoff", icon = Icons.Default.Share)
     // PRD-098: Gemma 4 × Android Studio Agent Mode 本地编码 Agent 工具链
     data object Gemma4 : BottomNavRoute(route = "gemma4", title = "Gemma 4", icon = Icons.Default.AutoAwesome)
+    // PRD-104: Android Studio Panda 4 Gemini 单元测试生成工具包
+    data object GeminiTestQuality : BottomNavRoute(route = "gemini_test_quality", title = "Gemini测试", icon = Icons.Default.FactCheck)
+    // PRD-106: Android 16 细粒度健康权限迁移检测与合规工具包
+    data object HealthPermissions : BottomNavRoute(route = "health_permissions", title = "健康权限", icon = Icons.Default.Shield)
 }
 
 /**
@@ -103,4 +108,8 @@ object NavRoutes {
     const val HANDOFF = "handoff"
     // PRD-098: Gemma 4 × Android Studio Agent Mode 本地编码 Agent 工具链
     const val GEMMA4 = "gemma4"
+    // PRD-104: Android Studio Panda 4 Gemini 单元测试生成工具包
+    const val GEMINI_TEST_QUALITY = "gemini_test_quality"
+    // PRD-106: Android 16 细粒度健康权限迁移检测与合规工具包
+    const val HEALTH_PERMISSIONS = "health_permissions"
 }
