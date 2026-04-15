@@ -44,6 +44,7 @@ import com.mvi.kenny.feature.agp9migration.AGP9MigrationScreen
 import com.mvi.kenny.feature.cardatal.CarDataScreen
 import com.mvi.kenny.feature.bubbles.BubblesMainScreen
 import com.mvi.kenny.feature.gemma4.Gemma4Screen
+import com.mvi.kenny.feature.corektx.CoreKtxMigrationScreen
 import com.mvi.kenny.navigation.BottomNavRoute
 
 /**
@@ -114,7 +115,8 @@ fun MainScreen(
         BottomNavRoute.AGP9Migration,
         BottomNavRoute.CarData,
         BottomNavRoute.AppBubbles,
-        BottomNavRoute.Gemma4
+        BottomNavRoute.Gemma4,
+        BottomNavRoute.CoreKtx
     )
 
     // Pager 状态，管理当前是第几页
@@ -140,6 +142,7 @@ fun MainScreen(
     var carDataTopBar by remember { mutableStateOf(TopBarConfig(title = "车辆数据 / Car Data")) }
     var appBubblesTopBar by remember { mutableStateOf(TopBarConfig(title = "App Bubbles · 接入引导")) }
     var gemma4TopBar by remember { mutableStateOf(TopBarConfig(title = "Gemma 4 Agent Toolkit")) }
+    var coreKtxTopBar by remember { mutableStateOf(TopBarConfig(title = "core-ktx 迁移工具")) }
 
     // 根据当前页码决定显示哪个 TopBar 配置
     val currentTopBar = when (pagerState.currentPage) {
@@ -160,6 +163,7 @@ fun MainScreen(
         14 -> carDataTopBar
         15 -> appBubblesTopBar
         16 -> gemma4TopBar
+        17 -> coreKtxTopBar
         else -> homeTopBar
     }
 
@@ -249,6 +253,9 @@ fun MainScreen(
                     )
                     16 -> Gemma4Screen(
                         onUpdateTopBar = { gemma4TopBar = it }
+                    )
+                    17 -> CoreKtxMigrationScreen(
+                        onUpdateTopBar = { coreKtxTopBar = it }
                     )
                 }
             }

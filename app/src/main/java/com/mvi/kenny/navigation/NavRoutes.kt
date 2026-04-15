@@ -63,6 +63,8 @@ sealed class BottomNavRoute(
     data object Handoff : BottomNavRoute(route = "handoff", title = "Handoff", icon = Icons.Default.Share)
     // PRD-098: Gemma 4 × Android Studio Agent Mode 本地编码 Agent 工具链
     data object Gemma4 : BottomNavRoute(route = "gemma4", title = "Gemma 4", icon = Icons.Default.AutoAwesome)
+    // PRD-115: AndroidX core-ktx 历史性迁移检测与自动化工具包
+    data object CoreKtx : BottomNavRoute(route = "core_ktx", title = "core-ktx迁移", icon = Icons.Default.Shield)
     // PRD-099: Journeys E2E Testing Toolkit
     data object Journeys : BottomNavRoute(route = "journeys", title = "Journeys", icon = Icons.Default.BugReport)
 }
@@ -104,6 +106,8 @@ object NavRoutes {
     const val APP_BUBBLES = "app_bubbles"
     // PRD-091: Android 17 Cross-Device Handoff API 开发者接入工具包
     const val HANDOFF = "handoff"
+    // PRD-115: AndroidX core-ktx 历史性迁移检测与自动化工具包
+    const val CORE_KTX = "core_ktx"
     // PRD-098: Gemma 4 × Android Studio Agent Mode 本地编码 Agent 工具链
     const val GEMMA4 = "gemma4"
     // PRD-099: Journeys E2E Testing Toolkit
