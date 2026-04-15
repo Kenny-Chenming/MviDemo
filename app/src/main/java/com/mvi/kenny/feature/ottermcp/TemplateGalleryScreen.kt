@@ -2,91 +2,285 @@ package com.mvi.kenny.feature.ottermcp
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.*
-import androidx.compose.material3.*
+import androidx.compose.material.icons.filled.Android
+import androidx.compose.material.icons.filled.Architecture
+import androidx.compose.material.icons.filled.BugReport
+import androidx.compose.material.icons.filled.Cloud
+import androidx.compose.material.icons.filled.Description
+import androidx.compose.material.icons.filled.PlayArrow
+import androidx.compose.material3.Button
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.ModalBottomSheet
+import androidx.compose.material3.ScrollableTabRow
+import androidx.compose.material3.Tab
+import androidx.compose.material3.Text
+import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 
+/**
+ * Template Gallery Screen / 模板库屏幕
+ * Browse and import MCP Server templates / 浏览和导入 MCP Server 模板
+ */
 @Composable
-fun TemplateGalleryScreen(viewModel: TemplateGalleryViewModel) {
-    val uiState by viewModel.state.collectAsState()
-    var selected by remember { mutableStateOf<McpTemplate?>(null) }
-    
-    Column(modifier = Modifier.fillMaxSize()) {
-        ScrollableTabRow(selectedTabIndex = TemplateCategory.entries.indexOf(uiState.selectedTab), edgePadding = 16.dp, containerColor = MaterialTheme.colorScheme.surface) {
-            TemplateCategory.entries.forEach { cat ->
-                val isSelected = cat == uiState.selectedTab
-                Tab(isSelected, { viewModel.sendIntent(TemplateGalleryIntent.SelectTab(cat)) }) {
-                    Row(verticalAlignment = Alignment.CenterVertically, modifier = Modifier.padding(16.dp)) {
-                        Icon(getCatIcon(cat), null, Modifier.size(16.dp), tint = if (isSelected) getCatColor(cat) else MaterialTheme.colorScheme.onSurfaceVariant)
-                        Spacer(Modifier.width(4.dp))
-                        Text(getCatName(cat), color = if (isSelected) getCatColor(cat) else MaterialTheme.colorScheme.onSurfaceVariant)
+fun TemplateGalleryScreen(
+    state: TemplateGalleryState,
+    onIntent: (TemplateGalleryIntent) -> Unit
+) {
+    Column(modifier = Modifier.fillMaxSize().padding(0.dp)) {
+        // Category tabs / 类别 Tab
+        ScrollableTabRow(
+            selectedTabIndex = TemplateCategory.entries.indexOf(state.selectedTab),
+            modifier = Modifier.padding(0.dp),
+            edgePadding = 16.dp
+        ) {
+            TemplateCategory.entries.forEach { category ->
+                Tab(
+                    selected = state.selectedTab == category,
+                    onClick = { onIntent(TemplateGalleryIntent.SelectTab(category)) },
+                    text = {
+                        Row(verticalAlignment = Alignment.CenterVertically) {
+                            Box(
+                                modifier = Modifier
+                                    .size(8.dp)
+                                    .clip(CircleShape)
+                                    .background(category.color)
+                            )
+                            Spacer(modifier = Modifier.width(6.dp))
+                            Text(
+                                when (category) {
+                                    TemplateCategory.DEVICE_INTERACTION -> "设备"
+                                    TemplateCategory.BUILD_SYSTEM -> "构建"
+                                    TemplateCategory.PLAY_CONSOLE -> "Play"
+                                    TemplateCategory.FIREBASE -> "Firebase"
+                                    TemplateCategory.CRASHLYTICS -> "Crash"
+                                    TemplateCategory.CUSTOM -> "自定义"
+                                }
+                            )
+                        }
+                    }
+                )
+            }
+        }
+
+        // Template list / 模板列表
+        if (state.isLoading && state.templates.isEmpty()) {
+            Box(
+                modifier = Modifier.fillMaxSize(),
+                contentAlignment = Alignment.Center
+            ) {
+                CircularProgressIndicator()
+            }
+        } else if (state.templates.isEmpty()) {
+            Box(
+                modifier = Modifier.fillMaxSize(),
+                contentAlignment = Alignment.Center
+            ) {
+                Text(
+                    "No templates in this category",
+                    color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.4f)
+                )
+            }
+        } else {
+            LazyColumn(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(16.dp),
+                verticalArrangement = Arrangement.spacedBy(12.dp)
+            ) {
+                items(state.templates, key = { it.id }) { template ->
+                    TemplateCard(template) {
+                        onIntent(TemplateGalleryIntent.SelectTemplate(template))
                     }
                 }
             }
         }
-        
-        val filtered = uiState.templates.filter { it.category == uiState.selectedTab }
-        
-        if (uiState.isLoading) Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) { CircularProgressIndicator() }
-        else if (filtered.isEmpty()) Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) { Text("No templates", color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.4f)) }
-        else LazyColumn(Modifier.fillMaxSize().padding(16.dp), verticalArrangement = Arrangement.spacedBy(12.dp)) { items(filtered) { t -> TemplateCard(t, { selected = t }, { viewModel.sendIntent(TemplateGalleryIntent.ImportTemplate(t)) }) } }
     }
-    
-    if (selected != null) {
-        ModalBottomSheet(onDismissRequest = { selected = null }) {
-            Column(Modifier.fillMaxWidth().padding(24.dp)) {
+
+    // Template detail bottom sheet / 模板详情底部弹窗
+    state.selectedTemplate?.let { template ->
+        ModalBottomSheet(
+            onDismissRequest = { onIntent(TemplateGalleryIntent.DismissTemplateDetail) },
+            sheetState = rememberModalBottomSheetState()
+        ) {
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(24.dp)
+            ) {
                 Row(verticalAlignment = Alignment.CenterVertically) {
-                    Box(Modifier.size(48.dp).clip(RoundedCornerShape(12.dp)).background(getCatColor(selected!!.category).copy(alpha = 0.2f)), contentAlignment = Alignment.Center) { Icon(getCatIcon(selected!!.category), null, Modifier.size(28.dp), tint = getCatColor(selected!!.category)) }
-                    Spacer(Modifier.width(16.dp))
-                    Column { Text(selected!!.name, style = MaterialTheme.typography.titleLarge, fontWeight = FontWeight.Bold); Text(getCatName(selected!!.category), style = MaterialTheme.typography.bodyMedium, color = getCatColor(selected!!.category)) }
+                    Box(
+                        modifier = Modifier
+                            .size(56.dp)
+                            .clip(RoundedCornerShape(12.dp))
+                            .background(template.category.color.copy(alpha = 0.1f)),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        Icon(
+                            imageVector = getTemplateIcon(template.iconName),
+                            contentDescription = null,
+                            tint = template.category.color,
+                            modifier = Modifier.size(32.dp)
+                        )
+                    }
+                    Spacer(modifier = Modifier.width(16.dp))
+                    Column {
+                        Text(
+                            template.name,
+                            style = MaterialTheme.typography.titleLarge,
+                            fontWeight = FontWeight.Bold
+                        )
+                        Text(
+                            template.category.label,
+                            style = MaterialTheme.typography.bodySmall,
+                            color = template.category.color
+                        )
+                    }
                 }
-                Spacer(Modifier.height(16.dp))
-                Text("Description", style = MaterialTheme.typography.titleSmall, fontWeight = FontWeight.Medium, color = MaterialTheme.colorScheme.primary)
-                Spacer(Modifier.height(4.dp))
-                Text(selected!!.description, style = MaterialTheme.typography.bodyMedium)
-                Spacer(Modifier.height(24.dp))
-                Button({ viewModel.sendIntent(TemplateGalleryIntent.ImportTemplate(selected!!)); selected = null }, Modifier.fillMaxWidth()) { Icon(Icons.Default.Cloud, null, Modifier.size(18.dp)); Spacer(Modifier.width(8.dp)); Text("Import Template") }
-                Spacer(Modifier.height(32.dp))
+                Spacer(modifier = Modifier.height(16.dp))
+                Text(
+                    "Description / 描述",
+                    style = MaterialTheme.typography.titleSmall,
+                    fontWeight = FontWeight.Medium
+                )
+                Spacer(modifier = Modifier.height(4.dp))
+                Text(
+                    template.description,
+                    style = MaterialTheme.typography.bodyMedium,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                )
+                Spacer(modifier = Modifier.height(16.dp))
+                Text(
+                    "Tools / 提供的工具",
+                    style = MaterialTheme.typography.titleSmall,
+                    fontWeight = FontWeight.Medium
+                )
+                Spacer(modifier = Modifier.height(8.dp))
+                template.tools.forEach { tool ->
+                    Row(
+                        modifier = Modifier.padding(vertical = 4.dp),
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        Box(
+                            modifier = Modifier
+                                .size(6.dp)
+                                .clip(CircleShape)
+                                .background(template.category.color)
+                        )
+                        Spacer(modifier = Modifier.width(8.dp))
+                        Text(tool, style = MaterialTheme.typography.bodyMedium)
+                    }
+                }
+                Spacer(modifier = Modifier.height(24.dp))
+                Button(
+                    onClick = { onIntent(TemplateGalleryIntent.ImportTemplate(template)) },
+                    modifier = Modifier.fillMaxWidth(),
+                    enabled = !state.isImporting
+                ) {
+                    if (state.isImporting) {
+                        CircularProgressIndicator(
+                            modifier = Modifier.size(16.dp),
+                            strokeWidth = 2.dp,
+                            color = MaterialTheme.colorScheme.onPrimary
+                        )
+                    } else {
+                        Text("Import Template / 导入模板")
+                    }
+                }
+                Spacer(modifier = Modifier.height(32.dp))
             }
         }
     }
 }
 
 @Composable
-private fun TemplateCard(template: McpTemplate, onClick: () -> Unit, onUse: () -> Unit) {
-    val color = getCatColor(template.category)
-    Card(Modifier.fillMaxWidth().clickable(onClick = onClick), colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant), shape = RoundedCornerShape(12.dp)) {
-        Column(Modifier.fillMaxWidth().padding(16.dp)) {
-            Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween, verticalAlignment = Alignment.Top) {
-                Row(Modifier.weight(1f)) {
-                    Box(Modifier.size(40.dp).clip(RoundedCornerShape(8.dp)).background(color.copy(alpha = 0.2f)), contentAlignment = Alignment.Center) { Icon(getCatIcon(template.category), null, Modifier.size(24.dp), tint = color) }
-                    Spacer(Modifier.width(12.dp))
-                    Column { Text(template.name, style = MaterialTheme.typography.bodyLarge, fontWeight = FontWeight.Medium); Text(template.description, style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant, maxLines = 2) }
-                }
+private fun TemplateCard(
+    template: McpTemplate,
+    onClick: () -> Unit
+) {
+    Card(
+        modifier = Modifier
+            .fillMaxWidth()
+            .clickable(onClick = onClick),
+        colors = CardDefaults.cardColors(
+            containerColor = MaterialTheme.colorScheme.surfaceVariant
+        ),
+        shape = RoundedCornerShape(12.dp)
+    ) {
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(16.dp),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Box(
+                modifier = Modifier
+                    .size(48.dp)
+                    .clip(RoundedCornerShape(8.dp))
+                    .background(template.category.color.copy(alpha = 0.1f)),
+                contentAlignment = Alignment.Center
+            ) {
+                Icon(
+                    imageVector = getTemplateIcon(template.iconName),
+                    contentDescription = null,
+                    tint = template.category.color,
+                    modifier = Modifier.size(28.dp)
+                )
             }
-            Spacer(Modifier.height(12.dp))
-            Button(onUse, Modifier.fillMaxWidth()) { Text("Use Template") }
+            Spacer(modifier = Modifier.width(16.dp))
+            Column(modifier = Modifier.weight(1f)) {
+                Text(
+                    template.name,
+                    style = MaterialTheme.typography.bodyLarge,
+                    fontWeight = FontWeight.Medium,
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis
+                )
+                Spacer(modifier = Modifier.height(4.dp))
+                Text(
+                    template.description,
+                    style = MaterialTheme.typography.bodySmall,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    maxLines = 2,
+                    overflow = TextOverflow.Ellipsis
+                )
+            }
         }
     }
 }
 
-private fun getCatColor(c: TemplateCategory) = when (c) { TemplateCategory.DEVICE_INTERACTION -> Color(0xFF2196F3); TemplateCategory.BUILD_SYSTEM -> Color(0xFF9C27B0); TemplateCategory.PLAY_CONSOLE -> Color(0xFF009688); TemplateCategory.FIREBASE -> Color(0xFFFF9800); TemplateCategory.CRASHLYTICS -> Color(0xFFFF5722); TemplateCategory.CUSTOM -> Color(0xFF607D8B) }
-private fun getCatIcon(c: TemplateCategory): ImageVector = when (c) { TemplateCategory.DEVICE_INTERACTION -> Icons.Default.PhoneAndroid; TemplateCategory.BUILD_SYSTEM -> Icons.Default.Build; TemplateCategory.PLAY_CONSOLE -> Icons.Default.PlayArrow; TemplateCategory.FIREBASE -> Icons.Default.Analytics; TemplateCategory.CRASHLYTICS -> Icons.Default.BugReport; TemplateCategory.CUSTOM -> Icons.Default.Settings }
-private fun getCatName(c: TemplateCategory) = when (c) { TemplateCategory.DEVICE_INTERACTION -> "Device"; TemplateCategory.BUILD_SYSTEM -> "Build"; TemplateCategory.PLAY_CONSOLE -> "Play"; TemplateCategory.FIREBASE -> "Firebase"; TemplateCategory.CRASHLYTICS -> "Crashlytics"; TemplateCategory.CUSTOM -> "Custom" }
+private fun getTemplateIcon(iconName: String): ImageVector = when (iconName) {
+    "PhoneAndroid" -> Icons.Default.Android
+    "Build", "Architecture" -> Icons.Default.Architecture
+    "PlayArrow" -> Icons.Default.PlayArrow
+    "Cloud" -> Icons.Default.Cloud
+    "BugReport" -> Icons.Default.BugReport
+    "Description", "DesignServices" -> Icons.Default.Description
+    else -> Icons.Default.Android
+}
