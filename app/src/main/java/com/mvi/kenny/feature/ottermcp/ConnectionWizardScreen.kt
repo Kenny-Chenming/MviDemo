@@ -1,165 +1,358 @@
 package com.mvi.kenny.feature.ottermcp
 
-import androidx.compose.animation.*
-import androidx.compose.foundation.background
-import androidx.compose.foundation.border
-import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.*
-import androidx.compose.material3.*
+import androidx.compose.material.icons.filled.CheckCircle
+import androidx.compose.material.icons.filled.CloudQueue
+import androidx.compose.material.icons.filled.Error
+import androidx.compose.material.icons.filled.PhoneAndroid
+import androidx.compose.material3.Button
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.Checkbox
+import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.Icon
+import androidx.compose.material3.LinearProgressIndicator
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedButton
+import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 
+/**
+ * Connection Wizard Screen / 连接向导屏幕
+ * Step-by-step MCP Server connection configuration
+ * 分步配置 MCP Server 连接
+ */
 @Composable
-fun ConnectionWizardScreen(viewModel: ConnectionWizardViewModel) {
-    val uiState by viewModel.state.collectAsState()
-    
-    Column(Modifier.fillMaxSize().padding(16.dp)) {
-        StepperIndicator(uiState.currentStep, 3)
-        Spacer(Modifier.height(24.dp))
-        
-        AnimatedContent(
-            uiState.currentStep,
-            transitionSpec = {
-                if (targetState > initialState) (slideInHorizontally { it } + fadeIn()) with (slideOutHorizontally { -it } + fadeOut())
-                else (slideInHorizontally { -it } + fadeIn()) with (slideOutHorizontally { it } + fadeOut())
-            },
-            label = "step"
-        ) { step ->
-            when (step) {
-                0 -> Step1SelectType(uiState.connectionType) { viewModel.sendIntent(ConnectionWizardIntent.SelectConnectionType(it)) }
-                1 -> Step2Configure(uiState.serverUrl, uiState.authToken, uiState.selectedTools,
-                    { viewModel.sendIntent(ConnectionWizardIntent.UpdateServerUrl(it)) },
-                    { viewModel.sendIntent(ConnectionWizardIntent.UpdateAuthToken(it)) },
-                    { viewModel.sendIntent(ConnectionWizardIntent.ToggleTool(it)) },
-                    { viewModel.sendIntent(ConnectionWizardIntent.TestConnection) },
-                    uiState.isTesting, uiState.connectionTestResult)
-                2 -> Step3Verify(uiState.serverUrl, uiState.selectedTools.toList(), uiState.isSaving)
+fun ConnectionWizardScreen(
+    state: ConnectionWizardState,
+    onIntent: (ConnectionWizardIntent) -> Unit
+) {
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(16.dp)
+    ) {
+        // Progress indicator / 进度指示器
+        LinearProgressIndicator(
+            progress = { (state.currentStep + 1) / 3f },
+            modifier = Modifier.fillMaxWidth(),
+            color = MaterialTheme.colorScheme.primary
+        )
+        Spacer(modifier = Modifier.height(16.dp))
+
+        // Step content / 步骤内容
+        Column(
+            modifier = Modifier
+                .weight(1f)
+                .verticalScroll(rememberScrollState())
+        ) {
+            when (state.currentStep) {
+                0 -> StepTypeSelection(
+                    state = state,
+                    onIntent = onIntent
+                )
+                1 -> StepConfiguration(
+                    state = state,
+                    onIntent = onIntent
+                )
+                2 -> StepVerifyAndSave(
+                    state = state,
+                    onIntent = onIntent
+                )
             }
         }
-        
-        Spacer(Modifier.weight(1f))
-        NavigationButtons(uiState.currentStep, uiState.currentStep > 0, uiState.currentStep < 2 && uiState.canProceed, uiState.currentStep == 2, uiState.isSaving,
-            { viewModel.sendIntent(ConnectionWizardIntent.PreviousStep) },
-            { viewModel.sendIntent(ConnectionWizardIntent.NextStep) },
-            { viewModel.sendIntent(ConnectionWizardIntent.SaveConnection) })
-    }
-}
 
-@Composable
-private fun StepperIndicator(currentStep: Int, totalSteps: Int) {
-    val labels = listOf("Select Type", "Configure", "Verify")
-    Column {
-        Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
-            labels.forEachIndexed { index, label ->
-                val isCompleted = index < currentStep
-                val isCurrent = index == currentStep
-                Column(Modifier.weight(1f), horizontalAlignment = Alignment.CenterHorizontally) {
-                    Box(Modifier.size(32.dp).clip(CircleShape).background(when { isCompleted -> MaterialTheme.colorScheme.primary; isCurrent -> MaterialTheme.colorScheme.primary.copy(alpha = 0.3f); else -> MaterialTheme.colorScheme.surfaceVariant }), contentAlignment = Alignment.Center) {
-                        if (isCompleted) Icon(Icons.Default.CheckCircle, "Completed", Modifier.size(20.dp), tint = MaterialTheme.colorScheme.onPrimary)
-                        else Text("${index + 1}", style = MaterialTheme.typography.bodyMedium, fontWeight = FontWeight.Medium, color = if (isCurrent) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurfaceVariant)
+        Spacer(modifier = Modifier.height(16.dp))
+
+        // Navigation buttons / 导航按钮
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.spacedBy(12.dp)
+        ) {
+            if (state.currentStep > 0) {
+                OutlinedButton(
+                    onClick = { onIntent(ConnectionWizardIntent.PreviousStep) },
+                    modifier = Modifier.weight(1f)
+                ) {
+                    Text("Back / 上一步")
+                }
+            }
+            Button(
+                onClick = {
+                    if (state.currentStep == 2) {
+                        onIntent(ConnectionWizardIntent.SaveConnection)
+                    } else {
+                        onIntent(ConnectionWizardIntent.NextStep)
                     }
-                    Spacer(Modifier.height(4.dp))
-                    Text(label, style = MaterialTheme.typography.labelSmall, color = if (isCurrent) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurfaceVariant)
+                },
+                modifier = Modifier.weight(1f),
+                enabled = when (state.currentStep) {
+                    0 -> state.connectionType != null
+                    1 -> state.serverUrl.isNotBlank()
+                    else -> !state.isSaving
                 }
-                if (index < totalSteps - 1) Box(Modifier.weight(1f).height(2.dp).padding(top = 16.dp).background(if (index < currentStep) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.surfaceVariant))
-            }
-        }
-        Spacer(Modifier.height(8.dp))
-        LinearProgressIndicator({ (currentStep + 1).toFloat() / totalSteps }, Modifier.fillMaxWidth().height(4.dp).clip(RoundedCornerShape(2.dp)), color = MaterialTheme.colorScheme.primary, trackColor = MaterialTheme.colorScheme.surfaceVariant)
-    }
-}
-
-@Composable
-private fun Step1SelectType(selected: ConnectionType?, onSelect: (ConnectionType) -> Unit) {
-    Column {
-        Text("Choose Connection Type", style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.Bold)
-        Spacer(Modifier.height(8.dp))
-        Text("Select how you want to connect to an MCP Server", style = MaterialTheme.typography.bodyMedium, color = MaterialTheme.colorScheme.onSurfaceVariant)
-        Spacer(Modifier.height(24.dp))
-        ConnectionTypeCard("Connect to Existing Server", "Connect to an external MCP Server using URL and authentication", Icons.Default.Cloud, selected == ConnectionType.EXTERNAL) { onSelect(ConnectionType.EXTERNAL) }
-        Spacer(Modifier.height(12.dp))
-        ConnectionTypeCard("Create from Android Template", "Create an Android-specific MCP Server using pre-built templates", Icons.Default.PhoneAndroid, selected == ConnectionType.ANDROID_TEMPLATE) { onSelect(ConnectionType.ANDROID_TEMPLATE) }
-    }
-}
-
-@Composable
-private fun ConnectionTypeCard(title: String, desc: String, icon: ImageVector, isSelected: Boolean, onClick: () -> Unit) {
-    Card(Modifier.fillMaxWidth().clickable(onClick = onClick).then(if (isSelected) Modifier.border(2.dp, MaterialTheme.colorScheme.primary, RoundedCornerShape(12.dp)) else Modifier), colors = CardDefaults.cardColors(containerColor = if (isSelected) MaterialTheme.colorScheme.primaryContainer.copy(alpha = 0.3f) else MaterialTheme.colorScheme.surfaceVariant), shape = RoundedCornerShape(12.dp)) {
-        Row(Modifier.fillMaxWidth().padding(16.dp), verticalAlignment = Alignment.CenterVertically) {
-            Icon(icon, title, Modifier.size(40.dp), tint = if (isSelected) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurfaceVariant)
-            Spacer(Modifier.width(16.dp))
-            Column { Text(title, style = MaterialTheme.typography.bodyLarge, fontWeight = FontWeight.Medium); Text(desc, style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant) }
-        }
-    }
-}
-
-@Composable
-private fun Step2Configure(serverUrl: String, authToken: String, selectedTools: Set<String>, onUrlChange: (String) -> Unit, onTokenChange: (String) -> Unit, onToggleTool: (String) -> Unit, onTest: () -> Unit, isTesting: Boolean, testResult: TestResult?) {
-    val tools = listOf("adb-shell", "screenshot", "logcat", "screenrecord", "gradle-build", "gradle-clean", "gradle-test", "firebase-crash", "firebase-analytics")
-    LazyColumn(Modifier.fillMaxSize(), verticalArrangement = Arrangement.spacedBy(16.dp)) {
-        item { Text("Configure Connection", style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.Bold) }
-        item { OutlinedTextField(serverUrl, onUrlChange, Modifier.fillMaxWidth(), singleLine = true, label = { Text("Server URL") }, placeholder = { Text("http://localhost:5037") }) }
-        item { OutlinedTextField(authToken, onTokenChange, Modifier.fillMaxWidth(), singleLine = true, label = { Text("Auth Token (Optional)") }) }
-        item {
-            Button(onTest, Modifier.fillMaxWidth(), enabled = !isTesting) {
-                if (isTesting) { CircularProgressIndicator(Modifier.size(16.dp), color = MaterialTheme.colorScheme.onPrimary, strokeWidth = 2.dp); Spacer(Modifier.width(8.dp)); Text("Testing...") }
-                else Text("Test Connection")
-            }
-            when (testResult) {
-                is TestResult.Success -> { Row(verticalAlignment = Alignment.CenterVertically) { Icon(Icons.Default.CheckCircle, null, Modifier.size(16.dp), tint = Color(0xFF4CAF50)); Spacer(Modifier.width(4.dp)); Text("Connection successful!", Modifier.padding(8.dp), Color(0xFF4CAF50), style = MaterialTheme.typography.bodySmall) } }
-                is TestResult -> { if (!testResult.success) { Row(verticalAlignment = Alignment.CenterVertically) { Icon(Icons.Default.Error, null, Modifier.size(16.dp), tint = MaterialTheme.colorScheme.error); Spacer(Modifier.width(4.dp)); Text(testResult.message, Modifier.padding(8.dp), MaterialTheme.colorScheme.error, style = MaterialTheme.typography.bodySmall) } } }
-                null -> {}
-            }
-        }
-        item { Text("Allowed Tools", style = MaterialTheme.typography.titleSmall, fontWeight = FontWeight.Medium, color = MaterialTheme.colorScheme.primary) }
-        items(tools.chunked(2)) { row ->
-            Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                row.forEach { tool ->
-                    Row(Modifier.weight(1f).clickable { onToggleTool(tool) }.padding(8.dp), verticalAlignment = Alignment.CenterVertically) { Checkbox(selectedTools.contains(tool), {}); Text(tool, style = MaterialTheme.typography.bodySmall) }
+            ) {
+                if (state.isSaving) {
+                    CircularProgressIndicator(
+                        modifier = Modifier.size(16.dp),
+                        strokeWidth = 2.dp,
+                        color = MaterialTheme.colorScheme.onPrimary
+                    )
+                } else {
+                    Text(
+                        when (state.currentStep) {
+                            0 -> "Next / 下一步"
+                            1 -> "Next / 下一步"
+                            else -> "Save / 保存"
+                        }
+                    )
                 }
-                if (row.size == 1) Spacer(Modifier.weight(1f))
             }
         }
     }
 }
 
 @Composable
-private fun Step3Verify(serverUrl: String, connectedTools: List<String>, isSaving: Boolean) {
-    Column {
-        Text("Verify & Save", style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.Bold)
-        Spacer(Modifier.height(16.dp))
-        Card(Modifier.fillMaxWidth(), colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant), shape = RoundedCornerShape(12.dp)) {
-            Column(Modifier.padding(16.dp)) {
-                Text("Connection Summary", style = MaterialTheme.typography.titleSmall, fontWeight = FontWeight.Medium)
-                Spacer(Modifier.height(12.dp))
-                Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) { Text("Server URL", style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant); Text(serverUrl.ifEmpty { "Not configured" }, style = MaterialTheme.typography.bodySmall) }
-                Spacer(Modifier.height(8.dp))
-                Text("Connected Tools (${connectedTools.size})", style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
-                connectedTools.take(6).forEach { Text("- $it", style = MaterialTheme.typography.bodySmall) }
+private fun StepTypeSelection(
+    state: ConnectionWizardState,
+    onIntent: (ConnectionWizardIntent) -> Unit
+) {
+    Text(
+        "选择连接类型 / Select Connection Type",
+        style = MaterialTheme.typography.titleMedium,
+        fontWeight = FontWeight.Bold
+    )
+    Spacer(modifier = Modifier.height(16.dp))
+    ConnectionTypeCard(
+        type = ConnectionType.EXTERNAL,
+        isSelected = state.connectionType == ConnectionType.EXTERNAL,
+        onClick = { onIntent(ConnectionWizardIntent.SelectConnectionType(ConnectionType.EXTERNAL)) }
+    )
+    Spacer(modifier = Modifier.height(12.dp))
+    ConnectionTypeCard(
+        type = ConnectionType.ANDROID_TEMPLATE,
+        isSelected = state.connectionType == ConnectionType.ANDROID_TEMPLATE,
+        onClick = { onIntent(ConnectionWizardIntent.SelectConnectionType(ConnectionType.ANDROID_TEMPLATE)) }
+    )
+}
+
+@Composable
+private fun StepConfiguration(
+    state: ConnectionWizardState,
+    onIntent: (ConnectionWizardIntent) -> Unit
+) {
+    Text(
+        "配置连接参数 / Configure Connection",
+        style = MaterialTheme.typography.titleMedium,
+        fontWeight = FontWeight.Bold
+    )
+    Spacer(modifier = Modifier.height(16.dp))
+
+    OutlinedTextField(
+        value = state.serverName,
+        onValueChange = { onIntent(ConnectionWizardIntent.UpdateServerName(it)) },
+        label = { Text("Server Name / 服务器名称") },
+        modifier = Modifier.fillMaxWidth(),
+        singleLine = true
+    )
+    Spacer(modifier = Modifier.height(12.dp))
+
+    OutlinedTextField(
+        value = state.serverUrl,
+        onValueChange = { onIntent(ConnectionWizardIntent.UpdateServerUrl(it)) },
+        label = { Text("Server URL / 服务器地址") },
+        modifier = Modifier.fillMaxWidth(),
+        singleLine = true
+    )
+    Spacer(modifier = Modifier.height(12.dp))
+
+    OutlinedTextField(
+        value = state.authToken,
+        onValueChange = { onIntent(ConnectionWizardIntent.UpdateAuthToken(it)) },
+        label = { Text("Auth Token (optional) / 认证令牌") },
+        modifier = Modifier.fillMaxWidth(),
+        singleLine = true
+    )
+    Spacer(modifier = Modifier.height(16.dp))
+
+    Text(
+        "Tools / 工具权限",
+        style = MaterialTheme.typography.titleSmall,
+        fontWeight = FontWeight.Medium
+    )
+    listOf("device.screenshot", "device.install", "device.logcat", "device.input", "device.reboot").forEach { tool ->
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
+            modifier = Modifier.padding(vertical = 4.dp)
+        ) {
+            Checkbox(
+                checked = state.selectedTools.contains(tool),
+                onCheckedChange = { onIntent(ConnectionWizardIntent.ToggleTool(tool)) }
+            )
+            Text(tool, style = MaterialTheme.typography.bodyMedium)
+        }
+    }
+}
+
+@Composable
+private fun StepVerifyAndSave(
+    state: ConnectionWizardState,
+    onIntent: (ConnectionWizardIntent) -> Unit
+) {
+    Text(
+        "验证与保存 / Verify & Save",
+        style = MaterialTheme.typography.titleMedium,
+        fontWeight = FontWeight.Bold
+    )
+    Spacer(modifier = Modifier.height(16.dp))
+
+    Card(
+        colors = CardDefaults.cardColors(
+            containerColor = MaterialTheme.colorScheme.surfaceVariant
+        ),
+        shape = RoundedCornerShape(12.dp)
+    ) {
+        Column(modifier = Modifier.padding(16.dp)) {
+            Text(
+                "Summary / 摘要",
+                style = MaterialTheme.typography.titleSmall,
+                fontWeight = FontWeight.Medium
+            )
+            Spacer(modifier = Modifier.height(8.dp))
+            Text("Name: ${state.serverName.ifBlank { "N/A" }}")
+            Text("URL: ${state.serverUrl}")
+            Text("Type: ${state.connectionType?.label ?: "N/A"}")
+            Text("Tools: ${state.selectedTools.size} selected")
+        }
+    }
+    Spacer(modifier = Modifier.height(16.dp))
+
+    OutlinedButton(
+        onClick = { onIntent(ConnectionWizardIntent.TestConnection) },
+        modifier = Modifier.fillMaxWidth(),
+        enabled = !state.isTesting
+    ) {
+        if (state.isTesting) {
+            CircularProgressIndicator(
+                modifier = Modifier.size(16.dp),
+                strokeWidth = 2.dp
+            )
+        } else {
+            Text("Test Connection / 测试连接")
+        }
+    }
+
+    state.connectionTestResult?.let { result ->
+        Spacer(modifier = Modifier.height(16.dp))
+        Card(
+            colors = CardDefaults.cardColors(
+                containerColor = if (result.success) {
+                    Color(0xFF4CAF50).copy(alpha = 0.1f)
+                } else {
+                    MaterialTheme.colorScheme.errorContainer.copy(alpha = 0.3f)
+                }
+            ),
+            shape = RoundedCornerShape(8.dp)
+        ) {
+            Row(
+                modifier = Modifier.fillMaxWidth().padding(12.dp),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Icon(
+                    imageVector = if (result.success) Icons.Default.CheckCircle else Icons.Default.Error,
+                    contentDescription = null,
+                    tint = if (result.success) Color(0xFF4CAF50) else MaterialTheme.colorScheme.error
+                )
+                Spacer(modifier = Modifier.width(12.dp))
+                Text(
+                    if (result.success) "Connection successful!" else "Connection failed!",
+                    style = MaterialTheme.typography.bodyMedium
+                )
             }
         }
     }
 }
 
 @Composable
-private fun NavigationButtons(currentStep: Int, canGoBack: Boolean, canGoNext: Boolean, canSave: Boolean, isSaving: Boolean, onBack: () -> Unit, onNext: () -> Unit, onSave: () -> Unit) {
-    Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(12.dp)) {
-        if (canGoBack) OutlinedButton(onBack, Modifier.weight(1f)) { Text("Back") }
-        if (canSave) Button(onSave, Modifier.weight(1f), enabled = !isSaving) { if (isSaving) { CircularProgressIndicator(Modifier.size(16.dp), color = MaterialTheme.colorScheme.onPrimary, strokeWidth = 2.dp); Spacer(Modifier.width(8.dp)) }; Text("Save Connection") }
-        else if (canGoNext) Button(onNext, Modifier.weight(1f)) { Text("Next") }
+private fun ConnectionTypeCard(
+    type: ConnectionType,
+    isSelected: Boolean,
+    onClick: () -> Unit
+) {
+    Card(
+        onClick = onClick,
+        colors = CardDefaults.cardColors(
+            containerColor = if (isSelected) {
+                MaterialTheme.colorScheme.primaryContainer
+            } else {
+                MaterialTheme.colorScheme.surfaceVariant
+            }
+        ),
+        border = if (isSelected) {
+            BorderStroke(2.dp, MaterialTheme.colorScheme.primary)
+        } else null,
+        shape = RoundedCornerShape(12.dp)
+    ) {
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(16.dp),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Icon(
+                imageVector = when (type) {
+                    ConnectionType.EXTERNAL -> Icons.Default.CloudQueue
+                    ConnectionType.ANDROID_TEMPLATE -> Icons.Default.PhoneAndroid
+                },
+                contentDescription = null,
+                modifier = Modifier.size(40.dp),
+                tint = if (isSelected) {
+                    MaterialTheme.colorScheme.primary
+                } else {
+                    MaterialTheme.colorScheme.onSurfaceVariant
+                }
+            )
+            Spacer(modifier = Modifier.width(16.dp))
+            Column(modifier = Modifier.weight(1f)) {
+                Text(
+                    type.label,
+                    style = MaterialTheme.typography.bodyLarge,
+                    fontWeight = FontWeight.Medium
+                )
+                Text(
+                    type.description,
+                    style = MaterialTheme.typography.bodySmall,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                )
+            }
+            if (isSelected) {
+                Icon(
+                    Icons.Default.CheckCircle,
+                    null,
+                    tint = MaterialTheme.colorScheme.primary
+                )
+            }
+        }
     }
 }
