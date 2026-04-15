@@ -21,6 +21,8 @@ import androidx.compose.material.icons.filled.Widgets
 import androidx.compose.material.icons.filled.Share
 import androidx.compose.material.icons.filled.AutoAwesome
 import androidx.compose.material.icons.filled.BugReport
+import androidx.compose.material.icons.filled.SwapVert
+import androidx.compose.material.icons.filled.CloudQueue
 import androidx.compose.ui.graphics.vector.ImageVector
 
 /**
@@ -65,8 +67,16 @@ sealed class BottomNavRoute(
     data object Gemma4 : BottomNavRoute(route = "gemma4", title = "Gemma 4", icon = Icons.Default.AutoAwesome)
     // PRD-115: AndroidX core-ktx 历史性迁移检测与自动化工具包
     data object CoreKtx : BottomNavRoute(route = "core_ktx", title = "core-ktx迁移", icon = Icons.Default.Shield)
+    // PRD-114: AppCompat 1.8.0-alpha01 minSdk 23 强制迁移与 JSpecify 合规工具包
+    data object AppCompat : BottomNavRoute(route = "app_compat", title = "AppCompat迁移", icon = Icons.Default.SwapVert)
     // PRD-099: Journeys E2E Testing Toolkit
     data object Journeys : BottomNavRoute(route = "journeys", title = "Journeys", icon = Icons.Default.BugReport)
+    // PRD-118: Room 3.0 KMP 现代化迁移检测与自动化工具包
+    data object Room3Migration : BottomNavRoute(route = "room3_migration", title = "Room3迁移", icon = Icons.Default.DeveloperBoard)
+    // PRD-093: Paging 3.5 asState 操作符开发工具包
+    data object Paging35 : BottomNavRoute(route = "paging35", title = "Paging 3.5", icon = Icons.Default.DeveloperBoard)
+    // PRD-096: Android Studio Otter MCP Server 生态接入工具包
+    data object OtterMcp : BottomNavRoute(route = "otter_mcp", title = "Otter MCP", icon = Icons.Default.CloudQueue)
 }
 
 /**
@@ -108,13 +118,21 @@ object NavRoutes {
     const val HANDOFF = "handoff"
     // PRD-115: AndroidX core-ktx 历史性迁移检测与自动化工具包
     const val CORE_KTX = "core_ktx"
+    // PRD-114: AppCompat 1.8.0-alpha01 minSdk 23 强制迁移与 JSpecify 合规工具包
+    const val APP_COMPAT = "app_compat"
     // PRD-098: Gemma 4 × Android Studio Agent Mode 本地编码 Agent 工具链
     const val GEMMA4 = "gemma4"
     // PRD-099: Journeys E2E Testing Toolkit
     const val JOURNEYS = "journeys"
+    // PRD-118: Room 3.0 KMP 现代化迁移检测与自动化工具包
+    const val ROOM3_MIGRATION = "room3_migration"
     const val JOURNEY_EDITOR = "journey_editor"
     const val JOURNEY_RESULT = "journey_result"
     const val JOURNEY_TEMPLATE_LIBRARY = "journey_template_library"
     const val JOURNEY_CI_CONFIG = "journey_ci_config"
     const val JOURNEY_FRAMEWORK_COMPARISON = "journey_framework_comparison"
+    // PRD-096: Android Studio Otter MCP Server 生态接入工具包
+    const val OTTER_MCP = "otter_mcp"
+    // PRD-093: Paging 3.5 asState 操作符开发工具包
+    const val PAGING35 = "paging35"
 }
