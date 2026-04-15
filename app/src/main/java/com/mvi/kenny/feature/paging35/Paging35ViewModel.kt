@@ -411,7 +411,7 @@ fun HeaderFooterPagingList(
         // Items / 数据项
         items(
             count = pagingData.itemCount,
-            key = { index -> "item_${pagingData[index]?.id ?: index}" }
+            key = { index -> "item_" + "$" + "{pagingData[index]?.id ?: index}" }
         ) { index ->
             val item = pagingData[index]
             item?.let { ItemCard(item = it) }
@@ -482,7 +482,7 @@ fun GridPagingList(
     ) {
         items(
             count = pagingData.itemCount,
-            key = { index -> "grid_item_${pagingData[index]?.id ?: index}" }
+            key = { index -> "grid_item_" + "$" + "{pagingData[index]?.id ?: index}" }
         ) { index ->
             val item = pagingData[index]
             item?.let { GridItemCard(item = it) }
@@ -534,7 +534,7 @@ fun MultiTypePagingList(
     ) {
         items(
             count = pagingData.itemCount,
-            key = { index -> "multi_${pagingData[index]?.hashCode() ?: index}" }
+            key = { index -> "multi_" + "$" + "{pagingData[index]?.hashCode() ?: index}" }
         ) { index ->
             val item = pagingData[index]
             when (item) {
@@ -606,7 +606,7 @@ fun RoomPagingList(
     ) {
         items(
             count = pagingData.itemCount,
-            key = { index -> "room_${pagingData[index]?.id ?: index}" }
+            key = { index -> "room_" + "$" + "{pagingData[index]?.id ?: index}" }
         ) { index ->
             val item = pagingData[index]
             item?.let { ItemRow(item = it) }

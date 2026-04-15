@@ -44,14 +44,10 @@ import com.mvi.kenny.feature.agp9migration.AGP9MigrationScreen
 import com.mvi.kenny.feature.cardatal.CarDataScreen
 import com.mvi.kenny.feature.bubbles.BubblesMainScreen
 import com.mvi.kenny.feature.gemma4.Gemma4Screen
-import com.mvi.kenny.feature.handoff.HandoffScreen
-import com.mvi.kenny.feature.ottermcp.OtterMcpScreen
 import com.mvi.kenny.feature.corektx.CoreKtxMigrationScreen
-import com.mvi.kenny.feature.appcompat.AppCompatMigrationScreen
-import com.mvi.kenny.feature.room3migration.Room3MigrationScreen
+import com.mvi.kenny.navigation.BottomNavRoute
 import com.mvi.kenny.feature.paging35.Paging35Screen
 import com.mvi.kenny.feature.paging35.Paging35ViewModel
-import com.mvi.kenny.navigation.BottomNavRoute
 
 /**
  * ============================================================
@@ -123,11 +119,7 @@ fun MainScreen(
         BottomNavRoute.AppBubbles,
         BottomNavRoute.Gemma4,
         BottomNavRoute.CoreKtx,
-        BottomNavRoute.AppCompat,
-        BottomNavRoute.Room3Migration,
-        BottomNavRoute.Paging35,
-        BottomNavRoute.OtterMcp,
-        BottomNavRoute.Handoff
+        BottomNavRoute.Paging35
     )
 
     // Pager 状态，管理当前是第几页
@@ -154,11 +146,7 @@ fun MainScreen(
     var appBubblesTopBar by remember { mutableStateOf(TopBarConfig(title = "App Bubbles · 接入引导")) }
     var gemma4TopBar by remember { mutableStateOf(TopBarConfig(title = "Gemma 4 Agent Toolkit")) }
     var coreKtxTopBar by remember { mutableStateOf(TopBarConfig(title = "core-ktx 迁移工具")) }
-    var appCompatTopBar by remember { mutableStateOf(TopBarConfig(title = "AppCompat 迁移工具")) }
-    var room3MigrationTopBar by remember { mutableStateOf(TopBarConfig(title = "Room 3.0 KMP 迁移工具")) }
     var paging35TopBar by remember { mutableStateOf(TopBarConfig(title = "Paging 3.5 Toolkit")) }
-    var otterMcpTopBar by remember { mutableStateOf(TopBarConfig(title = "Otter MCP Server")) }
-    var handoffTopBar by remember { mutableStateOf(TopBarConfig(title = "Android 17 Handoff")) }
 
     // 根据当前页码决定显示哪个 TopBar 配置
     val currentTopBar = when (pagerState.currentPage) {
@@ -180,11 +168,7 @@ fun MainScreen(
         15 -> appBubblesTopBar
         16 -> gemma4TopBar
         17 -> coreKtxTopBar
-        18 -> appCompatTopBar
-        19 -> room3MigrationTopBar
-        20 -> paging35TopBar
-        21 -> otterMcpTopBar
-        22 -> handoffTopBar
+        18 -> paging35TopBar
         else -> homeTopBar
     }
 
@@ -278,24 +262,9 @@ fun MainScreen(
                     17 -> CoreKtxMigrationScreen(
                         onUpdateTopBar = { coreKtxTopBar = it }
                     )
-                    18 -> AppCompatMigrationScreen(
-                        onUpdateTopBar = { appCompatTopBar = it }
-                    )
-                    19 -> Room3MigrationScreen(
-                        onUpdateTopBar = { room3MigrationTopBar = it }
-                    )
-                    20 -> {
-                        val paging35ViewModel = remember { Paging35ViewModel() }
-                        Paging35Screen(
-                            viewModel = paging35ViewModel,
-                            onNavigateBack = { pendingTabToSelect = 0 }
-                        )
-                    }
-                    21 -> OtterMcpScreen(
-                        onUpdateTopBar = { otterMcpTopBar = it }
-                    )
-                    22 -> HandoffScreen(
-                        onUpdateTopBar = { handoffTopBar = it }
+                    18 -> Paging35Screen(
+                        viewModel = remember { Paging35ViewModel() },
+                        onNavigateBack = { }
                     )
                 }
             }

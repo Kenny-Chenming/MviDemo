@@ -842,6 +842,7 @@ private fun CodePreviewBlock(
     isLoading: Boolean,
     onCopy: () -> Unit
 ) {
+    val context = LocalContext.current  // Capture for clipboard / 捕获用于剪贴板
     Card(
         modifier = Modifier.fillMaxWidth(),
         colors = CardDefaults.cardColors(
@@ -864,7 +865,7 @@ private fun CodePreviewBlock(
                 )
                 IconButton(
                     onClick = {
-                        val clipboard = LocalContext.current.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+                        val clipboard = context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
                         val clip = ClipData.newPlainText("Paging Code", code)
                         clipboard.setPrimaryClip(clip)
                         onCopy()
