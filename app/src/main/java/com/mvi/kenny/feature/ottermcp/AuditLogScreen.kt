@@ -15,6 +15,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.Download
@@ -51,6 +52,7 @@ import java.util.Locale
  * View and export MCP tool call history / 查看和导出 MCP 工具调用历史
  */
 @Composable
+@OptIn(ExperimentalMaterial3Api::class)
 fun AuditLogScreen(
     state: AuditLogState,
     onIntent: (AuditLogIntent) -> Unit

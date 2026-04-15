@@ -11,11 +11,6 @@ import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 import java.util.UUID
 
-/**
- * Otter MCP Server ViewModel
- * Manages all 6 sub-screens via MVI pattern
- * 管理所有 6 个子屏幕的 MVI 模式
- */
 class OtterMcpViewModel : ViewModel() {
     private val _state = MutableStateFlow(OtterMcpState.Initial)
     val state: StateFlow<OtterMcpState> = _state.asStateFlow()
@@ -33,16 +28,15 @@ class OtterMcpViewModel : ViewModel() {
             is OtterMcpIntent.NavigateTo -> { _state.value = _state.value.copy(currentScreen = intent.screen) }
             is OtterMcpIntent.LoadDashboard -> loadDashboard()
             is OtterMcpIntent.RefreshConnections -> refreshConnections()
-            is OtterMcpIntent.ConnectionWizardIntent -> handleConnectionWizard(intent.intent)
-            is OtterMcpIntent.TemplateGalleryIntent -> handleTemplateGallery(intent.intent)
-            is OtterMcpIntent.SecurityIntent -> handleSecurity(intent.intent)
-            is OtterMcpIntent.AuditLogIntent -> handleAuditLog(intent.intent)
-            is OtterMcpIntent.DeviceInteractionIntent -> handleDeviceInteraction(intent.intent)
-            is OtterMcpIntent.DashboardIntent -> handleDashboard(intent.intent)
+            is OtterMcpIntent.Dashboard -> handleDashboard(intent.intent)
+            is OtterMcpIntent.ConnectionWizard -> handleConnectionWizard(intent.intent)
+            is OtterMcpIntent.TemplateGallery -> handleTemplateGallery(intent.intent)
+            is OtterMcpIntent.Security -> handleSecurity(intent.intent)
+            is OtterMcpIntent.AuditLog -> handleAuditLog(intent.intent)
+            is OtterMcpIntent.DeviceInteraction -> handleDeviceInteraction(intent.intent)
         }
     }
 
-    // ==================== Dashboard / 仪表盘 ====================
     private fun handleDashboard(intent: DashboardIntent) {
         when (intent) {
             is DashboardIntent.LoadDashboard -> loadDashboard()
@@ -87,7 +81,6 @@ class OtterMcpViewModel : ViewModel() {
         _state.value = _state.value.copy(dashboardState = _state.value.dashboardState.copy(recentCalls = mockCalls))
     }
 
-    // ==================== Connection Wizard / 连接向导 ====================
     private fun handleConnectionWizard(intent: ConnectionWizardIntent) {
         when (intent) {
             is ConnectionWizardIntent.SelectConnectionType -> { _state.value = _state.value.copy(connectionWizardState = _state.value.connectionWizardState.copy(connectionType = intent.type)) }
@@ -103,7 +96,6 @@ class OtterMcpViewModel : ViewModel() {
         }
     }
 
-    // ==================== Template Gallery / 模板库 ====================
     private fun handleTemplateGallery(intent: TemplateGalleryIntent) {
         when (intent) {
             is TemplateGalleryIntent.SelectTab -> { _state.value = _state.value.copy(templateGalleryState = _state.value.templateGalleryState.copy(selectedTab = intent.category, templates = mockTemplates.filter { it.category == intent.category })) }
@@ -117,7 +109,6 @@ class OtterMcpViewModel : ViewModel() {
         _state.value = _state.value.copy(templateGalleryState = _state.value.templateGalleryState.copy(templates = mockTemplates.filter { it.category == TemplateCategory.DEVICE_INTERACTION }))
     }
 
-    // ==================== Security / 安全策略 ====================
     private fun handleSecurity(intent: SecurityIntent) {
         when (intent) {
             is SecurityIntent.ToggleToolPermission -> { val matrix = _state.value.securityState.permissionMatrix.toMutableList(); val idx = matrix.indexOfFirst { it.serverId == intent.serverId && it.toolName == intent.toolName }; if (idx >= 0) { matrix[idx] = matrix[idx].copy(isAllowed = intent.allowed); _state.value = _state.value.copy(securityState = _state.value.securityState.copy(permissionMatrix = matrix)) } }
@@ -127,7 +118,6 @@ class OtterMcpViewModel : ViewModel() {
         }
     }
 
-    // ==================== Audit Log / 审计日志 ====================
     private fun handleAuditLog(intent: AuditLogIntent) {
         when (intent) {
             is AuditLogIntent.LoadLogs -> { viewModelScope.launch { _state.value = _state.value.copy(auditLogState = _state.value.auditLogState.copy(isLoading = true, filters = intent.filters)); delay(800); val logs = generateMockAuditLogs(); _state.value = _state.value.copy(auditLogState = _state.value.auditLogState.copy(logs = logs, isLoading = false, hasMore = logs.size >= 20)) } }
@@ -149,7 +139,6 @@ class OtterMcpViewModel : ViewModel() {
         }
     }
 
-    // ==================== Device Interaction / 设备交互 ====================
     private fun handleDeviceInteraction(intent: DeviceInteractionIntent) {
         when (intent) {
             is DeviceInteractionIntent.RefreshDevices -> { viewModelScope.launch { val devs = listOf(AndroidDevice("device-1", "Pixel 7 Pro (Emulator)", "Pixel 7 Pro", true), AndroidDevice("device-2", "Samsung Galaxy S23", "SM-S918B", true), AndroidDevice("device-3", "Xiaomi 13", "2201123G", false)); _state.value = _state.value.copy(deviceInteractionState = _state.value.deviceInteractionState.copy(connectedDevices = devs, selectedDevice = devs.firstOrNull { it.isConnected })); _effect.send(OtterMcpEffect.ShowToast("Found ${devs.count { it.isConnected }} device(s)")) } }

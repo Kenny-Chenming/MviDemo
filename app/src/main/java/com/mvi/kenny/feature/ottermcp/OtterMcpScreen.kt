@@ -15,10 +15,6 @@ import androidx.compose.ui.unit.dp
 import com.mvi.kenny.base.TopBarConfig
 import kotlinx.coroutines.flow.collectLatest
 
-/**
- * Otter MCP Server Main Screen / Otter MCP 服务器主界面
- * Entry point for the entire feature module / 整个功能模块的入口点
- */
 @Composable
 fun OtterMcpScreen(
     onUpdateTopBar: (TopBarConfig) -> Unit,
@@ -26,23 +22,20 @@ fun OtterMcpScreen(
 ) {
     val state by viewModel.state.collectAsState()
 
-    // Update top bar when screen changes / 切换屏幕时更新顶部栏
     LaunchedEffect(state.currentScreen) {
         onUpdateTopBar(TopBarConfig(title = "Otter MCP Server", actions = emptyList()))
     }
 
-    // Collect effects / 收集副作用
     LaunchedEffect(Unit) {
         viewModel.effect.collectLatest { effect ->
             when (effect) {
-                is OtterMcpEffect.ShowToast -> { /* Toast handled by caller */ }
-                is OtterMcpEffect.ShowError -> { /* Error handled by caller */ }
+                is OtterMcpEffect.ShowToast -> { }
+                is OtterMcpEffect.ShowError -> { }
             }
         }
     }
 
     Column(modifier = Modifier.fillMaxSize()) {
-        // Tab navigation for sub-screens / 子屏幕 Tab 导航
         ScrollableTabRow(
             selectedTabIndex = SubScreen.entries.indexOf(state.currentScreen),
             modifier = Modifier.padding(0.dp),
@@ -68,32 +61,31 @@ fun OtterMcpScreen(
             }
         }
 
-        // Sub-screen content / 子屏幕内容
         when (state.currentScreen) {
             SubScreen.DASHBOARD -> DashboardScreen(
                 state.dashboardState,
-                { viewModel.sendIntent(OtterMcpIntent.DashboardIntent(it)) },
+                { viewModel.sendIntent(OtterMcpIntent.Dashboard(it)) },
                 { viewModel.sendIntent(OtterMcpIntent.NavigateTo(it)) }
             )
             SubScreen.CONNECTION_WIZARD -> ConnectionWizardScreen(
                 state.connectionWizardState,
-                { viewModel.sendIntent(OtterMcpIntent.ConnectionWizardIntent(it)) }
+                { viewModel.sendIntent(OtterMcpIntent.ConnectionWizard(it)) }
             )
             SubScreen.TEMPLATE_GALLERY -> TemplateGalleryScreen(
                 state.templateGalleryState,
-                { viewModel.sendIntent(OtterMcpIntent.TemplateGalleryIntent(it)) }
+                { viewModel.sendIntent(OtterMcpIntent.TemplateGallery(it)) }
             )
             SubScreen.SECURITY -> SecurityScreen(
                 state.securityState,
-                { viewModel.sendIntent(OtterMcpIntent.SecurityIntent(it)) }
+                { viewModel.sendIntent(OtterMcpIntent.Security(it)) }
             )
             SubScreen.AUDIT_LOG -> AuditLogScreen(
                 state.auditLogState,
-                { viewModel.sendIntent(OtterMcpIntent.AuditLogIntent(it)) }
+                { viewModel.sendIntent(OtterMcpIntent.AuditLog(it)) }
             )
             SubScreen.DEVICE_SERVER -> DeviceServerScreen(
                 state.deviceInteractionState,
-                { viewModel.sendIntent(OtterMcpIntent.DeviceInteractionIntent(it)) }
+                { viewModel.sendIntent(OtterMcpIntent.DeviceInteraction(it)) }
             )
         }
     }
