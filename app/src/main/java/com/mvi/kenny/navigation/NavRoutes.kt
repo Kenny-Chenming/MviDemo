@@ -77,6 +77,8 @@ sealed class BottomNavRoute(
     data object Paging35 : BottomNavRoute(route = "paging35", title = "Paging 3.5", icon = Icons.Default.DeveloperBoard)
     // PRD-096: Android Studio Otter MCP Server 生态接入工具包
     data object OtterMcp : BottomNavRoute(route = "otter_mcp", title = "Otter MCP", icon = Icons.Default.CloudQueue)
+    // PRD-102: Android 17 Lock-Free MessageQueue Reflection Breaking Change Toolkit
+    data object MessageQueue : BottomNavRoute(route = "message_queue", title = "MQ反射检测", icon = Icons.Default.BugReport)
 }
 
 /**
@@ -135,4 +137,6 @@ object NavRoutes {
     const val OTTER_MCP = "otter_mcp"
     // PRD-093: Paging 3.5 asState 操作符开发工具包
     const val PAGING35 = "paging35"
+    // PRD-102: Android 17 Lock-Free MessageQueue Reflection Toolkit
+    const val MESSAGE_QUEUE = "message_queue"
 }

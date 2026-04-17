@@ -48,6 +48,7 @@ import com.mvi.kenny.feature.corektx.CoreKtxMigrationScreen
 import com.mvi.kenny.navigation.BottomNavRoute
 import com.mvi.kenny.feature.paging35.Paging35Screen
 import com.mvi.kenny.feature.paging35.Paging35ViewModel
+import com.mvi.kenny.feature.messagequeue.MessageQueueScreen
 
 /**
  * ============================================================
@@ -119,7 +120,8 @@ fun MainScreen(
         BottomNavRoute.AppBubbles,
         BottomNavRoute.Gemma4,
         BottomNavRoute.CoreKtx,
-        BottomNavRoute.Paging35
+        BottomNavRoute.Paging35,
+        BottomNavRoute.MessageQueue
     )
 
     // Pager 状态，管理当前是第几页
@@ -147,6 +149,7 @@ fun MainScreen(
     var gemma4TopBar by remember { mutableStateOf(TopBarConfig(title = "Gemma 4 Agent Toolkit")) }
     var coreKtxTopBar by remember { mutableStateOf(TopBarConfig(title = "core-ktx 迁移工具")) }
     var paging35TopBar by remember { mutableStateOf(TopBarConfig(title = "Paging 3.5 Toolkit")) }
+    var messageQueueTopBar by remember { mutableStateOf(TopBarConfig(title = "MessageQueue 反射检测")) }
 
     // 根据当前页码决定显示哪个 TopBar 配置
     val currentTopBar = when (pagerState.currentPage) {
@@ -169,6 +172,7 @@ fun MainScreen(
         16 -> gemma4TopBar
         17 -> coreKtxTopBar
         18 -> paging35TopBar
+        19 -> messageQueueTopBar
         else -> homeTopBar
     }
 
@@ -266,6 +270,7 @@ fun MainScreen(
                         viewModel = remember { Paging35ViewModel() },
                         onNavigateBack = { }
                     )
+                    19 -> MessageQueueScreen()
                 }
             }
         }
