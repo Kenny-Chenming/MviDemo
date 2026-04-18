@@ -9,6 +9,7 @@ import androidx.compose.material.icons.filled.DeveloperBoard
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Memory
 import androidx.compose.material.icons.filled.Watch
+import androidx.compose.material.icons.filled.Wifi
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.Shield
 import androidx.compose.material.icons.filled.Star
@@ -79,6 +80,12 @@ sealed class BottomNavRoute(
     data object OtterMcp : BottomNavRoute(route = "otter_mcp", title = "Otter MCP", icon = Icons.Default.CloudQueue)
     // PRD-102: Android 17 Lock-Free MessageQueue Reflection Breaking Change Toolkit
     data object MessageQueue : BottomNavRoute(route = "message_queue", title = "MQ反射检测", icon = Icons.Default.BugReport)
+    // PRD-120: Android 17 Post-Quantum Cryptography App Signing Migration Detection & Quantum Security Toolkit
+    data object PQCSecurity : BottomNavRoute(route = "pqc_security", title = "PQC安全", icon = Icons.Default.Shield)
+    // PRD-119: Lifecycle ViewModel Compose 1.0.0 Kotlin DSL 新 API 开发工具包
+    data object LifecycleViewModel : BottomNavRoute(route = "lifecycle_viewmodel", title = "Lifecycle DSL", icon = Icons.Default.AutoAwesome)
+    // PRD-121: Android 17 Wi-Fi Analyzer 应用兼容性检测与替代方案工具包
+    data object WifiAnalyzer : BottomNavRoute(route = "wifi_analyzer", title = "Wi-Fi Analyzer", icon = Icons.Default.Wifi)
 }
 
 /**
@@ -139,4 +146,8 @@ object NavRoutes {
     const val PAGING35 = "paging35"
     // PRD-102: Android 17 Lock-Free MessageQueue Reflection Toolkit
     const val MESSAGE_QUEUE = "message_queue"
+    // PRD-119: Lifecycle ViewModel Compose 1.0.0 Kotlin DSL 新 API 开发工具包
+    const val LIFECYCLE_VIEW_MODEL = "lifecycle_viewmodel"
+    // PRD-121: Android 17 Wi-Fi Analyzer 应用兼容性检测与替代方案工具包
+    const val WIFI_ANALYZER = "wifi_analyzer"
 }
