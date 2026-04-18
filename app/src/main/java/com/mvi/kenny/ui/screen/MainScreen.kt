@@ -49,6 +49,8 @@ import com.mvi.kenny.navigation.BottomNavRoute
 import com.mvi.kenny.feature.paging35.Paging35Screen
 import com.mvi.kenny.feature.paging35.Paging35ViewModel
 import com.mvi.kenny.feature.messagequeue.MessageQueueScreen
+import com.mvi.kenny.feature.lifecycleviewmodel.LifecycleViewModelScreen
+import com.mvi.kenny.feature.pqcsecurity.PQCSecurityScreen
 
 /**
  * ============================================================
@@ -100,7 +102,7 @@ import com.mvi.kenny.feature.messagequeue.MessageQueueScreen
 fun MainScreen(
     onNavigateToLogin: () -> Unit
 ) {
-    // 定义底部导航 Tab（按顺序排列，共 14 个）
+    // 定义底部导航 Tab（按顺序排列，共 21 个）
     val bottomNavItems = listOf(
         BottomNavRoute.Home,
         BottomNavRoute.List,
@@ -121,7 +123,9 @@ fun MainScreen(
         BottomNavRoute.Gemma4,
         BottomNavRoute.CoreKtx,
         BottomNavRoute.Paging35,
-        BottomNavRoute.MessageQueue
+        BottomNavRoute.MessageQueue,
+        BottomNavRoute.PQCSecurity,
+        BottomNavRoute.LifecycleViewModel
     )
 
     // Pager 状态，管理当前是第几页
@@ -150,6 +154,7 @@ fun MainScreen(
     var coreKtxTopBar by remember { mutableStateOf(TopBarConfig(title = "core-ktx 迁移工具")) }
     var paging35TopBar by remember { mutableStateOf(TopBarConfig(title = "Paging 3.5 Toolkit")) }
     var messageQueueTopBar by remember { mutableStateOf(TopBarConfig(title = "MessageQueue 反射检测")) }
+    var lifecycleViewModelTopBar by remember { mutableStateOf(TopBarConfig(title = "Lifecycle ViewModel DSL")) }
 
     // 根据当前页码决定显示哪个 TopBar 配置
     val currentTopBar = when (pagerState.currentPage) {
@@ -173,6 +178,7 @@ fun MainScreen(
         17 -> coreKtxTopBar
         18 -> paging35TopBar
         19 -> messageQueueTopBar
+        20 -> lifecycleViewModelTopBar
         else -> homeTopBar
     }
 
@@ -271,6 +277,8 @@ fun MainScreen(
                         onNavigateBack = { }
                     )
                     19 -> MessageQueueScreen()
+                    20 -> LifecycleViewModelScreen(onUpdateTopBar = { lifecycleViewModelTopBar = it })
+                    20 -> PQCSecurityScreen()
                 }
             }
         }
