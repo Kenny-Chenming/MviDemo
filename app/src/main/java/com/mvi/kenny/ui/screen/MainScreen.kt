@@ -49,6 +49,10 @@ import com.mvi.kenny.navigation.BottomNavRoute
 import com.mvi.kenny.feature.paging35.Paging35Screen
 import com.mvi.kenny.feature.paging35.Paging35ViewModel
 import com.mvi.kenny.feature.messagequeue.MessageQueueScreen
+import com.mvi.kenny.feature.pqcsecurity.PQCSecurityScreen
+import com.mvi.kenny.feature.nav310rc01.Nav310Rc01Screen
+import com.mvi.kenny.feature.lifecycleviewmodel.LifecycleViewModelScreen
+import com.mvi.kenny.feature.wifianalyzer.WifiAnalyzerScreen
 
 /**
  * ============================================================
