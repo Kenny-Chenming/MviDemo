@@ -18,11 +18,13 @@ import androidx.compose.material.icons.filled.LocationOn
 import androidx.compose.material.icons.filled.SystemUpdateAlt
 import androidx.compose.material.icons.filled.DirectionsCar
 import androidx.compose.material.icons.filled.Widgets
+import androidx.compose.material.icons.filled.Explore
 import androidx.compose.material.icons.filled.Share
 import androidx.compose.material.icons.filled.AutoAwesome
 import androidx.compose.material.icons.filled.BugReport
 import androidx.compose.material.icons.filled.SwapVert
 import androidx.compose.material.icons.filled.CloudQueue
+import androidx.compose.material.icons.filled.Wifi
 import androidx.compose.ui.graphics.vector.ImageVector
 
 /**
@@ -79,6 +81,14 @@ sealed class BottomNavRoute(
     data object OtterMcp : BottomNavRoute(route = "otter_mcp", title = "Otter MCP", icon = Icons.Default.CloudQueue)
     // PRD-102: Android 17 Lock-Free MessageQueue Reflection Breaking Change Toolkit
     data object MessageQueue : BottomNavRoute(route = "message_queue", title = "MQ反射检测", icon = Icons.Default.BugReport)
+    // PRD-120: Android 17 Post-Quantum Cryptography App Signing Migration Detection & Quantum Security Toolkit
+    data object PQCSecurity : BottomNavRoute(route = "pqc_security", title = "PQC安全", icon = Icons.Default.Shield)
+    // PRD-121: Android 17 Wi-Fi Analyzer 应用兼容性检测与替代方案工具包
+    data object WifiAnalyzer : BottomNavRoute(route = "wifi_analyzer", title = "Wi-Fi Analyzer", icon = Icons.Default.Wifi)
+    // PRD-117: Jetpack Navigation 3.1.0-rc01 新版 API 变更检测与迁移工具包
+    data object Nav310Rc01 : BottomNavRoute(route = "nav310rc01", title = "Nav3.1工具", icon = Icons.Default.Explore)
+    // PRD-119: Lifecycle ViewModel Compose 1.0.0 Kotlin DSL 新 API 开发工具包
+    data object LifecycleViewModel : BottomNavRoute(route = "lifecycle_viewmodel", title = "Lifecycle DSL", icon = Icons.Default.DeveloperBoard)
 }
 
 /**
@@ -139,4 +149,12 @@ object NavRoutes {
     const val PAGING35 = "paging35"
     // PRD-102: Android 17 Lock-Free MessageQueue Reflection Toolkit
     const val MESSAGE_QUEUE = "message_queue"
+    // PRD-120: Android 17 Post-Quantum Cryptography App Signing Migration Detection & Quantum Security Toolkit
+    const val PQC_SECURITY = "pqc_security"
+    // PRD-121: Android 17 Wi-Fi Analyzer 应用兼容性检测与替代方案工具包
+    const val WIFI_ANALYZER = "wifi_analyzer"
+    // PRD-117: Jetpack Navigation 3.1.0-rc01 新版 API 变更检测与迁移工具包
+    const val NAV310_RC01 = "nav310rc01"
+    // PRD-119: Lifecycle ViewModel Compose 1.0.0 Kotlin DSL 新 API 开发工具包
+    const val LIFECYCLE_VIEWMODEL = "lifecycle_viewmodel"
 }
