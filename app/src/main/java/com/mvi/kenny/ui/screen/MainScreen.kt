@@ -30,6 +30,7 @@ import com.mvi.kenny.feature.home.HomeScreen
 import com.mvi.kenny.feature.list.ListScreen
 import com.mvi.kenny.feature.profile.ProfileScreen
 import com.mvi.kenny.feature.memorylimit.MemoryLimitScreen
+import com.mvi.kenny.feature.androidagenttoolkit.AndroidAgentToolkitScreen
 import com.mvi.kenny.navigation.BottomNavRoute
 
 /**
@@ -87,7 +88,8 @@ fun MainScreen(
         BottomNavRoute.Home,
         BottomNavRoute.List,
         BottomNavRoute.Profile,
-        BottomNavRoute.MemoryLimit
+        BottomNavRoute.MemoryLimit,
+        BottomNavRoute.AndroidAgentToolkit
     )
 
     // Pager 状态，管理当前是第几页
@@ -102,6 +104,7 @@ fun MainScreen(
     var listTopBar by remember { mutableStateOf(TopBarConfig(title = "List")) }
     var profileTopBar by remember { mutableStateOf(TopBarConfig(title = "Profile")) }
     var memoryLimitTopBar by remember { mutableStateOf(TopBarConfig(title = "内存限制")) }
+    var agentToolkitTopBar by remember { mutableStateOf(TopBarConfig(title = "Agent 工具链")) }
 
     // 根据当前页码决定显示哪个 TopBar 配置
     val currentTopBar = when (pagerState.currentPage) {
@@ -109,6 +112,7 @@ fun MainScreen(
         1 -> listTopBar
         2 -> profileTopBar
         3 -> memoryLimitTopBar
+        4 -> agentToolkitTopBar
         else -> homeTopBar
     }
 
@@ -191,6 +195,9 @@ fun MainScreen(
                     )
                     3 -> MemoryLimitScreen(
                         onUpdateTopBar = { memoryLimitTopBar = it }
+                    )
+                    4 -> AndroidAgentToolkitScreen(
+                        onUpdateTopBar = { agentToolkitTopBar = it }
                     )
                 }
             }

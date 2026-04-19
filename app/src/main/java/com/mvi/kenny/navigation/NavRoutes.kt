@@ -5,6 +5,7 @@ import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.List
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.Memory
+import androidx.compose.material.icons.filled.Build
 import androidx.compose.ui.graphics.vector.ImageVector
 
 /**
@@ -54,6 +55,14 @@ sealed class BottomNavRoute(
         title = "内存限制",
         icon = Icons.Default.Memory
     )
+
+    // PRD-126: Android CLI + Android Skills + Knowledge Base AI Agent Toolchain
+    /** Android Agent Toolkit Tab — AI Agent 工具链 */
+    data object AndroidAgentToolkit : BottomNavRoute(
+        route = "android_agent_toolkit",
+        title = "Agent",
+        icon = Icons.Default.Build
+    )
 }
 
 /**
@@ -81,6 +90,10 @@ object NavRoutes {
     // PRD-123: Android 17 App Memory Limit Detection & LeakCanary Profiler Integration Toolkit
     /** 内存限制检测路由 */
     const val MEMORY_LIMIT = "memory_limit"
+
+    // PRD-126: Android CLI + Android Skills + Knowledge Base AI Agent Toolchain
+    /** AI Agent 工具链路由 */
+    const val ANDROID_AGENT_TOOLKIT = "android_agent_toolkit"
 
     /** 登录页路由（用于 Intent 跳转） */
     const val LOGIN = "login"
