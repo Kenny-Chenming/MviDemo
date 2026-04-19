@@ -323,4 +323,33 @@ Pure video playback, compatibility priority → PiP</string>
     <string name="gemma4_confidence">置信度 / Confidence</string>
     <string name="gemma4_vram_req">显存需求 / VRAM Requirement</string>
     <string name="gemma4_speed">推理速度 / Speed</string>
+
+    <!-- PRD-122: Android 17 Local Network Permission Toolkit -->
+    <string name="local_network_permission_title">本地网络权限</string>
+    <string name="local_network_permission_dashboard">Dashboard / 仪表盘</string>
+    <string name="local_network_permission_scanner">Scanner / 扫描器</string>
+    <string name="local_network_permission_migration">Migration / 迁移指南</string>
+    <string name="local_network_permission_settings">Settings / 设置</string>
+    <string name="local_network_permission_radar_chart">Permission Health Radar / 权限健康度雷达图</string>
+    <string name="local_network_permission_health_score">Overall Health Score / 总体健康度</string>
+    <string name="local_network_permission_start_scan">Start Scan / 开始扫描</string>
+    <string name="local_network_permission_cancel_scan">Cancel / 取消</string>
+    <string name="local_network_permission_ready">Ready to scan / 准备就绪</string>
+    <string name="local_network_permission_scanning">Scanning… / 扫描中</string>
+    <string name="local_network_permission_completed">Scan completed / 扫描完成</string>
+    <string name="local_network_permission_issue_summary">Issue Summary / 问题摘要</string>
+    <string name="local_network_permission_affected_apis">Affected APIs / 受影响的 API</string>
+    <string name="local_network_permission_no_results">No scan results / 无扫描结果</string>
+    <string name="local_network_permission_run_scan_first">Run a scan first to detect affected APIs / 请先运行扫描以检测受影响的 API</string>
+    <string name="local_network_permission_all">All / 全部</string>
+    <string name="local_network_permission_no_guides">No migration guides / 无迁移指南</string>
+    <string name="local_network_permission_run_scan_guides">Run a scan first to get migration recommendations / 请先运行扫描以获取迁移建议</string>
+    <string name="local_network_permission_migration_paths">Permission Migration Paths / 权限迁移路径</string>
+    <string name="local_network_permission_permission_state">Permission State / 权限状态</string>
+    <string name="local_network_permission_generate_test_suite">Generate Test Suite / 生成测试套件</string>
+    <string name="local_network_permission_android_17_changes">Android 17 Changes / Android 17 变更</string>
+    <string name="local_network_permission_unknown">Unknown / 未知</string>
+    <string name="local_network_permission_disabled">Disabled / 已禁用</string>
+    <string name="local_network_permission_nearby_wifi_devices">NEARBY_WIFI_DEVICES</string>
+    <string name="local_network_permission_access_local_network">ACCESS_LOCAL_NETWORK</string>
 </resources>

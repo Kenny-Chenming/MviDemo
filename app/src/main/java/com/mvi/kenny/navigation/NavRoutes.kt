@@ -23,6 +23,7 @@ import androidx.compose.material.icons.filled.AutoAwesome
 import androidx.compose.material.icons.filled.BugReport
 import androidx.compose.material.icons.filled.SwapVert
 import androidx.compose.material.icons.filled.CloudQueue
+import androidx.compose.material.icons.filled.NetworkCheck
 import androidx.compose.ui.graphics.vector.ImageVector
 
 /**
@@ -79,6 +80,8 @@ sealed class BottomNavRoute(
     data object OtterMcp : BottomNavRoute(route = "otter_mcp", title = "Otter MCP", icon = Icons.Default.CloudQueue)
     // PRD-102: Android 17 Lock-Free MessageQueue Reflection Breaking Change Toolkit
     data object MessageQueue : BottomNavRoute(route = "message_queue", title = "MQ反射检测", icon = Icons.Default.BugReport)
+    // PRD-122: Android 17 ACCESS_LOCAL_NETWORK Runtime Permission Migration Toolkit
+    data object LocalNetworkPermission : BottomNavRoute(route = "local_network_permission", title = "本地网络权限", icon = Icons.Default.NetworkCheck)
 }
 
 /**
@@ -139,4 +142,6 @@ object NavRoutes {
     const val PAGING35 = "paging35"
     // PRD-102: Android 17 Lock-Free MessageQueue Reflection Toolkit
     const val MESSAGE_QUEUE = "message_queue"
+    // PRD-122: Android 17 ACCESS_LOCAL_NETWORK Runtime Permission Migration Toolkit
+    const val LOCAL_NETWORK_PERMISSION = "local_network_permission"
 }
