@@ -4,6 +4,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.List
 import androidx.compose.material.icons.filled.Person
+import androidx.compose.material.icons.filled.Security
 import androidx.compose.ui.graphics.vector.ImageVector
 
 /**
@@ -45,6 +46,13 @@ sealed class BottomNavRoute(
         title = "我的",
         icon = Icons.Default.Person
     )
+
+    /** 本地网络权限 Tab / PRD-122 */
+    data object LocalNetworkPermission : BottomNavRoute(
+        route = "local_network_permission",
+        title = "网络权限",
+        icon = Icons.Default.Security
+    )
 }
 
 /**
@@ -71,4 +79,7 @@ object NavRoutes {
 
     /** 登录页路由（用于 Intent 跳转） */
     const val LOGIN = "login"
+
+    /** 本地网络权限路由 / PRD-122 */
+    const val LOCAL_NETWORK_PERMISSION = "local_network_permission"
 }
