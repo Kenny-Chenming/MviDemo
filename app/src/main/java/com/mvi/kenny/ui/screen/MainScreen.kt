@@ -29,6 +29,7 @@ import com.mvi.kenny.base.TopBarConfig
 import com.mvi.kenny.feature.home.HomeScreen
 import com.mvi.kenny.feature.list.ListScreen
 import com.mvi.kenny.feature.profile.ProfileScreen
+import com.mvi.kenny.feature.memorylimit.MemoryLimitScreen
 import com.mvi.kenny.navigation.BottomNavRoute
 
 /**
@@ -81,11 +82,12 @@ import com.mvi.kenny.navigation.BottomNavRoute
 fun MainScreen(
     onNavigateToLogin: () -> Unit
 ) {
-    // 定义三个 Tab 的路由配置
+    // 定义底部导航 Tab（按顺序排列）
     val bottomNavItems = listOf(
         BottomNavRoute.Home,
         BottomNavRoute.List,
-        BottomNavRoute.Profile
+        BottomNavRoute.Profile,
+        BottomNavRoute.MemoryLimit
     )
 
     // Pager 状态，管理当前是第几页
@@ -99,12 +101,15 @@ fun MainScreen(
     var homeTopBar by remember { mutableStateOf(TopBarConfig(title = "Home")) }
     var listTopBar by remember { mutableStateOf(TopBarConfig(title = "List")) }
     var profileTopBar by remember { mutableStateOf(TopBarConfig(title = "Profile")) }
+    var memoryLimitTopBar by remember { mutableStateOf(TopBarConfig(title = "内存限制")) }
 
     // 根据当前页码决定显示哪个 TopBar 配置
     val currentTopBar = when (pagerState.currentPage) {
         0 -> homeTopBar
         1 -> listTopBar
-        else -> profileTopBar
+        2 -> profileTopBar
+        3 -> memoryLimitTopBar
+        else -> homeTopBar
     }
 
     // ============================================================
@@ -183,6 +188,9 @@ fun MainScreen(
                     2 -> ProfileScreen(
                         onNavigateToLogin = onNavigateToLogin,
                         onUpdateTopBar = { profileTopBar = it }
+                    )
+                    3 -> MemoryLimitScreen(
+                        onUpdateTopBar = { memoryLimitTopBar = it }
                     )
                 }
             }

@@ -4,6 +4,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.List
 import androidx.compose.material.icons.filled.Person
+import androidx.compose.material.icons.filled.Memory
 import androidx.compose.ui.graphics.vector.ImageVector
 
 /**
@@ -45,6 +46,14 @@ sealed class BottomNavRoute(
         title = "我的",
         icon = Icons.Default.Person
     )
+
+    // PRD-123: Android 17 App Memory Limit Detection & LeakCanary Profiler Integration Toolkit
+    /** Memory Limit Tab — 内存限制检测 */
+    data object MemoryLimit : BottomNavRoute(
+        route = "memory_limit",
+        title = "内存限制",
+        icon = Icons.Default.Memory
+    )
 }
 
 /**
@@ -68,6 +77,10 @@ object NavRoutes {
 
     /** 个人中心路由 */
     const val PROFILE = "profile"
+
+    // PRD-123: Android 17 App Memory Limit Detection & LeakCanary Profiler Integration Toolkit
+    /** 内存限制检测路由 */
+    const val MEMORY_LIMIT = "memory_limit"
 
     /** 登录页路由（用于 Intent 跳转） */
     const val LOGIN = "login"
