@@ -5,6 +5,7 @@ import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.List
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.Memory
+import androidx.compose.material.icons.filled.Code
 import androidx.compose.ui.graphics.vector.ImageVector
 
 /**
@@ -54,6 +55,14 @@ sealed class BottomNavRoute(
         title = "内存限制",
         icon = Icons.Default.Memory
     )
+
+    // PRD-123: AndroidFragment Composable 开发工具包
+    /** AndroidFragment Tab — AndroidFragment 开发工具 */
+    data object AndroidFragment : BottomNavRoute(
+        route = "android_fragment",
+        title = "AndroidFragment",
+        icon = Icons.Default.Code
+    )
 }
 
 /**
@@ -84,4 +93,8 @@ object NavRoutes {
 
     /** 登录页路由（用于 Intent 跳转） */
     const val LOGIN = "login"
+
+    // PRD-123: AndroidFragment Composable 开发工具包
+    /** AndroidFragment 路由 */
+    const val ANDROID_FRAGMENT = "android_fragment"
 }
