@@ -18,6 +18,7 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
@@ -25,6 +26,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.mvi.kenny.base.TopBarConfig
 import com.mvi.kenny.feature.home.HomeScreen
 import com.mvi.kenny.feature.list.ListScreen
@@ -37,59 +39,17 @@ import com.mvi.kenny.feature.appfunctions.AppFuncDesignToolScreen
 import com.mvi.kenny.feature.nav3tool.NavToolScreen
 import com.mvi.kenny.feature.page16kb.Page16KbScreen
 import com.mvi.kenny.feature.swiftpmmigration.SwiftPMMigrationScreen
+import com.mvi.kenny.feature.aapmmonitor.AAPMonitorScreen
+import com.mvi.kenny.feature.aapmmonitor.AAPMonitorViewModel
+import com.mvi.kenny.feature.paging35.PagingToolHostScreen
+import com.mvi.kenny.feature.compose111.Compose111Screen
 import com.mvi.kenny.navigation.BottomNavRoute
 
-/**
- * ============================================================
- * MainScreen — App 主界面容器
- * ============================================================
- * App 的唯一入口页面（MainActivity 渲染此组件）。
- *
- * 架构设计：
- * —————————————————————————————————————————————————————
- * 整个页面采用"共享 TopAppBar + HorizontalPager + BottomNavigationBar"的结构。
- *
- *                  ┌──────────────────────────────────┐
- *                  │        TopAppBar（共享）          │
- *                  │  标题随 Tab 切换 + action 按钮    │
- *                  └──────────────────────────────────┘
- *                  ┌──────────────────────────────────┐
- *                  │                                  │
- *                  │       HorizontalPager             │
- *                  │   (Page 0)  HomeScreen           │
- *                  │   (Page 1)  ListScreen          │
- *                  │   (Page 2)  ProfileScreen       │
- *                  │                                  │
- *                  └──────────────────────────────────┘
- *                  ┌──────────────────────────────────┐
- *                  │       BottomNavigationBar        │
- *                  │   [首页]  [列表]  [我的]          │
- *                  └──────────────────────────────────┘
- *
- * 为什么不用 Navigation Compose NavHost？
- * —————————————————————————————————————————————————————
- * NavHost 适合页面间有层级关系（push/pop）的导航，
- * 但 Tab 间滑动切换用 HorizontalPager 更流畅，
- * 且三个 Tab 同时存在于内存中，切换时不会有重新创建的开销。
- *
- * TopBar 动态更新原理：
- * 每个子页面（HomeScreen 等）通过 onUpdateTopBar 回调，
- * 把自己的 TopBarConfig 传给 MainScreen，
- * MainScreen 在 Pager 切换时渲染对应页面的配置。
- *
- * @param onNavigateToLogin 跳转到登录页的回调（Profile 退出登录时触发）
- *
- * @see HomeScreen 首页页面
- * @see ListScreen 列表页面
- * @see ProfileScreen 个人中心页面
- * @see TopBarConfig 顶部导航栏配置
- */
 @OptIn(ExperimentalFoundationApi::class, ExperimentalMaterial3Api::class)
 @Composable
 fun MainScreen(
     onNavigateToLogin: () -> Unit
 ) {
-    // 定义六个 Tab 的路由配置（已移除无价值 Tab：Animation、LocationPermission、Chat）
     val bottomNavItems = listOf(
         BottomNavRoute.Home,
         BottomNavRoute.List,
@@ -100,17 +60,14 @@ fun MainScreen(
         BottomNavRoute.AppFuncDesignTool,
         BottomNavRoute.Nav3Tool,
         BottomNavRoute.Page16Kb,
-        BottomNavRoute.SwiftPMMigration
+        BottomNavRoute.SwiftPMMigration,
+        BottomNavRoute.AAPMonitor,
+        BottomNavRoute.Paging35,
+        BottomNavRoute.Compose111
     )
 
-    // Pager 状态，管理当前是第几页
-    // pageCount 是 LazyListState 的参数，返回总页数
     val pagerState = rememberPagerState(pageCount = { bottomNavItems.size })
 
-    // ============================================================
-    // 各页面的 TopBar 配置（通过子组件的 onUpdateTopBar 回调设置）
-    // ============================================================
-    // 初始值，避免在子组件未挂载前 TopAppBar 空白
     var homeTopBar by remember { mutableStateOf(TopBarConfig(title = "Home")) }
     var listTopBar by remember { mutableStateOf(TopBarConfig(title = "List")) }
     var profileTopBar by remember { mutableStateOf(TopBarConfig(title = "Profile")) }
@@ -121,8 +78,12 @@ fun MainScreen(
     var nav3ToolTopBar by remember { mutableStateOf(TopBarConfig(title = "Navigation 3 迁移工具")) }
     var page16KbTopBar by remember { mutableStateOf(TopBarConfig(title = "16KB 迁移助手")) }
     var swiftPMMigrationTopBar by remember { mutableStateOf(TopBarConfig(title = "SwiftPM 迁移助手")) }
+    var aapmMonitorTopBar by remember { mutableStateOf(TopBarConfig(title = "AAPM 检测工具")) }
+    var paging35TopBar by remember { mutableStateOf(TopBarConfig(title = "Paging 3.5 工具包")) }
+    var compose111TopBar by remember { mutableStateOf(TopBarConfig(title = "Compose 1.11 变更检测")) }
 
-    // 根据当前页码决定显示哪个 TopBar 配置
+    val aapmViewModel: AAPMonitorViewModel = viewModel()
+
     val currentTopBar = when (pagerState.currentPage) {
         0 -> homeTopBar
         1 -> listTopBar
@@ -134,18 +95,14 @@ fun MainScreen(
         7 -> nav3ToolTopBar
         8 -> page16KbTopBar
         9 -> swiftPMMigrationTopBar
+        10 -> aapmMonitorTopBar
+        11 -> paging35TopBar
+        12 -> compose111TopBar
         else -> homeTopBar
     }
 
-    // ============================================================
-    // 底部 Tab 点击 → 驱动 Pager 切换
-    // ============================================================
-    // pendingTabToSelect 作为中间状态，LaunchedEffect 监听其变化后执行切换
-    // 这样避免在 recomposition 期间直接调用 animateScrollToPage
     var pendingTabToSelect by remember { mutableIntStateOf(-1) }
 
-    // LaunchedEffect 监听 pendingTabToSelect 状态，
-    // 值为 >= 0 时执行页面切换动画，然后重置为 -1
     LaunchedEffect(pendingTabToSelect) {
         if (pendingTabToSelect >= 0) {
             pagerState.animateScrollToPage(pendingTabToSelect)
@@ -153,22 +110,14 @@ fun MainScreen(
         }
     }
 
-    // ============================================================
-    // 页面结构：Scaffold（TopAppBar + BottomNavigation + Content）
-    // ============================================================
     Scaffold(
-        // 顶部导航栏：标题 + 右侧 action 按钮
         topBar = {
             TopAppBar(
                 title = { Text(currentTopBar.title) },
                 actions = {
-                    // 遍历当前页面的 action 按钮列表，渲染 IconButton
                     currentTopBar.actions.forEach { action ->
                         IconButton(onClick = action.onClick) {
-                            Icon(
-                                imageVector = action.icon,
-                                contentDescription = action.contentDescription,
-                            )
+                            Icon(imageVector = action.icon, contentDescription = action.contentDescription)
                         }
                     }
                 },
@@ -178,15 +127,12 @@ fun MainScreen(
                 )
             )
         },
-
-        // 底部导航栏：三个 Tab（首页 / 列表 / 我的）
         bottomBar = {
             NavigationBar {
                 bottomNavItems.forEachIndexed { index, tab ->
                     NavigationBarItem(
                         icon = { Icon(tab.icon, contentDescription = tab.title) },
                         label = { Text(tab.title) },
-                        // 当前选中的 Tab 高亮（与 Pager 当前页同步）
                         selected = pagerState.currentPage == index,
                         onClick = { pendingTabToSelect = index }
                     )
@@ -194,46 +140,29 @@ fun MainScreen(
             }
         }
     ) { innerPadding ->
-        // 内容区域：HorizontalPager（支持左右滑动）
         Box(modifier = Modifier.padding(innerPadding)) {
-            HorizontalPager(
-                state = pagerState,
-                modifier = Modifier.fillMaxSize()
-            ) { page ->
-                // 根据页码渲染对应的子页面
+            HorizontalPager(state = pagerState, modifier = Modifier.fillMaxSize()) { page ->
                 when (page) {
-                    0 -> HomeScreen(
-                        // 首页传递 TopBar 更新回调（首页需要设置按钮）
-                        onUpdateTopBar = { homeTopBar = it }
+                    0 -> HomeScreen(onUpdateTopBar = { homeTopBar = it })
+                    1 -> ListScreen(onUpdateTopBar = { listTopBar = it })
+                    2 -> ProfileScreen(onNavigateToLogin = onNavigateToLogin, onUpdateTopBar = { profileTopBar = it })
+                    3 -> AIAgentScreen(onUpdateTopBar = { aiAgentTopBar = it })
+                    4 -> QAFrameworkScreen(onUpdateTopBar = { qaFrameworkTopBar = it })
+                    5 -> McpScreen(onUpdateTopBar = { mcpTopBar = it })
+                    6 -> AppFuncDesignToolScreen(onUpdateTopBar = { appFuncTopBar = it })
+                    7 -> NavToolScreen(onNavigateTo = { })
+                    8 -> Page16KbScreen(onNavigateBack = { pendingTabToSelect = 0 })
+                    9 -> SwiftPMMigrationScreen(onNavigateTo = { })
+                    10 -> AAPMonitorScreen(
+                        state = aapmViewModel.state.collectAsState().value,
+                        onIntent = aapmViewModel::processIntent,
+                        modifier = Modifier.fillMaxSize()
                     )
-                    1 -> ListScreen(
-                        // 列表页传递 TopBar 更新回调（列表页需要刷新按钮）
-                        onUpdateTopBar = { listTopBar = it }
+                    11 -> PagingToolHostScreen(
+                        onNavigateToTool = { }
                     )
-                    2 -> ProfileScreen(
-                        onNavigateToLogin = onNavigateToLogin,
-                        onUpdateTopBar = { profileTopBar = it }
-                    )
-                    3 -> AIAgentScreen(
-                        onUpdateTopBar = { aiAgentTopBar = it }
-                    )
-                    4 -> QAFrameworkScreen(
-                        onUpdateTopBar = { qaFrameworkTopBar = it }
-                    )
-                    5 -> McpScreen(
-                        onUpdateTopBar = { mcpTopBar = it }
-                    )
-                    6 -> AppFuncDesignToolScreen(
-                        onUpdateTopBar = { appFuncTopBar = it }
-                    )
-                    7 -> NavToolScreen(
-                        onNavigateTo = { /* Feature internal navigation */ }
-                    )
-                    8 -> Page16KbScreen(
-                        onNavigateBack = { pendingTabToSelect = 0 }
-                    )
-                    9 -> SwiftPMMigrationScreen(
-                        onNavigateTo = { /* Feature internal navigation */ }
+                    12 -> Compose111Screen(
+                        onUpdateTopBar = { compose111TopBar = it }
                     )
                 }
             }

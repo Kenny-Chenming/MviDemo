@@ -9,9 +9,12 @@ import androidx.compose.material.icons.filled.DeveloperBoard
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Memory
 import androidx.compose.material.icons.filled.Person
+import androidx.compose.material.icons.filled.Security
 import androidx.compose.material.icons.filled.Shield
 import androidx.compose.material.icons.filled.Star
 import androidx.compose.material.icons.filled.SystemUpdate
+import androidx.compose.material.icons.filled.Window
+import androidx.compose.material.icons.filled.Warning
 import androidx.compose.ui.graphics.vector.ImageVector
 
 /**
@@ -39,6 +42,12 @@ sealed class BottomNavRoute(
     data object Nav3Tool : BottomNavRoute(route = "nav3_tool", title = "Nav3迁移", icon = Icons.AutoMirrored.Filled.List)
     data object Page16Kb : BottomNavRoute(route = "page16kb", title = "16KB迁移", icon = Icons.Default.Memory)
     data object SwiftPMMigration : BottomNavRoute(route = "swiftpm_migration", title = "SwiftPM迁移", icon = Icons.AutoMirrored.Filled.ArrowForward)
+    data object Adaptive17 : BottomNavRoute(route = "adaptive17", title = "自适应布局", icon = Icons.Default.Window)
+    data object AAPMonitor : BottomNavRoute(route = "aapm_monitor", title = "AAPM检测", icon = Icons.Default.Security)
+    // PRD-093: Paging 3.5 asState 操作符开发工具包
+    data object Paging35 : BottomNavRoute(route = "paging35", title = "Paging3.5", icon = Icons.AutoMirrored.Filled.List)
+    // PRD-130: Compose 1.11 破坏性变更检测与迁移工具包
+    data object Compose111 : BottomNavRoute(route = "compose111", title = "C1.11检测", icon = Icons.Default.Warning)
 }
 
 /**
@@ -61,5 +70,11 @@ object NavRoutes {
     const val NAV3_TOOL = "nav3_tool"
     const val PAGE16KB = "page16kb"
     const val SWIFTPM_MIGRATION = "swiftpm_migration"
+    const val ADAPTIVE17 = "adaptive17"
+    const val AAPM_MONITOR = "aapm_monitor"
     const val LOGIN = "login"
+    // PRD-093: Paging 3.5 asState 操作符开发工具包
+    const val PAGING35 = "paging35"
+    // PRD-130: Compose 1.11 破坏性变更检测与迁移工具包
+    const val COMPOSE111 = "compose111"
 }
