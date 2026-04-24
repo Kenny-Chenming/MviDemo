@@ -49,6 +49,7 @@ import com.mvi.kenny.feature.geminitest.GeminiTestQualityScreen
 import com.mvi.kenny.feature.healthpermissions.HealthPermissionsScreen
 import com.mvi.kenny.feature.gridflexboxkit.ComposeLayoutsKitScreen
 import com.mvi.kenny.feature.gridflexboxkit.ComposeLayoutsKitViewModel
+import com.mvi.kenny.feature.styleapikit.StyleApiKitScreen
 import com.mvi.kenny.navigation.BottomNavRoute
 
 /**
@@ -122,7 +123,8 @@ fun MainScreen(
         BottomNavRoute.Gemma4,
         BottomNavRoute.GeminiTestQuality,
         BottomNavRoute.HealthPermissions,
-        BottomNavRoute.ComposeLayoutsKit
+        BottomNavRoute.ComposeLayoutsKit,
+        BottomNavRoute.StyleApiKit
     )
 
     // Pager 状态，管理当前是第几页
@@ -153,6 +155,8 @@ fun MainScreen(
     // PRD-141: Compose Grid + FlexBox 双布局 API 开发工具包
     val composeLayoutsKitViewModel = remember { ComposeLayoutsKitViewModel() }
     var composeLayoutsKitTopBar by remember { mutableStateOf(TopBarConfig(title = "ComposeLayoutsKit")) }
+    // PRD-137: Compose 1.11 Style API 声明式样式开发工具包
+    var styleApiKitTopBar by remember { mutableStateOf(TopBarConfig(title = "Style API Toolkit")) }
 
     // 根据当前页码决定显示哪个 TopBar 配置
     val currentTopBar = when (pagerState.currentPage) {
@@ -176,6 +180,7 @@ fun MainScreen(
         17 -> geminiTestQualityTopBar
         18 -> healthPermissionsTopBar
         19 -> composeLayoutsKitTopBar
+        20 -> styleApiKitTopBar
         else -> homeTopBar
     }
 
@@ -276,6 +281,9 @@ fun MainScreen(
                         state = composeLayoutsKitViewModel.state.collectAsState().value,
                         onIntent = composeLayoutsKitViewModel::sendIntent,
                         onNavigateToSubmodule = { }
+                    )
+                    20 -> StyleApiKitScreen(
+                        onNavigateBack = { pendingTabToSelect = 0 }
                     )
                 }
             }

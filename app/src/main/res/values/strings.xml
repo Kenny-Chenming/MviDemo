@@ -355,4 +355,16 @@ Pure video playback, compatibility priority → PiP</string>
     <string name="gemini_test_ci_provider">CI Provider / CI 提供商</string>
     <string name="gemini_test_auto_regen">失败时自动重新生成 / Auto-Regenerate on Failure</string>
     <string name="gemini_test_yaml_preview">YAML 配置预览 / YAML Preview</string>
+    <!-- PRD-137: Compose Style API Toolkit -->
+    <string name="style_api_kit_title">Style API Toolkit</string>
+    <string name="style_api_tab_decision">决策引擎</string>
+    <string name="style_api_tab_migration">迁移工具</string>
+    <string name="style_api_tab_debug">调试面板</string>
+    <string name="style_api_tab_theme">主题指南</string>
+    <string name="style_api_tab_playground">Playground</string>
+    <string name="style_api_decision_title">Style vs Modifier 决策引擎</string>
+    <string name="style_api_decision_hint">粘贴 Kotlin 代码，分析是否适合迁移到 Style API</string>
+    <string name="style_api_migration_title">Modifier → Style API 迁移工具</string>
+    <string name="style_api_debug_title">Style API 动画调试面板</string>
+    <string name="style_api_playground_title">Style API Playground</string>
 </resources>

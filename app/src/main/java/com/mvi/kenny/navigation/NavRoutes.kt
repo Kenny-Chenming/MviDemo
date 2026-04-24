@@ -6,6 +6,7 @@ import androidx.compose.material.icons.automirrored.filled.List
 import androidx.compose.material.icons.automirrored.filled.ArrowForward
 import androidx.compose.material.icons.rounded.GridOn
 import androidx.compose.material.icons.filled.BugReport
+import androidx.compose.material.icons.filled.Style
 import androidx.compose.material.icons.filled.DeveloperBoard
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Memory
@@ -70,6 +71,8 @@ sealed class BottomNavRoute(
     data object HealthPermissions : BottomNavRoute(route = "health_permissions", title = "健康权限", icon = Icons.Default.Shield)
     // PRD-141: Compose Grid + FlexBox 双布局 API 开发工具包
     data object ComposeLayoutsKit : BottomNavRoute(route = "compose_layouts_kit", title = "Grid/FlexBox", icon = Icons.Rounded.GridOn)
+    // PRD-137: Compose 1.11 Style API Declarative Styling Toolkit
+    data object StyleApiKit : BottomNavRoute(route = "style_api_kit", title = "Style API", icon = Icons.Default.Style)
 }
 
 /**
@@ -117,4 +120,6 @@ object NavRoutes {
     const val HEALTH_PERMISSIONS = "health_permissions"
     // PRD-141: Compose Grid + FlexBox 双布局 API 开发工具包
     const val COMPOSE_LAYOUTS_KIT = "compose_layouts_kit"
+    // PRD-137: Compose 1.11 Style API 声明式样式开发工具包
+    const val STYLE_API_KIT = "style_api_kit"
 }
