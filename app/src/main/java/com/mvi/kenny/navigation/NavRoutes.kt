@@ -2,8 +2,9 @@ package com.mvi.kenny.navigation
 
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.Chat
-import androidx.compose.material.icons.automirrored.filled.ArrowForward
 import androidx.compose.material.icons.automirrored.filled.List
+import androidx.compose.material.icons.automirrored.filled.ArrowForward
+import androidx.compose.material.icons.rounded.GridOn
 import androidx.compose.material.icons.filled.BugReport
 import androidx.compose.material.icons.filled.DeveloperBoard
 import androidx.compose.material.icons.filled.Home
@@ -67,6 +68,8 @@ sealed class BottomNavRoute(
     data object GeminiTestQuality : BottomNavRoute(route = "gemini_test_quality", title = "Gemini测试", icon = Icons.Default.FactCheck)
     // PRD-106: Android 16 细粒度健康权限迁移检测与合规工具包
     data object HealthPermissions : BottomNavRoute(route = "health_permissions", title = "健康权限", icon = Icons.Default.Shield)
+    // PRD-141: Compose Grid + FlexBox 双布局 API 开发工具包
+    data object ComposeLayoutsKit : BottomNavRoute(route = "compose_layouts_kit", title = "Grid/FlexBox", icon = Icons.Rounded.GridOn)
 }
 
 /**
@@ -112,4 +115,6 @@ object NavRoutes {
     const val GEMINI_TEST_QUALITY = "gemini_test_quality"
     // PRD-106: Android 16 细粒度健康权限迁移检测与合规工具包
     const val HEALTH_PERMISSIONS = "health_permissions"
+    // PRD-141: Compose Grid + FlexBox 双布局 API 开发工具包
+    const val COMPOSE_LAYOUTS_KIT = "compose_layouts_kit"
 }

@@ -18,6 +18,7 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
@@ -46,6 +47,8 @@ import com.mvi.kenny.feature.bubbles.BubblesMainScreen
 import com.mvi.kenny.feature.gemma4.Gemma4Screen
 import com.mvi.kenny.feature.geminitest.GeminiTestQualityScreen
 import com.mvi.kenny.feature.healthpermissions.HealthPermissionsScreen
+import com.mvi.kenny.feature.gridflexboxkit.ComposeLayoutsKitScreen
+import com.mvi.kenny.feature.gridflexboxkit.ComposeLayoutsKitViewModel
 import com.mvi.kenny.navigation.BottomNavRoute
 
 /**
@@ -118,7 +121,8 @@ fun MainScreen(
         BottomNavRoute.AppBubbles,
         BottomNavRoute.Gemma4,
         BottomNavRoute.GeminiTestQuality,
-        BottomNavRoute.HealthPermissions
+        BottomNavRoute.HealthPermissions,
+        BottomNavRoute.ComposeLayoutsKit
     )
 
     // Pager 状态，管理当前是第几页
@@ -146,6 +150,9 @@ fun MainScreen(
     var gemma4TopBar by remember { mutableStateOf(TopBarConfig(title = "Gemma 4 Agent Toolkit")) }
     var geminiTestQualityTopBar by remember { mutableStateOf(TopBarConfig(title = "Gemini 测试质量中心")) }
     var healthPermissionsTopBar by remember { mutableStateOf(TopBarConfig(title = "健康权限合规")) }
+    // PRD-141: Compose Grid + FlexBox 双布局 API 开发工具包
+    val composeLayoutsKitViewModel = remember { ComposeLayoutsKitViewModel() }
+    var composeLayoutsKitTopBar by remember { mutableStateOf(TopBarConfig(title = "ComposeLayoutsKit")) }
 
     // 根据当前页码决定显示哪个 TopBar 配置
     val currentTopBar = when (pagerState.currentPage) {
@@ -168,6 +175,7 @@ fun MainScreen(
         16 -> gemma4TopBar
         17 -> geminiTestQualityTopBar
         18 -> healthPermissionsTopBar
+        19 -> composeLayoutsKitTopBar
         else -> homeTopBar
     }
 
@@ -263,6 +271,11 @@ fun MainScreen(
                     )
                     18 -> HealthPermissionsScreen(
                         onUpdateTopBar = { healthPermissionsTopBar = it }
+                    )
+                    19 -> ComposeLayoutsKitScreen(
+                        state = composeLayoutsKitViewModel.state.collectAsState().value,
+                        onIntent = composeLayoutsKitViewModel::sendIntent,
+                        onNavigateToSubmodule = { }
                     )
                 }
             }
