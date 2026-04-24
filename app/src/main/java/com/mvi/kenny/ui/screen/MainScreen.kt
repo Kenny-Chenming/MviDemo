@@ -49,6 +49,8 @@ import com.mvi.kenny.feature.geminitest.GeminiTestQualityScreen
 import com.mvi.kenny.feature.healthpermissions.HealthPermissionsScreen
 import com.mvi.kenny.feature.gridflexboxkit.ComposeLayoutsKitScreen
 import com.mvi.kenny.feature.gridflexboxkit.ComposeLayoutsKitViewModel
+import com.mvi.kenny.feature.aapm.AAPMScreen
+import com.mvi.kenny.feature.aapm.AAPMViewModel
 import com.mvi.kenny.navigation.BottomNavRoute
 
 /**
@@ -122,7 +124,8 @@ fun MainScreen(
         BottomNavRoute.Gemma4,
         BottomNavRoute.GeminiTestQuality,
         BottomNavRoute.HealthPermissions,
-        BottomNavRoute.ComposeLayoutsKit
+        BottomNavRoute.ComposeLayoutsKit,
+        BottomNavRoute.AAPM
     )
 
     // Pager 状态，管理当前是第几页
@@ -153,6 +156,9 @@ fun MainScreen(
     // PRD-141: Compose Grid + FlexBox 双布局 API 开发工具包
     val composeLayoutsKitViewModel = remember { ComposeLayoutsKitViewModel() }
     var composeLayoutsKitTopBar by remember { mutableStateOf(TopBarConfig(title = "ComposeLayoutsKit")) }
+    // PRD-146: Android 17 AdvancedProtectionManager API 合规检测与安全响应开发工具包
+    val aapmViewModel = remember { AAPMViewModel() }
+    var aapmTopBar by remember { mutableStateOf(TopBarConfig(title = "AAPM 合规检测")) }
 
     // 根据当前页码决定显示哪个 TopBar 配置
     val currentTopBar = when (pagerState.currentPage) {
@@ -176,6 +182,7 @@ fun MainScreen(
         17 -> geminiTestQualityTopBar
         18 -> healthPermissionsTopBar
         19 -> composeLayoutsKitTopBar
+        20 -> aapmTopBar
         else -> homeTopBar
     }
 
@@ -276,6 +283,10 @@ fun MainScreen(
                         state = composeLayoutsKitViewModel.state.collectAsState().value,
                         onIntent = composeLayoutsKitViewModel::sendIntent,
                         onNavigateToSubmodule = { }
+                    )
+                    20 -> AAPMScreen(
+                        viewModel = aapmViewModel,
+                        onNavigateToMigration = { }
                     )
                 }
             }

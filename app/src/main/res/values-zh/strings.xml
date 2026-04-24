@@ -70,4 +70,43 @@
     <string name="common_error">出错了</string>
     <string name="common_success">成功</string>
     <string name="common_no_data">暂无数据</string>
+
+    <!-- PRD-147: Android 17 UWB Ranging API 跨设备测距开发工具包 -->
+    <string name="uwb_ranging_title">UWB 测距工具</string>
+    <string name="uwb_tab_discovery">设备发现</string>
+    <string name="uwb_tab_single">单设备测距</string>
+    <string name="uwb_tab_multi">多设备测距</string>
+    <string name="uwb_tab_compare">技术对比</string>
+    <string name="uwb_tab_power">功耗分析</string>
+    <string name="uwb_discovery_scanning">扫描中…</string>
+    <string name="uwb_discovery_idle">UWB 可用</string>
+    <string name="uwb_discovery_unavailable">UWB 不可用</string>
+    <string name="uwb_device_count">发现 %d 个设备</string>
+    <string name="uwb_start_discovery">发现设备</string>
+    <string name="uwb_stop_discovery">停止扫描</string>
+    <string name="uwb_no_devices">未发现 UWB 设备</string>
+    <string name="uwb_tap_to_discover">点击开始发现</string>
+    <string name="uwb_start_ranging">开始测距</string>
+    <string name="uwb_stop_ranging">停止测距</string>
+    <string name="uwb_ranging_active">测距中</string>
+    <string name="uwb_device_address">地址</string>
+    <string name="uwb_device_name">名称</string>
+    <string name="uwb_signal_strength">信号强度</string>
+    <string name="uwb_distance">距离</string>
+    <string name="uwb_azimuth">方位角</string>
+    <string name="uwb_elevation">仰角</string>
+    <string name="uwb_max_concurrent">最大并发 %d</string>
+    <string name="uwb_active_sessions">活跃会话</string>
+    <string name="uwb_stop_all">全部停止</string>
+    <string name="uwb_add_device">添加更多设备</string>
+    <string name="uwb_tech_uwb">UWB (Ranging API)</string>
+    <string name="uwb_tech_ble">BLE 蓝牙</string>
+    <string name="uwb_tech_wifi_rtt">WiFi RTT</string>
+    <string name="uwb_power_model">功耗模型</string>
+    <string name="uwb_battery_impact">电池续航影响</string>
+    <string name="uwb_saving_tips">节能建议</string>
+    <string name="uwb_rf_tx">RF 发射</string>
+    <string name="uwb_rf_rx">RF 接收</string>
+    <string name="uwb_baseband">基带处理</string>
+    <string name="uwb_sensor_fusion">传感器融合</string>
 </resources>
