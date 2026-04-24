@@ -131,7 +131,8 @@ fun MainScreen(
         BottomNavRoute.ComposeLayoutsKit,
         BottomNavRoute.NavEventKit,
         BottomNavRoute.AAPM,
-        BottomNavRoute.AudioHardening
+        BottomNavRoute.AudioHardening,
+        BottomNavRoute.UwbRanging
     )
 
     // Pager 状态，管理当前是第几页
@@ -170,6 +171,8 @@ fun MainScreen(
     // PRD-145: Android 17 Background Audio Hardening 合规检测与迁移工具包
     val audioHardeningViewModel = remember { AudioHardeningViewModel() }
     var audioHardeningTopBar by remember { mutableStateOf(TopBarConfig(title = "Audio Hardening")) }
+    // PRD-147: Android 17 UWB Ranging API 跨设备测距开发工具包
+    var uwbRangingTopBar by remember { mutableStateOf(TopBarConfig(title = "UWB Ranging")) }
 
     // 根据当前页码决定显示哪个 TopBar 配置
     val currentTopBar = when (pagerState.currentPage) {

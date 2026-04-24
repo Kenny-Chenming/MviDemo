@@ -355,4 +355,179 @@ Pure video playback, compatibility priority → PiP</string>
     <string name="gemini_test_ci_provider">CI Provider / CI 提供商</string>
     <string name="gemini_test_auto_regen">失败时自动重新生成 / Auto-Regenerate on Failure</string>
     <string name="gemini_test_yaml_preview">YAML 配置预览 / YAML Preview</string>
+
+    <!-- PRD-146: Android 17 AdvancedProtectionManager API -->
+    <string name="aapm_title">AAPM 合规检测</string>
+    <string name="aapm_tab_status">状态</string>
+    <string name="aapm_tab_impact">影响</string>
+    <string name="aapm_tab_guide">指南</string>
+    <string name="aapm_tab_audit">审计</string>
+    <string name="aapm_tab_report">报告</string>
+    <string name="aapm_check_status">检查状态</string>
+    <string name="aapm_scan_services">扫描服务</string>
+    <string name="aapm_scanning">正在扫描…</string>
+    <string name="aapm_not_supported">不支持 / Not Supported</string>
+    <string name="aapm_disabled">已关闭 / Disabled</string>
+    <string name="aapm_enabled">已启用 / Enabled</string>
+    <string name="aapm_user_enrolled">已注册 / Enrolled</string>
+    <string name="aapm_not_enrolled">未注册 / Not Enrolled</string>
+    <string name="aapm_affected_services">受影响的 Accessibility Services</string>
+    <string name="aapm_risk_summary">风险摘要 / Risk Summary</string>
+    <string name="aapm_high_risk">高风险</string>
+    <string name="aapm_medium_risk">中风险</string>
+    <string name="aapm_low_risk">低风险</string>
+    <string name="aapm_service_impact">Service 影响分析</string>
+    <string name="aapm_rescan">重新扫描</string>
+    <string name="aapm_migration_guide">迁移指南</string>
+    <string name="aapm_audit_logs">审计日志</string>
+    <string name="aapm_export_json">导出 JSON</string>
+    <string name="aapm_export_csv">导出 CSV</string>
+    <string name="aapm_search_logs">搜索日志…</string>
+    <string name="aapm_no_logs">暂无审计日志</string>
+    <string name="aapm_compliance_report">CI 合规报告</string>
+    <string name="aapm_generate_report">生成报告</string>
+    <string name="aapm_generating_report">正在生成报告…</string>
+    <string name="aapm_compliant">合规 / Compliant</string>
+    <string name="aapm_non_compliant">不合规 / Non-Compliant</string>
+    <string name="aapm_issues">问题列表</string>
+    <string name="aapm_fix_suggestion">修复建议</string>
+    <string name="aapm_score">合规评分</string>
+    <string name="aapm_total">总计</string>
+    <string name="aapm_certification_notice">Google Play 认证周期</string>
+    <string name="aapm_accessibility_tool_marker">isAccessibilityTool 标记申请流程</string>
+    <string name="aapm_degradation_strategy">降级策略选择器</string>
+    <string name="aapm_disable">禁用</string>
+    <string name="aapm_graceful_degrade">优雅降级</string>
+    <string name="aapm_user_guidance">用户引导</string>
+    <string name="aapm_no_action">无需操作</string>
+    <string name="aapm_code_examples">代码示例</string>
+    <string name="aapm_manifest_decl">AndroidManifest.xml 声明</string>
+    <string name="aapm_check_example">isAccessibilityTool 检测 (Kotlin)</string>
+    <string name="aapm_apm_example">AdvancedProtectionManager API (Android 17.2+)</string>
+    <string name="aapm_no_services">当前 App 未使用 Accessibility API，无需适配 AAPM</string>
+    <string name="aapm_unsupported_device">此设备 Android &lt; 17.2，不支持 AAPM</string>
+    <string name="aapm_marked">已标记</string>
+    <string name="aapm_not_marked">未标记</string>
+    <string name="aapm_enabled_count">启用中</string>
+    <string name="aapm_scan_complete">Scan complete: %d Accessibility Services found</string>
+    <string name="aapm_compliance_passed">✅ 合规检查通过 / Compliance check passed</string>
+    <string name="aapm_compliance_failed">⚠️ 合规检查失败: %d 个问题 / Compliance check failed: %d issues</string>
+    <string name="aapm_export_success">✅ 导出成功: %s</string>
+    <string name="aapm_scan_error">❌ 扫描错误: %s</string>
+
+    <!-- PRD-145: Android 17 Background Audio Hardening 合规检测与迁移工具包 -->
+    <string name="audio_hardening_title">Background Audio Hardening</string>
+    <string name="audio_hardening_dashboard">Audio Hardening 工具箱</string>
+    <string name="audio_hardening_compliant">✅ 合规</string>
+    <string name="audio_hardening_at_risk">⚠️ 有风险</string>
+    <string name="audio_hardening_not_checked">🔍 待检测</string>
+    <string name="audio_hardening_full_scan">全量扫描</string>
+    <string name="audio_hardening_scanning">扫描中…</string>
+    <string name="audio_hardening_export_report">导出报告</string>
+    <string name="audio_hardening_pass_count">通过 %d</string>
+    <string name="audio_hardening_warning_count">风险 %d</string>
+    <string name="audio_hardening_not_checked_count">待检测 %d</string>
+    <string name="audio_hardening_device_info">设备信息</string>
+    <string name="audio_hardening_android_version">Android %d</string>
+    <string name="audio_hardening_supports_bah">✅ 支持 Background Audio Hardening</string>
+    <string name="audio_hardening_not_supports_bah">❌ 不支持或低于 Android 17</string>
+
+    <!-- Tool 1: AudioComplianceScanner -->
+    <string name="audio_tool_scanner">自动化检测器</string>
+    <string name="audio_tool_scanner_desc">Gradle 插件 + CLI 自动化检测 Background Audio Hardening 合规问题</string>
+    <string name="audio_scanner_scan_scope">扫描范围</string>
+    <string name="audio_scanner_all_modules">全部模块</string>
+    <string name="audio_scanner_affected_only">仅受影响</string>
+    <string name="audio_scanner_start_scan">开始扫描</string>
+    <string name="audio_scanner_cancel_scan">取消扫描</string>
+    <string name="audio_scanner_generate_fix">生成修复 Diff</string>
+    <string name="audio_scanner_scan_complete">扫描完成，发现 %d 个问题</string>
+
+    <!-- Tool 2: SilentFailureMonitor -->
+    <string name="audio_tool_monitor">静默失败监控</string>
+    <string name="audio_tool_monitor_desc">实时监控后台音频 API 静默失败事件</string>
+    <string name="audio_monitor_monitoring">监控中…</string>
+    <string name="audio_monitor_stopped">已停止</string>
+    <string name="audio_monitor_api_filter">API 类型过滤</string>
+    <string name="audio_monitor_all">全部</string>
+    <string name="audio_monitor_stats">失败频率统计</string>
+    <string name="audio_monitor_clear_events">清空事件</string>
+    <string name="audio_monitor_times">%d 次</string>
+
+    <!-- Tool 3: FGSConfigGenerator -->
+    <string name="audio_tool_fgs_generator">FGS 配置生成器</string>
+    <string name="audio_tool_fgs_generator_desc">生成 while-in-use Foreground Service 配置</string>
+    <string name="audio_fgs_select_scenario">选择音频场景</string>
+    <string name="audio_fgs_manifest_preview">AndroidManifest.xml 配置</string>
+    <string name="audio_fgs_permissions">所需权限</string>
+    <string name="audio_fgs_capability">while-in-use Capability</string>
+    <string name="audio_fgs_best_practices">最佳实践提示</string>
+    <string name="audio_fgs_copy">复制配置</string>
+    <string name="audio_fgs_apply">应用到项目</string>
+
+    <!-- Tool 4: MediaSessionBinder -->
+    <string name="audio_tool_media_binder">MediaSession 绑定</string>
+    <string name="audio_tool_media_binder_desc">分步骤引导绑定 MediaSession 到后台音频</string>
+    <string name="audio_media_step">Step %d</string>
+    <string name="audio_media_previous">上一步</string>
+    <string name="audio_media_next">下一步</string>
+    <string name="audio_media_copy_all">复制全部代码</string>
+
+    <!-- Tool 5: AudioComplianceCI -->
+    <string name="audio_tool_ci">合规 CI 检测</string>
+    <string name="audio_tool_ci_desc">CI 流水线合规检测，输出 GitHub/GitLab Action</string>
+    <string name="audio_ci_target_sdk">targetSDK 版本</string>
+    <string name="audio_ci_compliance_items">✅ 合规项</string>
+    <string name="audio_ci_warning_items">⚠️ 风险项</string>
+    <string name="audio_ci_violation_items">❌ 不合规项</string>
+    <string name="audio_ci_github_action">GitHub Action</string>
+    <string name="audio_ci_gitlab_ci">GitLab CI</string>
+    <string name="audio_ci_export_json">导出 JSON</string>
+    <string name="audio_ci_export_html">导出 HTML</string>
+
+    <!-- Tool 6: AudioFocusDegradation -->
+    <string name="audio_tool_focus_degradation">Audio Focus 降级</string>
+    <string name="audio_tool_focus_degradation_desc">音频焦点降级策略模板</string>
+    <string name="audio_focus_strategy">降级策略</string>
+    <string name="audio_focus_pause_wait">暂停播放</string>
+    <string name="audio_focus_duck_restore">降低音量</string>
+    <string name="audio_focus_duck_pause">混合模式</string>
+    <string name="audio_focus_code_template">代码模板</string>
+    <string name="audio_focus_preview">行为预览</string>
+    <string name="audio_focus_copy_code">复制代码</string>
+
+    <!-- Tool 7: AudioRegressionTest -->
+    <string name="audio_tool_regression">回归测试框架</string>
+    <string name="audio_tool_regression_desc">Android 16→17 音频行为回归测试框架</string>
+    <string name="audio_regression_target_version">目标 Android 版本</string>
+    <string name="audio_regression_scenarios">测试场景</string>
+    <string name="audio_regression_run_tests">执行测试</string>
+    <string name="audio_regression_running">测试运行中…</string>
+    <string name="audio_regression_results">测试结果</string>
+    <string name="audio_regression_ci_hint">CI 集成说明</string>
+    <string name="audio_regression_view_ci">查看 CI 集成方法</string>
+
+    <!-- Tool 8: AudioDebugPanel -->
+    <string name="audio_tool_debug_panel">可视化调试工具</string>
+    <string name="audio_tool_debug_panel_desc">API 调用链路节点图可视化调试</string>
+    <string name="audio_debug_filter">过滤器</string>
+    <string name="audio_debug_all">全部</string>
+    <string name="audio_debug_success">成功</string>
+    <string name="audio_debug_failed">失败</string>
+    <string name="audio_debug_pending">待调用</string>
+    <string name="audio_debug_api_chain">API 调用链路</string>
+    <string name="audio_debug_timeline">时间轴</string>
+    <string name="audio_debug_export_har">导出 HAR</string>
+    <string name="audio_debug_export_json">导出 JSON</string>
+
+    <!-- Tool 9: AudioFallbackPath -->
+    <string name="audio_tool_fallback_path">降级路径检测</string>
+    <string name="audio_tool_fallback_path_desc">检测音频降级路径 fallback 逻辑是否存在</string>
+    <string name="audio_fallback_device_state">设备连接状态</string>
+    <string name="audio_fallback_run_detection">运行检测</string>
+    <string name="audio_fallback_paths_found">检测到的降级路径</string>
+    <string name="audio_fallback_suggestions">建议增强方案</string>
+    <string name="audio_fallback_apply_enhancements">应用增强方案</string>
+    <string name="audio_fallback_has_logic">存在降级逻辑</string>
+    <string name="audio_fallback_missing_logic">缺少降级逻辑</string>
 </resources>
