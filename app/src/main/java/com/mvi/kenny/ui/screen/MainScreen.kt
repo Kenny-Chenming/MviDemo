@@ -49,6 +49,12 @@ import com.mvi.kenny.feature.geminitest.GeminiTestQualityScreen
 import com.mvi.kenny.feature.healthpermissions.HealthPermissionsScreen
 import com.mvi.kenny.feature.gridflexboxkit.ComposeLayoutsKitScreen
 import com.mvi.kenny.feature.gridflexboxkit.ComposeLayoutsKitViewModel
+import com.mvi.kenny.feature.navevent.NavEventKitScreen
+import com.mvi.kenny.feature.aapm.AAPMScreen
+import com.mvi.kenny.feature.aapm.AAPMViewModel
+import com.mvi.kenny.feature.audiohardening.AudioHardeningDashboardScreen
+import com.mvi.kenny.feature.audiohardening.AudioHardeningViewModel
+import com.mvi.kenny.feature.ranging.RangingDashboardScreen
 import com.mvi.kenny.navigation.BottomNavRoute
 
 /**
@@ -122,7 +128,10 @@ fun MainScreen(
         BottomNavRoute.Gemma4,
         BottomNavRoute.GeminiTestQuality,
         BottomNavRoute.HealthPermissions,
-        BottomNavRoute.ComposeLayoutsKit
+        BottomNavRoute.ComposeLayoutsKit,
+        BottomNavRoute.NavEventKit,
+        BottomNavRoute.AAPM,
+        BottomNavRoute.AudioHardening
     )
 
     // Pager 状态，管理当前是第几页
@@ -153,6 +162,14 @@ fun MainScreen(
     // PRD-141: Compose Grid + FlexBox 双布局 API 开发工具包
     val composeLayoutsKitViewModel = remember { ComposeLayoutsKitViewModel() }
     var composeLayoutsKitTopBar by remember { mutableStateOf(TopBarConfig(title = "ComposeLayoutsKit")) }
+    // PRD-140: Navigation Event KMP 库迁移检测与 PredictiveBackHandler 废弃替代工具包
+    var navEventKitTopBar by remember { mutableStateOf(TopBarConfig(title = "NavEvent Kit")) }
+    // PRD-146: Android 17 AdvancedProtectionManager API 合规检测与安全响应开发工具包
+    val aapmViewModel = remember { AAPMViewModel() }
+    var aapmTopBar by remember { mutableStateOf(TopBarConfig(title = "AAPM 合规检测")) }
+    // PRD-145: Android 17 Background Audio Hardening 合规检测与迁移工具包
+    val audioHardeningViewModel = remember { AudioHardeningViewModel() }
+    var audioHardeningTopBar by remember { mutableStateOf(TopBarConfig(title = "Audio Hardening")) }
 
     // 根据当前页码决定显示哪个 TopBar 配置
     val currentTopBar = when (pagerState.currentPage) {
@@ -176,6 +193,9 @@ fun MainScreen(
         17 -> geminiTestQualityTopBar
         18 -> healthPermissionsTopBar
         19 -> composeLayoutsKitTopBar
+        20 -> navEventKitTopBar
+        21 -> aapmTopBar
+        22 -> audioHardeningTopBar
         else -> homeTopBar
     }
 
@@ -276,6 +296,15 @@ fun MainScreen(
                         state = composeLayoutsKitViewModel.state.collectAsState().value,
                         onIntent = composeLayoutsKitViewModel::sendIntent,
                         onNavigateToSubmodule = { }
+                    )
+                    20 -> NavEventKitScreen()
+                    21 -> AAPMScreen(
+                        viewModel = aapmViewModel,
+                        onNavigateToMigration = { }
+                    )
+                    22 -> AudioHardeningDashboardScreen(
+                        viewModel = audioHardeningViewModel,
+                        onNavigateToTool = { }
                     )
                 }
             }

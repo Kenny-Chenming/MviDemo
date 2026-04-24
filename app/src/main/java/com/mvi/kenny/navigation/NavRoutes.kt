@@ -5,6 +5,8 @@ import androidx.compose.material.icons.automirrored.filled.Chat
 import androidx.compose.material.icons.automirrored.filled.List
 import androidx.compose.material.icons.automirrored.filled.ArrowForward
 import androidx.compose.material.icons.rounded.GridOn
+import androidx.compose.material.icons.rounded.NavigateNext
+import androidx.compose.material.icons.rounded.Security
 import androidx.compose.material.icons.filled.BugReport
 import androidx.compose.material.icons.filled.DeveloperBoard
 import androidx.compose.material.icons.filled.Home
@@ -22,6 +24,7 @@ import androidx.compose.material.icons.filled.Widgets
 import androidx.compose.material.icons.filled.Share
 import androidx.compose.material.icons.filled.AutoAwesome
 import androidx.compose.material.icons.filled.FactCheck
+import androidx.compose.material.icons.filled.Headphones
 import androidx.compose.ui.graphics.vector.ImageVector
 
 /**
@@ -70,6 +73,14 @@ sealed class BottomNavRoute(
     data object HealthPermissions : BottomNavRoute(route = "health_permissions", title = "健康权限", icon = Icons.Default.Shield)
     // PRD-141: Compose Grid + FlexBox 双布局 API 开发工具包
     data object ComposeLayoutsKit : BottomNavRoute(route = "compose_layouts_kit", title = "Grid/FlexBox", icon = Icons.Rounded.GridOn)
+    // PRD-140: Navigation Event KMP 库迁移检测与 PredictiveBackHandler 废弃替代工具包
+    data object NavEventKit : BottomNavRoute(route = "nav_event_kit", title = "NavEvent Kit", icon = Icons.Rounded.NavigateNext)
+    // PRD-146: Android 17 AdvancedProtectionManager API 合规检测与安全响应开发工具包
+    data object AAPM : BottomNavRoute(route = "aapm", title = "AAPM", icon = Icons.Rounded.Security)
+    // PRD-145: Android 17 Background Audio Hardening 合规检测与迁移工具包
+    data object AudioHardening : BottomNavRoute(route = "audio_hardening", title = "Audio Hardening", icon = Icons.Default.Headphones)
+    // PRD-147: Android 17 UWB Ranging API 跨设备测距开发工具包
+    data object UwbRanging : BottomNavRoute(route = "uwb_ranging", title = "UWB Ranging", icon = Icons.Default.LocationOn)
 }
 
 /**
@@ -117,4 +128,12 @@ object NavRoutes {
     const val HEALTH_PERMISSIONS = "health_permissions"
     // PRD-141: Compose Grid + FlexBox 双布局 API 开发工具包
     const val COMPOSE_LAYOUTS_KIT = "compose_layouts_kit"
+    // PRD-140: Navigation Event KMP 库迁移检测与 PredictiveBackHandler 废弃替代工具包
+    const val NAV_EVENT_KIT = "nav_event_kit"
+    // PRD-146: Android 17 AdvancedProtectionManager API 合规检测与安全响应开发工具包
+    const val AAPM = "aapm"
+    // PRD-145: Android 17 Background Audio Hardening 合规检测与迁移工具包
+    const val AUDIO_HARDENING = "audio_hardening"
+    // PRD-147: Android 17 UWB Ranging API 跨设备测距开发工具包
+    const val UWB_RANGING = "uwb_ranging"
 }
