@@ -355,4 +355,42 @@ Pure video playback, compatibility priority → PiP</string>
     <string name="gemini_test_ci_provider">CI Provider / CI 提供商</string>
     <string name="gemini_test_auto_regen">失败时自动重新生成 / Auto-Regenerate on Failure</string>
     <string name="gemini_test_yaml_preview">YAML 配置预览 / YAML Preview</string>
+
+    <!-- AAPM / Advanced Protection Mode -->
+    <string name="aapm_title">AAPM 合规检测</string>
+    <string name="aapm_status_title">Android 17 AAPM</string>
+    <string name="aapm_status_subtitle">Advanced Protection Mode 合规检测</string>
+    <string name="aapm_check_status">检查状态 / Check Status</string>
+    <string name="aapm_scan_services">扫描服务</string>
+    <string name="aapm_generate_report">生成报告</string>
+    <string name="aapm_risk_summary">风险摘要</string>
+    <string name="aapm_quick_actions">快捷操作</string>
+    <string name="aapm_about">关于 AAPM</string>
+    <string name="aapm_about_desc">Android 17 引入的 Advanced Protection Mode (AAPM) 会自动限制可能滥用 Accessibility API 的应用。</string>
+    <string name="aapm_not_supported">API 35+ Required</string>
+    <string name="aapm_disabled">保护已关闭</string>
+    <string name="aapm_enabled">保护已开启</string>
+    <string name="aapm_not_enrolled">未注册用户</string>
+    <string name="aapm_affected_services">受影响服务</string>
+    <string name="aapm_user_enrolled">用户注册</string>
+    <string name="aapm_high_risk">高风险</string>
+    <string name="aapm_medium_risk">中风险</string>
+    <string name="aapm_low_risk">低风险</string>
+    <string name="aapm_service_impact">服务影响分析</string>
+    <string name="aapm_migration_guide">AAPM 迁移指南</string>
+    <string name="aapm_audit_logs">审计日志</string>
+    <string name="aapm_compliance_report">合规报告</string>
+    <string name="aapm_export">导出</string>
+    <string name="aapm_export_audit">导出审计日志</string>
+    <string name="aapm_compliant">合规 / Compliant</string>
+    <string name="aapm_non_compliant">不合规 / Non-Compliant</string>
+    <string name="aapm_total_services">总计</string>
+    <string name="aapm_compliant_services">合规</string>
+    <string name="aapm_non_compliant_services">不合规</string>
+    <string name="aapm_issues">合规问题</string>
+    <string name="aapm_enabled_status">已启用</string>
+    <string name="aapm_disabled_status">已停用</string>
+    <string name="aapm_recommended_strategy">建议策略</string>
+    <string name="aapm_migration_steps">迁移步骤</string>
+    <string name="aapm_checklist">AAPM 合规检查清单</string>
 </resources>

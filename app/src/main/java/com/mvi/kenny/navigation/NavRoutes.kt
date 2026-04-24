@@ -70,6 +70,8 @@ sealed class BottomNavRoute(
     data object HealthPermissions : BottomNavRoute(route = "health_permissions", title = "健康权限", icon = Icons.Default.Shield)
     // PRD-141: Compose Grid + FlexBox 双布局 API 开发工具包
     data object ComposeLayoutsKit : BottomNavRoute(route = "compose_layouts_kit", title = "Grid/FlexBox", icon = Icons.Rounded.GridOn)
+    // PRD-146: Android 17 AdvancedProtectionManager API 合规检测工具包
+    data object AAPM : BottomNavRoute(route = "aapm", title = "AAPM", icon = Icons.Default.Shield)
 }
 
 /**
@@ -117,4 +119,6 @@ object NavRoutes {
     const val HEALTH_PERMISSIONS = "health_permissions"
     // PRD-141: Compose Grid + FlexBox 双布局 API 开发工具包
     const val COMPOSE_LAYOUTS_KIT = "compose_layouts_kit"
+    // PRD-146: Android 17 AdvancedProtectionManager API 合规检测工具包
+    const val AAPM = "aapm"
 }
