@@ -23,6 +23,7 @@ import androidx.compose.material.icons.filled.Share
 import androidx.compose.material.icons.filled.AutoAwesome
 import androidx.compose.material.icons.filled.FactCheck
 import androidx.compose.material.icons.filled.BatteryChargingFull
+import androidx.compose.material.icons.filled.SwapHoriz
 import androidx.compose.ui.graphics.vector.ImageVector
 
 /**
@@ -75,6 +76,8 @@ sealed class BottomNavRoute(
     data object OnAlarm : BottomNavRoute(route = "onalaarmlistener", title = "Battery", icon = Icons.Default.BatteryChargingFull)
     // PRD-151: Android 17 App Memory Limits 内存限制检测与调优开发工具包
     data object MemoryLimits : BottomNavRoute(route = "memory_limits", title = "Memory Limits", icon = Icons.Default.Memory)
+    // PRD-155: Android 17 大屏强制适配与 Continuous Canary Release 开发工具包
+    data object LargeScreenAdaptation : BottomNavRoute(route = "large_screen_adaptation", title = "大屏适配", icon = Icons.Default.SwapHoriz)
 }
 
 /**
@@ -126,4 +129,6 @@ object NavRoutes {
     const val ON_ALARM = "onalaarmlistener"
     // PRD-151: Android 17 App Memory Limits 内存限制检测与调优开发工具包
     const val MEMORY_LIMITS = "memory_limits"
+    // PRD-155: Android 17 大屏强制适配与 Continuous Canary Release 开发工具包
+    const val LARGE_SCREEN_ADAPTATION = "large_screen_adaptation"
 }

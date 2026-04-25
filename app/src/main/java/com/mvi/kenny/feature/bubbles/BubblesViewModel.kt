@@ -86,6 +86,19 @@ class BubblesViewModel : ViewModel() {
             // Misc / 其他
             is BubblesIntent.ToggleVsPiP -> handleToggleVsPiP()
             is BubblesIntent.TogglePreviewAnimation -> handleToggleAnimation()
+
+            // PRD-148: Compliance / 合规检测
+            is BubblesIntent.StartComplianceScan -> handleStartComplianceScan()
+            is BubblesIntent.AnalyzeSuitabilities -> handleAnalyzeSuitabilities()
+
+            // PRD-148: Layout Preview / 布局预览
+            is BubblesIntent.UpdateLayoutBubbleSize -> handleUpdateLayoutBubbleSize(intent.bubbleSize)
+
+            // PRD-148: Playground / Playground
+            is BubblesIntent.UpdatePlaygroundConfig -> handleUpdatePlaygroundConfig(intent.config)
+
+            // PRD-148: Copy Code / 复制代码
+            is BubblesIntent.CopyCode -> handleCopyCode(intent.code)
         }
     }
 
@@ -436,6 +449,87 @@ class BubblesViewModel : ViewModel() {
         _state.update {
             it.copy(introState = it.introState.copy(isAnimating = !it.introState.isAnimating))
         }
+    }
+
+    // =============================================================
+    // PRD-148: Compliance Handlers / 合规检测处理器
+    // =============================================================
+    /**
+     * Handle start compliance scan.
+     * 处理开始合规扫描。
+     */
+    private fun handleStartComplianceScan() {
+        viewModelScope.launch {
+            _state.update { it.copy(isScanning = true, scanProgress = 0f, complianceResults = emptyList()) }
+            // Simulate scan progress / 模拟扫描进度
+            for (i in 1..10) {
+                kotlinx.coroutines.delay(200)
+                _state.update { it.copy(scanProgress = i / 10f) }
+            }
+            _state.update {
+                it.copy(
+                    isScanning = false,
+                    scanProgress = 1f,
+                    complianceResults = getDefaultComplianceResults()
+                )
+            }
+            sendEffect(BubblesEffect.ShowSnackbar("Compliance scan completed"))
+        }
+    }
+
+    /**
+     * Handle suitabilities analysis.
+     * 处理适用性分析。
+     */
+    private fun handleAnalyzeSuitabilities() {
+        viewModelScope.launch {
+            _state.update { it.copy(isScanning = true, scanProgress = 0f) }
+            for (i in 1..10) {
+                kotlinx.coroutines.delay(150)
+                _state.update { it.copy(scanProgress = i / 10f) }
+            }
+            _state.update {
+                it.copy(
+                    isScanning = false,
+                    scanProgress = 1f,
+                    suitabilities = getDefaultSuitabilities()
+                )
+            }
+            sendEffect(BubblesEffect.ShowSnackbar("Suitability analysis completed"))
+        }
+    }
+
+    // =============================================================
+    // PRD-148: Layout Preview Handlers / 布局预览处理器
+    // =============================================================
+    /**
+     * Handle layout bubble size update.
+     * 处理布局浮窗尺寸更新。
+     */
+    private fun handleUpdateLayoutBubbleSize(bubbleSize: BubbleSize) {
+        _state.update { it.copy(layoutPreviewSize = bubbleSize) }
+    }
+
+    // =============================================================
+    // PRD-148: Playground Handlers / Playground 处理器
+    // =============================================================
+    /**
+     * Handle playground config update.
+     * 处理 Playground 配置更新。
+     */
+    private fun handleUpdatePlaygroundConfig(config: BubblePlaygroundConfig) {
+        _state.update { it.copy(playgroundConfig = config) }
+    }
+
+    // =============================================================
+    // PRD-148: Copy Code Handler / 复制代码处理器
+    // =============================================================
+    /**
+     * Handle copy code.
+     * 处理复制代码。
+     */
+    private fun handleCopyCode(code: String) {
+        sendEffect(BubblesEffect.ShowSnackbar("Code copied to clipboard"))
     }
 
     // =============================================================
