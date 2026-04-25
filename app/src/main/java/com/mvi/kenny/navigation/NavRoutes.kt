@@ -22,6 +22,7 @@ import androidx.compose.material.icons.filled.Widgets
 import androidx.compose.material.icons.filled.Share
 import androidx.compose.material.icons.filled.AutoAwesome
 import androidx.compose.material.icons.filled.FactCheck
+import androidx.compose.material.icons.filled.BatteryChargingFull
 import androidx.compose.ui.graphics.vector.ImageVector
 
 /**
@@ -70,6 +71,10 @@ sealed class BottomNavRoute(
     data object HealthPermissions : BottomNavRoute(route = "health_permissions", title = "健康权限", icon = Icons.Default.Shield)
     // PRD-141: Compose Grid + FlexBox 双布局 API 开发工具包
     data object ComposeLayoutsKit : BottomNavRoute(route = "compose_layouts_kit", title = "Grid/FlexBox", icon = Icons.Rounded.GridOn)
+    // PRD-150: Android 17 OnAlarmListener 电池优化与后台任务调度开发工具包
+    data object OnAlarm : BottomNavRoute(route = "onalaarmlistener", title = "Battery", icon = Icons.Default.BatteryChargingFull)
+    // PRD-151: Android 17 App Memory Limits 内存限制检测与调优开发工具包
+    data object MemoryLimits : BottomNavRoute(route = "memory_limits", title = "Memory Limits", icon = Icons.Default.Memory)
 }
 
 /**
@@ -117,4 +122,8 @@ object NavRoutes {
     const val HEALTH_PERMISSIONS = "health_permissions"
     // PRD-141: Compose Grid + FlexBox 双布局 API 开发工具包
     const val COMPOSE_LAYOUTS_KIT = "compose_layouts_kit"
+    // PRD-150: Android 17 OnAlarmListener 电池优化与后台任务调度开发工具包
+    const val ON_ALARM = "onalaarmlistener"
+    // PRD-151: Android 17 App Memory Limits 内存限制检测与调优开发工具包
+    const val MEMORY_LIMITS = "memory_limits"
 }
