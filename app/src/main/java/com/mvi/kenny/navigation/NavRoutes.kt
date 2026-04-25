@@ -22,6 +22,7 @@ import androidx.compose.material.icons.filled.Widgets
 import androidx.compose.material.icons.filled.Share
 import androidx.compose.material.icons.filled.AutoAwesome
 import androidx.compose.material.icons.filled.FactCheck
+import androidx.compose.material.icons.filled.Build
 import androidx.compose.ui.graphics.vector.ImageVector
 
 /**
@@ -70,6 +71,8 @@ sealed class BottomNavRoute(
     data object HealthPermissions : BottomNavRoute(route = "health_permissions", title = "健康权限", icon = Icons.Default.Shield)
     // PRD-141: Compose Grid + FlexBox 双布局 API 开发工具包
     data object ComposeLayoutsKit : BottomNavRoute(route = "compose_layouts_kit", title = "Grid/FlexBox", icon = Icons.Rounded.GridOn)
+    // PRD-162: Compose 1.12.0 Migration 开发工具包
+    data object ComposeMigration : BottomNavRoute(route = "compose_migration", title = "Compose迁移", icon = Icons.Default.Build)
 }
 
 /**
@@ -117,4 +120,6 @@ object NavRoutes {
     const val HEALTH_PERMISSIONS = "health_permissions"
     // PRD-141: Compose Grid + FlexBox 双布局 API 开发工具包
     const val COMPOSE_LAYOUTS_KIT = "compose_layouts_kit"
+    // PRD-162: Compose 1.12.0 Migration 开发工具包
+    const val COMPOSE_MIGRATION = "compose_migration"
 }
