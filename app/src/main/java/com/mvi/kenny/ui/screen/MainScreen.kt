@@ -49,6 +49,8 @@ import com.mvi.kenny.feature.geminitest.GeminiTestQualityScreen
 import com.mvi.kenny.feature.healthpermissions.HealthPermissionsScreen
 import com.mvi.kenny.feature.gridflexboxkit.ComposeLayoutsKitScreen
 import com.mvi.kenny.feature.gridflexboxkit.ComposeLayoutsKitViewModel
+import com.mvi.kenny.feature.lannetworktool.LocalNetworkToolScreen
+import com.mvi.kenny.feature.lannetworktool.LocalNetworkToolViewModel
 import com.mvi.kenny.navigation.BottomNavRoute
 
 /**
@@ -122,7 +124,8 @@ fun MainScreen(
         BottomNavRoute.Gemma4,
         BottomNavRoute.GeminiTestQuality,
         BottomNavRoute.HealthPermissions,
-        BottomNavRoute.ComposeLayoutsKit
+        BottomNavRoute.ComposeLayoutsKit,
+        BottomNavRoute.LanNetworkTool
     )
 
     // Pager 状态，管理当前是第几页
@@ -153,6 +156,9 @@ fun MainScreen(
     // PRD-141: Compose Grid + FlexBox 双布局 API 开发工具包
     val composeLayoutsKitViewModel = remember { ComposeLayoutsKitViewModel() }
     var composeLayoutsKitTopBar by remember { mutableStateOf(TopBarConfig(title = "ComposeLayoutsKit")) }
+    // PRD-159: Android 17 ACCESS_LOCAL_NETWORK 权限合规检测与迁移工具包
+    val localNetworkToolViewModel = remember { LocalNetworkToolViewModel() }
+    var lanNetworkToolTopBar by remember { mutableStateOf(TopBarConfig(title = "LAN Permission / 局域网权限")) }
 
     // 根据当前页码决定显示哪个 TopBar 配置
     val currentTopBar = when (pagerState.currentPage) {
@@ -176,6 +182,7 @@ fun MainScreen(
         17 -> geminiTestQualityTopBar
         18 -> healthPermissionsTopBar
         19 -> composeLayoutsKitTopBar
+        20 -> lanNetworkToolTopBar
         else -> homeTopBar
     }
 
@@ -276,6 +283,11 @@ fun MainScreen(
                         state = composeLayoutsKitViewModel.state.collectAsState().value,
                         onIntent = composeLayoutsKitViewModel::sendIntent,
                         onNavigateToSubmodule = { }
+                    )
+                    20 -> LocalNetworkToolScreen(
+                        state = localNetworkToolViewModel.state.collectAsState().value,
+                        onIntent = localNetworkToolViewModel::processIntent,
+                        onUpdateTopBar = { lanNetworkToolTopBar = it }
                     )
                 }
             }
