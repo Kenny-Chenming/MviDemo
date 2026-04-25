@@ -55,6 +55,12 @@ import com.mvi.kenny.feature.memorylimits.MemoryLimitsScreen
 import com.mvi.kenny.feature.memorylimits.MemoryLimitsViewModel
 import com.mvi.kenny.feature.largescreen.LargeScreenScreen
 import com.mvi.kenny.feature.largescreen.LargeScreenViewModel
+import com.mvi.kenny.feature.lannetwork.LanNetworkScreen
+import com.mvi.kenny.feature.lannetwork.LanNetworkViewModel
+import com.mvi.kenny.feature.audiocompliance.AudioComplianceScreen
+import com.mvi.kenny.feature.audiocompliance.AudioComplianceViewModel
+import com.mvi.kenny.feature.panda4tools.Panda4ToolsScreen
+import com.mvi.kenny.feature.panda4tools.Panda4ToolsViewModel
 import com.mvi.kenny.navigation.BottomNavRoute
 
 /**
@@ -136,7 +142,14 @@ fun MainScreen(
         // PRD-155: Android 17 大屏强制适配与 Continuous Canary Release 开发工具包
         BottomNavRoute.LargeScreenAdaptation,
         // PRD-153: Android 17 Handoff API 跨设备连续性开发工具包
-        BottomNavRoute.Handoff
+        BottomNavRoute.Handoff,
+        BottomNavRoute.LanNetwork,
+        // PRD-160: Android 17 Background Audio Hardening 后台音频加固迁移工具包
+        BottomNavRoute.AudioCompliance,
+        // PRD-161: Compose 1.11 Layout & Style APIs 开发工具包
+        BottomNavRoute.Compose11Layouts,
+        // PRD-158: Android Studio Panda 4 AI Agent 开发工具包
+        BottomNavRoute.Panda4Tools
     )
 
     // Pager 状态，管理当前是第几页
@@ -176,6 +189,18 @@ fun MainScreen(
     // PRD-155: Android 17 大屏强制适配与 Continuous Canary Release 开发工具包
     val largeScreenViewModel = remember { LargeScreenViewModel() }
     var largeScreenTopBar by remember { mutableStateOf(TopBarConfig(title = "大屏适配")) }
+    // PRD-159: Android 17 ACCESS_LOCAL_NETWORK 权限合规检测与迁移工具包
+    val lanNetworkViewModel = remember { LanNetworkViewModel() }
+    var lanNetworkTopBar by remember { mutableStateOf(TopBarConfig(title = "LAN Permission · 局域网权限")) }
+    // PRD-160: Android 17 Background Audio Hardening 后台音频加固迁移工具包
+    val audioComplianceViewModel = remember { AudioComplianceViewModel() }
+    var audioComplianceTopBar by remember { mutableStateOf(TopBarConfig(title = "音频合规 · Audio Compliance")) }
+    // PRD-161: Compose 1.11 Layout & Style APIs 开发工具包
+    val compose11LayoutsViewModel = remember { com.mvi.kenny.feature.compose11layouts.Compose11LayoutsViewModel() }
+    var compose11LayoutsTopBar by remember { mutableStateOf(TopBarConfig(title = "Compose 1.11 布局 API")) }
+    // PRD-158: Android Studio Panda 4 AI Agent 开发工具包
+    val panda4ToolsViewModel = remember { Panda4ToolsViewModel() }
+    var panda4ToolsTopBar by remember { mutableStateOf(TopBarConfig(title = "Panda 4 AI Tools")) }
 
     // 根据当前页码决定显示哪个 TopBar 配置
     val currentTopBar = when (pagerState.currentPage) {
@@ -202,6 +227,10 @@ fun MainScreen(
         20 -> onAlarmTopBar
         21 -> memoryLimitsTopBar
         22 -> largeScreenTopBar
+        23 -> lanNetworkTopBar
+        24 -> audioComplianceTopBar
+        25 -> compose11LayoutsTopBar
+        26 -> panda4ToolsTopBar
         else -> homeTopBar
     }
 
@@ -319,6 +348,29 @@ fun MainScreen(
                         viewModel = largeScreenViewModel,
                         onUpdateTopBar = { largeScreenTopBar = it },
                         onSnackbar = { }
+                    )
+                    // PRD-159: Android 17 ACCESS_LOCAL_NETWORK 权限合规检测与迁移工具包
+                    23 -> LanNetworkScreen(
+                        viewModel = lanNetworkViewModel,
+                        onUpdateTopBar = { lanNetworkTopBar = it }
+                    )
+                    // PRD-160: Android 17 Background Audio Hardening 后台音频加固迁移工具包
+                    24 -> AudioComplianceScreen(
+                        state = audioComplianceViewModel.state.collectAsState().value,
+                        effect = audioComplianceViewModel.effect,
+                        onIntent = audioComplianceViewModel::sendIntent,
+                        onUpdateTopBar = { audioComplianceTopBar = it }
+                    )
+                    // PRD-161: Compose 1.11 Layout & Style APIs 开发工具包
+                    25 -> com.mvi.kenny.feature.compose11layouts.Compose11LayoutsScreen(
+                        state = compose11LayoutsViewModel.state.collectAsState().value,
+                        onIntent = compose11LayoutsViewModel::sendIntent
+                    )
+                    // PRD-158: Android Studio Panda 4 AI Agent 开发工具包
+                    26 -> Panda4ToolsScreen(
+                        state = panda4ToolsViewModel.state.collectAsState().value,
+                        onIntent = panda4ToolsViewModel::sendIntent,
+                        onUpdateTopBar = { panda4ToolsTopBar = it }
                     )
                 }
             }
