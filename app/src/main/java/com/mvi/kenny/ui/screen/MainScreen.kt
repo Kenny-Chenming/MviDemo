@@ -51,6 +51,12 @@ import com.mvi.kenny.feature.gridflexboxkit.ComposeLayoutsKitScreen
 import com.mvi.kenny.feature.gridflexboxkit.ComposeLayoutsKitViewModel
 import com.mvi.kenny.feature.pandatools.PandaToolsScreen
 import com.mvi.kenny.feature.pandatools.PandaToolsViewModel
+import com.mvi.kenny.feature.onalaarmlistener.OnAlarmScreen
+import com.mvi.kenny.feature.onalaarmlistener.OnAlarmViewModel
+import com.mvi.kenny.feature.memorylimits.MemoryLimitsScreen
+import com.mvi.kenny.feature.memorylimits.MemoryLimitsViewModel
+import com.mvi.kenny.feature.largescreen.LargeScreenScreen
+import com.mvi.kenny.feature.largescreen.LargeScreenViewModel
 import com.mvi.kenny.navigation.BottomNavRoute
 
 /**
@@ -125,7 +131,14 @@ fun MainScreen(
         BottomNavRoute.GeminiTestQuality,
         BottomNavRoute.HealthPermissions,
         BottomNavRoute.ComposeLayoutsKit,
-        BottomNavRoute.PandaTools
+        BottomNavRoute.PandaTools,
+        // PRD-150: Android 17 OnAlarmListener 电池优化与后台任务调度开发工具包
+        BottomNavRoute.OnAlarm,
+        // PRD-151: Android 17 App Memory Limits 内存限制检测与调优开发工具包
+        BottomNavRoute.MemoryLimits,
+        // PRD-155: Android 17 大屏强制适配与 Continuous Canary Release 开发工具包
+        BottomNavRoute.LargeScreenAdaptation
+        // PRD-153: Handoff 待修复: BottomNavRoute.Handoff 已加入 NavRoutes，但 MainScreen 集成缺失（Bug #2），待修复后启用
     )
 
     // Pager 状态，管理当前是第几页
@@ -159,6 +172,15 @@ fun MainScreen(
     // PRD-136: Android Studio Panda 4 AI 编程助手开发工具包
     val pandaToolsViewModel = remember { PandaToolsViewModel() }
     var pandaToolsTopBar by remember { mutableStateOf(TopBarConfig(title = "Panda 4 AI Tools")) }
+    // PRD-150: Android 17 OnAlarmListener 电池优化与后台任务调度开发工具包
+    val onAlarmViewModel = remember { OnAlarmViewModel() }
+    var onAlarmTopBar by remember { mutableStateOf(TopBarConfig(title = "Battery / 电池优化")) }
+    // PRD-151: Android 17 App Memory Limits 内存限制检测与调优开发工具包
+    val memoryLimitsViewModel = remember { MemoryLimitsViewModel() }
+    var memoryLimitsTopBar by remember { mutableStateOf(TopBarConfig(title = "Memory Limits")) }
+    // PRD-155: Android 17 大屏强制适配与 Continuous Canary Release 开发工具包
+    val largeScreenViewModel = remember { LargeScreenViewModel() }
+    var largeScreenTopBar by remember { mutableStateOf(TopBarConfig(title = "大屏适配")) }
 
     // 根据当前页码决定显示哪个 TopBar 配置
     val currentTopBar = when (pagerState.currentPage) {
@@ -183,6 +205,9 @@ fun MainScreen(
         18 -> healthPermissionsTopBar
         19 -> composeLayoutsKitTopBar
         20 -> pandaToolsTopBar
+        21 -> onAlarmTopBar
+        22 -> memoryLimitsTopBar
+        23 -> largeScreenTopBar
         else -> homeTopBar
     }
 
@@ -287,6 +312,23 @@ fun MainScreen(
                     20 -> PandaToolsScreen(
                         viewModel = pandaToolsViewModel,
                         onNavigateBack = { pendingTabToSelect = 0 }
+                    )
+                    // PRD-150: Android 17 OnAlarmListener 电池优化与后台任务调度开发工具包
+                    21 -> OnAlarmScreen(
+                        viewModel = onAlarmViewModel,
+                        onNavigateToScanner = { },
+                        onNavigateToAnalysis = { }
+                    )
+                    // PRD-151: Android 17 App Memory Limits 内存限制检测与调优开发工具包
+                    22 -> MemoryLimitsScreen(
+                        state = memoryLimitsViewModel.state.collectAsState().value,
+                        onIntent = memoryLimitsViewModel::sendIntent
+                    )
+                    // PRD-155: Android 17 大屏强制适配与 Continuous Canary Release 开发工具包
+                    23 -> LargeScreenScreen(
+                        viewModel = largeScreenViewModel,
+                        onUpdateTopBar = { largeScreenTopBar = it },
+                        onSnackbar = { }
                     )
                 }
             }
