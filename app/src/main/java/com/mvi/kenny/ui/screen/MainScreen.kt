@@ -134,7 +134,9 @@ fun MainScreen(
         // PRD-151: Android 17 App Memory Limits 内存限制检测与调优开发工具包
         BottomNavRoute.MemoryLimits,
         // PRD-155: Android 17 大屏强制适配与 Continuous Canary Release 开发工具包
-        BottomNavRoute.LargeScreenAdaptation
+        BottomNavRoute.LargeScreenAdaptation,
+        // PRD-153: Android 17 Handoff API 跨设备连续性开发工具包
+        BottomNavRoute.Handoff
     )
 
     // Pager 状态，管理当前是第几页

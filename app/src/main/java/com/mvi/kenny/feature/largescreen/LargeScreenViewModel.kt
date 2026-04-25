@@ -55,6 +55,137 @@ class LargeScreenViewModel : ViewModel() {
     private val _effect = MutableSharedFlow<LargeScreenEffect>()
     val effect = _effect.asSharedFlow()
 
+    // ─────────────────────────────────────────────────────────────
+    // Default data — initialized before init block
+    // ─────────────────────────────────────────────────────────────
+
+    companion object {
+        /** Default foldable/freeform adaptation checklist items */
+        private val defaultChecklistItems = listOf(
+            ChecklistItem(
+                id = "ck_window_layouts",
+                category = "WindowManager",
+                title = "WindowManager 依赖已添加",
+                description = "添加 Jetpack WindowManager 1.3+ 依赖：androidx.window:window",
+                status = CheckStatus.UNCHECKED,
+                referenceDoc = "https://developer.android.com/reference/androidx/window/java/androidx/window",
+                order = 1
+            ),
+            ChecklistItem(
+                id = "ck_activity_recreate",
+                category = "WindowManager",
+                title = "Activity 可在配置变更时正确重建",
+                description = "移除 android:configChanges 中的 orientation|screenSize，避免手动处理重建",
+                status = CheckStatus.UNCHECKED,
+                referenceDoc = "https://developer.android.com/guide/topics/manifest/activity-element",
+                order = 2
+            ),
+            ChecklistItem(
+                id = "ck_split_screen",
+                category = "SplitScreen",
+                title = "分屏模式支持检测",
+                description = "App 需支持 split-screen 模式，确保 UI 在分屏场景下不会崩溃",
+                status = CheckStatus.UNCHECKED,
+                referenceDoc = "https://developer.android.com/guide/topics/manifest/activity-element#resizeableActivity",
+                order = 3
+            ),
+            ChecklistItem(
+                id = "ck_resizeable_true",
+                category = "MultiWindow",
+                title = "resizeableActivity=true 或未声明",
+                description = "Android 17 targeting API 37+ 的 App 必须支持多窗口模式",
+                status = CheckStatus.UNCHECKED,
+                referenceDoc = "https://developer.android.com/guide/topics/manifest/activity-element#resizeableActivity",
+                order = 4
+            ),
+            ChecklistItem(
+                id = "ck_sw600dp_layouts",
+                category = "Layout",
+                title = "sw=600dp 布局资源已提供",
+                description = "确保 res/layout-sw600dp/ 目录下有平板适配的布局文件",
+                status = CheckStatus.UNCHECKED,
+                referenceDoc = "https://developer.android.com/training/multiscreen/screensizes",
+                order = 5
+            ),
+            ChecklistItem(
+                id = "ck_sw840dp_layouts",
+                category = "Layout",
+                title = "sw=840dp 布局资源已提供",
+                description = "确保 res/layout-sw840dp/ 目录下有大屏平板适配的布局文件",
+                status = CheckStatus.UNCHECKED,
+                referenceDoc = "https://developer.android.com/training/multiscreen/screensizes",
+                order = 6
+            ),
+            ChecklistItem(
+                id = "ck_freeform_support",
+                category = "Freeform",
+                title = "自由窗口模式支持",
+                description = "Android 17+ 可能支持自由窗口，App 需处理 min/max/reset 场景",
+                status = CheckStatus.UNCHECKED,
+                referenceDoc = "https://developer.android.com/reference/android/view/WindowManager.LayoutParams#FLAG_RESIZE_MODE",
+                order = 7
+            ),
+            ChecklistItem(
+                id = "ck_aspect_ratio",
+                category = "Display",
+                title = "最大宽高比已正确配置",
+                description = "android:maxAspectRatio 应设为较大值（如 2.4）或移除该声明",
+                status = CheckStatus.UNCHECKED,
+                referenceDoc = "https://developer.android.com/guide/topics/manifest/activity-element#maxAspectRatio",
+                order = 8
+            ),
+            ChecklistItem(
+                id = "ck_target_sdk_37",
+                category = "SDK",
+                title = "targetSdk >= 37 或已规划升级路径",
+                description = "Android 17 要求 targeting API 37+，需提前规划升级",
+                status = CheckStatus.UNCHECKED,
+                referenceDoc = "https://developer.android.com/about/versions/17",
+                order = 9
+            )
+        )
+
+        /** Sample Android API changes for Continuous Canary workflow */
+        private val sampleAPIChanges = listOf(
+            APIChange(
+                id = "api_37_001",
+                version = 37,
+                category = "Windowing",
+                title = "大屏强制适配 (resizeableActivity)",
+                description = "所有 targeting API 37+ 且 sw>=600dp 的 App 必须支持多窗口模式",
+                isBreakingChange = true,
+                migrationGuide = "https://developer.android.com/about/versions/17#large-screen"
+            ),
+            APIChange(
+                id = "api_37_002",
+                version = 37,
+                category = "Permissions",
+                title = "后台位置权限更严格",
+                description = "ACCESS_BACKGROUND_LOCATION 需要额外的前台权限链",
+                isBreakingChange = false,
+                migrationGuide = "https://developer.android.com/about/versions/17#background-location"
+            ),
+            APIChange(
+                id = "api_36_001",
+                version = 36,
+                category = "Health",
+                title = "BODY_SENSORS 细粒度化",
+                description = "BODY_SENSORS 拆分为 6 个细粒度权限（心率/血糖/血压等）",
+                isBreakingChange = true,
+                migrationGuide = "https://developer.android.com/about/versions/16#health-permissions"
+            ),
+            APIChange(
+                id = "api_37_003",
+                version = 37,
+                category = "Battery",
+                title = "AlarmListener 电池优化",
+                description = "OnAlarmListener 受到更严格的后台调度限制",
+                isBreakingChange = false,
+                migrationGuide = "https://developer.android.com/about/versions/17#alarm-scheduling"
+            )
+        )
+    }
+
     init {
         // Initialize checklist items with default foldable/freeform checks
         _state.update { it.copy(checklistItems = defaultChecklistItems) }
@@ -316,139 +447,4 @@ class LargeScreenViewModel : ViewModel() {
             )
         }
     }
-
-    // ─────────────────────────────────────────────────────────────
-    // Default Data
-    // ─────────────────────────────────────────────────────────────
-
-    /**
-     * Default foldable/freeform adaptation checklist items.
-     * Reference: developer.android.com/training/window/managing
-     */
-    private val defaultChecklistItems = listOf(
-        ChecklistItem(
-            id = "ck_window_layouts",
-            category = "WindowManager",
-            title = "WindowManager 依赖已添加",
-            description = "添加 Jetpack WindowManager 1.3+ 依赖：androidx.window:window",
-            status = CheckStatus.UNCHECKED,
-            referenceDoc = "https://developer.android.com/reference/androidx/window/java/androidx/window",
-            order = 1
-        ),
-        ChecklistItem(
-            id = "ck_activity_recreate",
-            category = "WindowManager",
-            title = "Activity 可在配置变更时正确重建",
-            description = "移除 android:configChanges 中的 orientation|screenSize，避免手动处理重建",
-            status = CheckStatus.UNCHECKED,
-            referenceDoc = "https://developer.android.com/guide/topics/manifest/activity-element",
-            order = 2
-        ),
-        ChecklistItem(
-            id = "ck_split_screen",
-            category = "SplitScreen",
-            title = "分屏模式支持检测",
-            description = "App 需支持 split-screen 模式，确保 UI 在分屏场景下不会崩溃",
-            status = CheckStatus.UNCHECKED,
-            referenceDoc = "https://developer.android.com/guide/topics/manifest/activity-element#resizeableActivity",
-            order = 3
-        ),
-        ChecklistItem(
-            id = "ck_resizeable_true",
-            category = "MultiWindow",
-            title = "resizeableActivity=true 或未声明",
-            description = "Android 17 targeting API 37+ 的 App 必须支持多窗口模式",
-            status = CheckStatus.UNCHECKED,
-            referenceDoc = "https://developer.android.com/guide/topics/manifest/activity-element#resizeableActivity",
-            order = 4
-        ),
-        ChecklistItem(
-            id = "ck_sw600dp_layouts",
-            category = "Layout",
-            title = "sw=600dp 布局资源已提供",
-            description = "确保 res/layout-sw600dp/ 目录下有平板适配的布局文件",
-            status = CheckStatus.UNCHECKED,
-            referenceDoc = "https://developer.android.com/training/multiscreen/screensizes",
-            order = 5
-        ),
-        ChecklistItem(
-            id = "ck_sw840dp_layouts",
-            category = "Layout",
-            title = "sw=840dp 布局资源已提供",
-            description = "确保 res/layout-sw840dp/ 目录下有大屏平板适配的布局文件",
-            status = CheckStatus.UNCHECKED,
-            referenceDoc = "https://developer.android.com/training/multiscreen/screensizes",
-            order = 6
-        ),
-        ChecklistItem(
-            id = "ck_freeform_support",
-            category = "Freeform",
-            title = "自由窗口模式支持",
-            description = "Android 17+ 可能支持自由窗口，App 需处理 min/max/reset 场景",
-            status = CheckStatus.UNCHECKED,
-            referenceDoc = "https://developer.android.com/reference/android/view/WindowManager.LayoutParams#FLAG_RESIZE_MODE",
-            order = 7
-        ),
-        ChecklistItem(
-            id = "ck_aspect_ratio",
-            category = "Display",
-            title = "最大宽高比已正确配置",
-            description = "android:maxAspectRatio 应设为较大值（如 2.4）或移除该声明",
-            status = CheckStatus.UNCHECKED,
-            referenceDoc = "https://developer.android.com/guide/topics/manifest/activity-element#maxAspectRatio",
-            order = 8
-        ),
-        ChecklistItem(
-            id = "ck_target_sdk_37",
-            category = "SDK",
-            title = "targetSdk >= 37 或已规划升级路径",
-            description = "Android 17 要求 targeting API 37+，需提前规划升级",
-            status = CheckStatus.UNCHECKED,
-            referenceDoc = "https://developer.android.com/about/versions/17",
-            order = 9
-        )
-    )
-
-    /**
-     * Sample Android API changes for Continuous Canary workflow.
-     * Real implementation would fetch from Google's Android API change feed.
-     */
-    private val sampleAPIChanges = listOf(
-        APIChange(
-            id = "api_37_001",
-            version = 37,
-            category = "Windowing",
-            title = "大屏强制适配 (resizeableActivity)",
-            description = "所有 targeting API 37+ 且 sw>=600dp 的 App 必须支持多窗口模式",
-            isBreakingChange = true,
-            migrationGuide = "https://developer.android.com/about/versions/17#large-screen"
-        ),
-        APIChange(
-            id = "api_37_002",
-            version = 37,
-            category = "Permissions",
-            title = "后台位置权限更严格",
-            description = "ACCESS_BACKGROUND_LOCATION 需要额外的前台权限链",
-            isBreakingChange = false,
-            migrationGuide = "https://developer.android.com/about/versions/17#background-location"
-        ),
-        APIChange(
-            id = "api_36_001",
-            version = 36,
-            category = "Health",
-            title = "BODY_SENSORS 细粒度化",
-            description = "BODY_SENSORS 拆分为 6 个细粒度权限（心率/血糖/血压等）",
-            isBreakingChange = true,
-            migrationGuide = "https://developer.android.com/about/versions/16#health-permissions"
-        ),
-        APIChange(
-            id = "api_37_003",
-            version = 37,
-            category = "Battery",
-            title = "AlarmListener 电池优化",
-            description = "OnAlarmListener 受到更严格的后台调度限制",
-            isBreakingChange = false,
-            migrationGuide = "https://developer.android.com/about/versions/17#alarm-scheduling"
-        )
-    )
 }
