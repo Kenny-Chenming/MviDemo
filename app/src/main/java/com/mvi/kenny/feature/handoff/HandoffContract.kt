@@ -283,7 +283,6 @@ data class AppBundleConfig(
     val installUrl: String = ""
 )
 
-// =============================================================
 // FallbackOption — 降级选项
 // =============================================================
 /**
@@ -304,12 +303,12 @@ data class FallbackOption(
 /**
  * Fallback type / 降级类型
  */
-enum class FallbackType(val label: String) {
-    DEEP_LINK("深链接 / Deep Link"),
-    WEB_FALLBACK("Web降级 / Web Fallback"),
-    NOTIFICATION("推送通知 / Push Notification"),
-    QR_CODE("二维码 / QR Code"),
-    NONE("无可用降级 / No Fallback")
+enum class FallbackType(val label: String, val description: String) {
+    DEEP_LINK("深链接 / Deep Link", "Open content via deep link on target device"),
+    WEB_FALLBACK("Web降级 / Web Fallback", "Open web version as fallback"),
+    NOTIFICATION("推送通知 / Push Notification", "Send push notification to continue"),
+    QR_CODE("二维码 / QR Code", "Generate QR code for manual transfer"),
+    NONE("无可用降级 / No Fallback", "Handoff is required, no alternative")
 }
 
 // =============================================================

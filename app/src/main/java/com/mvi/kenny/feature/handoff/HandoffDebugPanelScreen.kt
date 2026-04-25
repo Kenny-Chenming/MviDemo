@@ -151,8 +151,8 @@ fun HandoffDebugPanelScreen(
     }
 }
 
-@Composable
 @OptIn(ExperimentalMaterial3Api::class)
+@Composable
 private fun DeviceSelector(
     label: String,
     selectedDevice: DeviceType,
