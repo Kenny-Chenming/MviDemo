@@ -22,11 +22,6 @@ import androidx.compose.material.icons.filled.Widgets
 import androidx.compose.material.icons.filled.Share
 import androidx.compose.material.icons.filled.AutoAwesome
 import androidx.compose.material.icons.filled.FactCheck
-import androidx.compose.material.icons.filled.BatteryChargingFull
-import androidx.compose.material.icons.filled.SwapHoriz
-import androidx.compose.material.icons.filled.Audiotrack
-import androidx.compose.material.icons.filled.Warning
-import androidx.compose.material.icons.filled.Compare
 import androidx.compose.ui.graphics.vector.ImageVector
 
 /**
@@ -75,18 +70,8 @@ sealed class BottomNavRoute(
     data object HealthPermissions : BottomNavRoute(route = "health_permissions", title = "健康权限", icon = Icons.Default.Shield)
     // PRD-141: Compose Grid + FlexBox 双布局 API 开发工具包
     data object ComposeLayoutsKit : BottomNavRoute(route = "compose_layouts_kit", title = "Grid/FlexBox", icon = Icons.Rounded.GridOn)
-    // PRD-150: Android 17 OnAlarmListener 电池优化与后台任务调度开发工具包
-    data object OnAlarm : BottomNavRoute(route = "onalaarmlistener", title = "Battery", icon = Icons.Default.BatteryChargingFull)
-    // PRD-151: Android 17 App Memory Limits 内存限制检测与调优开发工具包
-    data object MemoryLimits : BottomNavRoute(route = "memory_limits", title = "Memory Limits", icon = Icons.Default.Memory)
-    // PRD-155: Android 17 大屏强制适配与 Continuous Canary Release 开发工具包
-    data object LargeScreenAdaptation : BottomNavRoute(route = "large_screen_adaptation", title = "大屏适配", icon = Icons.Default.SwapHoriz)
-    // PRD-159: Android 17 ACCESS_LOCAL_NETWORK 权限合规检测与迁移工具包
-    data object LanNetwork : BottomNavRoute(route = "lan_network", title = "LAN Permission", icon = Icons.Default.Warning)
-    // PRD-160: Android 17 Background Audio Hardening 后台音频加固迁移工具包
-    data object AudioCompliance : BottomNavRoute(route = "audio_compliance", title = "音频合规", icon = Icons.Default.Audiotrack)
-    // PRD-158: Android Studio Panda 4 AI Agent 开发工具包
-    data object Panda4Tools : BottomNavRoute(route = "panda4_tools", title = "Panda 4", icon = Icons.Default.Compare)
+    // PRD-156: Android Studio Panda 3 Skills for Agent Mode 开发工具包
+    data object SkillsTools : BottomNavRoute(route = "skills_tools", title = "Skills Tools", icon = Icons.Default.AutoAwesome)
     // PRD-161: Compose 1.11 Layout & Style APIs 开发工具包
     data object Compose11Layouts : BottomNavRoute(route = "compose11_layouts", title = "1.11布局", icon = Icons.Rounded.GridOn)
 }
@@ -136,18 +121,8 @@ object NavRoutes {
     const val HEALTH_PERMISSIONS = "health_permissions"
     // PRD-141: Compose Grid + FlexBox 双布局 API 开发工具包
     const val COMPOSE_LAYOUTS_KIT = "compose_layouts_kit"
-    // PRD-150: Android 17 OnAlarmListener 电池优化与后台任务调度开发工具包
-    const val ON_ALARM = "onalaarmlistener"
-    // PRD-151: Android 17 App Memory Limits 内存限制检测与调优开发工具包
-    const val MEMORY_LIMITS = "memory_limits"
-    // PRD-155: Android 17 大屏强制适配与 Continuous Canary Release 开发工具包
-    const val LARGE_SCREEN_ADAPTATION = "large_screen_adaptation"
-    // PRD-159: Android 17 ACCESS_LOCAL_NETWORK 权限合规检测与迁移工具包
-    const val LAN_NETWORK = "lan_network"
-    // PRD-160: Android 17 Background Audio Hardening 后台音频加固迁移工具包
-    const val AUDIO_COMPLIANCE = "audio_compliance"
-    // PRD-158: Android Studio Panda 4 AI Agent 开发工具包
-    const val PANDA4_TOOLS = "panda4_tools"
+    // PRD-156: Android Studio Panda 3 Skills for Agent Mode 开发工具包
+    const val SKILLS_TOOLS = "skills_tools"
     // PRD-161: Compose 1.11 Layout & Style APIs 开发工具包
     const val COMPOSE11_LAYOUTS = "compose11_layouts"
 }
