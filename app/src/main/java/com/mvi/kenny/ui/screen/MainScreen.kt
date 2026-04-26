@@ -49,6 +49,8 @@ import com.mvi.kenny.feature.geminitest.GeminiTestQualityScreen
 import com.mvi.kenny.feature.healthpermissions.HealthPermissionsScreen
 import com.mvi.kenny.feature.gridflexboxkit.ComposeLayoutsKitScreen
 import com.mvi.kenny.feature.gridflexboxkit.ComposeLayoutsKitViewModel
+import com.mvi.kenny.feature.pandatools.PandaToolsScreen
+import com.mvi.kenny.feature.pandatools.PandaToolsViewModel
 import com.mvi.kenny.feature.onalaarmlistener.OnAlarmScreen
 import com.mvi.kenny.feature.onalaarmlistener.OnAlarmViewModel
 import com.mvi.kenny.feature.memorylimits.MemoryLimitsScreen
@@ -133,6 +135,7 @@ fun MainScreen(
         BottomNavRoute.GeminiTestQuality,
         BottomNavRoute.HealthPermissions,
         BottomNavRoute.ComposeLayoutsKit,
+        BottomNavRoute.PandaTools,
         // PRD-150: Android 17 OnAlarmListener 电池优化与后台任务调度开发工具包
         BottomNavRoute.OnAlarm,
         // PRD-151: Android 17 App Memory Limits 内存限制检测与调优开发工具包
@@ -141,8 +144,6 @@ fun MainScreen(
         BottomNavRoute.LargeScreenAdaptation,
         // PRD-169: Android Agentic AI AppFunctions & UI Automation Framework 开发工具包
         BottomNavRoute.AgenticAI,
-        // PRD-153: Android 17 Handoff API 跨设备连续性开发工具包
-        BottomNavRoute.Handoff,
         // PRD-171: Android 17 Key Limit 合规检测与数据重构工具包
         BottomNavRoute.KeyVault
     )
@@ -175,6 +176,9 @@ fun MainScreen(
     // PRD-141: Compose Grid + FlexBox 双布局 API 开发工具包
     val composeLayoutsKitViewModel = remember { ComposeLayoutsKitViewModel() }
     var composeLayoutsKitTopBar by remember { mutableStateOf(TopBarConfig(title = "ComposeLayoutsKit")) }
+    // PRD-136: Android Studio Panda 4 AI 编程助手开发工具包
+    val pandaToolsViewModel = remember { PandaToolsViewModel() }
+    var pandaToolsTopBar by remember { mutableStateOf(TopBarConfig(title = "Panda 4 AI Tools")) }
     // PRD-150: Android 17 OnAlarmListener 电池优化与后台任务调度开发工具包
     val onAlarmViewModel = remember { OnAlarmViewModel() }
     var onAlarmTopBar by remember { mutableStateOf(TopBarConfig(title = "Battery / 电池优化")) }
@@ -319,19 +323,23 @@ fun MainScreen(
                         onIntent = composeLayoutsKitViewModel::sendIntent,
                         onNavigateToSubmodule = { }
                     )
+                    20 -> PandaToolsScreen(
+                        viewModel = pandaToolsViewModel,
+                        onNavigateBack = { pendingTabToSelect = 0 }
+                    )
                     // PRD-150: Android 17 OnAlarmListener 电池优化与后台任务调度开发工具包
-                    20 -> OnAlarmScreen(
+                    21 -> OnAlarmScreen(
                         viewModel = onAlarmViewModel,
                         onNavigateToScanner = { },
                         onNavigateToAnalysis = { }
                     )
                     // PRD-151: Android 17 App Memory Limits 内存限制检测与调优开发工具包
-                    21 -> MemoryLimitsScreen(
+                    22 -> MemoryLimitsScreen(
                         state = memoryLimitsViewModel.state.collectAsState().value,
                         onIntent = memoryLimitsViewModel::sendIntent
                     )
                     // PRD-155: Android 17 大屏强制适配与 Continuous Canary Release 开发工具包
-                    22 -> LargeScreenScreen(
+                    23 -> LargeScreenScreen(
                         viewModel = largeScreenViewModel,
                         onUpdateTopBar = { largeScreenTopBar = it },
                         onSnackbar = { }

@@ -73,6 +73,8 @@ sealed class BottomNavRoute(
     data object HealthPermissions : BottomNavRoute(route = "health_permissions", title = "健康权限", icon = Icons.Default.Shield)
     // PRD-141: Compose Grid + FlexBox 双布局 API 开发工具包
     data object ComposeLayoutsKit : BottomNavRoute(route = "compose_layouts_kit", title = "Grid/FlexBox", icon = Icons.Rounded.GridOn)
+    // PRD-136: Android Studio Panda 4 AI 编程助手开发工具包
+    data object PandaTools : BottomNavRoute(route = "panda_tools", title = "Panda 4 Tools", icon = Icons.Default.AutoAwesome)
     // PRD-150: Android 17 OnAlarmListener 电池优化与后台任务调度开发工具包
     data object OnAlarm : BottomNavRoute(route = "onalaarmlistener", title = "Battery", icon = Icons.Default.BatteryChargingFull)
     // PRD-151: Android 17 App Memory Limits 内存限制检测与调优开发工具包
@@ -130,6 +132,8 @@ object NavRoutes {
     const val HEALTH_PERMISSIONS = "health_permissions"
     // PRD-141: Compose Grid + FlexBox 双布局 API 开发工具包
     const val COMPOSE_LAYOUTS_KIT = "compose_layouts_kit"
+    // PRD-136: Android Studio Panda 4 AI 编程助手开发工具包
+    const val PANDA_TOOLS = "panda_tools"
     // PRD-150: Android 17 OnAlarmListener 电池优化与后台任务调度开发工具包
     const val ON_ALARM = "onalaarmlistener"
     // PRD-151: Android 17 App Memory Limits 内存限制检测与调优开发工具包
