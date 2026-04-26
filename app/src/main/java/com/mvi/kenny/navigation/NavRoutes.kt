@@ -84,6 +84,10 @@ sealed class BottomNavRoute(
     data object SkillsTools : BottomNavRoute(route = "skills_tools", title = "Skills Tools", icon = Icons.Default.AutoAwesome)
     // PRD-161: Compose 1.11 Layout & Style APIs 开发工具包
     data object Compose11Layouts : BottomNavRoute(route = "compose11_layouts", title = "1.11布局", icon = Icons.Rounded.GridOn)
+    // PRD-167: Android 17 System.load() Native Library Read-Only 合规检测工具包
+    data object SystemLoadCompliance : BottomNavRoute(route = "system_load_compliance", title = "Native合规", icon = Icons.Default.Shield)
+    // PRD-168: Android XR AI Glasses 开发工具包
+    data object AndroidXR : BottomNavRoute(route = "android_xr_ai_glasses", title = "XR AI眼镜", icon = Icons.Default.ThreeDRotation)
 }
 
 /**
@@ -143,4 +147,8 @@ object NavRoutes {
     const val SKILLS_TOOLS = "skills_tools"
     // PRD-161: Compose 1.11 Layout & Style APIs 开发工具包
     const val COMPOSE11_LAYOUTS = "compose11_layouts"
+    // PRD-167: Android 17 System.load() Native Library Read-Only 合规检测工具包
+    const val SYSTEM_LOAD_COMPLIANCE = "system_load_compliance"
+    // PRD-168: Android XR AI Glasses 开发工具包
+    const val ANDROID_XR_AI_GLASSES = "android_xr_ai_glasses"
 }

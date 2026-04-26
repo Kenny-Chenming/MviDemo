@@ -57,6 +57,10 @@ import com.mvi.kenny.feature.memorylimits.MemoryLimitsScreen
 import com.mvi.kenny.feature.memorylimits.MemoryLimitsViewModel
 import com.mvi.kenny.feature.largescreen.LargeScreenScreen
 import com.mvi.kenny.feature.largescreen.LargeScreenViewModel
+import com.mvi.kenny.feature.systemloadcompliance.SystemLoadComplianceScreen
+import com.mvi.kenny.feature.systemloadcompliance.SystemLoadComplianceViewModel
+import com.mvi.kenny.feature.androidxraiglasses.AndroidXRViewModel
+import com.mvi.kenny.feature.androidxraiglasses.AndroidXRScreen
 import com.mvi.kenny.navigation.BottomNavRoute
 
 /**
@@ -140,7 +144,11 @@ fun MainScreen(
         BottomNavRoute.LargeScreenAdaptation,
         // PRD-153: Handoff 待修复: BottomNavRoute.Handoff 已加入 NavRoutes，但 MainScreen 集成缺失（Bug #2），待修复后启用
         // PRD-161: Compose 1.11 Layout & Style APIs 开发工具包
-        BottomNavRoute.Compose11Layouts
+        BottomNavRoute.Compose11Layouts,
+        // PRD-167: Android 17 System.load() Native Library Read-Only 合规检测工具包
+        BottomNavRoute.SystemLoadCompliance,
+        // PRD-168: Android XR AI Glasses 开发工具包
+        BottomNavRoute.AndroidXR
     )
 
     // Pager 状态，管理当前是第几页
@@ -185,7 +193,11 @@ fun MainScreen(
     var largeScreenTopBar by remember { mutableStateOf(TopBarConfig(title = "大屏适配")) }
     // PRD-161: Compose 1.11 Layout & Style APIs 开发工具包
     val compose11LayoutsViewModel = remember { com.mvi.kenny.feature.compose11layouts.Compose11LayoutsViewModel() }
+    val systemLoadComplianceViewModel = remember { SystemLoadComplianceViewModel() }
     var compose11LayoutsTopBar by remember { mutableStateOf(TopBarConfig(title = "Compose 1.11 布局 API")) }
+    // PRD-168: Android XR AI Glasses 开发工具包
+    val androidXRViewModel = remember { AndroidXRViewModel() }
+    var androidXRTopBar by remember { mutableStateOf(TopBarConfig(title = "Android XR AI Glasses")) }
 
     // 根据当前页码决定显示哪个 TopBar 配置
     val currentTopBar = when (pagerState.currentPage) {
@@ -340,6 +352,11 @@ fun MainScreen(
                     24 -> com.mvi.kenny.feature.compose11layouts.Compose11LayoutsScreen(
                         state = compose11LayoutsViewModel.state.collectAsState().value,
                         onIntent = compose11LayoutsViewModel::sendIntent
+                    )
+                    // PRD-167: Android 17 System.load() Native Library Read-Only 合规检测工具包
+                    25 -> SystemLoadComplianceScreen(
+                        viewModel = systemLoadComplianceViewModel,
+                        onNavigateBack = { }
                     )
                 }
             }
