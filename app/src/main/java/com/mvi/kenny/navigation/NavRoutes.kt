@@ -5,6 +5,7 @@ import androidx.compose.material.icons.automirrored.filled.Chat
 import androidx.compose.material.icons.automirrored.filled.List
 import androidx.compose.material.icons.automirrored.filled.ArrowForward
 import androidx.compose.material.icons.rounded.GridOn
+import androidx.compose.material.icons.rounded.MonitorHeart
 import androidx.compose.material.icons.filled.BugReport
 import androidx.compose.material.icons.filled.DeveloperBoard
 import androidx.compose.material.icons.filled.Home
@@ -73,6 +74,8 @@ sealed class BottomNavRoute(
     data object ComposeLayoutsKit : BottomNavRoute(route = "compose_layouts_kit", title = "Grid/FlexBox", icon = Icons.Rounded.GridOn)
     // PRD-162: Compose 1.12.0 Migration 开发工具包
     data object ComposeMigration : BottomNavRoute(route = "compose_migration", title = "Compose迁移", icon = Icons.Default.Build)
+    // PRD-164: Wear OS 7 开发工具包
+    data object WearOS7Tools : BottomNavRoute(route = "wearos7_tools", title = "WearOS 7", icon = Icons.Default.Watch)
 }
 
 /**
@@ -122,4 +125,6 @@ object NavRoutes {
     const val COMPOSE_LAYOUTS_KIT = "compose_layouts_kit"
     // PRD-162: Compose 1.12.0 Migration 开发工具包
     const val COMPOSE_MIGRATION = "compose_migration"
+    // PRD-164: Wear OS 7 开发工具包
+    const val WEAR_OS_7_TOOLS = "wearos7_tools"
 }

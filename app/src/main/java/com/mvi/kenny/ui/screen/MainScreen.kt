@@ -51,6 +51,8 @@ import com.mvi.kenny.feature.gridflexboxkit.ComposeLayoutsKitScreen
 import com.mvi.kenny.feature.composemigration.ComposeMigrationScreen
 import com.mvi.kenny.feature.composemigration.ComposeMigrationViewModel
 import com.mvi.kenny.feature.gridflexboxkit.ComposeLayoutsKitViewModel
+import com.mvi.kenny.feature.wearos7tools.WearOS7ToolsScreen
+import com.mvi.kenny.feature.wearos7tools.WearOS7ToolsViewModel
 import com.mvi.kenny.navigation.BottomNavRoute
 
 /**
@@ -125,7 +127,8 @@ fun MainScreen(
         BottomNavRoute.GeminiTestQuality,
         BottomNavRoute.HealthPermissions,
         BottomNavRoute.ComposeLayoutsKit,
-        BottomNavRoute.ComposeMigration
+        BottomNavRoute.ComposeMigration,
+        BottomNavRoute.WearOS7Tools
     )
 
     // Pager 状态，管理当前是第几页
@@ -159,6 +162,9 @@ fun MainScreen(
     // PRD-162: Compose 1.12.0 Migration 开发工具包
     val composeMigrationViewModel = remember { ComposeMigrationViewModel() }
     var composeMigrationTopBar by remember { mutableStateOf(TopBarConfig(title = "Compose 1.12.0 迁移工具")) }
+    // PRD-164: Wear OS 7 开发工具包
+    val wearOS7ToolsViewModel = remember { WearOS7ToolsViewModel() }
+    var wearOS7ToolsTopBar by remember { mutableStateOf(TopBarConfig(title = "Wear OS 7 工具箱")) }
 
     // 根据当前页码决定显示哪个 TopBar 配置
     val currentTopBar = when (pagerState.currentPage) {
@@ -183,6 +189,7 @@ fun MainScreen(
         18 -> healthPermissionsTopBar
         19 -> composeLayoutsKitTopBar
         20 -> composeMigrationTopBar
+        21 -> wearOS7ToolsTopBar
         else -> homeTopBar
     }
 
@@ -287,6 +294,11 @@ fun MainScreen(
                     20 -> ComposeMigrationScreen(
                         state = composeMigrationViewModel.state.collectAsState().value,
                         onIntent = composeMigrationViewModel::sendIntent
+                    )
+                    21 -> WearOS7ToolsScreen(
+                        state = wearOS7ToolsViewModel.state.collectAsState().value,
+                        onIntent = wearOS7ToolsViewModel::sendIntent,
+                        onUpdateTopBar = { wearOS7ToolsTopBar = it }
                     )
                 }
             }
