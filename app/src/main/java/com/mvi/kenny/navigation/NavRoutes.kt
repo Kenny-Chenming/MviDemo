@@ -24,6 +24,7 @@ import androidx.compose.material.icons.filled.AutoAwesome
 import androidx.compose.material.icons.filled.FactCheck
 import androidx.compose.material.icons.filled.BatteryChargingFull
 import androidx.compose.material.icons.filled.SwapHoriz
+import androidx.compose.material.icons.filled.VpnKey
 import androidx.compose.ui.graphics.vector.ImageVector
 
 /**
@@ -78,6 +79,10 @@ sealed class BottomNavRoute(
     data object MemoryLimits : BottomNavRoute(route = "memory_limits", title = "Memory Limits", icon = Icons.Default.Memory)
     // PRD-155: Android 17 大屏强制适配与 Continuous Canary Release 开发工具包
     data object LargeScreenAdaptation : BottomNavRoute(route = "large_screen_adaptation", title = "大屏适配", icon = Icons.Default.SwapHoriz)
+    // PRD-169: Android Agentic AI AppFunctions & UI Automation Framework 开发工具包
+    data object AgenticAI : BottomNavRoute(route = "agentic_ai", title = "AgenticAI", icon = Icons.Default.AutoAwesome)
+    // PRD-171: Android 17 Key Limit 合规检测与数据重构工具包
+    data object KeyVault : BottomNavRoute(route = "key_vault", title = "KeyVault", icon = Icons.Default.VpnKey)
 }
 
 /**
@@ -131,4 +136,8 @@ object NavRoutes {
     const val MEMORY_LIMITS = "memory_limits"
     // PRD-155: Android 17 大屏强制适配与 Continuous Canary Release 开发工具包
     const val LARGE_SCREEN_ADAPTATION = "large_screen_adaptation"
+    // PRD-169: Android Agentic AI AppFunctions & UI Automation Framework 开发工具包
+    const val AGENTIC_AI = "agentic_ai"
+    // PRD-171: Android 17 Key Limit 合规检测与数据重构工具包
+    const val KEY_VAULT = "key_vault"
 }

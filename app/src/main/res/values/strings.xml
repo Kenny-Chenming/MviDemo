@@ -355,4 +355,51 @@ Pure video playback, compatibility priority → PiP</string>
     <string name="gemini_test_ci_provider">CI Provider / CI 提供商</string>
     <string name="gemini_test_auto_regen">失败时自动重新生成 / Auto-Regenerate on Failure</string>
     <string name="gemini_test_yaml_preview">YAML 配置预览 / YAML Preview</string>
+    <!-- PRD-171: Android 17 Key Limit 合规检测与数据重构工具包 -->
+    <string name="keyvault_title">KeyVault</string>
+    <string name="keyvault_subtitle">Android 17 Key Limit 合规检测工具</string>
+    <string name="keyvault_overview">首页概览</string>
+    <string name="keyvault_scanner">KeyScanner</string>
+    <string name="keyvault_contribution">贡献分析</string>
+    <string name="keyvault_merger">KeyMerger</string>
+    <string name="keyvault_migration">Migration</string>
+    <string name="keyvault_ci_monitor">CIMonitor</string>
+    <string name="keyvault_degradation">降级策略</string>
+    <string name="keyvault_best_practices">最佳实践</string>
+    <string name="keyvault_total_keys">Key 总量</string>
+    <string name="keyvault_limit">上限: 200,000</string>
+    <string name="keyvault_risk_safe">安全</string>
+    <string name="keyvault_risk_caution">警告</string>
+    <string name="keyvault_risk_danger">危险</string>
+    <string name="keyvault_risk_critical">严重</string>
+    <string name="keyvault_scan">开始扫描</string>
+    <string name="keyvault_stop_scan">停止扫描</string>
+    <string name="keyvault_scanning">正在扫描…</string>
+    <string name="keyvault_export_ci">导出 CI 配置</string>
+    <string name="keyvault_refresh">刷新</string>
+    <string name="keyvault_threshold">阈值配置</string>
+    <string name="keyvault_generate_migration">生成迁移代码</string>
+    <string name="keyvault_generate_merge">生成合并代码</string>
+
+    <!-- PRD-169: Android Agentic AI AppFunctions & UI Automation Framework -->
+    <string name="agentic_ai_title">AgenticAI</string>
+    <string name="agentic_ai_home">首页</string>
+    <string name="agentic_ai_app_functions">AppFunctions</string>
+    <string name="agentic_ai_gemini_integration">Gemini集成</string>
+    <string name="agentic_ai_ui_automation">UI自动化</string>
+    <string name="agentic_ai_design_standards">设计规范</string>
+    <string name="agentic_ai_security_privacy">安全隐私</string>
+    <string name="agentic_ai_a2a_protocol">A2A协议</string>
+    <string name="agentic_ai_cli_skills">CLI Skills</string>
+    <string name="agentic_ai_ci_compliance">CI合规</string>
+    <string name="agentic_ai_io_countdown">Google I/O 2026 倒计时</string>
+    <string name="agentic_ai_path_map_title">Agentic AI 全链路路径图</string>
+    <string name="agentic_ai_quick_start">快速开始</string>
+    <string name="agentic_ai_run_check">运行检测</string>
+    <string name="agentic_ai_export_report">导出报告</string>
+    <string name="agentic_ai_compliance_score">合规评分</string>
+    <string name="agentic_ai_check_pass">通过</string>
+    <string name="agentic_ai_check_fail">失败</string>
+    <string name="agentic_ai_check_warning">警告</string>
+    <string name="agentic_ai_code_copied">代码已复制</string>
 </resources>

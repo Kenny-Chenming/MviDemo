@@ -55,6 +55,10 @@ import com.mvi.kenny.feature.memorylimits.MemoryLimitsScreen
 import com.mvi.kenny.feature.memorylimits.MemoryLimitsViewModel
 import com.mvi.kenny.feature.largescreen.LargeScreenScreen
 import com.mvi.kenny.feature.largescreen.LargeScreenViewModel
+import com.mvi.kenny.feature.keyvault.KeyVaultScreen
+import com.mvi.kenny.feature.keyvault.KeyVaultViewModel
+import com.mvi.kenny.feature.agenticai.AgenticAIScreen
+import com.mvi.kenny.feature.agenticai.AgenticAIViewModel
 import com.mvi.kenny.navigation.BottomNavRoute
 
 /**
@@ -135,8 +139,12 @@ fun MainScreen(
         BottomNavRoute.MemoryLimits,
         // PRD-155: Android 17 大屏强制适配与 Continuous Canary Release 开发工具包
         BottomNavRoute.LargeScreenAdaptation,
+        // PRD-169: Android Agentic AI AppFunctions & UI Automation Framework 开发工具包
+        BottomNavRoute.AgenticAI,
         // PRD-153: Android 17 Handoff API 跨设备连续性开发工具包
-        BottomNavRoute.Handoff
+        BottomNavRoute.Handoff,
+        // PRD-171: Android 17 Key Limit 合规检测与数据重构工具包
+        BottomNavRoute.KeyVault
     )
 
     // Pager 状态，管理当前是第几页
@@ -176,6 +184,12 @@ fun MainScreen(
     // PRD-155: Android 17 大屏强制适配与 Continuous Canary Release 开发工具包
     val largeScreenViewModel = remember { LargeScreenViewModel() }
     var largeScreenTopBar by remember { mutableStateOf(TopBarConfig(title = "大屏适配")) }
+    // PRD-169: Android Agentic AI AppFunctions & UI Automation Framework 开发工具包
+    val agenticAIViewModel = remember { AgenticAIViewModel() }
+    var agenticAITopBar by remember { mutableStateOf(TopBarConfig(title = "AgenticAI")) }
+    // PRD-171: Android 17 Key Limit 合规检测与数据重构工具包
+    val keyVaultViewModel = remember { KeyVaultViewModel() }
+    var keyVaultTopBar by remember { mutableStateOf(TopBarConfig(title = "KeyVault")) }
 
     // 根据当前页码决定显示哪个 TopBar 配置
     val currentTopBar = when (pagerState.currentPage) {
@@ -202,6 +216,8 @@ fun MainScreen(
         20 -> onAlarmTopBar
         21 -> memoryLimitsTopBar
         22 -> largeScreenTopBar
+        23 -> agenticAITopBar
+        24 -> keyVaultTopBar
         else -> homeTopBar
     }
 
@@ -319,6 +335,17 @@ fun MainScreen(
                         viewModel = largeScreenViewModel,
                         onUpdateTopBar = { largeScreenTopBar = it },
                         onSnackbar = { }
+                    )
+                    // PRD-169: Android Agentic AI AppFunctions & UI Automation Framework 开发工具包
+                    23 -> AgenticAIScreen(
+                        state = agenticAIViewModel.state.collectAsState().value,
+                        onIntent = agenticAIViewModel::sendIntent,
+                        effect = agenticAIViewModel.effect
+                    )
+                    // PRD-171: Android 17 Key Limit 合规检测与数据重构工具包
+                    24 -> KeyVaultScreen(
+                        state = keyVaultViewModel.state.collectAsState().value,
+                        onIntent = keyVaultViewModel::sendIntent
                     )
                 }
             }
