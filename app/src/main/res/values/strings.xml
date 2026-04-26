@@ -355,4 +355,6 @@ Pure video playback, compatibility priority → PiP</string>
     <string name="gemini_test_ci_provider">CI Provider / CI 提供商</string>
     <string name="gemini_test_auto_regen">失败时自动重新生成 / Auto-Regenerate on Failure</string>
     <string name="gemini_test_yaml_preview">YAML 配置预览 / YAML Preview</string>
+    <!-- PRD-168: Android XR AI Glasses 开发工具包 -->
+    <string name="android_xr_ai_glasses">Android XR AI Glasses · XR 开发工具包</string>
 </resources>

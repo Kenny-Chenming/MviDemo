@@ -143,4 +143,6 @@ object NavRoutes {
     const val SKILLS_TOOLS = "skills_tools"
     // PRD-161: Compose 1.11 Layout & Style APIs 开发工具包
     const val COMPOSE11_LAYOUTS = "compose11_layouts"
+    // PRD-168: Android XR AI Glasses 开发工具包
+    const val ANDROID_XR_AI_GLASSES = "android_xr_ai_glasses"
 }

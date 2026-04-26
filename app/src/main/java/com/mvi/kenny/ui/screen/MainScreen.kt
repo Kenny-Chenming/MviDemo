@@ -57,6 +57,7 @@ import com.mvi.kenny.feature.memorylimits.MemoryLimitsScreen
 import com.mvi.kenny.feature.memorylimits.MemoryLimitsViewModel
 import com.mvi.kenny.feature.largescreen.LargeScreenScreen
 import com.mvi.kenny.feature.largescreen.LargeScreenViewModel
+import com.mvi.kenny.feature.androidxraiglasses.AndroidXRViewModel
 import com.mvi.kenny.navigation.BottomNavRoute
 
 /**
@@ -186,6 +187,9 @@ fun MainScreen(
     // PRD-161: Compose 1.11 Layout & Style APIs 开发工具包
     val compose11LayoutsViewModel = remember { com.mvi.kenny.feature.compose11layouts.Compose11LayoutsViewModel() }
     var compose11LayoutsTopBar by remember { mutableStateOf(TopBarConfig(title = "Compose 1.11 布局 API")) }
+    // PRD-168: Android XR AI Glasses 开发工具包
+    val androidXRViewModel = remember { AndroidXRViewModel() }
+    var androidXRTopBar by remember { mutableStateOf(TopBarConfig(title = "Android XR AI Glasses")) }
 
     // 根据当前页码决定显示哪个 TopBar 配置
     val currentTopBar = when (pagerState.currentPage) {
@@ -214,6 +218,7 @@ fun MainScreen(
         22 -> memoryLimitsTopBar
         23 -> largeScreenTopBar
         24 -> compose11LayoutsTopBar
+        25 -> androidXRTopBar
         else -> homeTopBar
     }
 
@@ -340,6 +345,12 @@ fun MainScreen(
                     24 -> com.mvi.kenny.feature.compose11layouts.Compose11LayoutsScreen(
                         state = compose11LayoutsViewModel.state.collectAsState().value,
                         onIntent = compose11LayoutsViewModel::sendIntent
+                    )
+                    // PRD-168: Android XR AI Glasses 开发工具包
+                    25 -> com.mvi.kenny.feature.androidxraiglasses.AndroidXRScreen(
+                        viewModel = androidXRViewModel,
+                        onUpdateTopBar = { androidXRTopBar = it },
+                        onNavigateBack = { pendingTabToSelect = 0 }
                     )
                 }
             }
