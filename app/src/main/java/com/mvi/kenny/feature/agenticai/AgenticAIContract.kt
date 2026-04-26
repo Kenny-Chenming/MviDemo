@@ -286,21 +286,21 @@ sealed interface AgenticEffect {
     /** 显示 Toast 消息
      * @param message Toast 文本
      */
-    data class ShowToast(val message: String) : AgenticEffect()
+    data class ShowToast(val message: String) : AgenticEffect
 
     /** 导航到指定 Tab
      * @param tabIndex Tab index
      */
-    data class NavigateToTab(val tabIndex: Int) : AgenticEffect()
+    data class NavigateToTab(val tabIndex: Int) : AgenticEffect
 
     /** 代码已复制到剪贴板
      */
-    data object CodeCopied : AgenticEffect()
+    data object CodeCopied : AgenticEffect
 
     /** 报告已导出
      * @param filePath 导出文件路径
      */
-    data class ReportExported(val filePath: String) : AgenticEffect()
+    data class ReportExported(val filePath: String) : AgenticEffect
 }
 
 // ================================================================

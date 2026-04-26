@@ -513,10 +513,6 @@ private fun QuickStartCard(
     }
 }
 
-// Material icon aliases
-private val Icons.Default.Info: ImageVector
-    get() = Icons.Default.Info
-
 // ================================================================
 // Tab 1: AppFunctions 接入指南
 // ================================================================
