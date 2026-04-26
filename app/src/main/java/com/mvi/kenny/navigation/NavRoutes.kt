@@ -80,6 +80,10 @@ sealed class BottomNavRoute(
     data object MemoryLimits : BottomNavRoute(route = "memory_limits", title = "Memory Limits", icon = Icons.Default.Memory)
     // PRD-155: Android 17 大屏强制适配与 Continuous Canary Release 开发工具包
     data object LargeScreenAdaptation : BottomNavRoute(route = "large_screen_adaptation", title = "大屏适配", icon = Icons.Default.SwapHoriz)
+    // PRD-156: Android Studio Panda 3 Skills for Agent Mode 开发工具包
+    data object SkillsTools : BottomNavRoute(route = "skills_tools", title = "Skills Tools", icon = Icons.Default.AutoAwesome)
+    // PRD-161: Compose 1.11 Layout & Style APIs 开发工具包
+    data object Compose11Layouts : BottomNavRoute(route = "compose11_layouts", title = "1.11布局", icon = Icons.Rounded.GridOn)
 }
 
 /**
@@ -135,4 +139,8 @@ object NavRoutes {
     const val MEMORY_LIMITS = "memory_limits"
     // PRD-155: Android 17 大屏强制适配与 Continuous Canary Release 开发工具包
     const val LARGE_SCREEN_ADAPTATION = "large_screen_adaptation"
+    // PRD-156: Android Studio Panda 3 Skills for Agent Mode 开发工具包
+    const val SKILLS_TOOLS = "skills_tools"
+    // PRD-161: Compose 1.11 Layout & Style APIs 开发工具包
+    const val COMPOSE11_LAYOUTS = "compose11_layouts"
 }

@@ -137,8 +137,10 @@ fun MainScreen(
         // PRD-151: Android 17 App Memory Limits 内存限制检测与调优开发工具包
         BottomNavRoute.MemoryLimits,
         // PRD-155: Android 17 大屏强制适配与 Continuous Canary Release 开发工具包
-        BottomNavRoute.LargeScreenAdaptation
+        BottomNavRoute.LargeScreenAdaptation,
         // PRD-153: Handoff 待修复: BottomNavRoute.Handoff 已加入 NavRoutes，但 MainScreen 集成缺失（Bug #2），待修复后启用
+        // PRD-161: Compose 1.11 Layout & Style APIs 开发工具包
+        BottomNavRoute.Compose11Layouts
     )
 
     // Pager 状态，管理当前是第几页
@@ -181,6 +183,9 @@ fun MainScreen(
     // PRD-155: Android 17 大屏强制适配与 Continuous Canary Release 开发工具包
     val largeScreenViewModel = remember { LargeScreenViewModel() }
     var largeScreenTopBar by remember { mutableStateOf(TopBarConfig(title = "大屏适配")) }
+    // PRD-161: Compose 1.11 Layout & Style APIs 开发工具包
+    val compose11LayoutsViewModel = remember { com.mvi.kenny.feature.compose11layouts.Compose11LayoutsViewModel() }
+    var compose11LayoutsTopBar by remember { mutableStateOf(TopBarConfig(title = "Compose 1.11 布局 API")) }
 
     // 根据当前页码决定显示哪个 TopBar 配置
     val currentTopBar = when (pagerState.currentPage) {
@@ -208,6 +213,7 @@ fun MainScreen(
         21 -> onAlarmTopBar
         22 -> memoryLimitsTopBar
         23 -> largeScreenTopBar
+        24 -> compose11LayoutsTopBar
         else -> homeTopBar
     }
 
@@ -329,6 +335,11 @@ fun MainScreen(
                         viewModel = largeScreenViewModel,
                         onUpdateTopBar = { largeScreenTopBar = it },
                         onSnackbar = { }
+                    )
+                    // PRD-161: Compose 1.11 Layout & Style APIs 开发工具包
+                    24 -> com.mvi.kenny.feature.compose11layouts.Compose11LayoutsScreen(
+                        state = compose11LayoutsViewModel.state.collectAsState().value,
+                        onIntent = compose11LayoutsViewModel::sendIntent
                     )
                 }
             }
