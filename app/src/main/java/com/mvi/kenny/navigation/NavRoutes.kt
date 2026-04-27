@@ -25,6 +25,7 @@ import androidx.compose.material.icons.filled.FactCheck
 import androidx.compose.material.icons.filled.BatteryChargingFull
 import androidx.compose.material.icons.filled.SwapHoriz
 import androidx.compose.material.icons.filled.VpnKey
+import androidx.compose.material.icons.filled.DesktopWindows
 import androidx.compose.ui.graphics.vector.ImageVector
 
 /**
@@ -85,6 +86,8 @@ sealed class BottomNavRoute(
     data object AgenticAI : BottomNavRoute(route = "agentic_ai", title = "AgenticAI", icon = Icons.Default.AutoAwesome)
     // PRD-171: Android 17 Key Limit 合规检测与数据重构工具包
     data object KeyVault : BottomNavRoute(route = "key_vault", title = "KeyVault", icon = Icons.Default.VpnKey)
+    // PRD-170: Android 17 Desktop Mode 开发工具包
+    data object DesktopMode : BottomNavRoute(route = "desktop_mode", title = "Desktop Mode", icon = Icons.Default.DesktopWindows)
 }
 
 /**
@@ -144,4 +147,6 @@ object NavRoutes {
     const val AGENTIC_AI = "agentic_ai"
     // PRD-171: Android 17 Key Limit 合规检测与数据重构工具包
     const val KEY_VAULT = "key_vault"
+    // PRD-170: Android 17 Desktop Mode 开发工具包
+    const val DESKTOP_MODE = "desktop_mode"
 }

@@ -59,6 +59,8 @@ import com.mvi.kenny.feature.largescreen.LargeScreenScreen
 import com.mvi.kenny.feature.largescreen.LargeScreenViewModel
 import com.mvi.kenny.feature.keyvault.KeyVaultScreen
 import com.mvi.kenny.feature.keyvault.KeyVaultViewModel
+import com.mvi.kenny.feature.desktopmode.DesktopModeScreen
+import com.mvi.kenny.feature.desktopmode.DesktopModeViewModel
 import com.mvi.kenny.feature.agenticai.AgenticAIScreen
 import com.mvi.kenny.feature.agenticai.AgenticAIViewModel
 import com.mvi.kenny.navigation.BottomNavRoute
@@ -145,7 +147,9 @@ fun MainScreen(
         // PRD-169: Android Agentic AI AppFunctions & UI Automation Framework 开发工具包
         BottomNavRoute.AgenticAI,
         // PRD-171: Android 17 Key Limit 合规检测与数据重构工具包
-        BottomNavRoute.KeyVault
+        BottomNavRoute.KeyVault,
+        // PRD-170: Android 17 Desktop Mode 开发工具包
+        BottomNavRoute.DesktopMode
     )
 
     // Pager 状态，管理当前是第几页
@@ -194,6 +198,9 @@ fun MainScreen(
     // PRD-171: Android 17 Key Limit 合规检测与数据重构工具包
     val keyVaultViewModel = remember { KeyVaultViewModel() }
     var keyVaultTopBar by remember { mutableStateOf(TopBarConfig(title = "KeyVault")) }
+    // PRD-170: Android 17 Desktop Mode 开发工具包
+    val desktopModeViewModel = remember { DesktopModeViewModel() }
+    var desktopModeTopBar by remember { mutableStateOf(TopBarConfig(title = "Desktop Mode")) }
 
     // 根据当前页码决定显示哪个 TopBar 配置
     val currentTopBar = when (pagerState.currentPage) {
@@ -222,6 +229,7 @@ fun MainScreen(
         22 -> largeScreenTopBar
         23 -> agenticAITopBar
         24 -> keyVaultTopBar
+        25 -> desktopModeTopBar
         else -> homeTopBar
     }
 
@@ -354,6 +362,12 @@ fun MainScreen(
                     24 -> KeyVaultScreen(
                         state = keyVaultViewModel.state.collectAsState().value,
                         onIntent = keyVaultViewModel::sendIntent
+                    )
+                    // PRD-170: Android 17 Desktop Mode 开发工具包
+                    25 -> DesktopModeScreen(
+                        state = desktopModeViewModel.state.collectAsState().value,
+                        onIntent = desktopModeViewModel::sendIntent,
+                        effect = desktopModeViewModel.effect
                     )
                 }
             }
