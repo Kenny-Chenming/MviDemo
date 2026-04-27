@@ -27,6 +27,7 @@ import androidx.compose.material.icons.filled.SwapHoriz
 import androidx.compose.material.icons.filled.VpnKey
 import androidx.compose.material.icons.filled.DesktopWindows
 import androidx.compose.material.icons.filled.VolumeUp
+import androidx.compose.material.icons.filled.SwapHoriz
 import androidx.compose.ui.graphics.vector.ImageVector
 
 /**
@@ -91,6 +92,10 @@ sealed class BottomNavRoute(
     data object DesktopMode : BottomNavRoute(route = "desktop_mode", title = "Desktop Mode", icon = Icons.Default.DesktopWindows)
     // PRD-178: Android 17 Background Audio Hardening 合规检测工具包
     data object BackgroundAudio : BottomNavRoute(route = "background_audio", title = "Background Audio", icon = Icons.Default.VolumeUp)
+    // PRD-160: Android 17 Background Audio Hardening 后台音频加固迁移工具包
+    data object BackgroundAudioHardening : BottomNavRoute(route = "background_audio_hardening", title = "Audio加固", icon = Icons.Default.Shield)
+    // PRD-183: Android 17 Large Screen Resizability & Orientation Enforcement 合规检测工具包
+    data object OrientationEnforcement : BottomNavRoute(route = "orientation_enforcement", title = "大屏方向锁定", icon = Icons.Default.SwapHoriz)
 }
 
 /**
@@ -154,4 +159,8 @@ object NavRoutes {
     const val DESKTOP_MODE = "desktop_mode"
     // PRD-178: Android 17 Background Audio Hardening 合规检测工具包
     const val BACKGROUND_AUDIO = "background_audio"
+    // PRD-160: Android 17 Background Audio Hardening 后台音频加固迁移工具包
+    const val BACKGROUND_AUDIO_HARDENING = "background_audio_hardening"
+    // PRD-183: Android 17 Large Screen Resizability & Orientation Enforcement 合规检测工具包
+    const val ORIENTATION_ENFORCEMENT = "orientation_enforcement"
 }

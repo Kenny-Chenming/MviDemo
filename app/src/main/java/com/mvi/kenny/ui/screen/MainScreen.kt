@@ -65,6 +65,10 @@ import com.mvi.kenny.feature.bgaudio.BackgroundAudioScreen
 import com.mvi.kenny.feature.bgaudio.BackgroundAudioViewModel
 import com.mvi.kenny.feature.agenticai.AgenticAIScreen
 import com.mvi.kenny.feature.agenticai.AgenticAIViewModel
+import com.mvi.kenny.feature.backgroundaudiohardening.BackgroundAudioHardeningScreen
+import com.mvi.kenny.feature.backgroundaudiohardening.BackgroundAudioHardeningViewModel
+import com.mvi.kenny.feature.orientationenforcement.OrientationEnforcementScreen
+import com.mvi.kenny.feature.orientationenforcement.OrientationEnforcementViewModel
 import com.mvi.kenny.navigation.BottomNavRoute
 
 /**
@@ -153,7 +157,11 @@ fun MainScreen(
         // PRD-170: Android 17 Desktop Mode 开发工具包
         BottomNavRoute.DesktopMode,
         // PRD-178: Android 17 Background Audio Hardening 合规检测工具包
-        BottomNavRoute.BackgroundAudio
+        BottomNavRoute.BackgroundAudio,
+        // PRD-160: Android 17 Background Audio Hardening 后台音频加固迁移工具包
+        BottomNavRoute.BackgroundAudioHardening,
+        // PRD-183: Android 17 Large Screen Resizability & Orientation Enforcement 合规检测工具包
+        BottomNavRoute.OrientationEnforcement
     )
 
     // Pager 状态，管理当前是第几页
@@ -208,6 +216,12 @@ fun MainScreen(
     // PRD-178: Android 17 Background Audio Hardening 合规检测工具包
     val backgroundAudioViewModel = remember { BackgroundAudioViewModel() }
     var backgroundAudioTopBar by remember { mutableStateOf(TopBarConfig(title = "Background Audio")) }
+    // PRD-160: Android 17 Background Audio Hardening 后台音频加固迁移工具包
+    val backgroundAudioHardeningViewModel = remember { BackgroundAudioHardeningViewModel() }
+    var backgroundAudioHardeningTopBar by remember { mutableStateOf(TopBarConfig(title = "🔊 Audio加固")) }
+    // PRD-183: Android 17 Large Screen Resizability & Orientation Enforcement 合规检测工具包
+    val orientationEnforcementViewModel = remember { OrientationEnforcementViewModel() }
+    var orientationEnforcementTopBar by remember { mutableStateOf(TopBarConfig(title = "大屏方向锁定")) }
 
     // 根据当前页码决定显示哪个 TopBar 配置
     val currentTopBar = when (pagerState.currentPage) {
@@ -238,6 +252,8 @@ fun MainScreen(
         24 -> keyVaultTopBar
         25 -> desktopModeTopBar
         26 -> backgroundAudioTopBar
+        27 -> backgroundAudioHardeningTopBar
+        28 -> orientationEnforcementTopBar
         else -> homeTopBar
     }
 
@@ -377,10 +393,26 @@ fun MainScreen(
                         onIntent = desktopModeViewModel::sendIntent,
                         effect = desktopModeViewModel.effect
                     )
+                    // PRD-170: Android 17 Desktop Mode 开发工具包
+                    26 -> DesktopModeScreen(
+                        state = desktopModeViewModel.state.collectAsState().value,
+                        onIntent = desktopModeViewModel::sendIntent,
+                        effect = desktopModeViewModel.effect
+                    )
                     // PRD-178: Android 17 Background Audio Hardening 合规检测工具包
-                    26 -> BackgroundAudioScreen(
+                    27 -> BackgroundAudioScreen(
                         viewModel = backgroundAudioViewModel,
                         onNavigateToRelatedTool = { }
+                    )
+                    // PRD-160: Android 17 Background Audio Hardening 后台音频加固迁移工具包
+                    28 -> BackgroundAudioHardeningScreen(
+                        viewModel = backgroundAudioHardeningViewModel,
+                        onNavigateBack = { pendingTabToSelect = 0 }
+                    )
+                    // PRD-183: Android 17 Large Screen Resizability & Orientation Enforcement 合规检测工具包
+                    29 -> OrientationEnforcementScreen(
+                        viewModel = orientationEnforcementViewModel,
+                        onNavigateBack = { pendingTabToSelect = 0 }
                     )
                 }
             }
