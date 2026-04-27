@@ -26,6 +26,7 @@ import androidx.compose.material.icons.filled.BatteryChargingFull
 import androidx.compose.material.icons.filled.SwapHoriz
 import androidx.compose.material.icons.filled.VpnKey
 import androidx.compose.material.icons.filled.DesktopWindows
+import androidx.compose.material.icons.filled.VolumeUp
 import androidx.compose.ui.graphics.vector.ImageVector
 
 /**
@@ -88,6 +89,8 @@ sealed class BottomNavRoute(
     data object KeyVault : BottomNavRoute(route = "key_vault", title = "KeyVault", icon = Icons.Default.VpnKey)
     // PRD-170: Android 17 Desktop Mode 开发工具包
     data object DesktopMode : BottomNavRoute(route = "desktop_mode", title = "Desktop Mode", icon = Icons.Default.DesktopWindows)
+    // PRD-178: Android 17 Background Audio Hardening 合规检测工具包
+    data object BackgroundAudio : BottomNavRoute(route = "background_audio", title = "Background Audio", icon = Icons.Default.VolumeUp)
 }
 
 /**
@@ -149,4 +152,6 @@ object NavRoutes {
     const val KEY_VAULT = "key_vault"
     // PRD-170: Android 17 Desktop Mode 开发工具包
     const val DESKTOP_MODE = "desktop_mode"
+    // PRD-178: Android 17 Background Audio Hardening 合规检测工具包
+    const val BACKGROUND_AUDIO = "background_audio"
 }

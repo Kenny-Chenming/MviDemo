@@ -61,6 +61,8 @@ import com.mvi.kenny.feature.keyvault.KeyVaultScreen
 import com.mvi.kenny.feature.keyvault.KeyVaultViewModel
 import com.mvi.kenny.feature.desktopmode.DesktopModeScreen
 import com.mvi.kenny.feature.desktopmode.DesktopModeViewModel
+import com.mvi.kenny.feature.bgaudio.BackgroundAudioScreen
+import com.mvi.kenny.feature.bgaudio.BackgroundAudioViewModel
 import com.mvi.kenny.feature.agenticai.AgenticAIScreen
 import com.mvi.kenny.feature.agenticai.AgenticAIViewModel
 import com.mvi.kenny.navigation.BottomNavRoute
@@ -149,7 +151,9 @@ fun MainScreen(
         // PRD-171: Android 17 Key Limit 合规检测与数据重构工具包
         BottomNavRoute.KeyVault,
         // PRD-170: Android 17 Desktop Mode 开发工具包
-        BottomNavRoute.DesktopMode
+        BottomNavRoute.DesktopMode,
+        // PRD-178: Android 17 Background Audio Hardening 合规检测工具包
+        BottomNavRoute.BackgroundAudio
     )
 
     // Pager 状态，管理当前是第几页
@@ -201,6 +205,9 @@ fun MainScreen(
     // PRD-170: Android 17 Desktop Mode 开发工具包
     val desktopModeViewModel = remember { DesktopModeViewModel() }
     var desktopModeTopBar by remember { mutableStateOf(TopBarConfig(title = "Desktop Mode")) }
+    // PRD-178: Android 17 Background Audio Hardening 合规检测工具包
+    val backgroundAudioViewModel = remember { BackgroundAudioViewModel() }
+    var backgroundAudioTopBar by remember { mutableStateOf(TopBarConfig(title = "Background Audio")) }
 
     // 根据当前页码决定显示哪个 TopBar 配置
     val currentTopBar = when (pagerState.currentPage) {
@@ -230,6 +237,7 @@ fun MainScreen(
         23 -> agenticAITopBar
         24 -> keyVaultTopBar
         25 -> desktopModeTopBar
+        26 -> backgroundAudioTopBar
         else -> homeTopBar
     }
 
@@ -368,6 +376,11 @@ fun MainScreen(
                         state = desktopModeViewModel.state.collectAsState().value,
                         onIntent = desktopModeViewModel::sendIntent,
                         effect = desktopModeViewModel.effect
+                    )
+                    // PRD-178: Android 17 Background Audio Hardening 合规检测工具包
+                    26 -> BackgroundAudioScreen(
+                        viewModel = backgroundAudioViewModel,
+                        onNavigateToRelatedTool = { }
                     )
                 }
             }
