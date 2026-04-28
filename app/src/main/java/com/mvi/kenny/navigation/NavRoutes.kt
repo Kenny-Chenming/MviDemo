@@ -100,6 +100,8 @@ sealed class BottomNavRoute(
     data object AndroidSkills : BottomNavRoute(route = "android_skills", title = "Android Skills", icon = Icons.Default.AutoAwesome)
     // PRD-185: Android AppFunctions SDK 开发工具包
     data object AppFunctionTest : BottomNavRoute(route = "app_function_test", title = "SDK 测试", icon = Icons.Default.CheckCircle)
+    // PRD-186: Android 17 SMS OTP Delay 合规检测与迁移工具包
+    data object OtpDelay : BottomNavRoute(route = "otp_delay", title = "OTP Delay", icon = Icons.Default.Shield)
 }
 
 /**
@@ -171,4 +173,6 @@ object NavRoutes {
     const val ANDROID_SKILLS = "android_skills"
     // PRD-185: Android AppFunctions SDK 开发工具包
     const val APP_FUNCTION_TEST = "app_function_test"
+    // PRD-186: Android 17 SMS OTP Delay 合规检测与迁移工具包
+    const val OTP_DELAY = "otp_delay"
 }
