@@ -402,4 +402,40 @@ Pure video playback, compatibility priority → PiP</string>
     <string name="agentic_ai_check_fail">失败</string>
     <string name="agentic_ai_check_warning">警告</string>
     <string name="agentic_ai_code_copied">代码已复制</string>
+
+    <!-- PRD-185: Android AppFunctions SDK 开发工具包 -->
+    <string name="app_function_test_title">AppFunctions SDK 测试工具</string>
+    <string name="app_function_test_function_list">函数列表</string>
+    <string name="app_function_test_test_panel">测试面板</string>
+    <string name="app_function_test_agent_sim">Agent 模拟</string>
+    <string name="app_function_test_log_viewer">执行日志</string>
+    <string name="app_function_test_scan_functions">扫描函数</string>
+    <string name="app_function_test_compliance_check">合规检测</string>
+    <string name="app_function_test_execute">执行 AppFunction</string>
+    <string name="app_function_test_executing">执行中…</string>
+    <string name="app_function_test_load_functions">加载函数</string>
+    <string name="app_function_test_no_functions">暂无注册的函数</string>
+    <string name="app_function_test_select_function">选择一个函数</string>
+    <string name="app_function_test_param_input">参数输入</string>
+    <string name="app_function_test_result">测试结果</string>
+    <string name="app_function_test_success">执行成功</string>
+    <string name="app_function_test_failed">执行失败</string>
+    <string name="app_function_test_no_logs">暂无执行日志</string>
+    <string name="app_function_test_clear_logs">清空日志</string>
+    <string name="app_function_test_logs_count">%d 条记录</string>
+    <string name="app_function_test_agent_discovery">Agent 发现模拟</string>
+    <string name="app_function_test_simulating">Agent 模拟中…</string>
+    <string name="app_function_test_discovered">发现 %d 个函数</string>
+    <string name="app_function_test_no_discovery">暂无模拟记录</string>
+    <string name="app_function_test_compliance_report">合规检测报告</string>
+    <string name="app_function_test_total">总数</string>
+    <string name="app_function_test_passed">通过</string>
+    <string name="app_function_test_warnings">警告</string>
+    <string name="app_function_test_errors">错误</string>
+    <string name="app_function_test_input_params">输入参数</string>
+    <string name="app_function_test_output_result">输出结果</string>
+    <string name="app_function_test_duration">耗时</string>
+    <string name="app_function_test_enter_test_panel">进入测试面板</string>
+    <string name="app_function_test_expand">展开</string>
+    <string name="app_function_test_collapse">折叠</string>
 </resources>

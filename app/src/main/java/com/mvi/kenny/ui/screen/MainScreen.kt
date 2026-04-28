@@ -69,6 +69,7 @@ import com.mvi.kenny.feature.backgroundaudiohardening.BackgroundAudioHardeningSc
 import com.mvi.kenny.feature.backgroundaudiohardening.BackgroundAudioHardeningViewModel
 import com.mvi.kenny.feature.orientationenforcement.OrientationEnforcementScreen
 import com.mvi.kenny.feature.orientationenforcement.OrientationEnforcementViewModel
+import com.mvi.kenny.feature.appfunctionssdk.AppFunctionTestScreen
 import com.mvi.kenny.navigation.BottomNavRoute
 
 /**
@@ -161,7 +162,9 @@ fun MainScreen(
         // PRD-160: Android 17 Background Audio Hardening 后台音频加固迁移工具包
         BottomNavRoute.BackgroundAudioHardening,
         // PRD-183: Android 17 Large Screen Resizability & Orientation Enforcement 合规检测工具包
-        BottomNavRoute.OrientationEnforcement
+        BottomNavRoute.OrientationEnforcement,
+        // PRD-185: Android AppFunctions SDK 开发工具包
+        BottomNavRoute.AppFunctionTest
     )
 
     // Pager 状态，管理当前是第几页
@@ -413,6 +416,10 @@ fun MainScreen(
                     29 -> OrientationEnforcementScreen(
                         viewModel = orientationEnforcementViewModel,
                         onNavigateBack = { pendingTabToSelect = 0 }
+                    )
+                    // PRD-185: Android AppFunctions SDK 开发工具包
+                    30 -> AppFunctionTestScreen(
+                        onUpdateTopBar = { }
                     )
                 }
             }
