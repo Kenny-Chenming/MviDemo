@@ -27,7 +27,6 @@ import androidx.compose.material.icons.filled.SwapHoriz
 import androidx.compose.material.icons.filled.VpnKey
 import androidx.compose.material.icons.filled.DesktopWindows
 import androidx.compose.material.icons.filled.VolumeUp
-import androidx.compose.material.icons.filled.SwapHoriz
 import androidx.compose.material.icons.filled.CheckCircle
 import androidx.compose.ui.graphics.vector.ImageVector
 
@@ -97,6 +96,8 @@ sealed class BottomNavRoute(
     data object BackgroundAudioHardening : BottomNavRoute(route = "background_audio_hardening", title = "Audio加固", icon = Icons.Default.Shield)
     // PRD-183: Android 17 Large Screen Resizability & Orientation Enforcement 合规检测工具包
     data object OrientationEnforcement : BottomNavRoute(route = "orientation_enforcement", title = "大屏方向锁定", icon = Icons.Default.SwapHoriz)
+    // PRD-184: Android CLI & Android Skills 工具包
+    data object AndroidSkills : BottomNavRoute(route = "android_skills", title = "Android Skills", icon = Icons.Default.AutoAwesome)
     // PRD-185: Android AppFunctions SDK 开发工具包
     data object AppFunctionTest : BottomNavRoute(route = "app_function_test", title = "SDK 测试", icon = Icons.Default.CheckCircle)
 }
@@ -166,6 +167,8 @@ object NavRoutes {
     const val BACKGROUND_AUDIO_HARDENING = "background_audio_hardening"
     // PRD-183: Android 17 Large Screen Resizability & Orientation Enforcement 合规检测工具包
     const val ORIENTATION_ENFORCEMENT = "orientation_enforcement"
+    // PRD-184: Android CLI & Android Skills 工具包
+    const val ANDROID_SKILLS = "android_skills"
     // PRD-185: Android AppFunctions SDK 开发工具包
     const val APP_FUNCTION_TEST = "app_function_test"
 }

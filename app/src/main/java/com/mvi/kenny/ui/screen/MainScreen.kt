@@ -69,6 +69,9 @@ import com.mvi.kenny.feature.backgroundaudiohardening.BackgroundAudioHardeningSc
 import com.mvi.kenny.feature.backgroundaudiohardening.BackgroundAudioHardeningViewModel
 import com.mvi.kenny.feature.orientationenforcement.OrientationEnforcementScreen
 import com.mvi.kenny.feature.orientationenforcement.OrientationEnforcementViewModel
+import com.mvi.kenny.feature.androidskills.AndroidSkillsScreen
+import com.mvi.kenny.feature.androidskills.AndroidSkillsViewModel
+import com.mvi.kenny.feature.androidskills.AndroidSkillsIntent
 import com.mvi.kenny.feature.appfunctionssdk.AppFunctionTestScreen
 import com.mvi.kenny.navigation.BottomNavRoute
 
@@ -164,7 +167,9 @@ fun MainScreen(
         // PRD-183: Android 17 Large Screen Resizability & Orientation Enforcement 合规检测工具包
         BottomNavRoute.OrientationEnforcement,
         // PRD-185: Android AppFunctions SDK 开发工具包
-        BottomNavRoute.AppFunctionTest
+        BottomNavRoute.AppFunctionTest,
+        // PRD-184: Android CLI & Android Skills 工具包
+        BottomNavRoute.AndroidSkills
     )
 
     // Pager 状态，管理当前是第几页
@@ -225,6 +230,9 @@ fun MainScreen(
     // PRD-183: Android 17 Large Screen Resizability & Orientation Enforcement 合规检测工具包
     val orientationEnforcementViewModel = remember { OrientationEnforcementViewModel() }
     var orientationEnforcementTopBar by remember { mutableStateOf(TopBarConfig(title = "大屏方向锁定")) }
+    // PRD-184: Android CLI & Android Skills 工具包
+    val androidSkillsViewModel = remember { AndroidSkillsViewModel() }
+    var androidSkillsTopBar by remember { mutableStateOf(TopBarConfig(title = "Android Skills Toolkit")) }
 
     // 根据当前页码决定显示哪个 TopBar 配置
     val currentTopBar = when (pagerState.currentPage) {
@@ -257,6 +265,7 @@ fun MainScreen(
         26 -> backgroundAudioTopBar
         27 -> backgroundAudioHardeningTopBar
         28 -> orientationEnforcementTopBar
+        29 -> androidSkillsTopBar
         else -> homeTopBar
     }
 
@@ -420,6 +429,12 @@ fun MainScreen(
                     // PRD-185: Android AppFunctions SDK 开发工具包
                     30 -> AppFunctionTestScreen(
                         onUpdateTopBar = { }
+                    )
+                    // PRD-184: Android CLI & Android Skills 工具包
+                    31 -> AndroidSkillsScreen(
+                        state = androidSkillsViewModel.state.collectAsState().value,
+                        onIntent = androidSkillsViewModel::processIntent,
+                        effect = androidSkillsViewModel.effect
                     )
                 }
             }

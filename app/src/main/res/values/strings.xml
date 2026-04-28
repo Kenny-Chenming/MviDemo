@@ -438,4 +438,30 @@ Pure video playback, compatibility priority → PiP</string>
     <string name="app_function_test_enter_test_panel">进入测试面板</string>
     <string name="app_function_test_expand">展开</string>
     <string name="app_function_test_collapse">折叠</string>
+    <!-- PRD-184: Android CLI & Android Skills 工具包 -->
+    <string name="android_skills_title">Android Skills 工具包</string>
+    <string name="android_skills_tab_creator">Skill Creator</string>
+    <string name="android_skills_tab_publisher">Publisher</string>
+    <string name="android_skills_tab_audit">Audit</string>
+    <string name="android_skills_tab_templates">Templates</string>
+    <string name="android_skills_tab_agent_matrix">Agent Matrix</string>
+    <string name="android_skills_tab_cli_guide">CLI Guide</string>
+    <string name="android_skills_tab_mcp_guide">MCP Guide</string>
+    <string name="android_skills_tab_version_mgmt">Version</string>
+    <string name="android_skills_tab_quick_start">Quick Start</string>
+    <string name="android_skills_skill_name">Skill Name</string>
+    <string name="android_skills_skill_description">Description</string>
+    <string name="android_skills_trigger_conditions">Trigger Conditions</string>
+    <string name="android_skills_tools">Tools</string>
+    <string name="android_skills_workflow">Workflow</string>
+    <string name="android_skills_generate">Generate SKILL.md</string>
+    <string name="android_skills_audit">Run Audit</string>
+    <string name="android_skills_publish">Publish to GitHub</string>
+    <string name="android_skills_quality_score">Quality Score</string>
+    <string name="android_skills_audit_result">Audit Result</string>
+    <string name="android_skills_auditing">Auditing…</string>
+    <string name="android_skills_publishing">Publishing…</string>
+    <string name="android_skills_select_type">Select Skill Type</string>
+    <string name="android_skills_add_condition">Add trigger condition</string>
+    <string name="android_skills_clear_all">Clear All</string>
 </resources>

@@ -70,4 +70,30 @@
     <string name="common_error">出错了</string>
     <string name="common_success">成功</string>
     <string name="common_no_data">暂无数据</string>
+    <!-- PRD-184: Android CLI & Android Skills 工具包 -->
+    <string name="android_skills_title">Android Skills 工具包</string>
+    <string name="android_skills_tab_creator">Skill 创建器</string>
+    <string name="android_skills_tab_publisher">发布器</string>
+    <string name="android_skills_tab_audit">审核</string>
+    <string name="android_skills_tab_templates">模板库</string>
+    <string name="android_skills_tab_agent_matrix">Agent 矩阵</string>
+    <string name="android_skills_tab_cli_guide">CLI 指南</string>
+    <string name="android_skills_tab_mcp_guide">MCP 指南</string>
+    <string name="android_skills_tab_version_mgmt">版本管理</string>
+    <string name="android_skills_tab_quick_start">快速开始</string>
+    <string name="android_skills_skill_name">Skill 名称</string>
+    <string name="android_skills_skill_description">描述</string>
+    <string name="android_skills_trigger_conditions">触发条件</string>
+    <string name="android_skills_tools">工具</string>
+    <string name="android_skills_workflow">工作流</string>
+    <string name="android_skills_generate">生成 SKILL.md</string>
+    <string name="android_skills_audit">运行审核</string>
+    <string name="android_skills_publish">发布到 GitHub</string>
+    <string name="android_skills_quality_score">质量评分</string>
+    <string name="android_skills_audit_result">审核结果</string>
+    <string name="android_skills_auditing">审核中…</string>
+    <string name="android_skills_publishing">发布中…</string>
+    <string name="android_skills_select_type">选择 Skill 类型</string>
+    <string name="android_skills_add_condition">添加触发条件</string>
+    <string name="android_skills_clear_all">清除所有</string>
 </resources>
