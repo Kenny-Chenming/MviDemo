@@ -422,20 +422,16 @@ class PayloadSizeBenchmark {
             val rawBinary = RemoteComposeCompiler.compile(case.composable)
             val gzipped = gzip(rawBinary.skiaBinary)
 
-            // NOTE: In actual code, use raw strings or proper string building
-            // This example shows how to format payload size reports
-            val report = buildString {
-                append("=== Payload Size Report ===\n")
-                append("Test Case: ").append(case.name).append("\n")
-                append("Components: ").append(case.componentCount).append("\n")
-                append("Raw Size: ").append(rawBinary.skiaBinary.size / 1024.0).append(" KB\n")
-                append("Gzipped Size: ").append(gzipped.size / 1024.0).append(" KB\n")
-                append("Compression Ratio: ").append((1 - gzipped.size.toDouble() / rawBinary.skiaBinary.size) * 100).append("%\n")
-            }
-            println(report)
+            println("""
+                |=== Payload Size Report ===
+                |Test Case: ${case.name}
+                |Components: ${case.componentCount}
+                |Raw Size: ${rawBinary.skiaBinary.size / 1024.0} KB
+                |Gzipped Size: ${gzipped.size / 1024.0} KB
+                |Compression Ratio: ${(1 - gzipped.size.toDouble() / rawBinary.skiaBinary.size) * 100}%
+            """.trimMargin())
 
             // Assert: Gzipped payload should be under 500KB for all cases
-            // In actual tests, use proper assertion libraries
             assertTrue(
                 "Payload \${case.name} exceeds 500KB limit",
                 gzipped.size <= 500 * 1024
@@ -452,7 +448,6 @@ class PayloadSizeBenchmark {
     }
 }
 """
-
 
 private val AB_TESTING_TEMPLATE = """
 // ============================================================

@@ -72,6 +72,9 @@ import com.mvi.kenny.feature.orientationenforcement.OrientationEnforcementViewMo
 import com.mvi.kenny.feature.androidskills.AndroidSkillsScreen
 import com.mvi.kenny.feature.androidskills.AndroidSkillsViewModel
 import com.mvi.kenny.feature.androidskills.AndroidSkillsIntent
+import com.mvi.kenny.feature.skillsworkflow.SkillsWorkflowScreen
+import com.mvi.kenny.feature.skillsworkflow.SkillsWorkflowViewModel
+import com.mvi.kenny.feature.skillsworkflow.SkillsWorkflowIntent
 import com.mvi.kenny.feature.appfunctionssdk.AppFunctionTestScreen
 import com.mvi.kenny.feature.otpdelay.OtpDelayScreen
 import com.mvi.kenny.feature.otpdelay.OtpDelayViewModel
@@ -177,7 +180,9 @@ fun MainScreen(
         // PRD-186: Android 17 SMS OTP Delay 合规检测与迁移工具包
         BottomNavRoute.OtpDelay,
         // PRD-191: AndroidX Remote Compose 服务器驱动 UI 开发工具包
-        BottomNavRoute.RemoteCompose
+        BottomNavRoute.RemoteCompose,
+        // PRD-195: Android CLI Skills Workflow 自动化工具包
+        BottomNavRoute.SkillsWorkflow
     )
 
     // Pager 状态，管理当前是第几页
@@ -246,6 +251,9 @@ fun MainScreen(
     // PRD-191: AndroidX Remote Compose 服务器驱动 UI 开发工具包
     val remoteComposeViewModel = remember { RemoteComposeViewModel() }
     var otpDelayTopBar by remember { mutableStateOf(TopBarConfig(title = "OTP Delay 合规检测")) }
+    // PRD-195: Android CLI Skills Workflow 自动化工具包
+    val skillsWorkflowViewModel = remember { SkillsWorkflowViewModel() }
+    var skillsWorkflowTopBar by remember { mutableStateOf(TopBarConfig(title = "Skills Workflow Toolkit")) }
 
     // 根据当前页码决定显示哪个 TopBar 配置
     val currentTopBar = when (pagerState.currentPage) {
@@ -280,6 +288,7 @@ fun MainScreen(
         28 -> orientationEnforcementTopBar
         29 -> androidSkillsTopBar
         30 -> otpDelayTopBar
+        34 -> skillsWorkflowTopBar
         else -> homeTopBar
     }
 
@@ -457,6 +466,12 @@ fun MainScreen(
                     // PRD-191: AndroidX Remote Compose 服务器驱动 UI 开发工具包
                     33 -> RemoteComposeScreen(
                         viewModel = remoteComposeViewModel
+                    )
+                    // PRD-195: Android CLI Skills Workflow 自动化工具包
+                    34 -> SkillsWorkflowScreen(
+                        state = skillsWorkflowViewModel.state.collectAsState().value,
+                        onIntent = skillsWorkflowViewModel::handleIntent,
+                        effect = skillsWorkflowViewModel.effect
                     )
                 }
             }
