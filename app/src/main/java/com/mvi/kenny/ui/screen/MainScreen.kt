@@ -75,6 +75,8 @@ import com.mvi.kenny.feature.androidskills.AndroidSkillsIntent
 import com.mvi.kenny.feature.appfunctionssdk.AppFunctionTestScreen
 import com.mvi.kenny.feature.otpdelay.OtpDelayScreen
 import com.mvi.kenny.feature.otpdelay.OtpDelayViewModel
+import com.mvi.kenny.feature.remotecompose.RemoteComposeScreen
+import com.mvi.kenny.feature.remotecompose.RemoteComposeViewModel
 import com.mvi.kenny.navigation.BottomNavRoute
 
 /**
@@ -173,7 +175,9 @@ fun MainScreen(
         // PRD-184: Android CLI & Android Skills 工具包
         BottomNavRoute.AndroidSkills,
         // PRD-186: Android 17 SMS OTP Delay 合规检测与迁移工具包
-        BottomNavRoute.OtpDelay
+        BottomNavRoute.OtpDelay,
+        // PRD-191: AndroidX Remote Compose 服务器驱动 UI 开发工具包
+        BottomNavRoute.RemoteCompose
     )
 
     // Pager 状态，管理当前是第几页
@@ -239,6 +243,8 @@ fun MainScreen(
     var androidSkillsTopBar by remember { mutableStateOf(TopBarConfig(title = "Android Skills Toolkit")) }
     // PRD-186: Android 17 SMS OTP Delay 合规检测与迁移工具包
     val otpDelayViewModel = remember { OtpDelayViewModel() }
+    // PRD-191: AndroidX Remote Compose 服务器驱动 UI 开发工具包
+    val remoteComposeViewModel = remember { RemoteComposeViewModel() }
     var otpDelayTopBar by remember { mutableStateOf(TopBarConfig(title = "OTP Delay 合规检测")) }
 
     // 根据当前页码决定显示哪个 TopBar 配置
@@ -387,8 +393,7 @@ fun MainScreen(
                     )
                     // PRD-151: Android 17 App Memory Limits 内存限制检测与调优开发工具包
                     22 -> MemoryLimitsScreen(
-                        state = memoryLimitsViewModel.state.collectAsState().value,
-                        onIntent = memoryLimitsViewModel::sendIntent
+                        viewModel = memoryLimitsViewModel
                     )
                     // PRD-155: Android 17 大屏强制适配与 Continuous Canary Release 开发工具包
                     23 -> LargeScreenScreen(
@@ -448,6 +453,10 @@ fun MainScreen(
                     32 -> OtpDelayScreen(
                         viewModel = otpDelayViewModel,
                         onNavigateToTemplate = { }
+                    )
+                    // PRD-191: AndroidX Remote Compose 服务器驱动 UI 开发工具包
+                    33 -> RemoteComposeScreen(
+                        viewModel = remoteComposeViewModel
                     )
                 }
             }

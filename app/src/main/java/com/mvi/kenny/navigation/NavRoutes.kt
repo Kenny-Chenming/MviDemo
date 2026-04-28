@@ -102,6 +102,8 @@ sealed class BottomNavRoute(
     data object AppFunctionTest : BottomNavRoute(route = "app_function_test", title = "SDK 测试", icon = Icons.Default.CheckCircle)
     // PRD-186: Android 17 SMS OTP Delay 合规检测与迁移工具包
     data object OtpDelay : BottomNavRoute(route = "otp_delay", title = "OTP Delay", icon = Icons.Default.Shield)
+    // PRD-191: AndroidX Remote Compose 服务器驱动 UI 开发工具包
+    data object RemoteCompose : BottomNavRoute(route = "remote_compose", title = "RemoteCompose", icon = Icons.Default.AutoAwesome)
 }
 
 /**
@@ -175,4 +177,6 @@ object NavRoutes {
     const val APP_FUNCTION_TEST = "app_function_test"
     // PRD-186: Android 17 SMS OTP Delay 合规检测与迁移工具包
     const val OTP_DELAY = "otp_delay"
+    // PRD-191: AndroidX Remote Compose 服务器驱动 UI 开发工具包
+    const val REMOTE_COMPOSE = "remote_compose"
 }

@@ -1,590 +1,635 @@
 package com.mvi.kenny.feature.memorylimits
 
 // ================================================================
-// MemoryLimitsContract — Android 17 App Memory Limits MVI 契约
+// MemoryLimitsContract — Android 17 App Memory Limits 开发工具包 MVI Contract
 // ================================================================
-// MVI architecture contract for Android 17 Memory Limits detection & optimization toolkit.
+// MVI architecture contract for Android 17 per-app memory limits toolkit.
 //
-// PRD-151: Android 17 App Memory Limits 内存限制检测与调优开发工具包
-// Design Reference: memory/agency/designs/PRD-151-Android-17-App-Memory-Limits-内存限制检测与调优开发工具包.md
+// PRD-194: Android 17 App Memory Limits 开发工具包
+// Design Reference: memory/agency/designs/PRD-194-Android-17-App-Memory-Limits-开发工具包.md
 //
 // MVI 三要素 / Three pillars:
 //   Model (State)  — Immutable page state, single source of truth
-//   View           — Composable function, consumes State, renders UI
-//   Intent         — User intentions, ViewModel processes and updates State
-//   Effect         — One-time side effects (navigation, toast), via Channel
+//   Intent          — User intentions, ViewModel processes and updates State
+//   Effect          — One-time side effects (navigation, toast), via Channel
+//
+// This toolkit provides 8 developer tools:
+//   1. MemoryLimiter Impact Scanner (Gradle Task)
+//   2. MemoryLimiter CI Simulator (GitHub Actions template)
+//   3. Trigger-based Profiling Integration Guide (TRIGGER_TYPE_ANOMALY)
+//   4. App Memory Budget Calculator (2GB/4GB/6GB/8GB/12GB device mapping)
+//   5. Memory Over-limit Diagnostic Workflow (Detection → Heap Dump → Analysis → Fix)
+//   6. Android 17 Memory Optimization Checklist
+//   7. Memory-sensitive CI Performance Benchmark Tool
+//   8. MemoryLimiter vs OOM Differentiation Guide
 // ================================================================
 
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.toArgb
-import androidx.compose.ui.unit.dp
 
+// ================================================================
+// RiskLevel — 内存风险等级
+// ================================================================
 /**
  * ============================================================
- * MonitoringState — 监控状态枚举
- * ============================================================
+ * RiskLevel — 内存风险等级枚举
+ * ================================================================
+ * Represents the memory risk level for an app on a given device RAM tier.
+ * CRITICAL: App almost certainly will be killed by MemoryLimiter
+ * HIGH: High probability of being killed under normal usage
+ * MEDIUM: May be killed under memory pressure
+ * LOW: Should survive on this device tier
+ * UNKNOWN: Unable to assess (missing data)
  *
  * @param displayName 中文显示名称
+ * @param emoji Emoji representation for terminal output
+ * @param color UI color for this risk level
+ * @param priority Numeric priority (1=highest risk)
  */
-enum class MonitoringState(val displayName: String) {
-    /** 初始空闲状态 */
-    Idle("空闲"),
-    /** 正在监控中 */
-    Monitoring("监控中"),
-    /** 监控已暂停 */
-    Paused("已暂停"),
-    /** 监控出错 */
-    Error("错误")
+enum class RiskLevel(
+    val displayName: String,
+    val displayNameEn: String,
+    val emoji: String,
+    val color: Color,
+    val priority: Int
+) {
+    CRITICAL("极高风险", "Critical", "⚫", Color(0xFF6E1A1A), 1),   // 深红，黑底
+    HIGH("高风险", "High", "🔴", Color(0xFFEF4444), 2),             // 红色
+    MEDIUM("中风险", "Medium", "🟡", Color(0xFFF59E0B), 3),          // 黄色
+    LOW("低风险", "Low", "🟢", Color(0xFF3FB950), 4),               // 绿色
+    UNKNOWN("未知", "Unknown", "❓", Color(0xFF8B949E), 5)          // 灰色
 }
 
+// ================================================================
+// DeviceRamTier — 设备 RAM 分层
+// ================================================================
 /**
  * ============================================================
- * RiskLevel — 风险等级枚举
- * ============================================================
- * 内存风险等级，从安全到危险共 4 档。
+ * DeviceRamTier — 设备 RAM 分层
+ * ================================================================
+ * Represents device RAM tiers for per-app memory limit calculation.
+ * Each tier has a system-reserved amount and a per-app usable limit.
  *
- * @param displayName 中文显示名称
- * @param emoji Emoji representation
- * @param color 风险颜色
+ * Per-app memory limit formula (Android 17):
+ *   limit = deviceRam * (1 - systemReserveRatio)
+ *   systemReserveRatio varies by tier (smaller devices reserve more %)
+ *
+ * @param ramGb Total RAM in GB
+ * @param perAppLimitMb Per-app memory limit in MB
+ * @param systemReserveRatio Ratio of RAM reserved for system
  */
-enum class RiskLevel(val displayName: String, val emoji: String, val color: Color) {
-    /** 安全 — 内存使用率 < 50% */
-    SAFE("安全", "🟢", Color(0xFF4CAF50)),
-    /** 警告 — 内存使用率 50-70% */
-    WARNING("警告", "🟡", Color(0xFFFF9800)),
-    /** 危险 — 内存使用率 70-85% */
-    DANGER("危险", "🟠", Color(0xFFF44336)),
-    /** 严重 — 内存使用率 > 85% */
-    CRITICAL("严重", "🔴", Color(0xFFB71C1C));
+enum class DeviceRamTier(
+    val ramGb: Int,
+    val perAppLimitMb: Long,
+    val systemReserveRatio: Float,
+    val displayName: String
+) {
+    TIER_2GB(2, 512, 0.74f, "2GB 设备"),
+    TIER_4GB(4, 1024, 0.75f, "4GB 设备"),
+    TIER_6GB(6, 1536, 0.74f, "6GB 设备"),
+    TIER_8GB(8, 2048, 0.74f, "8GB 设备"),
+    TIER_12GB(12, 3072, 0.74f, "12GB 设备");
+
+    /**
+     * 获取该分层的系统预留内存（MB）
+     */
+    val systemReserveMb: Long
+        get() = (ramGb * 1024L) - perAppLimitMb
 
     companion object {
-        /** 根据内存使用百分比推断风险等级 */
-        fun fromUsagePercent(percent: Float): RiskLevel = when {
-            percent < 50f -> SAFE
-            percent < 70f -> WARNING
-            percent < 85f -> DANGER
-            else -> CRITICAL
+        /**
+         * 根据 RAM 大小获取分层
+         * @param ramGb RAM 大小（GB）
+         * @return 最接近的 DeviceRamTier，不在范围内则返回 null
+         */
+        fun fromRamGb(ramGb: Int): DeviceRamTier? {
+            return entries.minByOrNull { kotlin.math.abs(it.ramGb - ramGb) }
+                ?.takeIf { kotlin.math.abs(it.ramGb - ramGb) <= 1 }
         }
     }
 }
 
+// ================================================================
+// MemoryFinding — 内存风险发现
+// ================================================================
 /**
  * ============================================================
- * ComplianceStatus — 合规状态枚举
- * ============================================================
+ * MemoryFinding — 内存风险发现
+ * ================================================================
+ * Represents a single finding from the memory risk scan.
  *
- * @param displayName 中文显示名称
- * @param emoji Emoji representation
+ * @property category 问题类别
+ * @property description 问题描述
+ * @property suggestedFix 建议修复方案
+ * @property estimatedMemoryMb 预估占用内存（MB）
+ * @property severity 严重程度
  */
-enum class ComplianceStatus(val displayName: String, val emoji: String) {
-    PASS("通过", "✅"),
-    FAIL("失败", "❌"),
-    WARNING("警告", "⚠️")
-}
+data class MemoryFinding(
+    val category: MemoryFindingCategory,
+    val description: String,
+    val descriptionEn: String,
+    val suggestedFix: String,
+    val suggestedFixEn: String,
+    val estimatedMemoryMb: Long = 0L,
+    val severity: RiskLevel = RiskLevel.UNKNOWN
+)
 
 /**
  * ============================================================
- * ReportFormat — 报告导出格式枚举
- * ============================================================
- *
- * @param displayName 中文显示名称
- * @param extension 文件扩展名
+ * MemoryFindingCategory — 内存问题类别
+ * ================================================================
  */
-enum class ReportFormat(val displayName: String, val extension: String) {
-    JSON("JSON", "json"),
-    HTML("HTML", "html"),
-    Markdown("Markdown", "md")
+enum class MemoryFindingCategory(
+    val displayName: String,
+    val displayNameEn: String,
+    val emoji: String
+) {
+    IMAGE_CACHE("图片缓存", "Image Cache", "🖼️"),
+    MEMORY_LEAK("内存泄漏", "Memory Leak", "💧"),
+    LARGE_OBJECT("大对象", "Large Object", "📦"),
+    BACKGROUND_PROCESS("后台进程", "Background Process", "🔄"),
+    UNSAFE_API("不安全 API", "Unsafe API Usage", "⚠️"),
+    TARGET_SDK("Target SDK", "Target SDK", "🎯"),
+    OTHER("其他", "Other", "📋")
 }
 
+// ================================================================
+// ScanPhase — 扫描阶段
+// ================================================================
 /**
  * ============================================================
- * ActiveTab — Dashboard 当前激活的 Tab
- * ============================================================
- *
- * @param title Tab 显示标题
+ * ScanPhase — 扫描阶段枚举
+ * ================================================================
+ * Represents the current phase of the memory risk scan.
  */
-enum class DashboardTab(val title: String) {
-    Overview("总览"),
-    Events("事件"),
-    Profiler("分析器")
+enum class ScanPhase {
+    IDLE,                    // 初始空闲状态
+    SCANNING_CODE,           // 扫描代码中的内存问题
+    CALCULATING_RISK,        // 计算各 RAM 分层风险
+    ANALYZING_HEAP,          // 分析堆内存使用
+    GENERATING_REPORT,       // 生成报告
+    COMPLETED,               // 扫描完成
+    ERROR                    // 扫描出错
 }
 
+// ================================================================
+// MemoryScanState — 内存扫描器状态（MVI State）
+// ================================================================
 /**
  * ============================================================
- * DeviceRamPreset — 预设设备 RAM 配置
- * ============================================================
+ * MemoryScanState — 内存扫描器状态（MVI State）
+ * ================================================================
+ * Immutable state representing the memory risk scanner's current status.
  *
- * @param displayName 设备名称
- * @param ramBytes RAM 大小（字节）
+ * @property phase Current scan phase
+ * @property progress Overall progress percentage (0-100)
+ * @property findings List of detected memory findings
+ * @property scannedFilesCount Number of files scanned
+ * @property currentPhaseDescription Current phase description
+ * @property errorMessage Error message if phase is ERROR
+ * @property startTime Scan start timestamp
+ * @property endTime Scan end timestamp
  */
-enum class DeviceRamPreset(val displayName: String, val ramBytes: Long) {
-    Pixel8("Pixel 8 (8GB)", 8L * 1024 * 1024 * 1024),
-    SamsungS24("Samsung S24 (12GB)", 12L * 1024 * 1024 * 1024),
-    Pixel9ProXL("Pixel 9 Pro XL (16GB)", 16L * 1024 * 1024 * 1024),
-    Custom("自定义", 0L)
+data class MemoryScanState(
+    val phase: ScanPhase = ScanPhase.IDLE,
+    val progress: Int = 0,
+    val findings: List<MemoryFinding> = emptyList(),
+    val scannedFilesCount: Int = 0,
+    val currentPhaseDescription: String = "就绪",
+    val errorMessage: String? = null,
+    val startTime: Long = 0L,
+    val endTime: Long = 0L
+) {
+    /**
+     * 是否正在扫描中
+     * Whether a scan is currently in progress
+     */
+    val isScanning: Boolean
+        get() = phase != ScanPhase.IDLE &&
+                phase != ScanPhase.COMPLETED &&
+                phase != ScanPhase.ERROR
+
+    /**
+     * 扫描总耗时（毫秒）
+     * Total scan duration in milliseconds
+     */
+    val durationMs: Long
+        get() = if (endTime > 0 && startTime > 0) endTime - startTime else 0L
+
+    /**
+     * 按类别分组的发现
+     * Findings grouped by category
+     */
+    val findingsByCategory: Map<MemoryFindingCategory, List<MemoryFinding>>
+        get() = findings.groupBy { it.category }
+
+    /**
+     * 按风险等级分组的发现
+     * Findings grouped by risk level
+     */
+    val findingsByRisk: Map<RiskLevel, List<MemoryFinding>>
+        get() = findings.groupBy { it.severity }
+
+    /**
+     * CRITICAL 风险发现数量
+     */
+    val criticalCount: Int
+        get() = findings.count { it.severity == RiskLevel.CRITICAL }
+
+    /**
+     * HIGH 风险发现数量
+     */
+    val highCount: Int
+        get() = findings.count { it.severity == RiskLevel.HIGH }
+
+    /**
+     * MEDIUM 风险发现数量
+     */
+    val mediumCount: Int
+        get() = findings.count { it.severity == RiskLevel.MEDIUM }
+
+    /**
+     * LOW 风险发现数量
+     */
+    val lowCount: Int
+        get() = findings.count { it.severity == RiskLevel.LOW }
 }
 
+// ================================================================
+// RiskAssessment — 风险评估结果
+// ================================================================
 /**
  * ============================================================
- * MemoryLimitsState — 内存限制工具页面状态（MVI State）
+ * RiskAssessment — 风险评估结果
+ * ================================================================
+ * Risk assessment result for a specific device RAM tier.
+ *
+ * @property tier Device RAM tier
+ * @property riskLevel Overall risk level for this tier
+ * @property appEstimatedMemoryMb 预估 App 内存占用（MB）
+ * @property limitMb 该分层 Per-app 内存上限（MB）
+ * @property headroomMb 剩余空间（MB）
+ * @property findings 导致该风险等级的发现列表
+ */
+data class RiskAssessment(
+    val tier: DeviceRamTier,
+    val riskLevel: RiskLevel,
+    val appEstimatedMemoryMb: Long,
+    val limitMb: Long,
+    val headroomMb: Long,
+    val findings: List<MemoryFinding> = emptyList()
+) {
+    /**
+     * 内存使用率（%）
+     * Memory usage percentage
+     */
+    val usagePercent: Float
+        get() = if (limitMb > 0) (appEstimatedMemoryMb.toFloat() / limitMb * 100f) else 0f
+
+    /**
+     * 是否超出限制
+     * Whether the app exceeds the memory limit
+     */
+    val isOverLimit: Boolean
+        get() = appEstimatedMemoryMb > limitMb
+}
+
+// ================================================================
+// MemoryBudget — 内存预算
+// ================================================================
+/**
  * ============================================================
- * Immutable page state, single source of truth.
+ * MemoryBudget — 内存预算
+ * ================================================================
+ * Represents a memory budget recommendation for a device tier.
  *
- * @param monitoringState Current monitoring state
- * @param memoryUsageBytes Current memory usage in bytes
- * @param memoryLimitBytes Memory limit for this app in bytes
- * @param memoryUsagePercent Current memory usage percentage (0-100)
- * @param limiterEvents List of MemoryLimiter kill events
- * @param riskLevel Current risk level
- * @param heapDumpResults List of heap dump analysis results
- * @param ciReport CI compliance report
- * @param isSimulatorRunning Whether simulator is running
- * @param simulatedDeviceRam Simulated device RAM in bytes
- * @param simulatorResult Simulator result if available
- * @param activeTab Currently active tab on Dashboard
- * @param isMonitoringPaused Whether monitoring is paused
- * @param errorMessage Error message if any
- * @param targetSdk Target SDK version
+ * @property tier Device RAM tier
+ * @property recommendedLimitMb 推荐内存上限（MB）
+ * @property warningThresholdMb 警告阈值（MB）
+ * @property criticalThresholdMb 危险阈值（MB）
+ * @property moduleBudgets 各模块内存预算分配
+ */
+data class MemoryBudget(
+    val tier: DeviceRamTier,
+    val recommendedLimitMb: Long,
+    val warningThresholdMb: Long,
+    val criticalThresholdMb: Long,
+    val moduleBudgets: Map<String, Long> = emptyMap()  // 模块名 -> 预算（MB）
+)
+
+// ================================================================
+// MemoryLimitsIntent — 用户意图（MVI Intent）
+// ================================================================
+/**
+ * ============================================================
+ * MemoryLimitsIntent — 内存限制工具用户意图（MVI Intent）
+ * ================================================================
+ * User intentions that the ViewModel processes.
+ */
+sealed class MemoryLimitsIntent {
+    /**
+     * 开始内存风险扫描
+     * Start memory risk scan
+     *
+     * @property sourceDir 项目源码目录
+     * @property packageName 应用包名
+     */
+    data class StartScan(
+        val sourceDir: String,
+        val packageName: String
+    ) : MemoryLimitsIntent()
+
+    /**
+     * 取消正在进行的扫描
+     * Cancel ongoing scan
+     */
+    data object CancelScan : MemoryLimitsIntent()
+
+    /**
+     * 清除扫描结果
+     * Clear scan results
+     */
+    data object ClearResults : MemoryLimitsIntent()
+
+    /**
+     * 计算内存预算
+     * Calculate memory budget
+     *
+     * @property deviceRamGb 设备 RAM 大小（GB）
+     * @property appType App 类型
+     */
+    data class CalculateBudget(
+        val deviceRamGb: Int,
+        val appType: AppType
+    ) : MemoryLimitsIntent()
+
+    /**
+     * 运行诊断工作流
+     * Run diagnostic workflow
+     *
+     * @property packageName 应用包名
+     */
+    data class RunDiagnostic(
+        val packageName: String
+    ) : MemoryLimitsIntent()
+
+    /**
+     * 导出报告
+     * Export report
+     *
+     * @property format 报告格式
+     * @property outputPath 输出文件路径
+     */
+    data class ExportReport(
+        val format: ReportFormat,
+        val outputPath: String
+    ) : MemoryLimitsIntent()
+}
+
+// ================================================================
+// AppType — App 类型
+// ================================================================
+/**
+ * ============================================================
+ * AppType — App 类型枚举
+ * ================================================================
+ * Represents the type of application for memory budget calculation.
  *
- * @see MonitoringState
- * @see RiskLevel
- * @see DashboardTab
+ * @property displayName 中文显示名称
+ * @property memoryMultiplier Memory budget multiplier (higher for media-heavy apps)
+ */
+enum class AppType(
+    val displayName: String,
+    val memoryMultiplier: Float
+) {
+    GENERAL("通用 App", 0.70f),           // 70% of per-app limit
+    MEDIA("媒体/图片 App", 0.60f),         // 60% (images, video, camera)
+    GAME("游戏 App", 0.55f),              // 55% (graphics-intensive)
+    SOCIAL("社交 App", 0.65f),            // 65% (mix of content types)
+    ECOMMERCE("电商 App", 0.65f),        // 65% (images + content)
+    NEWS("新闻阅读 App", 0.70f);         // 70% (text + some images)
+}
+
+// ================================================================
+// ReportFormat — 报告格式
+// ================================================================
+/**
+ * ============================================================
+ * ReportFormat — 报告格式枚举
+ * ================================================================
+ */
+enum class ReportFormat(val extension: String, val mimeType: String) {
+    HTML("html", "text/html"),
+    MARKDOWN("md", "text/markdown"),
+    JSON("json", "application/json")
+}
+
+// ================================================================
+// MemoryLimitsEffect — 副作用（MVI Effect）
+// ================================================================
+/**
+ * ============================================================
+ * MemoryLimitsEffect — 内存限制工具副作用（MVI Effect）
+ * ================================================================
+ * One-time side effects emitted via Channel.
+ */
+sealed class MemoryLimitsEffect {
+    /**
+     * 扫描完成事件
+     * Scan completed event
+     *
+     * @property assessments 各 RAM 分层风险评估结果
+     * @property durationMs 扫描耗时
+     */
+    data class ScanCompleted(
+        val assessments: List<RiskAssessment>,
+        val durationMs: Long
+    ) : MemoryLimitsEffect()
+
+    /**
+     * 终端彩色输出事件
+     * Terminal colored output event
+     *
+     * @property message 输出消息
+     * @property riskLevel 消息风险等级（用于着色）
+     */
+    data class TerminalOutput(
+        val message: String,
+        val riskLevel: RiskLevel = RiskLevel.UNKNOWN
+    ) : MemoryLimitsEffect()
+
+    /**
+     * 报告生成完成事件
+     * Report generated event
+     *
+     * @property filePath 报告文件路径
+     * @property format 报告格式
+     */
+    data class ReportGenerated(
+        val filePath: String,
+        val format: ReportFormat
+    ) : MemoryLimitsEffect()
+
+    /**
+     * 诊断工作流完成事件
+     * Diagnostic workflow completed event
+     *
+     * @property reportPath 诊断报告路径
+     */
+    data class DiagnosticCompleted(
+        val reportPath: String
+    ) : MemoryLimitsEffect()
+
+    /**
+     * 错误事件
+     * Error event
+     *
+     * @property message 错误消息
+     * @property throwable 原始异常（可选）
+     */
+    data class Error(
+        val message: String,
+        val throwable: Throwable? = null
+    ) : MemoryLimitsEffect()
+
+    /**
+     * 导航事件
+     * Navigation event
+     *
+     * @property route 目标路由
+     */
+    data class Navigate(val route: String) : MemoryLimitsEffect()
+}
+
+// ================================================================
+// MemoryLimitsState — 主状态（MVI State）
+// ================================================================
+/**
+ * ============================================================
+ * MemoryLimitsState — 内存限制工具主状态（MVI State）
+ * ================================================================
+ * Main state for the Memory Limits toolkit.
+ *
+ * @property scanState Current scan state
+ * @property riskAssessments Per-tier risk assessments
+ * @property selectedTier Currently selected device RAM tier
+ * @property budgets Calculated memory budgets per tier
+ * @property selectedAppType Selected app type for budget calculation
+ * @property isDiagnosticRunning Whether diagnostic workflow is running
+ * @property diagnosticReportPath Path to generated diagnostic report
  */
 data class MemoryLimitsState(
-    val monitoringState: MonitoringState = MonitoringState.Idle,
-    val memoryUsageBytes: Long = 0L,
-    val memoryLimitBytes: Long = 0L,
-    val memoryUsagePercent: Float = 0f,
-    val limiterEvents: List<LimiterEvent> = emptyList(),
-    val riskLevel: RiskLevel = RiskLevel.SAFE,
-    val heapDumpResults: List<HeapDumpResult> = emptyList(),
-    val ciReport: CiReport? = null,
-    val isSimulatorRunning: Boolean = false,
-    val simulatedDeviceRam: Long = 8L * 1024 * 1024 * 1024,
-    val simulatorResult: SimulatorResult? = null,
-    val activeTab: DashboardTab = DashboardTab.Overview,
-    val isMonitoringPaused: Boolean = false,
-    val errorMessage: String? = null,
-    val targetSdk: Int = 35,
-    // Memory usage history for curve chart (data points)
-    val memoryHistory: List<MemoryDataPoint> = emptyList(),
-    // Module memory breakdown
-    val moduleMemoryBreakdown: List<ModuleMemory> = emptyList(),
-    // Best practice items
-    val bestPractices: List<BestPracticeItem> = defaultBestPractices,
-    // Simulator selected device preset
-    val selectedDevicePreset: DeviceRamPreset = DeviceRamPreset.Pixel8
+    val scanState: MemoryScanState = MemoryScanState(),
+    val riskAssessments: List<RiskAssessment> = emptyList(),
+    val selectedTier: DeviceRamTier = DeviceRamTier.TIER_4GB,
+    val budgets: Map<DeviceRamTier, MemoryBudget> = emptyMap(),
+    val selectedAppType: AppType = AppType.GENERAL,
+    val isDiagnosticRunning: Boolean = false,
+    val diagnosticReportPath: String? = null
 ) {
-    companion object {
-        /** Initial/empty state */
-        val Initial = MemoryLimitsState()
-    }
-}
-
-/**
- * ============================================================
- * MemoryLimitsIntent — 用户意图（User Intent）
- * ============================================================
- * Every user action corresponds to an Intent.
- * ViewModel receives Intent, processes business logic, then updates State.
- *
- * @see MemoryLimitsViewModel.sendIntent handles all Intents
- */
-sealed interface MemoryLimitsIntent {
-
-    /** 用户点击"开始监控"按钮 */
-    data object StartMonitoring : MemoryLimitsIntent
-
-    /** 用户点击"停止监控"按钮 */
-    data object StopMonitoring : MemoryLimitsIntent
-
-    /** 用户暂停/恢复监控 */
-    data object ToggleMonitoring : MemoryLimitsIntent
-
-    /** 用户手动触发 Heap Dump
-     * @param reason 触发原因
+    /**
+     * 最高风险等级
+     * Highest risk level across all tiers
      */
-    data class TriggerHeapDump(val reason: String) : MemoryLimitsIntent
+    val overallRiskLevel: RiskLevel
+        get() = riskAssessments.maxByOrNull { it.riskLevel.priority }?.riskLevel ?: RiskLevel.UNKNOWN
 
-    /** 用户运行合规检查
-     * @param targetRam 目标设备 RAM（字节）
+    /**
+     * 总体风险描述
+     * Overall risk description
      */
-    data class RunComplianceCheck(val targetRam: Long) : MemoryLimitsIntent
-
-    /** 用户运行模拟器
-     * @param deviceRam 设备 RAM（字节）
-     */
-    data class RunSimulator(val deviceRam: Long) : MemoryLimitsIntent
-
-    /** 用户切换 Dashboard Tab
-     * @param tab Target tab
-     */
-    data class SwitchTab(val tab: DashboardTab) : MemoryLimitsIntent
-
-    /** 用户加载历史事件
-     * @param startTime 开始时间戳
-     * @param endTime 结束时间戳
-     */
-    data class LoadHistoricalEvents(val startTime: Long, val endTime: Long) : MemoryLimitsIntent
-
-    /** 用户清除错误消息 */
-    data object ClearError : MemoryLimitsIntent
-
-    /** 用户选择模拟器设备预设
-     * @param preset 设备预设
-     */
-    data class SelectDevicePreset(val preset: DeviceRamPreset) : MemoryLimitsIntent
-
-    /** 用户导出 CI 报告
-     * @param format 导出格式
-     */
-    data class ExportCiReport(val format: ReportFormat) : MemoryLimitsIntent
-
-    /** 用户刷新内存数据 */
-    data object RefreshMemoryData : MemoryLimitsIntent
-}
-
-/**
- * ============================================================
- * MemoryLimitsEffect — 一次性副作用（Effect）
- * ============================================================
- * One-time events, immutable, can only be consumed once.
- * UI layer listens via LaunchedEffect + flow.collect{}.
- *
- * @see MemoryLimitsViewModel _effect.send() sends Effects
- */
-sealed interface MemoryLimitsEffect {
-
-    /** 显示 Toast 消息
-     * @param message Toast 文本
-     */
-    data class ShowToast(val message: String) : MemoryLimitsEffect
-
-    /** 导航到 Heap Dump 详情
-     * @param dumpId Dump ID
-     */
-    data class NavigateToHeapDump(val dumpId: String) : MemoryLimitsEffect
-
-    /** 导出 CI 报告成功
-     * @param filePath 导出文件路径
-     */
-    data class ExportCiReportSuccess(val filePath: String) : MemoryLimitsEffect
-
-    /** 显示错误
-     * @param message 错误消息
-     */
-    data class ShowError(val message: String) : MemoryLimitsEffect
-
-    /** Heap Dump 采集完成
-     * @param dumpId Dump ID
-     */
-    data class HeapDumpCollected(val dumpId: String) : MemoryLimitsEffect
+    val overallRiskDescription: String
+        get() = when (overallRiskLevel) {
+            RiskLevel.CRITICAL -> "App 在多个设备分层上面临极高风险，必须立即优化"
+            RiskLevel.HIGH -> "App 在多个设备分层上面临高风险，需要尽快优化"
+            RiskLevel.MEDIUM -> "App 在部分设备分层上存在中风险，建议优化"
+            RiskLevel.LOW -> "App 在所有设备分层上风险较低"
+            RiskLevel.UNKNOWN -> "尚未进行风险评估"
+        }
 }
 
 // ================================================================
-// 数据模型 / Data Models
+// DiagnosticWorkflowStep — 诊断工作流步骤
 // ================================================================
-
 /**
  * ============================================================
- * LimiterEvent — MemoryLimiter 杀死事件
- * ============================================================
+ * DiagnosticWorkflowStep — 诊断工作流步骤
+ * ================================================================
+ * Represents a step in the memory diagnostic workflow.
  *
- * @param id Unique event ID
- * @param timestamp Event timestamp (milliseconds since epoch)
- * @param memoryUsageBytes Memory usage when killed (bytes)
- * @param memoryLimitBytes Memory limit at the time (bytes)
- * @param processName Process name
- * @param reasonDescription Reason description from ApplicationExitInfo
- * @param stackTrace Stack trace summary
- * @param packageName App package name
+ * @property stepNumber Step number (1-based)
+ * @property title Step title
+ * @property description Step description
+ * @property status Current status of this step
+ * @property outputFilePath Output file path if this step generates a file
  */
-data class LimiterEvent(
-    val id: String,
-    val timestamp: Long,
-    val memoryUsageBytes: Long,
-    val memoryLimitBytes: Long,
-    val processName: String,
-    val reasonDescription: String,
-    val stackTrace: String,
-    val packageName: String
-)
-
-/**
- * ============================================================
- * HeapDumpResult — Heap Dump 分析结果
- * ============================================================
- *
- * @param id Unique dump ID
- * @param timestamp Dump timestamp
- * @param filePath Dump file path
- * @param fileSizeBytes Dump file size in bytes
- * @param leakingObjects List of leaking object tree roots
- * @param suspiciousReferences List of suspicious reference chains
- * @param suggestions List of fix suggestions
- * @param totalLeakingBytes Total bytes in leaking objects
- */
-data class HeapDumpResult(
-    val id: String,
-    val timestamp: Long,
-    val filePath: String,
-    val fileSizeBytes: Long,
-    val leakingObjects: List<LeakingObject>,
-    val suspiciousReferences: List<SuspiciousReference>,
-    val suggestions: List<String>,
-    val totalLeakingBytes: Long
-)
-
-/**
- * ============================================================
- * LeakingObject — 泄漏对象节点
- * ============================================================
- *
- * @param className Class name of leaking object
- * @param shallowSizeBytes Shallow size in bytes
- * @param retainedSizeBytes Retained size in bytes
- * @param instanceCount Number of instances
- * @param children Child objects in retention tree
- */
-data class LeakingObject(
-    val className: String,
-    val shallowSizeBytes: Long,
-    val retainedSizeBytes: Long,
-    val instanceCount: Int,
-    val children: List<LeakingObject> = emptyList()
-)
-
-/**
- * ============================================================
- * SuspiciousReference — 可疑引用链
- * ============================================================
- *
- * @param fromObject Source object of the reference
- * @param toObject Target object being held
- * @param referenceType Reference type (e.g. "static field", "inner class")
- * @param pathDescription Human-readable path description
- */
-data class SuspiciousReference(
-    val fromObject: String,
-    val toObject: String,
-    val referenceType: String,
-    val pathDescription: String
-)
-
-/**
- * ============================================================
- * CiReport — CI 合规报告
- * ============================================================
- *
- * @param id Report ID
- * @param timestamp Report generation timestamp
- * @param overallStatus Overall compliance status
- * @param overallScore Overall compliance score (0-100)
- * @param moduleReports Per-module compliance reports
- * @param passedChecks Number of passed checks
- * @param failedChecks Number of failed checks
- * @param warningChecks Number of warning checks
- */
-data class CiReport(
-    val id: String,
-    val timestamp: Long,
-    val overallStatus: ComplianceStatus,
-    val overallScore: Int,
-    val moduleReports: List<ModuleComplianceReport>,
-    val passedChecks: Int,
-    val failedChecks: Int,
-    val warningChecks: Int
-)
-
-/**
- * ============================================================
- * ModuleComplianceReport — 模块合规报告
- * ============================================================
- *
- * @param moduleName Module name
- * @param status Compliance status for this module
- * @param riskLevel Risk level for this module
- * @param memoryUsageBytes Memory usage by this module
- * @param memoryLimitBytes Applicable memory limit
- * @param suggestions List of suggestions for this module
- */
-data class ModuleComplianceReport(
-    val moduleName: String,
-    val status: ComplianceStatus,
-    val riskLevel: RiskLevel,
-    val memoryUsageBytes: Long,
-    val memoryLimitBytes: Long,
-    val suggestions: List<String>
-)
-
-/**
- * ============================================================
- * SimulatorResult — 模拟器结果
- * ============================================================
- *
- * @param deviceRam Simulated device RAM
- * @param appMemoryLimit Calculated app memory limit
- * @param estimatedUsageBytes Estimated app memory usage
- * @param wouldTriggerOom Whether OOM would be triggered
- * @param riskLevel Predicted risk level
- * @param warnings List of warnings
- * @param suggestions List of optimization suggestions
- */
-data class SimulatorResult(
-    val deviceRam: Long,
-    val appMemoryLimit: Long,
-    val estimatedUsageBytes: Long,
-    val wouldTriggerOom: Boolean,
-    val riskLevel: RiskLevel,
-    val warnings: List<String>,
-    val suggestions: List<String>
-)
-
-/**
- * ============================================================
- * MemoryDataPoint — 内存曲线数据点
- * ============================================================
- *
- * @param timestamp Timestamp of this data point
- * @param usageBytes Memory usage in bytes at this point
- */
-data class MemoryDataPoint(
-    val timestamp: Long,
-    val usageBytes: Long
-)
-
-/**
- * ============================================================
- * ModuleMemory — 模块内存占用
- * ============================================================
- *
- * @param moduleName Module name
- * @param usageBytes Memory usage in bytes
- * @param percentage Percentage of total app memory
- * @param riskLevel Risk level for this module
- */
-data class ModuleMemory(
-    val moduleName: String,
-    val usageBytes: Long,
-    val percentage: Float,
-    val riskLevel: RiskLevel
-)
-
-/**
- * ============================================================
- * BestPracticeItem — 最佳实践条目
- * ============================================================
- *
- * @param id Unique ID
- * @param title Title of the practice
- * @param description Description
- * @param category Category (e.g. "Bitmap", "Leak", "Cache")
- * @param impact Impact level (HIGH/MEDIUM/LOW)
- * @param isImplemented Whether this practice is implemented
- */
-data class BestPracticeItem(
-    val id: String,
+data class DiagnosticWorkflowStep(
+    val stepNumber: Int,
     val title: String,
+    val titleEn: String,
     val description: String,
-    val category: String,
-    val impact: String,
-    val isImplemented: Boolean = false
+    val status: DiagnosticStepStatus,
+    val outputFilePath: String? = null
 )
-
-// ================================================================
-// 默认最佳实践数据 / Default Best Practice Data
-// ================================================================
 
 /**
  * ============================================================
- * defaultBestPractices — Android 17 内存最佳实践清单
- * ============================================================
- * Reference: developer.android.com/about/versions/17/behavior-changes
+ * DiagnosticStepStatus — 诊断步骤状态
+ * ================================================================
  */
-val defaultBestPractices = listOf(
-    BestPracticeItem(
-        id = "bp_001",
-        title = "Bitmap 内存优化",
-        description = "使用 inSampleSize / inBitmap 减少图片内存占用，避免加载超大位图",
-        category = "Bitmap",
-        impact = "HIGH"
-    ),
-    BestPracticeItem(
-        id = "bp_002",
-        title = " LeakCanary 自动注入",
-        description = "在 debug 构建中集成 LeakCanary，自动检测 Activity/Fragment 泄漏",
-        category = "Leak",
-        impact = "HIGH"
-    ),
-    BestPracticeItem(
-        id = "bp_003",
-        title = "对象池复用",
-        description = "避免在 onDraw 等高频调用中创建新对象，使用对象池或预分配对象",
-        category = "Performance",
-        impact = "MEDIUM"
-    ),
-    BestPracticeItem(
-        id = "bp_004",
-        title = "WeakReference / SoftReference",
-        description = "对可重建的缓存使用 WeakReference，对重要缓存使用 SoftReference",
-        category = "Memory",
-        impact = "MEDIUM"
-    ),
-    BestPracticeItem(
-        id = "bp_005",
-        title = "ProfilingManager ANOMALY 触发器",
-        description = "配置 TRIGGER_TYPE_ANOMALY，在内存超限时自动采集 heap dump",
-        category = "Debug",
-        impact = "MEDIUM"
-    ),
-    BestPracticeItem(
-        id = "bp_006",
-        title = "LargeHeap 选项评估",
-        description = "评估 android:largeHeap=true 的实际收益，权衡内存预留与 OOM 风险",
-        category = "Config",
-        impact = "MEDIUM"
-    ),
-    BestPracticeItem(
-        id = "bp_007",
-        title = "后台进程内存限制感知",
-        description = "使用 ProcessLifecycleOwner 或 WorkManager 管理后台任务，避免在后台被 MemoryLimiter 杀死",
-        category = "Lifecycle",
-        impact = "HIGH"
-    ),
-    BestPracticeItem(
-        id = "bp_008",
-        title = "内存泄漏定期巡检",
-        description = "将内存泄漏检测纳入 CI，在每次 PR 中检查新增泄漏",
-        category = "CI",
-        impact = "HIGH"
-    )
-)
-
-// ================================================================
-// 辅助函数 / Helper Functions
-// ================================================================
-
-/**
- * 格式化字节数为可读字符串
- *
- * @param bytes 字节数
- * @return 格式化后的字符串（如 "128.5 MB"）
- */
-fun formatBytes(bytes: Long): String = when {
-    bytes < 1024 -> "$bytes B"
-    bytes < 1024 * 1024 -> "%.1f KB".format(bytes / 1024.0)
-    bytes < 1024 * 1024 * 1024 -> "%.1f MB".format(bytes / (1024.0 * 1024))
-    else -> "%.2f GB".format(bytes / (1024.0 * 1024 * 1024))
+enum class DiagnosticStepStatus {
+    PENDING,    // 等待执行
+    RUNNING,    // 执行中
+    COMPLETED,  // 完成
+    FAILED,     // 失败
+    SKIPPED     // 跳过
 }
 
+// ================================================================
+// DiagnosticState — 诊断工作流状态
+// ================================================================
 /**
- * 计算内存使用百分比
+ * ============================================================
+ * DiagnosticState — 诊断工作流状态（MVI State）
+ * ================================================================
+ * State for the memory diagnostic workflow.
  *
- * @param usageBytes 内存使用量
- * @param limitBytes 内存上限
- * @return 使用百分比 (0-100)
+ * @property steps Workflow steps
+ * @property currentStepIndex Current step index
+ * @property isRunning Whether workflow is running
+ * @property packageName Target package name
+ * @property reportPath Final report path
  */
-fun calculateUsagePercent(usageBytes: Long, limitBytes: Long): Float {
-    if (limitBytes <= 0) return 0f
-    return (usageBytes.toFloat() / limitBytes.toFloat() * 100f).coerceIn(0f, 100f)
+data class DiagnosticState(
+    val steps: List<DiagnosticWorkflowStep> = listOf(
+        DiagnosticWorkflowStep(1, "检测", "Detection", "检测 App 是否被 MemoryLimiter 杀死", DiagnosticStepStatus.PENDING),
+        DiagnosticWorkflowStep(2, "Heap Dump", "Heap Dump", "在触发条件满足时收集堆转储", DiagnosticStepStatus.PENDING),
+        DiagnosticWorkflowStep(3, "分析", "Analysis", "分析 heap dump 识别内存问题", DiagnosticStepStatus.PENDING),
+        DiagnosticWorkflowStep(4, "修复", "Fix", "提供修复建议并指导实施", DiagnosticStepStatus.PENDING),
+        DiagnosticWorkflowStep(5, "验证", "Verification", "验证修复效果", DiagnosticStepStatus.PENDING)
+    ),
+    val currentStepIndex: Int = 0,
+    val isRunning: Boolean = false,
+    val packageName: String = "",
+    val reportPath: String? = null
+) {
+    /**
+     * 当前步骤
+     * Current workflow step
+     */
+    val currentStep: DiagnosticWorkflowStep?
+        get() = steps.getOrNull(currentStepIndex)
+
+    /**
+     * 完成进度（%）
+     * Completion progress percentage
+     */
+    val progressPercent: Int
+        get() = ((currentStepIndex.toFloat() / steps.size) * 100).toInt()
+
+    /**
+     * 是否全部完成
+     * Whether all steps are completed
+     */
+    val isCompleted: Boolean
+        get() = steps.all { it.status == DiagnosticStepStatus.COMPLETED || it.status == DiagnosticStepStatus.SKIPPED }
 }
