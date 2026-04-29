@@ -104,6 +104,8 @@ sealed class BottomNavRoute(
     data object OtpDelay : BottomNavRoute(route = "otp_delay", title = "OTP Delay", icon = Icons.Default.Shield)
     // PRD-191: AndroidX Remote Compose 服务器驱动 UI 开发工具包
     data object RemoteCompose : BottomNavRoute(route = "remote_compose", title = "RemoteCompose", icon = Icons.Default.AutoAwesome)
+    // PRD-200: Compose 1.12.0 compileSdk 37 & AGP 9.2 强制升级工具包
+    data object AgpUpgrade : BottomNavRoute(route = "agp_upgrade", title = "AGP升级", icon = Icons.Default.SystemUpdateAlt)
 }
 
 /**
@@ -179,4 +181,6 @@ object NavRoutes {
     const val OTP_DELAY = "otp_delay"
     // PRD-191: AndroidX Remote Compose 服务器驱动 UI 开发工具包
     const val REMOTE_COMPOSE = "remote_compose"
+    // PRD-200: Compose 1.12.0 compileSdk 37 & AGP 9.2 强制升级工具包
+    const val AGP_UPGRADE = "agp_upgrade"
 }
