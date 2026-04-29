@@ -75,6 +75,8 @@ import com.mvi.kenny.feature.androidskills.AndroidSkillsIntent
 import com.mvi.kenny.feature.appfunctionssdk.AppFunctionTestScreen
 import com.mvi.kenny.feature.otpdelay.OtpDelayScreen
 import com.mvi.kenny.feature.otpdelay.OtpDelayViewModel
+import com.mvi.kenny.feature.lannetwork.LanPermissionScreen
+import com.mvi.kenny.feature.lannetwork.LanPermissionViewModel
 import com.mvi.kenny.navigation.BottomNavRoute
 
 /**
@@ -173,7 +175,9 @@ fun MainScreen(
         // PRD-184: Android CLI & Android Skills 工具包
         BottomNavRoute.AndroidSkills,
         // PRD-186: Android 17 SMS OTP Delay 合规检测与迁移工具包
-        BottomNavRoute.OtpDelay
+        BottomNavRoute.OtpDelay,
+        // PRD-199: Android 17 Local Network Permission 合规检测工具包
+        BottomNavRoute.LanPermission
     )
 
     // Pager 状态，管理当前是第几页
@@ -240,6 +244,9 @@ fun MainScreen(
     // PRD-186: Android 17 SMS OTP Delay 合规检测与迁移工具包
     val otpDelayViewModel = remember { OtpDelayViewModel() }
     var otpDelayTopBar by remember { mutableStateOf(TopBarConfig(title = "OTP Delay 合规检测")) }
+    // PRD-199: Android 17 Local Network Permission 合规检测工具包
+    val lanPermissionViewModel = remember { LanPermissionViewModel() }
+    var lanPermissionTopBar by remember { mutableStateOf(TopBarConfig(title = "LAN 权限合规")) }
 
     // 根据当前页码决定显示哪个 TopBar 配置
     val currentTopBar = when (pagerState.currentPage) {
@@ -274,6 +281,7 @@ fun MainScreen(
         28 -> orientationEnforcementTopBar
         29 -> androidSkillsTopBar
         30 -> otpDelayTopBar
+        31 -> lanPermissionTopBar
         else -> homeTopBar
     }
 
@@ -448,6 +456,12 @@ fun MainScreen(
                     32 -> OtpDelayScreen(
                         viewModel = otpDelayViewModel,
                         onNavigateToTemplate = { }
+                    )
+                    // PRD-199: Android 17 Local Network Permission 合规检测工具包
+                    33 -> LanPermissionScreen(
+                        viewModel = lanPermissionViewModel,
+                        onNavigateToCode = { _, _ -> },
+                        onShowToast = { }
                     )
                 }
             }

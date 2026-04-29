@@ -102,6 +102,8 @@ sealed class BottomNavRoute(
     data object AppFunctionTest : BottomNavRoute(route = "app_function_test", title = "SDK 测试", icon = Icons.Default.CheckCircle)
     // PRD-186: Android 17 SMS OTP Delay 合规检测与迁移工具包
     data object OtpDelay : BottomNavRoute(route = "otp_delay", title = "OTP Delay", icon = Icons.Default.Shield)
+    // PRD-199: Android 17 Local Network Permission 合规检测工具包
+    data object LanPermission : BottomNavRoute(route = "lan_permission", title = "LAN 权限", icon = Icons.Default.Shield)
 }
 
 /**
@@ -175,4 +177,6 @@ object NavRoutes {
     const val APP_FUNCTION_TEST = "app_function_test"
     // PRD-186: Android 17 SMS OTP Delay 合规检测与迁移工具包
     const val OTP_DELAY = "otp_delay"
+    // PRD-199: Android 17 Local Network Permission 合规检测工具包
+    const val LAN_PERMISSION = "lan_permission"
 }
