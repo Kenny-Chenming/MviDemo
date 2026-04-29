@@ -433,7 +433,7 @@ class PayloadSizeBenchmark {
 
             // Assert: Gzipped payload should be under 500KB for all cases
             assertTrue(
-                "Payload \${case.name} exceeds 500KB limit",
+                "Payload \${'$'}{case.name} exceeds 500KB limit",
                 gzipped.size <= 500 * 1024
             )
         }
@@ -881,7 +881,7 @@ class NetworkFailureHandler(
 
                 // 所有网络错误统一记录，便于服务端排查
                 // All network errors logged uniformly for server-side troubleshooting
-                logger.warn("Payload fetch attempt \${attempt + 1} failed: \${e.message}")
+                logger.warn("Payload fetch attempt \${'$'}{attempt + 1} failed: \${'$'}{e.message}")
 
                 if (attempt < maxRetries - 1) {
                     delay(delayMs)

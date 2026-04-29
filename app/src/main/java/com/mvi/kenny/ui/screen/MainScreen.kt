@@ -77,6 +77,8 @@ import com.mvi.kenny.feature.otpdelay.OtpDelayScreen
 import com.mvi.kenny.feature.otpdelay.OtpDelayViewModel
 import com.mvi.kenny.feature.remotecompose.RemoteComposeScreen
 import com.mvi.kenny.feature.remotecompose.RemoteComposeViewModel
+import com.mvi.kenny.feature.deliqueue.DeliQueueScreen
+import com.mvi.kenny.feature.deliqueue.DeliQueueViewModel
 import com.mvi.kenny.navigation.BottomNavRoute
 
 /**
@@ -177,7 +179,9 @@ fun MainScreen(
         // PRD-186: Android 17 SMS OTP Delay 合规检测与迁移工具包
         BottomNavRoute.OtpDelay,
         // PRD-191: AndroidX Remote Compose 服务器驱动 UI 开发工具包
-        BottomNavRoute.RemoteCompose
+        BottomNavRoute.RemoteCompose,
+        // PRD-198: Android 17 DeliQueue 迁移检测工具包
+        BottomNavRoute.DeliQueue
     )
 
     // Pager 状态，管理当前是第几页
@@ -246,6 +250,9 @@ fun MainScreen(
     // PRD-191: AndroidX Remote Compose 服务器驱动 UI 开发工具包
     val remoteComposeViewModel = remember { RemoteComposeViewModel() }
     var otpDelayTopBar by remember { mutableStateOf(TopBarConfig(title = "OTP Delay 合规检测")) }
+    // PRD-198: Android 17 DeliQueue 迁移检测工具包
+    val deliQueueViewModel = remember { DeliQueueViewModel() }
+    var deliQueueTopBar by remember { mutableStateOf(TopBarConfig(title = "DeliQueue 迁移检测")) }
 
     // 根据当前页码决定显示哪个 TopBar 配置
     val currentTopBar = when (pagerState.currentPage) {
@@ -280,6 +287,10 @@ fun MainScreen(
         28 -> orientationEnforcementTopBar
         29 -> androidSkillsTopBar
         30 -> otpDelayTopBar
+        31 -> otpDelayTopBar
+        32 -> otpDelayTopBar
+        33 -> otpDelayTopBar
+        34 -> deliQueueTopBar
         else -> homeTopBar
     }
 
@@ -457,6 +468,10 @@ fun MainScreen(
                     // PRD-191: AndroidX Remote Compose 服务器驱动 UI 开发工具包
                     33 -> RemoteComposeScreen(
                         viewModel = remoteComposeViewModel
+                    )
+                    // PRD-198: Android 17 DeliQueue 迁移检测工具包
+                    34 -> DeliQueueScreen(
+                        viewModel = deliQueueViewModel
                     )
                 }
             }

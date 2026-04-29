@@ -104,6 +104,8 @@ sealed class BottomNavRoute(
     data object OtpDelay : BottomNavRoute(route = "otp_delay", title = "OTP Delay", icon = Icons.Default.Shield)
     // PRD-191: AndroidX Remote Compose 服务器驱动 UI 开发工具包
     data object RemoteCompose : BottomNavRoute(route = "remote_compose", title = "RemoteCompose", icon = Icons.Default.AutoAwesome)
+    // PRD-198: Android 17 DeliQueue 迁移检测工具包
+    data object DeliQueue : BottomNavRoute(route = "deli_queue", title = "DeliQueue", icon = Icons.Default.SystemUpdateAlt)
 }
 
 /**
@@ -179,4 +181,6 @@ object NavRoutes {
     const val OTP_DELAY = "otp_delay"
     // PRD-191: AndroidX Remote Compose 服务器驱动 UI 开发工具包
     const val REMOTE_COMPOSE = "remote_compose"
+    // PRD-198: Android 17 DeliQueue 迁移检测工具包
+    const val DELI_QUEUE = "deli_queue"
 }
