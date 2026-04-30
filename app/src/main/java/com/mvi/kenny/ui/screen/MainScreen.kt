@@ -40,6 +40,7 @@ import com.mvi.kenny.feature.page16kb.Page16KbScreen
 import com.mvi.kenny.feature.wearos64bit.WearOs64BitScreen
 import com.mvi.kenny.feature.swiftpmmigration.SwiftPMMigrationScreen
 import com.mvi.kenny.feature.devverification.ComplianceDashboardScreen
+import com.mvi.kenny.feature.devverifytool.DevVerifyToolScreen
 import com.mvi.kenny.feature.locationbutton.LocationButtonScreen
 import com.mvi.kenny.feature.agp9migration.AGP9MigrationScreen
 import com.mvi.kenny.feature.cardatal.CarDataScreen
@@ -173,7 +174,9 @@ fun MainScreen(
         // PRD-184: Android CLI & Android Skills 工具包
         BottomNavRoute.AndroidSkills,
         // PRD-186: Android 17 SMS OTP Delay 合规检测与迁移工具包
-        BottomNavRoute.OtpDelay
+        BottomNavRoute.OtpDelay,
+        // PRD-209: Android 开发者验证合规工具包（2026年9月大限）
+        BottomNavRoute.DevVerifyTool
     )
 
     // Pager 状态，管理当前是第几页
@@ -240,6 +243,8 @@ fun MainScreen(
     // PRD-186: Android 17 SMS OTP Delay 合规检测与迁移工具包
     val otpDelayViewModel = remember { OtpDelayViewModel() }
     var otpDelayTopBar by remember { mutableStateOf(TopBarConfig(title = "OTP Delay 合规检测")) }
+    // PRD-209: Android 开发者验证合规工具包（2026年9月大限）
+    var devVerifyToolTopBar by remember { mutableStateOf(TopBarConfig(title = "Dev验证合规工具包")) }
 
     // 根据当前页码决定显示哪个 TopBar 配置
     val currentTopBar = when (pagerState.currentPage) {
@@ -274,6 +279,7 @@ fun MainScreen(
         28 -> orientationEnforcementTopBar
         29 -> androidSkillsTopBar
         30 -> otpDelayTopBar
+        31 -> devVerifyToolTopBar
         else -> homeTopBar
     }
 
@@ -448,6 +454,10 @@ fun MainScreen(
                     32 -> OtpDelayScreen(
                         viewModel = otpDelayViewModel,
                         onNavigateToTemplate = { }
+                    )
+                    // PRD-209: Android 开发者验证合规工具包（2026年9月大限）
+                    33 -> DevVerifyToolScreen(
+                        onUpdateTopBar = { devVerifyToolTopBar = it }
                     )
                 }
             }
