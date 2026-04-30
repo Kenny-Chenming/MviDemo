@@ -28,6 +28,7 @@ import androidx.compose.material.icons.filled.VpnKey
 import androidx.compose.material.icons.filled.DesktopWindows
 import androidx.compose.material.icons.filled.VolumeUp
 import androidx.compose.material.icons.filled.CheckCircle
+import androidx.compose.material.icons.filled.Policy
 import androidx.compose.ui.graphics.vector.ImageVector
 
 /**
@@ -104,6 +105,8 @@ sealed class BottomNavRoute(
     data object AppFunctionTest : BottomNavRoute(route = "app_function_test", title = "SDK 测试", icon = Icons.Default.CheckCircle)
     // PRD-186: Android 17 SMS OTP Delay 合规检测与迁移工具包
     data object OtpDelay : BottomNavRoute(route = "otp_delay", title = "OTP Delay", icon = Icons.Default.Shield)
+    // PRD-210: Google Play 2026年4月政策三连击合规工具包
+    data object Prd210Compliance : BottomNavRoute(route = "prd210_compliance", title = "Play合规", icon = Icons.Default.Policy)
 }
 
 /**
@@ -179,4 +182,6 @@ object NavRoutes {
     const val APP_FUNCTION_TEST = "app_function_test"
     // PRD-186: Android 17 SMS OTP Delay 合规检测与迁移工具包
     const val OTP_DELAY = "otp_delay"
+    // PRD-210: Google Play 2026年4月政策三连击合规工具包
+    const val PRD210_COMPLIANCE = "prd210_compliance"
 }

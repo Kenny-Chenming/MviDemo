@@ -41,6 +41,7 @@ import com.mvi.kenny.feature.wearos64bit.WearOs64BitScreen
 import com.mvi.kenny.feature.swiftpmmigration.SwiftPMMigrationScreen
 import com.mvi.kenny.feature.devverification.ComplianceDashboardScreen
 import com.mvi.kenny.feature.devverifytool.DevVerifyToolScreen
+import com.mvi.kenny.feature.prd210compliance.Prd210ComplianceScreen
 import com.mvi.kenny.feature.locationbutton.LocationButtonScreen
 import com.mvi.kenny.feature.agp9migration.AGP9MigrationScreen
 import com.mvi.kenny.feature.cardatal.CarDataScreen
@@ -175,7 +176,9 @@ fun MainScreen(
         // PRD-186: Android 17 SMS OTP Delay 合规检测与迁移工具包
         BottomNavRoute.OtpDelay,
         // PRD-209: Android 开发者验证合规工具包（2026年9月大限）
-        BottomNavRoute.DevVerifyTool
+        BottomNavRoute.DevVerifyTool,
+        // PRD-210: Google Play 2026年4月政策三连击合规工具包
+        BottomNavRoute.Prd210Compliance
 
     )
 
@@ -460,6 +463,10 @@ fun MainScreen(
                     // PRD-209: Android 开发者验证合规工具包（2026年9月大限）
                     33 -> DevVerifyToolScreen(
                         onUpdateTopBar = { devVerifyToolTopBar = it }
+                    )
+                    // PRD-210: Google Play 2026年4月政策三连击合规工具包
+                    34 -> Prd210ComplianceScreen(
+                        onUpdateTopBar = { }
                     )
 
                 }
