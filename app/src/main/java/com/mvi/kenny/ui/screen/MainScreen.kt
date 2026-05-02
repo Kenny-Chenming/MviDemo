@@ -79,6 +79,12 @@ import com.mvi.kenny.feature.otpdelay.OtpDelayScreen
 import com.mvi.kenny.feature.otpdelay.OtpDelayViewModel
 import com.mvi.kenny.feature.room3migration.Room3MigrationScreen
 import com.mvi.kenny.feature.room3migration.Room3MigrationViewModel
+import com.mvi.kenny.feature.android17memory.Android17MemoryScreen
+import com.mvi.kenny.feature.android17memory.Android17MemoryViewModel
+import com.mvi.kenny.feature.android17memory.Android17MemoryViewModelFactory
+import androidx.lifecycle.ViewModelProvider
+import androidx.compose.ui.platform.LocalContext
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.mvi.kenny.navigation.BottomNavRoute
 
 /**
@@ -182,7 +188,9 @@ fun MainScreen(
         // PRD-210: Google Play 2026年4月政策三连击合规工具包
         BottomNavRoute.Prd210Compliance,
         // PRD-212: Room 3.0 破坏性变更迁移工具包
-        BottomNavRoute.Room3Migration
+        BottomNavRoute.Room3Migration,
+        // PRD-213: Android 17 设备 RAM 内存限制适配工具包
+        BottomNavRoute.Android17Memory
     )
 
     // Pager 状态，管理当前是第几页
@@ -254,6 +262,11 @@ fun MainScreen(
     // PRD-212: Room 3.0 破坏性变更迁移工具包
     val room3MigrationViewModel = remember { Room3MigrationViewModel() }
     var room3MigrationTopBar by remember { mutableStateOf(TopBarConfig(title = "Room3迁移")) }
+    // PRD-213: Android 17 设备 RAM 内存限制适配工具包
+    val android17MemoryViewModel: Android17MemoryViewModel = viewModel(
+        factory = Android17MemoryViewModelFactory(LocalContext.current)
+    )
+    var android17MemoryTopBar by remember { mutableStateOf(TopBarConfig(title = "Memory Limits")) }
 
     // 根据当前页码决定显示哪个 TopBar 配置
     val currentTopBar = when (pagerState.currentPage) {
@@ -290,6 +303,10 @@ fun MainScreen(
         30 -> otpDelayTopBar
         31 -> devVerifyToolTopBar
         32 -> room3MigrationTopBar
+        33 -> homeTopBar  // pre-existing: DevVerifyTool uses its own TopBar
+        34 -> homeTopBar  // pre-existing: Prd210Compliance uses its own TopBar
+        35 -> room3MigrationTopBar
+        36 -> android17MemoryTopBar
         else -> homeTopBar
     }
 
@@ -471,6 +488,10 @@ fun MainScreen(
                     35 -> Room3MigrationScreen(
                         state = room3MigrationViewModel.state.collectAsState().value,
                         onIntent = room3MigrationViewModel::sendIntent
+                    )
+                    // PRD-213: Android 17 设备 RAM 内存限制适配工具包
+                    36 -> Android17MemoryScreen(
+                        viewModel = android17MemoryViewModel
                     )
                 }
             }

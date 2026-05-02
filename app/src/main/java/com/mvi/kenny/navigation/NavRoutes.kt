@@ -110,6 +110,8 @@ sealed class BottomNavRoute(
     data object Prd210Compliance : BottomNavRoute(route = "prd210_compliance", title = "Play合规", icon = Icons.Default.Policy)
     // PRD-212: Room 3.0 破坏性变更迁移工具包
     data object Room3Migration : BottomNavRoute(route = "room3_migration", title = "Room3迁移", icon = Icons.Default.Layers)
+    // PRD-213: Android 17 设备 RAM 内存限制适配工具包
+    data object Android17Memory : BottomNavRoute(route = "android17_memory", title = "内存限制", icon = Icons.Default.Memory)
 }
 
 /**
@@ -189,4 +191,6 @@ object NavRoutes {
     const val PRD210_COMPLIANCE = "prd210_compliance"
     // PRD-212: Room 3.0 破坏性变更迁移工具包
     const val ROOM3_MIGRATION = "room3_migration"
+    // PRD-213: Android 17 设备 RAM 内存限制适配工具包
+    const val ANDROID17_MEMORY = "android17_memory"
 }
