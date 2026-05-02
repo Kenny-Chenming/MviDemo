@@ -77,6 +77,8 @@ import com.mvi.kenny.feature.androidskills.AndroidSkillsIntent
 import com.mvi.kenny.feature.appfunctionssdk.AppFunctionTestScreen
 import com.mvi.kenny.feature.otpdelay.OtpDelayScreen
 import com.mvi.kenny.feature.otpdelay.OtpDelayViewModel
+import com.mvi.kenny.feature.room3migration.Room3MigrationScreen
+import com.mvi.kenny.feature.room3migration.Room3MigrationViewModel
 import com.mvi.kenny.navigation.BottomNavRoute
 
 /**
@@ -178,8 +180,9 @@ fun MainScreen(
         // PRD-209: Android 开发者验证合规工具包（2026年9月大限）
         BottomNavRoute.DevVerifyTool,
         // PRD-210: Google Play 2026年4月政策三连击合规工具包
-        BottomNavRoute.Prd210Compliance
-
+        BottomNavRoute.Prd210Compliance,
+        // PRD-212: Room 3.0 破坏性变更迁移工具包
+        BottomNavRoute.Room3Migration
     )
 
     // Pager 状态，管理当前是第几页
@@ -248,7 +251,9 @@ fun MainScreen(
     var otpDelayTopBar by remember { mutableStateOf(TopBarConfig(title = "OTP Delay 合规检测")) }
     // PRD-209: Android 开发者验证合规工具包（2026年9月大限）
     var devVerifyToolTopBar by remember { mutableStateOf(TopBarConfig(title = "Dev验证合规工具包")) }
-
+    // PRD-212: Room 3.0 破坏性变更迁移工具包
+    val room3MigrationViewModel = remember { Room3MigrationViewModel() }
+    var room3MigrationTopBar by remember { mutableStateOf(TopBarConfig(title = "Room3迁移")) }
 
     // 根据当前页码决定显示哪个 TopBar 配置
     val currentTopBar = when (pagerState.currentPage) {
@@ -284,7 +289,7 @@ fun MainScreen(
         29 -> androidSkillsTopBar
         30 -> otpDelayTopBar
         31 -> devVerifyToolTopBar
-
+        32 -> room3MigrationTopBar
         else -> homeTopBar
     }
 
@@ -408,21 +413,15 @@ fun MainScreen(
                         onSnackbar = { }
                     )
                     // PRD-169: Android Agentic AI AppFunctions & UI Automation Framework 开发工具包
-                    23 -> AgenticAIScreen(
+                    24 -> AgenticAIScreen(
                         state = agenticAIViewModel.state.collectAsState().value,
                         onIntent = agenticAIViewModel::sendIntent,
                         effect = agenticAIViewModel.effect
                     )
                     // PRD-171: Android 17 Key Limit 合规检测与数据重构工具包
-                    24 -> KeyVaultScreen(
+                    25 -> KeyVaultScreen(
                         state = keyVaultViewModel.state.collectAsState().value,
                         onIntent = keyVaultViewModel::sendIntent
-                    )
-                    // PRD-170: Android 17 Desktop Mode 开发工具包
-                    25 -> DesktopModeScreen(
-                        state = desktopModeViewModel.state.collectAsState().value,
-                        onIntent = desktopModeViewModel::sendIntent,
-                        effect = desktopModeViewModel.effect
                     )
                     // PRD-170: Android 17 Desktop Mode 开发工具包
                     26 -> DesktopModeScreen(
@@ -468,7 +467,11 @@ fun MainScreen(
                     34 -> Prd210ComplianceScreen(
                         onUpdateTopBar = { }
                     )
-
+                    // PRD-212: Room 3.0 破坏性变更迁移工具包
+                    35 -> Room3MigrationScreen(
+                        state = room3MigrationViewModel.state.collectAsState().value,
+                        onIntent = room3MigrationViewModel::sendIntent
+                    )
                 }
             }
         }

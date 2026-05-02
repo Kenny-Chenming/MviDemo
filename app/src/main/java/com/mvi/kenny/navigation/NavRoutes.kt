@@ -29,6 +29,7 @@ import androidx.compose.material.icons.filled.DesktopWindows
 import androidx.compose.material.icons.filled.VolumeUp
 import androidx.compose.material.icons.filled.CheckCircle
 import androidx.compose.material.icons.filled.Policy
+import androidx.compose.material.icons.filled.Layers
 import androidx.compose.ui.graphics.vector.ImageVector
 
 /**
@@ -107,6 +108,8 @@ sealed class BottomNavRoute(
     data object OtpDelay : BottomNavRoute(route = "otp_delay", title = "OTP Delay", icon = Icons.Default.Shield)
     // PRD-210: Google Play 2026年4月政策三连击合规工具包
     data object Prd210Compliance : BottomNavRoute(route = "prd210_compliance", title = "Play合规", icon = Icons.Default.Policy)
+    // PRD-212: Room 3.0 破坏性变更迁移工具包
+    data object Room3Migration : BottomNavRoute(route = "room3_migration", title = "Room3迁移", icon = Icons.Default.Layers)
 }
 
 /**
@@ -184,4 +187,6 @@ object NavRoutes {
     const val OTP_DELAY = "otp_delay"
     // PRD-210: Google Play 2026年4月政策三连击合规工具包
     const val PRD210_COMPLIANCE = "prd210_compliance"
+    // PRD-212: Room 3.0 破坏性变更迁移工具包
+    const val ROOM3_MIGRATION = "room3_migration"
 }
