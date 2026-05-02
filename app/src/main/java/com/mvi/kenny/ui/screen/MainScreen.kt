@@ -82,6 +82,8 @@ import com.mvi.kenny.feature.room3migration.Room3MigrationViewModel
 import com.mvi.kenny.feature.android17memory.Android17MemoryScreen
 import com.mvi.kenny.feature.android17memory.Android17MemoryViewModel
 import com.mvi.kenny.feature.android17memory.Android17MemoryViewModelFactory
+import com.mvi.kenny.feature.appfunctionstool.AppFunctionsToolScreen
+import com.mvi.kenny.feature.appfunctionstool.AppFunctionsToolViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -190,7 +192,9 @@ fun MainScreen(
         // PRD-212: Room 3.0 破坏性变更迁移工具包
         BottomNavRoute.Room3Migration,
         // PRD-213: Android 17 设备 RAM 内存限制适配工具包
-        BottomNavRoute.Android17Memory
+        BottomNavRoute.Android17Memory,
+        // PRD-214: Android AppFunctions 开发工具包
+        BottomNavRoute.AppFunctionsTool
     )
 
     // Pager 状态，管理当前是第几页
@@ -267,6 +271,9 @@ fun MainScreen(
         factory = Android17MemoryViewModelFactory(LocalContext.current)
     )
     var android17MemoryTopBar by remember { mutableStateOf(TopBarConfig(title = "Memory Limits")) }
+    // PRD-214: Android AppFunctions 开发工具包
+    val appFunctionsToolViewModel = remember { AppFunctionsToolViewModel() }
+    var appFunctionsToolTopBar by remember { mutableStateOf(TopBarConfig(title = "AppFunctions 工具台")) }
 
     // 根据当前页码决定显示哪个 TopBar 配置
     val currentTopBar = when (pagerState.currentPage) {
@@ -307,6 +314,7 @@ fun MainScreen(
         34 -> homeTopBar  // pre-existing: Prd210Compliance uses its own TopBar
         35 -> room3MigrationTopBar
         36 -> android17MemoryTopBar
+        37 -> appFunctionsToolTopBar
         else -> homeTopBar
     }
 
@@ -492,6 +500,11 @@ fun MainScreen(
                     // PRD-213: Android 17 设备 RAM 内存限制适配工具包
                     36 -> Android17MemoryScreen(
                         viewModel = android17MemoryViewModel
+                    )
+                    // PRD-214: Android AppFunctions 开发工具包
+                    37 -> AppFunctionsToolScreen(
+                        viewModel = appFunctionsToolViewModel,
+                        onUpdateTopBar = { appFunctionsToolTopBar = it }
                     )
                 }
             }

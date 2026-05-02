@@ -112,6 +112,8 @@ sealed class BottomNavRoute(
     data object Room3Migration : BottomNavRoute(route = "room3_migration", title = "Room3迁移", icon = Icons.Default.Layers)
     // PRD-213: Android 17 设备 RAM 内存限制适配工具包
     data object Android17Memory : BottomNavRoute(route = "android17_memory", title = "内存限制", icon = Icons.Default.Memory)
+    // PRD-214: Android AppFunctions 开发工具包
+    data object AppFunctionsTool : BottomNavRoute(route = "appfunctions_tool", title = "AppFunctions", icon = Icons.Default.DeveloperBoard)
 }
 
 /**
@@ -193,4 +195,6 @@ object NavRoutes {
     const val ROOM3_MIGRATION = "room3_migration"
     // PRD-213: Android 17 设备 RAM 内存限制适配工具包
     const val ANDROID17_MEMORY = "android17_memory"
+    // PRD-214: Android AppFunctions 开发工具包
+    const val APP_FUNCTIONS_TOOL = "appfunctions_tool"
 }
