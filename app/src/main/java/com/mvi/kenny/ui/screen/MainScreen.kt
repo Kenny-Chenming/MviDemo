@@ -55,6 +55,8 @@ import com.mvi.kenny.feature.memorylimits.MemoryLimitsScreen
 import com.mvi.kenny.feature.memorylimits.MemoryLimitsViewModel
 import com.mvi.kenny.feature.largescreen.LargeScreenScreen
 import com.mvi.kenny.feature.largescreen.LargeScreenViewModel
+import com.mvi.kenny.feature.room3migration.Room3MigrationScreen
+import com.mvi.kenny.feature.room3migration.Room3MigrationViewModel
 import com.mvi.kenny.navigation.BottomNavRoute
 
 /**
@@ -136,7 +138,9 @@ fun MainScreen(
         // PRD-155: Android 17 大屏强制适配与 Continuous Canary Release 开发工具包
         BottomNavRoute.LargeScreenAdaptation,
         // PRD-153: Android 17 Handoff API 跨设备连续性开发工具包
-        BottomNavRoute.Handoff
+        BottomNavRoute.Handoff,
+        // PRD-212: Room 3.0 破坏性变更迁移工具包
+        BottomNavRoute.Room3Migration
     )
 
     // Pager 状态，管理当前是第几页
@@ -176,6 +180,9 @@ fun MainScreen(
     // PRD-155: Android 17 大屏强制适配与 Continuous Canary Release 开发工具包
     val largeScreenViewModel = remember { LargeScreenViewModel() }
     var largeScreenTopBar by remember { mutableStateOf(TopBarConfig(title = "大屏适配")) }
+    // PRD-212: Room 3.0 破坏性变更迁移工具包
+    val room3MigrationViewModel = remember { Room3MigrationViewModel() }
+    var room3MigrationTopBar by remember { mutableStateOf(TopBarConfig(title = "Room3迁移")) }
 
     // 根据当前页码决定显示哪个 TopBar 配置
     val currentTopBar = when (pagerState.currentPage) {
@@ -202,6 +209,7 @@ fun MainScreen(
         20 -> onAlarmTopBar
         21 -> memoryLimitsTopBar
         22 -> largeScreenTopBar
+        23 -> room3MigrationTopBar
         else -> homeTopBar
     }
 
@@ -319,6 +327,11 @@ fun MainScreen(
                         viewModel = largeScreenViewModel,
                         onUpdateTopBar = { largeScreenTopBar = it },
                         onSnackbar = { }
+                    )
+                    // PRD-212: Room 3.0 破坏性变更迁移工具包
+                    23 -> Room3MigrationScreen(
+                        state = room3MigrationViewModel.state.collectAsState().value,
+                        onIntent = room3MigrationViewModel::sendIntent
                     )
                 }
             }

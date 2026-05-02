@@ -24,6 +24,7 @@ import androidx.compose.material.icons.filled.AutoAwesome
 import androidx.compose.material.icons.filled.FactCheck
 import androidx.compose.material.icons.filled.BatteryChargingFull
 import androidx.compose.material.icons.filled.SwapHoriz
+import androidx.compose.material.icons.filled.Layers
 import androidx.compose.ui.graphics.vector.ImageVector
 
 /**
@@ -78,6 +79,8 @@ sealed class BottomNavRoute(
     data object MemoryLimits : BottomNavRoute(route = "memory_limits", title = "Memory Limits", icon = Icons.Default.Memory)
     // PRD-155: Android 17 大屏强制适配与 Continuous Canary Release 开发工具包
     data object LargeScreenAdaptation : BottomNavRoute(route = "large_screen_adaptation", title = "大屏适配", icon = Icons.Default.SwapHoriz)
+    // PRD-212: Room 3.0 破坏性变更迁移工具包
+    data object Room3Migration : BottomNavRoute(route = "room3_migration", title = "Room3迁移", icon = Icons.Default.Layers)
 }
 
 /**
@@ -131,4 +134,6 @@ object NavRoutes {
     const val MEMORY_LIMITS = "memory_limits"
     // PRD-155: Android 17 大屏强制适配与 Continuous Canary Release 开发工具包
     const val LARGE_SCREEN_ADAPTATION = "large_screen_adaptation"
+    // PRD-212: Room 3.0 破坏性变更迁移工具包
+    const val ROOM3_MIGRATION = "room3_migration"
 }
