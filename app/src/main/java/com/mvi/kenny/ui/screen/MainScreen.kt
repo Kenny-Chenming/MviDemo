@@ -84,6 +84,8 @@ import com.mvi.kenny.feature.android17memory.Android17MemoryViewModel
 import com.mvi.kenny.feature.android17memory.Android17MemoryViewModelFactory
 import com.mvi.kenny.feature.appfunctionstool.AppFunctionsToolScreen
 import com.mvi.kenny.feature.appfunctionstool.AppFunctionsToolViewModel
+import com.mvi.kenny.feature.android17api37tool.Android17Api37ToolScreen
+import com.mvi.kenny.feature.android17api37tool.Android17Api37ToolViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -194,7 +196,9 @@ fun MainScreen(
         // PRD-213: Android 17 设备 RAM 内存限制适配工具包
         BottomNavRoute.Android17Memory,
         // PRD-214: Android AppFunctions 开发工具包
-        BottomNavRoute.AppFunctionsTool
+        BottomNavRoute.AppFunctionsTool,
+        // PRD-220: Android 17 API 37 破坏性变更综合迁移工具包
+        BottomNavRoute.Android17Api37Tool
     )
 
     // Pager 状态，管理当前是第几页
@@ -273,7 +277,11 @@ fun MainScreen(
     var android17MemoryTopBar by remember { mutableStateOf(TopBarConfig(title = "Memory Limits")) }
     // PRD-214: Android AppFunctions 开发工具包
     val appFunctionsToolViewModel = remember { AppFunctionsToolViewModel() }
+    // PRD-220: Android 17 API 37 破坏性变更综合迁移工具包
+    val android17Api37ToolViewModel = remember { Android17Api37ToolViewModel() }
     var appFunctionsToolTopBar by remember { mutableStateOf(TopBarConfig(title = "AppFunctions 工具台")) }
+    // PRD-220: Android 17 API 37 破坏性变更综合迁移工具包
+    var android17Api37ToolTopBar by remember { mutableStateOf(TopBarConfig(title = "Android 17 API 37 迁移工具")) }
 
     // 根据当前页码决定显示哪个 TopBar 配置
     val currentTopBar = when (pagerState.currentPage) {
@@ -315,6 +323,7 @@ fun MainScreen(
         35 -> room3MigrationTopBar
         36 -> android17MemoryTopBar
         37 -> appFunctionsToolTopBar
+        38 -> android17Api37ToolTopBar
         else -> homeTopBar
     }
 
@@ -505,6 +514,12 @@ fun MainScreen(
                     37 -> AppFunctionsToolScreen(
                         viewModel = appFunctionsToolViewModel,
                         onUpdateTopBar = { appFunctionsToolTopBar = it }
+                    )
+                    // PRD-220: Android 17 API 37 破坏性变更综合迁移工具包
+                    38 -> Android17Api37ToolScreen(
+                        state = android17Api37ToolViewModel.state.collectAsState().value,
+                        onIntent = android17Api37ToolViewModel::sendIntent,
+                        onUpdateTopBar = { android17Api37ToolTopBar = it }
                     )
                 }
             }

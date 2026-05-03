@@ -114,6 +114,8 @@ sealed class BottomNavRoute(
     data object Android17Memory : BottomNavRoute(route = "android17_memory", title = "内存限制", icon = Icons.Default.Memory)
     // PRD-214: Android AppFunctions 开发工具包
     data object AppFunctionsTool : BottomNavRoute(route = "appfunctions_tool", title = "AppFunctions", icon = Icons.Default.DeveloperBoard)
+    // PRD-220: Android 17 API 37 破坏性变更综合迁移工具包
+    data object Android17Api37Tool : BottomNavRoute(route = "android17_api37_tool", title = "API 37工具", icon = Icons.Default.SystemUpdate)
 }
 
 /**
@@ -197,4 +199,6 @@ object NavRoutes {
     const val ANDROID17_MEMORY = "android17_memory"
     // PRD-214: Android AppFunctions 开发工具包
     const val APP_FUNCTIONS_TOOL = "appfunctions_tool"
+    // PRD-220: Android 17 API 37 破坏性变更综合迁移工具包
+    const val ANDROID17_API37_TOOL = "android17_api37_tool"
 }
