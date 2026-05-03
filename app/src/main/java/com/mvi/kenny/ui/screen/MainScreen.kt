@@ -48,6 +48,8 @@ import com.mvi.kenny.feature.gemma4.Gemma4Screen
 import com.mvi.kenny.feature.geminitest.GeminiTestQualityScreen
 import com.mvi.kenny.feature.healthpermissions.HealthPermissionsScreen
 import com.mvi.kenny.feature.gridflexboxkit.ComposeLayoutsKitScreen
+import com.mvi.kenny.feature.android17api37tool.Android17Api37ToolScreen
+import com.mvi.kenny.feature.android17api37tool.Android17Api37ToolViewModel
 import com.mvi.kenny.feature.gridflexboxkit.ComposeLayoutsKitViewModel
 import com.mvi.kenny.navigation.BottomNavRoute
 
@@ -122,7 +124,8 @@ fun MainScreen(
         BottomNavRoute.Gemma4,
         BottomNavRoute.GeminiTestQuality,
         BottomNavRoute.HealthPermissions,
-        BottomNavRoute.ComposeLayoutsKit
+        BottomNavRoute.ComposeLayoutsKit,
+        BottomNavRoute.Android17Api37Tool
     )
 
     // Pager 状态，管理当前是第几页
@@ -153,6 +156,9 @@ fun MainScreen(
     // PRD-141: Compose Grid + FlexBox 双布局 API 开发工具包
     val composeLayoutsKitViewModel = remember { ComposeLayoutsKitViewModel() }
     var composeLayoutsKitTopBar by remember { mutableStateOf(TopBarConfig(title = "ComposeLayoutsKit")) }
+    // PRD-220: Android 17 API 37 破坏性变更综合迁移工具包
+    val android17Api37ToolViewModel = remember { Android17Api37ToolViewModel() }
+    var android17Api37ToolTopBar by remember { mutableStateOf(TopBarConfig(title = "Android 17 API 37 迁移工具")) }
 
     // 根据当前页码决定显示哪个 TopBar 配置
     val currentTopBar = when (pagerState.currentPage) {
@@ -176,6 +182,7 @@ fun MainScreen(
         17 -> geminiTestQualityTopBar
         18 -> healthPermissionsTopBar
         19 -> composeLayoutsKitTopBar
+        20 -> android17Api37ToolTopBar
         else -> homeTopBar
     }
 
@@ -276,6 +283,11 @@ fun MainScreen(
                         state = composeLayoutsKitViewModel.state.collectAsState().value,
                         onIntent = composeLayoutsKitViewModel::sendIntent,
                         onNavigateToSubmodule = { }
+                    )
+                    20 -> Android17Api37ToolScreen(
+                        state = android17Api37ToolViewModel.state.collectAsState().value,
+                        onIntent = android17Api37ToolViewModel::sendIntent,
+                        onUpdateTopBar = { android17Api37ToolTopBar = it }
                     )
                 }
             }
