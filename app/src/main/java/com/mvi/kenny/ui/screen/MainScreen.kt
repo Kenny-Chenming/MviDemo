@@ -79,6 +79,8 @@ import com.mvi.kenny.feature.otpdelay.OtpDelayScreen
 import com.mvi.kenny.feature.otpdelay.OtpDelayViewModel
 import com.mvi.kenny.feature.room3migration.Room3MigrationScreen
 import com.mvi.kenny.feature.room3migration.Room3MigrationViewModel
+import com.mvi.kenny.feature.room3importmigration.Room3ImportMigrationScreen
+import com.mvi.kenny.feature.room3importmigration.Room3ImportMigrationViewModel
 import com.mvi.kenny.feature.android17memory.Android17MemoryScreen
 import com.mvi.kenny.feature.android17memory.Android17MemoryViewModel
 import com.mvi.kenny.feature.android17memory.Android17MemoryViewModelFactory
@@ -193,6 +195,8 @@ fun MainScreen(
         BottomNavRoute.Prd210Compliance,
         // PRD-212: Room 3.0 破坏性变更迁移工具包
         BottomNavRoute.Room3Migration,
+        // PRD-225: Room 3.0 Import 批量迁移工具包
+        BottomNavRoute.Room3ImportMigration,
         // PRD-213: Android 17 设备 RAM 内存限制适配工具包
         BottomNavRoute.Android17Memory,
         // PRD-214: Android AppFunctions 开发工具包
@@ -270,6 +274,8 @@ fun MainScreen(
     // PRD-212: Room 3.0 破坏性变更迁移工具包
     val room3MigrationViewModel = remember { Room3MigrationViewModel() }
     var room3MigrationTopBar by remember { mutableStateOf(TopBarConfig(title = "Room3迁移")) }
+    // PRD-225: Room 3.0 Import 批量迁移工具包
+    val room3ImportMigrationViewModel = remember { Room3ImportMigrationViewModel() }
     // PRD-213: Android 17 设备 RAM 内存限制适配工具包
     val android17MemoryViewModel: Android17MemoryViewModel = viewModel(
         factory = Android17MemoryViewModelFactory(LocalContext.current)
@@ -506,17 +512,21 @@ fun MainScreen(
                         state = room3MigrationViewModel.state.collectAsState().value,
                         onIntent = room3MigrationViewModel::sendIntent
                     )
+                    // PRD-225: Room 3.0 Import 批量迁移工具包
+                    36 -> Room3ImportMigrationScreen(
+                        viewModel = room3ImportMigrationViewModel
+                    )
                     // PRD-213: Android 17 设备 RAM 内存限制适配工具包
-                    36 -> Android17MemoryScreen(
+                    37 -> Android17MemoryScreen(
                         viewModel = android17MemoryViewModel
                     )
                     // PRD-214: Android AppFunctions 开发工具包
-                    37 -> AppFunctionsToolScreen(
+                    38 -> AppFunctionsToolScreen(
                         viewModel = appFunctionsToolViewModel,
                         onUpdateTopBar = { appFunctionsToolTopBar = it }
                     )
                     // PRD-220: Android 17 API 37 破坏性变更综合迁移工具包
-                    38 -> Android17Api37ToolScreen(
+                    39 -> Android17Api37ToolScreen(
                         state = android17Api37ToolViewModel.state.collectAsState().value,
                         onIntent = android17Api37ToolViewModel::sendIntent,
                         onUpdateTopBar = { android17Api37ToolTopBar = it }

@@ -110,6 +110,8 @@ sealed class BottomNavRoute(
     data object Prd210Compliance : BottomNavRoute(route = "prd210_compliance", title = "Play合规", icon = Icons.Default.Policy)
     // PRD-212: Room 3.0 破坏性变更迁移工具包
     data object Room3Migration : BottomNavRoute(route = "room3_migration", title = "Room3迁移", icon = Icons.Default.Layers)
+    // PRD-225: Room 3.0 Import 批量迁移工具包（import扫描/SQLiteDriver/suspend/双版本兼容/CI合规）
+    data object Room3ImportMigration : BottomNavRoute(route = "room3_import_migration", title = "Import迁移", icon = Icons.Default.SwapHoriz)
     // PRD-213: Android 17 设备 RAM 内存限制适配工具包
     data object Android17Memory : BottomNavRoute(route = "android17_memory", title = "内存限制", icon = Icons.Default.Memory)
     // PRD-214: Android AppFunctions 开发工具包
