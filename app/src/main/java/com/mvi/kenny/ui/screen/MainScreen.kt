@@ -88,6 +88,8 @@ import com.mvi.kenny.feature.appfunctionstool.AppFunctionsToolScreen
 import com.mvi.kenny.feature.appfunctionstool.AppFunctionsToolViewModel
 import com.mvi.kenny.feature.android17api37tool.Android17Api37ToolScreen
 import com.mvi.kenny.feature.android17api37tool.Android17Api37ToolViewModel
+import com.mvi.kenny.feature.agp90migration.AGP90MigrationScreen
+import com.mvi.kenny.feature.agp90migration.AGP90MigrationViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -202,7 +204,9 @@ fun MainScreen(
         // PRD-214: Android AppFunctions 开发工具包
         BottomNavRoute.AppFunctionsTool,
         // PRD-220: Android 17 API 37 破坏性变更综合迁移工具包
-        BottomNavRoute.Android17Api37Tool
+        BottomNavRoute.Android17Api37Tool,
+        // PRD-226: AGP 9.0 破坏性变更迁移工具包
+        BottomNavRoute.AGP90Migration
     )
 
     // Pager 状态，管理当前是第几页
@@ -288,6 +292,9 @@ fun MainScreen(
     var appFunctionsToolTopBar by remember { mutableStateOf(TopBarConfig(title = "AppFunctions 工具台")) }
     // PRD-220: Android 17 API 37 破坏性变更综合迁移工具包
     var android17Api37ToolTopBar by remember { mutableStateOf(TopBarConfig(title = "Android 17 API 37 迁移工具")) }
+    // PRD-226: AGP 9.0 破坏性变更迁移工具包
+    val agp90MigrationViewModel = remember { AGP90MigrationViewModel() }
+    var agp90MigrationTopBar by remember { mutableStateOf(TopBarConfig(title = "AGP 9.0 破坏性变更迁移工具包")) }
 
     // 根据当前页码决定显示哪个 TopBar 配置
     val currentTopBar = when (pagerState.currentPage) {
@@ -330,6 +337,7 @@ fun MainScreen(
         36 -> android17MemoryTopBar
         37 -> appFunctionsToolTopBar
         38 -> android17Api37ToolTopBar
+        39 -> agp90MigrationTopBar
         else -> homeTopBar
     }
 
@@ -530,6 +538,10 @@ fun MainScreen(
                         state = android17Api37ToolViewModel.state.collectAsState().value,
                         onIntent = android17Api37ToolViewModel::sendIntent,
                         onUpdateTopBar = { android17Api37ToolTopBar = it }
+                    )
+                    // PRD-226: AGP 9.0 破坏性变更迁移工具包
+                    40 -> AGP90MigrationScreen(
+                        viewModel = agp90MigrationViewModel
                     )
                 }
             }

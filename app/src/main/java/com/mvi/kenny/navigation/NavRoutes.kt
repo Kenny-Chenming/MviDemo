@@ -118,6 +118,8 @@ sealed class BottomNavRoute(
     data object AppFunctionsTool : BottomNavRoute(route = "appfunctions_tool", title = "AppFunctions", icon = Icons.Default.DeveloperBoard)
     // PRD-220: Android 17 API 37 破坏性变更综合迁移工具包
     data object Android17Api37Tool : BottomNavRoute(route = "android17_api37_tool", title = "API 37工具", icon = Icons.Default.SystemUpdate)
+    // PRD-226: AGP 9.0 破坏性变更迁移工具包
+    data object AGP90Migration : BottomNavRoute(route = "agp90_migration", title = "AGP 9.0迁移", icon = Icons.Default.SystemUpdateAlt)
 }
 
 /**
@@ -203,4 +205,6 @@ object NavRoutes {
     const val APP_FUNCTIONS_TOOL = "appfunctions_tool"
     // PRD-220: Android 17 API 37 破坏性变更综合迁移工具包
     const val ANDROID17_API37_TOOL = "android17_api37_tool"
+    // PRD-226: AGP 9.0 破坏性变更迁移工具包
+    const val AGP90_MIGRATION = "agp90_migration"
 }
