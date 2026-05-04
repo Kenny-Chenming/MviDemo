@@ -87,6 +87,8 @@ import com.mvi.kenny.feature.android17memory.Android17MemoryViewModelFactory
 import com.mvi.kenny.feature.appfunctionstool.AppFunctionsToolScreen
 import com.mvi.kenny.feature.appfunctionstool.AppFunctionsToolViewModel
 import com.mvi.kenny.feature.android17api37tool.Android17Api37ToolScreen
+import com.mvi.kenny.feature.aluminiumosdesktop.AluminiumOSDesktopScreen
+import com.mvi.kenny.feature.aluminiumosdesktop.AluminiumOSDesktopViewModel
 import com.mvi.kenny.feature.android17api37tool.Android17Api37ToolViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.compose.ui.platform.LocalContext
@@ -202,7 +204,9 @@ fun MainScreen(
         // PRD-214: Android AppFunctions 开发工具包
         BottomNavRoute.AppFunctionsTool,
         // PRD-220: Android 17 API 37 破坏性变更综合迁移工具包
-        BottomNavRoute.Android17Api37Tool
+        BottomNavRoute.Android17Api37Tool,
+        // PRD-227: Aluminium OS Android App 桌面适配工具包
+        BottomNavRoute.AluminiumOSDesktop
     )
 
     // Pager 状态，管理当前是第几页
@@ -288,6 +292,9 @@ fun MainScreen(
     var appFunctionsToolTopBar by remember { mutableStateOf(TopBarConfig(title = "AppFunctions 工具台")) }
     // PRD-220: Android 17 API 37 破坏性变更综合迁移工具包
     var android17Api37ToolTopBar by remember { mutableStateOf(TopBarConfig(title = "Android 17 API 37 迁移工具")) }
+    // PRD-227: Aluminium OS Android App 桌面适配工具包
+    val aluminiumOSDesktopViewModel = remember { AluminiumOSDesktopViewModel() }
+    var aluminiumOSDesktopTopBar by remember { mutableStateOf(TopBarConfig(title = "Aluminium OS 桌面适配工具")) }
 
     // 根据当前页码决定显示哪个 TopBar 配置
     val currentTopBar = when (pagerState.currentPage) {
@@ -330,6 +337,7 @@ fun MainScreen(
         36 -> android17MemoryTopBar
         37 -> appFunctionsToolTopBar
         38 -> android17Api37ToolTopBar
+        39 -> aluminiumOSDesktopTopBar
         else -> homeTopBar
     }
 
@@ -530,6 +538,11 @@ fun MainScreen(
                         state = android17Api37ToolViewModel.state.collectAsState().value,
                         onIntent = android17Api37ToolViewModel::sendIntent,
                         onUpdateTopBar = { android17Api37ToolTopBar = it }
+                    )
+                    // PRD-227: Aluminium OS Android App 桌面适配工具包
+                    40 -> AluminiumOSDesktopScreen(
+                        viewModel = aluminiumOSDesktopViewModel,
+                        onUpdateTopBar = { aluminiumOSDesktopTopBar = it }
                     )
                 }
             }
