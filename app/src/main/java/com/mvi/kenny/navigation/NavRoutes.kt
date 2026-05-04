@@ -120,6 +120,8 @@ sealed class BottomNavRoute(
     data object Android17Api37Tool : BottomNavRoute(route = "android17_api37_tool", title = "API 37工具", icon = Icons.Default.SystemUpdate)
     // PRD-227: Aluminium OS Android App 桌面适配工具包
     data object AluminiumOSDesktop : BottomNavRoute(route = "aluminium_os_desktop", title = "Aluminium OS", icon = Icons.Default.DesktopWindows)
+    // PRD-228: Jetpack Compose 1.11 Testing v2 API 迁移工具包
+    data object ComposeTestingV2 : BottomNavRoute(route = "compose_testing_v2", title = "Compose v2", icon = Icons.Default.DeveloperBoard)
 }
 
 /**
@@ -207,4 +209,6 @@ object NavRoutes {
     const val ANDROID17_API37_TOOL = "android17_api37_tool"
     // PRD-227: Aluminium OS Android App 桌面适配工具包
     const val ALUMINIUM_OS_DESKTOP = "aluminium_os_desktop"
+    // PRD-228: Jetpack Compose 1.11 Testing v2 API 迁移工具包
+    const val COMPOSE_TESTING_V2 = "compose_testing_v2"
 }

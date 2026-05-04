@@ -89,6 +89,8 @@ import com.mvi.kenny.feature.appfunctionstool.AppFunctionsToolViewModel
 import com.mvi.kenny.feature.android17api37tool.Android17Api37ToolScreen
 import com.mvi.kenny.feature.aluminiumosdesktop.AluminiumOSDesktopScreen
 import com.mvi.kenny.feature.aluminiumosdesktop.AluminiumOSDesktopViewModel
+import com.mvi.kenny.feature.composetestingv2.ComposeTestingV2Screen
+import com.mvi.kenny.feature.composetestingv2.ComposeTestingV2ViewModel
 import com.mvi.kenny.feature.android17api37tool.Android17Api37ToolViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.compose.ui.platform.LocalContext
@@ -206,7 +208,9 @@ fun MainScreen(
         // PRD-220: Android 17 API 37 破坏性变更综合迁移工具包
         BottomNavRoute.Android17Api37Tool,
         // PRD-227: Aluminium OS Android App 桌面适配工具包
-        BottomNavRoute.AluminiumOSDesktop
+        BottomNavRoute.AluminiumOSDesktop,
+        // PRD-228: Jetpack Compose 1.11 Testing v2 API 迁移工具包
+        BottomNavRoute.ComposeTestingV2
     )
 
     // Pager 状态，管理当前是第几页
@@ -295,6 +299,9 @@ fun MainScreen(
     // PRD-227: Aluminium OS Android App 桌面适配工具包
     val aluminiumOSDesktopViewModel = remember { AluminiumOSDesktopViewModel() }
     var aluminiumOSDesktopTopBar by remember { mutableStateOf(TopBarConfig(title = "Aluminium OS 桌面适配工具")) }
+    // PRD-228: Jetpack Compose 1.11 Testing v2 API 迁移工具包
+    val composeTestingV2ViewModel = remember { ComposeTestingV2ViewModel() }
+    var composeTestingV2TopBar by remember { mutableStateOf(TopBarConfig(title = "Compose Testing v2 迁移工具")) }
 
     // 根据当前页码决定显示哪个 TopBar 配置
     val currentTopBar = when (pagerState.currentPage) {
@@ -544,6 +551,8 @@ fun MainScreen(
                         viewModel = aluminiumOSDesktopViewModel,
                         onUpdateTopBar = { aluminiumOSDesktopTopBar = it }
                     )
+                    // PRD-228: Jetpack Compose 1.11 Testing v2 API 迁移工具包
+                    41 -> ComposeTestingV2Screen(viewModel = composeTestingV2ViewModel)
                 }
             }
         }
