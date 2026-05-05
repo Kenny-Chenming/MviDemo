@@ -29,6 +29,7 @@ import androidx.compose.material.icons.filled.DesktopWindows
 import androidx.compose.material.icons.filled.VolumeUp
 import androidx.compose.material.icons.filled.CheckCircle
 import androidx.compose.material.icons.filled.Policy
+import androidx.compose.material.icons.filled.AccountTree
 import androidx.compose.material.icons.filled.Layers
 import androidx.compose.ui.graphics.vector.ImageVector
 
@@ -120,6 +121,10 @@ sealed class BottomNavRoute(
     data object Android17Api37Tool : BottomNavRoute(route = "android17_api37_tool", title = "API 37工具", icon = Icons.Default.SystemUpdate)
     // PRD-227: Aluminium OS Android App 桌面适配工具包
     data object AluminiumOSDesktop : BottomNavRoute(route = "aluminium_os_desktop", title = "Aluminium OS", icon = Icons.Default.DesktopWindows)
+    // PRD-231: KMP × AGP 9.0 不兼容迁移工具包
+    data object KMPAGP90 : BottomNavRoute(route = "kmp_agp_90", title = "KMP AGP9", icon = Icons.Default.AccountTree)
+    // PRD-230: Jetpack Compose Glimmer AI 眼镜 UI 开发工具包
+    data object GlimmerToolkit : BottomNavRoute(route = "glimmer_toolkit", title = "Glimmer", icon = Icons.Default.AutoAwesome)
 }
 
 /**
@@ -207,4 +212,8 @@ object NavRoutes {
     const val ANDROID17_API37_TOOL = "android17_api37_tool"
     // PRD-227: Aluminium OS Android App 桌面适配工具包
     const val ALUMINIUM_OS_DESKTOP = "aluminium_os_desktop"
+    // PRD-231: KMP × AGP 9.0 不兼容迁移工具包
+    const val KMP_AGP_90 = "kmp_agp_90"
+    // PRD-230: Jetpack Compose Glimmer AI 眼镜 UI 开发工具包
+    const val GLIMMER_TOOLKIT = "glimmer_toolkit"
 }
