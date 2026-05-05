@@ -39,6 +39,8 @@ import com.mvi.kenny.feature.nav3tool.NavToolScreen
 import com.mvi.kenny.feature.page16kb.Page16KbScreen
 import com.mvi.kenny.feature.wearos64bit.WearOs64BitScreen
 import com.mvi.kenny.feature.swiftpmmigration.SwiftPMMigrationScreen
+import com.mvi.kenny.feature.agentskillstoolkit.AgentSkillsToolkitScreen
+import com.mvi.kenny.feature.agentskillstoolkit.AgentSkillsToolkitViewModel
 import com.mvi.kenny.feature.devverification.ComplianceDashboardScreen
 import com.mvi.kenny.feature.devverifytool.DevVerifyToolScreen
 import com.mvi.kenny.feature.prd210compliance.Prd210ComplianceScreen
@@ -211,7 +213,9 @@ fun MainScreen(
         // PRD-231: KMP × AGP 9.0 不兼容迁移工具包
         BottomNavRoute.KMPAGP90,
         // PRD-230: Jetpack Compose Glimmer AI 眼镜 UI 开发工具包
-        BottomNavRoute.GlimmerToolkit
+        BottomNavRoute.GlimmerToolkit,
+        // PRD-233: Android Agent Skills 技能库生态工具包
+        BottomNavRoute.AgentSkillsToolkit
     )
 
     // Pager 状态，管理当前是第几页
@@ -300,6 +304,9 @@ fun MainScreen(
     // PRD-227: Aluminium OS Android App 桌面适配工具包
     val aluminiumOSDesktopViewModel = remember { AluminiumOSDesktopViewModel() }
     var aluminiumOSDesktopTopBar by remember { mutableStateOf(TopBarConfig(title = "Aluminium OS 桌面适配工具")) }
+    // PRD-233: Android Agent Skills 技能库生态工具包
+    val agentSkillsToolkitViewModel = remember { AgentSkillsToolkitViewModel() }
+    var agentSkillsToolkitTopBar by remember { mutableStateOf(TopBarConfig(title = "Agent Skills Toolkit")) }
 
     // 根据当前页码决定显示哪个 TopBar 配置
     val currentTopBar = when (pagerState.currentPage) {
@@ -343,6 +350,8 @@ fun MainScreen(
         37 -> appFunctionsToolTopBar
         38 -> android17Api37ToolTopBar
         39 -> aluminiumOSDesktopTopBar
+        // PRD-233: Android Agent Skills 技能库生态工具包
+        41 -> agentSkillsToolkitTopBar
 
         else -> homeTopBar
     }
@@ -549,6 +558,11 @@ fun MainScreen(
                     40 -> AluminiumOSDesktopScreen(
                         viewModel = aluminiumOSDesktopViewModel,
                         onUpdateTopBar = { aluminiumOSDesktopTopBar = it }
+                    )
+                    // PRD-233: Android Agent Skills 技能库生态工具包
+                    41 -> AgentSkillsToolkitScreen(
+                        viewModel = agentSkillsToolkitViewModel,
+                        onUpdateTopBar = { agentSkillsToolkitTopBar = it }
                     )
 
                 }
