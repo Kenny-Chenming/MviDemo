@@ -29,6 +29,7 @@ import androidx.compose.material.icons.filled.DesktopWindows
 import androidx.compose.material.icons.filled.VolumeUp
 import androidx.compose.material.icons.filled.CheckCircle
 import androidx.compose.material.icons.filled.Policy
+import androidx.compose.material.icons.filled.AccountTree
 import androidx.compose.material.icons.filled.Layers
 import androidx.compose.ui.graphics.vector.ImageVector
 
@@ -118,8 +119,14 @@ sealed class BottomNavRoute(
     data object AppFunctionsTool : BottomNavRoute(route = "appfunctions_tool", title = "AppFunctions", icon = Icons.Default.DeveloperBoard)
     // PRD-220: Android 17 API 37 破坏性变更综合迁移工具包
     data object Android17Api37Tool : BottomNavRoute(route = "android17_api37_tool", title = "API 37工具", icon = Icons.Default.SystemUpdate)
-    // PRD-226: AGP 9.0 破坏性变更迁移工具包
-    data object AGP90Migration : BottomNavRoute(route = "agp90_migration", title = "AGP 9.0迁移", icon = Icons.Default.SystemUpdateAlt)
+    // PRD-227: Aluminium OS Android App 桌面适配工具包
+    data object AluminiumOSDesktop : BottomNavRoute(route = "aluminium_os_desktop", title = "Aluminium OS", icon = Icons.Default.DesktopWindows)
+    // PRD-231: KMP × AGP 9.0 不兼容迁移工具包
+    data object KMPAGP90 : BottomNavRoute(route = "kmp_agp_90", title = "KMP AGP9", icon = Icons.Default.AccountTree)
+    // PRD-230: Jetpack Compose Glimmer AI 眼镜 UI 开发工具包
+    data object GlimmerToolkit : BottomNavRoute(route = "glimmer_toolkit", title = "Glimmer", icon = Icons.Default.AutoAwesome)
+    // PRD-232: Kotlin 2.2.20 Swift Export iOS 原生互联络工具包
+    data object SwiftExportTool : BottomNavRoute(route = "swift_export_toolkit", title = "Swift Export", icon = Icons.Default.SystemUpdateAlt)
 }
 
 /**
@@ -205,6 +212,12 @@ object NavRoutes {
     const val APP_FUNCTIONS_TOOL = "appfunctions_tool"
     // PRD-220: Android 17 API 37 破坏性变更综合迁移工具包
     const val ANDROID17_API37_TOOL = "android17_api37_tool"
-    // PRD-226: AGP 9.0 破坏性变更迁移工具包
-    const val AGP90_MIGRATION = "agp90_migration"
+    // PRD-227: Aluminium OS Android App 桌面适配工具包
+    const val ALUMINIUM_OS_DESKTOP = "aluminium_os_desktop"
+    // PRD-231: KMP × AGP 9.0 不兼容迁移工具包
+    const val KMP_AGP_90 = "kmp_agp_90"
+    // PRD-230: Jetpack Compose Glimmer AI 眼镜 UI 开发工具包
+    const val GLIMMER_TOOLKIT = "glimmer_toolkit"
+    // PRD-232: Kotlin 2.2.20 Swift Export iOS 原生互联络工具包
+    const val SWIFT_EXPORT_TOOLKIT = "swift_export_toolkit"
 }

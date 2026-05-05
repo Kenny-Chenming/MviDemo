@@ -87,9 +87,11 @@ import com.mvi.kenny.feature.android17memory.Android17MemoryViewModelFactory
 import com.mvi.kenny.feature.appfunctionstool.AppFunctionsToolScreen
 import com.mvi.kenny.feature.appfunctionstool.AppFunctionsToolViewModel
 import com.mvi.kenny.feature.android17api37tool.Android17Api37ToolScreen
+import com.mvi.kenny.feature.aluminiumosdesktop.AluminiumOSDesktopScreen
+import com.mvi.kenny.feature.aluminiumosdesktop.AluminiumOSDesktopViewModel
+import com.mvi.kenny.feature.kmpagp90migration.KMPAGP90Screen
+import com.mvi.kenny.feature.kmpagp90migration.KMPAGP90ViewModel
 import com.mvi.kenny.feature.android17api37tool.Android17Api37ToolViewModel
-import com.mvi.kenny.feature.agp90migration.AGP90MigrationScreen
-import com.mvi.kenny.feature.agp90migration.AGP90MigrationViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -205,8 +207,14 @@ fun MainScreen(
         BottomNavRoute.AppFunctionsTool,
         // PRD-220: Android 17 API 37 破坏性变更综合迁移工具包
         BottomNavRoute.Android17Api37Tool,
-        // PRD-226: AGP 9.0 破坏性变更迁移工具包
-        BottomNavRoute.AGP90Migration
+        // PRD-227: Aluminium OS Android App 桌面适配工具包
+        BottomNavRoute.AluminiumOSDesktop,
+        // PRD-231: KMP × AGP 9.0 不兼容迁移工具包
+        BottomNavRoute.KMPAGP90,
+        // PRD-230: Jetpack Compose Glimmer AI 眼镜 UI 开发工具包
+        BottomNavRoute.GlimmerToolkit,
+        // PRD-232: Kotlin 2.2.20 Swift Export iOS 原生互联络工具包
+        BottomNavRoute.SwiftExportTool
     )
 
     // Pager 状态，管理当前是第几页
@@ -292,9 +300,12 @@ fun MainScreen(
     var appFunctionsToolTopBar by remember { mutableStateOf(TopBarConfig(title = "AppFunctions 工具台")) }
     // PRD-220: Android 17 API 37 破坏性变更综合迁移工具包
     var android17Api37ToolTopBar by remember { mutableStateOf(TopBarConfig(title = "Android 17 API 37 迁移工具")) }
-    // PRD-226: AGP 9.0 破坏性变更迁移工具包
-    val agp90MigrationViewModel = remember { AGP90MigrationViewModel() }
-    var agp90MigrationTopBar by remember { mutableStateOf(TopBarConfig(title = "AGP 9.0 破坏性变更迁移工具包")) }
+    // PRD-227: Aluminium OS Android App 桌面适配工具包
+    val aluminiumOSDesktopViewModel = remember { AluminiumOSDesktopViewModel() }
+    var aluminiumOSDesktopTopBar by remember { mutableStateOf(TopBarConfig(title = "Aluminium OS 桌面适配工具")) }
+    // PRD-231: KMP × AGP 9.0 不兼容迁移工具包
+    val kmpagp90ViewModel = remember { KMPAGP90ViewModel() }
+    var kmpagp90TopBar by remember { mutableStateOf(TopBarConfig(title = "KMP × AGP 9.0 迁移工具")) }
 
     // 根据当前页码决定显示哪个 TopBar 配置
     val currentTopBar = when (pagerState.currentPage) {
@@ -337,7 +348,8 @@ fun MainScreen(
         36 -> android17MemoryTopBar
         37 -> appFunctionsToolTopBar
         38 -> android17Api37ToolTopBar
-        39 -> agp90MigrationTopBar
+        39 -> aluminiumOSDesktopTopBar
+        40 -> kmpagp90TopBar
         else -> homeTopBar
     }
 
@@ -539,10 +551,13 @@ fun MainScreen(
                         onIntent = android17Api37ToolViewModel::sendIntent,
                         onUpdateTopBar = { android17Api37ToolTopBar = it }
                     )
-                    // PRD-226: AGP 9.0 破坏性变更迁移工具包
-                    40 -> AGP90MigrationScreen(
-                        viewModel = agp90MigrationViewModel
+                    // PRD-227: Aluminium OS Android App 桌面适配工具包
+                    40 -> AluminiumOSDesktopScreen(
+                        viewModel = aluminiumOSDesktopViewModel,
+                        onUpdateTopBar = { aluminiumOSDesktopTopBar = it }
                     )
+                    // PRD-231: KMP × AGP 9.0 不兼容迁移工具包
+                    41 -> KMPAGP90Screen(viewModel = kmpagp90ViewModel)
                 }
             }
         }
