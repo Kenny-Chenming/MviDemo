@@ -118,12 +118,8 @@ sealed class BottomNavRoute(
     data object AppFunctionsTool : BottomNavRoute(route = "appfunctions_tool", title = "AppFunctions", icon = Icons.Default.DeveloperBoard)
     // PRD-220: Android 17 API 37 破坏性变更综合迁移工具包
     data object Android17Api37Tool : BottomNavRoute(route = "android17_api37_tool", title = "API 37工具", icon = Icons.Default.SystemUpdate)
-    // PRD-227: Aluminium OS Android App 桌面适配工具包
-    data object AluminiumOSDesktop : BottomNavRoute(route = "aluminium_os_desktop", title = "Aluminium OS", icon = Icons.Default.DesktopWindows)
-    // PRD-228: Jetpack Compose 1.11 Testing v2 API 迁移工具包
-    data object ComposeTestingV2 : BottomNavRoute(route = "compose_testing_v2", title = "Compose v2", icon = Icons.Default.DeveloperBoard)
-    // PRD-229: KSP1→KSP2 迁移工具包
-    data object KSP2Migration : BottomNavRoute(route = "ksp2_migration", title = "KSP2迁移", icon = Icons.Default.SystemUpdateAlt)
+    // PRD-226: AGP 9.0 破坏性变更迁移工具包
+    data object AGP90Migration : BottomNavRoute(route = "agp90_migration", title = "AGP 9.0迁移", icon = Icons.Default.SystemUpdateAlt)
 }
 
 /**
@@ -209,10 +205,6 @@ object NavRoutes {
     const val APP_FUNCTIONS_TOOL = "appfunctions_tool"
     // PRD-220: Android 17 API 37 破坏性变更综合迁移工具包
     const val ANDROID17_API37_TOOL = "android17_api37_tool"
-    // PRD-227: Aluminium OS Android App 桌面适配工具包
-    const val ALUMINIUM_OS_DESKTOP = "aluminium_os_desktop"
-    // PRD-228: Jetpack Compose 1.11 Testing v2 API 迁移工具包
-    const val COMPOSE_TESTING_V2 = "compose_testing_v2"
-    // PRD-229: KSP1→KSP2 迁移工具包
-    const val KSP2_MIGRATION = "ksp2_migration"
+    // PRD-226: AGP 9.0 破坏性变更迁移工具包
+    const val AGP90_MIGRATION = "agp90_migration"
 }
