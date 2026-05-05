@@ -210,7 +210,11 @@ fun MainScreen(
         // PRD-227: Aluminium OS Android App 桌面适配工具包
         BottomNavRoute.AluminiumOSDesktop,
         // PRD-231: KMP × AGP 9.0 不兼容迁移工具包
-        BottomNavRoute.KMPAGP90
+        BottomNavRoute.KMPAGP90,
+        // PRD-230: Jetpack Compose Glimmer AI 眼镜 UI 开发工具包
+        BottomNavRoute.GlimmerToolkit,
+        // PRD-232: Kotlin 2.2.20 Swift Export iOS 原生互联络工具包
+        BottomNavRoute.SwiftExportTool
     )
 
     // Pager 状态，管理当前是第几页
