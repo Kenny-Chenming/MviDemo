@@ -91,6 +91,8 @@ import com.mvi.kenny.feature.aluminiumosdesktop.AluminiumOSDesktopScreen
 import com.mvi.kenny.feature.aluminiumosdesktop.AluminiumOSDesktopViewModel
 import com.mvi.kenny.feature.composetestingv2.ComposeTestingV2Screen
 import com.mvi.kenny.feature.composetestingv2.ComposeTestingV2ViewModel
+import com.mvi.kenny.feature.ksp2migration.KSP2MigrationScreen
+import com.mvi.kenny.feature.ksp2migration.KSP2MigrationViewModel
 import com.mvi.kenny.feature.android17api37tool.Android17Api37ToolViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.compose.ui.platform.LocalContext
@@ -210,7 +212,9 @@ fun MainScreen(
         // PRD-227: Aluminium OS Android App 桌面适配工具包
         BottomNavRoute.AluminiumOSDesktop,
         // PRD-228: Jetpack Compose 1.11 Testing v2 API 迁移工具包
-        BottomNavRoute.ComposeTestingV2
+        BottomNavRoute.ComposeTestingV2,
+        // PRD-229: KSP1→KSP2 迁移工具包
+        BottomNavRoute.KSP2Migration
     )
 
     // Pager 状态，管理当前是第几页
@@ -302,6 +306,9 @@ fun MainScreen(
     // PRD-228: Jetpack Compose 1.11 Testing v2 API 迁移工具包
     val composeTestingV2ViewModel = remember { ComposeTestingV2ViewModel() }
     var composeTestingV2TopBar by remember { mutableStateOf(TopBarConfig(title = "Compose Testing v2 迁移工具")) }
+    // PRD-229: KSP1→KSP2 迁移工具包
+    val ksp2MigrationViewModel = remember { KSP2MigrationViewModel() }
+    var ksp2MigrationTopBar by remember { mutableStateOf(TopBarConfig(title = "KSP2 迁移工具")) }
 
     // 根据当前页码决定显示哪个 TopBar 配置
     val currentTopBar = when (pagerState.currentPage) {
@@ -345,6 +352,9 @@ fun MainScreen(
         37 -> appFunctionsToolTopBar
         38 -> android17Api37ToolTopBar
         39 -> aluminiumOSDesktopTopBar
+        40 -> aluminiumOSDesktopTopBar
+        41 -> composeTestingV2TopBar
+        42 -> ksp2MigrationTopBar
         else -> homeTopBar
     }
 
@@ -553,6 +563,10 @@ fun MainScreen(
                     )
                     // PRD-228: Jetpack Compose 1.11 Testing v2 API 迁移工具包
                     41 -> ComposeTestingV2Screen(viewModel = composeTestingV2ViewModel)
+                    // PRD-229: KSP1→KSP2 迁移工具包
+                    42 -> KSP2MigrationScreen(
+                        viewModel = ksp2MigrationViewModel
+                    )
                 }
             }
         }

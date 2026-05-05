@@ -122,6 +122,8 @@ sealed class BottomNavRoute(
     data object AluminiumOSDesktop : BottomNavRoute(route = "aluminium_os_desktop", title = "Aluminium OS", icon = Icons.Default.DesktopWindows)
     // PRD-228: Jetpack Compose 1.11 Testing v2 API 迁移工具包
     data object ComposeTestingV2 : BottomNavRoute(route = "compose_testing_v2", title = "Compose v2", icon = Icons.Default.DeveloperBoard)
+    // PRD-229: KSP1→KSP2 迁移工具包
+    data object KSP2Migration : BottomNavRoute(route = "ksp2_migration", title = "KSP2迁移", icon = Icons.Default.SystemUpdateAlt)
 }
 
 /**
@@ -211,4 +213,6 @@ object NavRoutes {
     const val ALUMINIUM_OS_DESKTOP = "aluminium_os_desktop"
     // PRD-228: Jetpack Compose 1.11 Testing v2 API 迁移工具包
     const val COMPOSE_TESTING_V2 = "compose_testing_v2"
+    // PRD-229: KSP1→KSP2 迁移工具包
+    const val KSP2_MIGRATION = "ksp2_migration"
 }
