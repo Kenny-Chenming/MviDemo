@@ -89,6 +89,7 @@ import com.mvi.kenny.feature.appfunctionstool.AppFunctionsToolViewModel
 import com.mvi.kenny.feature.android17api37tool.Android17Api37ToolScreen
 import com.mvi.kenny.feature.aluminiumosdesktop.AluminiumOSDesktopScreen
 import com.mvi.kenny.feature.aluminiumosdesktop.AluminiumOSDesktopViewModel
+import com.mvi.kenny.feature.swiftexporttool.SwiftExportToolScreen
 
 import com.mvi.kenny.feature.android17api37tool.Android17Api37ToolViewModel
 import androidx.lifecycle.ViewModelProvider
@@ -211,7 +212,9 @@ fun MainScreen(
         // PRD-231: KMP × AGP 9.0 不兼容迁移工具包
         BottomNavRoute.KMPAGP90,
         // PRD-230: Jetpack Compose Glimmer AI 眼镜 UI 开发工具包
-        BottomNavRoute.GlimmerToolkit
+        BottomNavRoute.GlimmerToolkit,
+        // PRD-232: Kotlin 2.2.20 Swift Export iOS 原生互联络工具包
+        BottomNavRoute.SwiftExportTool
     )
 
     // Pager 状态，管理当前是第几页
@@ -550,6 +553,8 @@ fun MainScreen(
                         viewModel = aluminiumOSDesktopViewModel,
                         onUpdateTopBar = { aluminiumOSDesktopTopBar = it }
                     )
+                    // PRD-232: Kotlin 2.2.20 Swift Export iOS 原生互联络工具包
+                    41 -> SwiftExportToolScreen(onNavigateTo = { })
 
                 }
             }
