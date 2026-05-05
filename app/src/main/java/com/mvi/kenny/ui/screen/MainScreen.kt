@@ -89,6 +89,7 @@ import com.mvi.kenny.feature.appfunctionstool.AppFunctionsToolViewModel
 import com.mvi.kenny.feature.android17api37tool.Android17Api37ToolScreen
 import com.mvi.kenny.feature.aluminiumosdesktop.AluminiumOSDesktopScreen
 import com.mvi.kenny.feature.aluminiumosdesktop.AluminiumOSDesktopViewModel
+
 import com.mvi.kenny.feature.android17api37tool.Android17Api37ToolViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.compose.ui.platform.LocalContext
@@ -206,7 +207,11 @@ fun MainScreen(
         // PRD-220: Android 17 API 37 破坏性变更综合迁移工具包
         BottomNavRoute.Android17Api37Tool,
         // PRD-227: Aluminium OS Android App 桌面适配工具包
-        BottomNavRoute.AluminiumOSDesktop
+        BottomNavRoute.AluminiumOSDesktop,
+        // PRD-231: KMP × AGP 9.0 不兼容迁移工具包
+        BottomNavRoute.KMPAGP90,
+        // PRD-230: Jetpack Compose Glimmer AI 眼镜 UI 开发工具包
+        BottomNavRoute.GlimmerToolkit
     )
 
     // Pager 状态，管理当前是第几页
@@ -338,6 +343,7 @@ fun MainScreen(
         37 -> appFunctionsToolTopBar
         38 -> android17Api37ToolTopBar
         39 -> aluminiumOSDesktopTopBar
+
         else -> homeTopBar
     }
 
@@ -544,6 +550,7 @@ fun MainScreen(
                         viewModel = aluminiumOSDesktopViewModel,
                         onUpdateTopBar = { aluminiumOSDesktopTopBar = it }
                     )
+
                 }
             }
         }
