@@ -120,6 +120,8 @@ sealed class BottomNavRoute(
     data object Android17Api37Tool : BottomNavRoute(route = "android17_api37_tool", title = "API 37工具", icon = Icons.Default.SystemUpdate)
     // PRD-227: Aluminium OS Android App 桌面适配工具包
     data object AluminiumOSDesktop : BottomNavRoute(route = "aluminium_os_desktop", title = "Aluminium OS", icon = Icons.Default.DesktopWindows)
+    // PRD-229: KSP1→KSP2 迁移工具包
+    data object KSP2Migration : BottomNavRoute(route = "ksp2_migration", title = "KSP2迁移", icon = Icons.Default.SystemUpdateAlt)
 }
 
 /**
@@ -207,4 +209,6 @@ object NavRoutes {
     const val ANDROID17_API37_TOOL = "android17_api37_tool"
     // PRD-227: Aluminium OS Android App 桌面适配工具包
     const val ALUMINIUM_OS_DESKTOP = "aluminium_os_desktop"
+    // PRD-229: KSP1→KSP2 迁移工具包
+    const val KSP2_MIGRATION = "ksp2_migration"
 }

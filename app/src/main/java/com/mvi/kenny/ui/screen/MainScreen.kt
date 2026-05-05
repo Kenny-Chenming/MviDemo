@@ -89,6 +89,8 @@ import com.mvi.kenny.feature.appfunctionstool.AppFunctionsToolViewModel
 import com.mvi.kenny.feature.android17api37tool.Android17Api37ToolScreen
 import com.mvi.kenny.feature.aluminiumosdesktop.AluminiumOSDesktopScreen
 import com.mvi.kenny.feature.aluminiumosdesktop.AluminiumOSDesktopViewModel
+import com.mvi.kenny.feature.ksp2migration.KSP2MigrationScreen
+import com.mvi.kenny.feature.ksp2migration.KSP2MigrationViewModel
 import com.mvi.kenny.feature.android17api37tool.Android17Api37ToolViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.compose.ui.platform.LocalContext
@@ -206,7 +208,9 @@ fun MainScreen(
         // PRD-220: Android 17 API 37 破坏性变更综合迁移工具包
         BottomNavRoute.Android17Api37Tool,
         // PRD-227: Aluminium OS Android App 桌面适配工具包
-        BottomNavRoute.AluminiumOSDesktop
+        BottomNavRoute.AluminiumOSDesktop,
+        // PRD-229: KSP1→KSP2 迁移工具包
+        BottomNavRoute.KSP2Migration
     )
 
     // Pager 状态，管理当前是第几页
@@ -295,6 +299,9 @@ fun MainScreen(
     // PRD-227: Aluminium OS Android App 桌面适配工具包
     val aluminiumOSDesktopViewModel = remember { AluminiumOSDesktopViewModel() }
     var aluminiumOSDesktopTopBar by remember { mutableStateOf(TopBarConfig(title = "Aluminium OS 桌面适配工具")) }
+    // PRD-229: KSP1→KSP2 迁移工具包
+    val ksp2MigrationViewModel = remember { KSP2MigrationViewModel() }
+    var ksp2MigrationTopBar by remember { mutableStateOf(TopBarConfig(title = "KSP2 迁移工具")) }
 
     // 根据当前页码决定显示哪个 TopBar 配置
     val currentTopBar = when (pagerState.currentPage) {
@@ -338,6 +345,8 @@ fun MainScreen(
         37 -> appFunctionsToolTopBar
         38 -> android17Api37ToolTopBar
         39 -> aluminiumOSDesktopTopBar
+        40 -> aluminiumOSDesktopTopBar
+        41 -> ksp2MigrationTopBar
         else -> homeTopBar
     }
 
@@ -543,6 +552,10 @@ fun MainScreen(
                     40 -> AluminiumOSDesktopScreen(
                         viewModel = aluminiumOSDesktopViewModel,
                         onUpdateTopBar = { aluminiumOSDesktopTopBar = it }
+                    )
+                    // PRD-229: KSP1→KSP2 迁移工具包
+                    41 -> KSP2MigrationScreen(
+                        viewModel = ksp2MigrationViewModel
                     )
                 }
             }
