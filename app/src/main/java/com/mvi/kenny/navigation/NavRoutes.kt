@@ -125,8 +125,6 @@ sealed class BottomNavRoute(
     data object KMPAGP90 : BottomNavRoute(route = "kmp_agp_90", title = "KMP AGP9", icon = Icons.Default.AccountTree)
     // PRD-230: Jetpack Compose Glimmer AI 眼镜 UI 开发工具包
     data object GlimmerToolkit : BottomNavRoute(route = "glimmer_toolkit", title = "Glimmer", icon = Icons.Default.AutoAwesome)
-    // PRD-232: Kotlin 2.2.20 Swift Export iOS 原生互联络工具包
-    data object SwiftExportTool : BottomNavRoute(route = "swift_export_toolkit", title = "Swift Export", icon = Icons.Default.SystemUpdateAlt)
 }
 
 /**
@@ -218,6 +216,4 @@ object NavRoutes {
     const val KMP_AGP_90 = "kmp_agp_90"
     // PRD-230: Jetpack Compose Glimmer AI 眼镜 UI 开发工具包
     const val GLIMMER_TOOLKIT = "glimmer_toolkit"
-    // PRD-232: Kotlin 2.2.20 Swift Export iOS 原生互联络工具包
-    const val SWIFT_EXPORT_TOOLKIT = "swift_export_toolkit"
 }
