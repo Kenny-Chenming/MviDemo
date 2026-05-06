@@ -127,6 +127,8 @@ sealed class BottomNavRoute(
     data object GlimmerToolkit : BottomNavRoute(route = "glimmer_toolkit", title = "Glimmer", icon = Icons.Default.AutoAwesome)
     // PRD-233: Android Agent Skills 技能库生态工具包
     data object AgentSkillsToolkit : BottomNavRoute(route = "agent_skills_toolkit", title = "Agent Skills", icon = Icons.Default.AutoAwesome)
+    // PRD-235: Android 17 Per-App 内存限制检测与优化工具包
+    data object PerAppMemoryLimits : BottomNavRoute(route = "per_app_memory_limits", title = "Per-App Mem", icon = Icons.Default.Memory)
 }
 
 /**
@@ -220,4 +222,6 @@ object NavRoutes {
     const val GLIMMER_TOOLKIT = "glimmer_toolkit"
     // PRD-233: Android Agent Skills 技能库生态工具包
     const val AGENT_SKILLS_TOOLKIT = "agent_skills_toolkit"
+    // PRD-235: Android 17 Per-App 内存限制检测与优化工具包
+    const val PER_APP_MEMORY_LIMITS = "per_app_memory_limits"
 }

@@ -41,6 +41,8 @@ import com.mvi.kenny.feature.wearos64bit.WearOs64BitScreen
 import com.mvi.kenny.feature.swiftpmmigration.SwiftPMMigrationScreen
 import com.mvi.kenny.feature.agentskillstoolkit.AgentSkillsToolkitScreen
 import com.mvi.kenny.feature.agentskillstoolkit.AgentSkillsToolkitViewModel
+import com.mvi.kenny.feature.perappmemorylimits.PerAppMemoryLimitsScreen
+import com.mvi.kenny.feature.perappmemorylimits.PerAppMemoryLimitsViewModel
 import com.mvi.kenny.feature.devverification.ComplianceDashboardScreen
 import com.mvi.kenny.feature.devverifytool.DevVerifyToolScreen
 import com.mvi.kenny.feature.prd210compliance.Prd210ComplianceScreen
@@ -215,7 +217,9 @@ fun MainScreen(
         // PRD-230: Jetpack Compose Glimmer AI 眼镜 UI 开发工具包
         BottomNavRoute.GlimmerToolkit,
         // PRD-233: Android Agent Skills 技能库生态工具包
-        BottomNavRoute.AgentSkillsToolkit
+        BottomNavRoute.AgentSkillsToolkit,
+        // PRD-235: Android 17 Per-App 内存限制检测与优化工具包
+        BottomNavRoute.PerAppMemoryLimits
     )
 
     // Pager 状态，管理当前是第几页
@@ -307,6 +311,9 @@ fun MainScreen(
     // PRD-233: Android Agent Skills 技能库生态工具包
     val agentSkillsToolkitViewModel = remember { AgentSkillsToolkitViewModel() }
     var agentSkillsToolkitTopBar by remember { mutableStateOf(TopBarConfig(title = "Agent Skills Toolkit")) }
+    // PRD-235: Android 17 Per-App 内存限制检测与优化工具包
+    val perAppMemoryLimitsViewModel = remember { PerAppMemoryLimitsViewModel() }
+    var perAppMemoryLimitsTopBar by remember { mutableStateOf(TopBarConfig(title = "Per-App Memory Limits")) }
 
     // 根据当前页码决定显示哪个 TopBar 配置
     val currentTopBar = when (pagerState.currentPage) {
@@ -564,6 +571,8 @@ fun MainScreen(
                         viewModel = agentSkillsToolkitViewModel,
                         onUpdateTopBar = { agentSkillsToolkitTopBar = it }
                     )
+                    // PRD-235: Android 17 Per-App 内存限制检测与优化工具包
+                    42 -> PerAppMemoryLimitsScreen(viewModel = perAppMemoryLimitsViewModel)
 
                 }
             }
