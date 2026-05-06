@@ -84,6 +84,8 @@ import com.mvi.kenny.feature.android17memory.Android17MemoryViewModel
 import com.mvi.kenny.feature.android17memory.Android17MemoryViewModelFactory
 import com.mvi.kenny.feature.appfunctionstool.AppFunctionsToolScreen
 import com.mvi.kenny.feature.appfunctionstool.AppFunctionsToolViewModel
+import com.mvi.kenny.feature.contactpicker.ContactPickerScreen
+import com.mvi.kenny.feature.contactpicker.ContactPickerViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -194,7 +196,9 @@ fun MainScreen(
         // PRD-213: Android 17 设备 RAM 内存限制适配工具包
         BottomNavRoute.Android17Memory,
         // PRD-214: Android AppFunctions 开发工具包
-        BottomNavRoute.AppFunctionsTool
+        BottomNavRoute.AppFunctionsTool,
+        // PRD-234: Google Play Contact Picker 强制迁移工具包
+        BottomNavRoute.ContactPicker
     )
 
     // Pager 状态，管理当前是第几页
@@ -274,6 +278,9 @@ fun MainScreen(
     // PRD-214: Android AppFunctions 开发工具包
     val appFunctionsToolViewModel = remember { AppFunctionsToolViewModel() }
     var appFunctionsToolTopBar by remember { mutableStateOf(TopBarConfig(title = "AppFunctions 工具台")) }
+    // PRD-234: Google Play Contact Picker 强制迁移工具包
+    val contactPickerViewModel = remember { ContactPickerViewModel() }
+    var contactPickerTopBar by remember { mutableStateOf(TopBarConfig(title = "Contact Picker 迁移")) }
 
     // 根据当前页码决定显示哪个 TopBar 配置
     val currentTopBar = when (pagerState.currentPage) {
@@ -505,6 +512,10 @@ fun MainScreen(
                     37 -> AppFunctionsToolScreen(
                         viewModel = appFunctionsToolViewModel,
                         onUpdateTopBar = { appFunctionsToolTopBar = it }
+                    )
+                    // PRD-234: Google Play Contact Picker 强制迁移工具包
+                    38 -> ContactPickerScreen(
+                        viewModel = contactPickerViewModel
                     )
                 }
             }
