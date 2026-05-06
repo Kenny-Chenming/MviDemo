@@ -1140,25 +1140,27 @@ private fun PlayStoreGuideCard(
                 )
             }
 
-                Column(
-                    modifier = Modifier.padding(top = 8.dp),
-                    verticalArrangement = Arrangement.spacedBy(4.dp)
-                ) {
-                    guide.steps.forEachIndexed { index, step ->
-                        Text(
-                            text = step,
-                            fontFamily = FontFamily.Monospace,
-                            fontSize = 11.sp,
-                            color = TerminalGreen
-                        )
-                    }
-                    guide.stepsCn.forEachIndexed { index, step ->
-                        Text(
-                            text = step,
-                            fontFamily = FontFamily.Monospace,
-                            fontSize = 11.sp,
-                            color = TerminalGray
-                        )
+                AnimatedVisibility(visible = isExpanded) {
+                    Column(
+                        modifier = Modifier.padding(top = 8.dp),
+                        verticalArrangement = Arrangement.spacedBy(4.dp)
+                    ) {
+                        guide.steps.forEachIndexed { index, step ->
+                            Text(
+                                text = step,
+                                fontFamily = FontFamily.Monospace,
+                                fontSize = 11.sp,
+                                color = TerminalGreen
+                            )
+                        }
+                        guide.stepsCn.forEachIndexed { index, step ->
+                            Text(
+                                text = step,
+                                fontFamily = FontFamily.Monospace,
+                                fontSize = 11.sp,
+                                color = TerminalGray
+                            )
+                        }
                     }
                 }
             }
