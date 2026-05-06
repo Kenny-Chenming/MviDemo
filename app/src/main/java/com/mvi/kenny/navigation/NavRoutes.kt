@@ -125,6 +125,8 @@ sealed class BottomNavRoute(
     data object KMPAGP90 : BottomNavRoute(route = "kmp_agp_90", title = "KMP AGP9", icon = Icons.Default.AccountTree)
     // PRD-230: Jetpack Compose Glimmer AI 眼镜 UI 开发工具包
     data object GlimmerToolkit : BottomNavRoute(route = "glimmer_toolkit", title = "Glimmer", icon = Icons.Default.AutoAwesome)
+    // PRD-233: Android Agent Skills 技能库生态工具包
+    data object AgentSkillsToolkit : BottomNavRoute(route = "agent_skills_toolkit", title = "Agent Skills", icon = Icons.Default.AutoAwesome)
 }
 
 /**
@@ -216,4 +218,6 @@ object NavRoutes {
     const val KMP_AGP_90 = "kmp_agp_90"
     // PRD-230: Jetpack Compose Glimmer AI 眼镜 UI 开发工具包
     const val GLIMMER_TOOLKIT = "glimmer_toolkit"
+    // PRD-233: Android Agent Skills 技能库生态工具包
+    const val AGENT_SKILLS_TOOLKIT = "agent_skills_toolkit"
 }
