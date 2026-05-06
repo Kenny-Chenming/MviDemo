@@ -41,6 +41,10 @@ import com.mvi.kenny.feature.wearos64bit.WearOs64BitScreen
 import com.mvi.kenny.feature.swiftpmmigration.SwiftPMMigrationScreen
 import com.mvi.kenny.feature.agentskillstoolkit.AgentSkillsToolkitScreen
 import com.mvi.kenny.feature.agentskillstoolkit.AgentSkillsToolkitViewModel
+import com.mvi.kenny.feature.perappmemorylimits.PerAppMemoryLimitsScreen
+import com.mvi.kenny.feature.perappmemorylimits.PerAppMemoryLimitsViewModel
+import com.mvi.kenny.feature.pqctoolkit.PQCToolkitScreen
+import com.mvi.kenny.feature.pqctoolkit.PQCToolkitViewModel
 import com.mvi.kenny.feature.devverification.ComplianceDashboardScreen
 import com.mvi.kenny.feature.devverifytool.DevVerifyToolScreen
 import com.mvi.kenny.feature.prd210compliance.Prd210ComplianceScreen
@@ -91,7 +95,8 @@ import com.mvi.kenny.feature.appfunctionstool.AppFunctionsToolViewModel
 import com.mvi.kenny.feature.android17api37tool.Android17Api37ToolScreen
 import com.mvi.kenny.feature.aluminiumosdesktop.AluminiumOSDesktopScreen
 import com.mvi.kenny.feature.aluminiumosdesktop.AluminiumOSDesktopViewModel
-
+import com.mvi.kenny.feature.glimmertoolkit.GlimmerToolkitScreen
+import com.mvi.kenny.feature.glimmertoolkit.GlimmerToolkitViewModel
 import com.mvi.kenny.feature.android17api37tool.Android17Api37ToolViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.compose.ui.platform.LocalContext
@@ -215,7 +220,11 @@ fun MainScreen(
         // PRD-230: Jetpack Compose Glimmer AI 眼镜 UI 开发工具包
         BottomNavRoute.GlimmerToolkit,
         // PRD-233: Android Agent Skills 技能库生态工具包
-        BottomNavRoute.AgentSkillsToolkit
+        BottomNavRoute.AgentSkillsToolkit,
+        // PRD-235: Android 17 Per-App 内存限制检测与优化工具包
+        BottomNavRoute.PerAppMemoryLimits,
+        // PRD-236: Android 17 PQC 后量子密码学迁移工具包
+        BottomNavRoute.PQCToolkit
     )
 
     // Pager 状态，管理当前是第几页
@@ -307,6 +316,15 @@ fun MainScreen(
     // PRD-233: Android Agent Skills 技能库生态工具包
     val agentSkillsToolkitViewModel = remember { AgentSkillsToolkitViewModel() }
     var agentSkillsToolkitTopBar by remember { mutableStateOf(TopBarConfig(title = "Agent Skills Toolkit")) }
+    // PRD-235: Android 17 Per-App 内存限制检测与优化工具包
+    val perAppMemoryLimitsViewModel = remember { PerAppMemoryLimitsViewModel() }
+    var perAppMemoryLimitsTopBar by remember { mutableStateOf(TopBarConfig(title = "Per-App Memory Limits")) }
+    // PRD-230: Jetpack Compose Glimmer AI 眼镜 UI 开发工具包
+    val glimmerToolkitViewModel = remember { GlimmerToolkitViewModel() }
+    var glimmerToolkitTopBar by remember { mutableStateOf(TopBarConfig(title = "Glimmer Toolkit")) }
+    // PRD-236: Android 17 PQC 后量子密码学迁移工具包
+    val pqcToolkitViewModel = remember { PQCToolkitViewModel() }
+    var pqcToolkitTopBar by remember { mutableStateOf(TopBarConfig(title = "PQC Toolkit")) }
 
     // 根据当前页码决定显示哪个 TopBar 配置
     val currentTopBar = when (pagerState.currentPage) {
@@ -350,8 +368,14 @@ fun MainScreen(
         37 -> appFunctionsToolTopBar
         38 -> android17Api37ToolTopBar
         39 -> aluminiumOSDesktopTopBar
+        // PRD-230: Jetpack Compose Glimmer AI 眼镜 UI 开发工具包
+        40 -> glimmerToolkitTopBar
         // PRD-233: Android Agent Skills 技能库生态工具包
         41 -> agentSkillsToolkitTopBar
+        // PRD-235: Android 17 Per-App 内存限制检测与优化工具包
+        42 -> perAppMemoryLimitsTopBar
+        // PRD-236: Android 17 PQC 后量子密码学迁移工具包
+        43 -> pqcToolkitTopBar
 
         else -> homeTopBar
     }
@@ -563,6 +587,21 @@ fun MainScreen(
                     41 -> AgentSkillsToolkitScreen(
                         viewModel = agentSkillsToolkitViewModel,
                         onUpdateTopBar = { agentSkillsToolkitTopBar = it }
+                    )
+                    // PRD-230: Jetpack Compose Glimmer AI 眼镜 UI 开发工具包
+                    40 -> GlimmerToolkitScreen(
+                        viewModel = glimmerToolkitViewModel,
+                        onUpdateTopBar = { glimmerToolkitTopBar = it }
+                    )
+                    // PRD-235: Android 17 Per-App 内存限制检测与优化工具包
+                    42 -> PerAppMemoryLimitsScreen(
+                        viewModel = perAppMemoryLimitsViewModel,
+                        onUpdateTopBar = { perAppMemoryLimitsTopBar = it }
+                    )
+                    // PRD-236: Android 17 PQC 后量子密码学迁移工具包
+                    43 -> PQCToolkitScreen(
+                        viewModel = pqcToolkitViewModel,
+                        onUpdateTopBar = { pqcToolkitTopBar = it }
                     )
 
                 }
