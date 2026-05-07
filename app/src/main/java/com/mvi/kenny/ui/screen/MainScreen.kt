@@ -219,13 +219,10 @@ fun MainScreen(
         BottomNavRoute.GlimmerToolkit,
         // PRD-233: Android Agent Skills 技能库生态工具包
         BottomNavRoute.AgentSkillsToolkit,
-<<<<<<< HEAD
         // PRD-234: Google Play Contact Picker 强制迁移工具包
-        BottomNavRoute.ContactPicker
-=======
+        BottomNavRoute.ContactPicker,
         // PRD-235: Android 17 Per-App 内存限制检测与优化工具包
         BottomNavRoute.PerAppMemoryLimits
->>>>>>> feature/prd-235-android17-memory-limits
     )
 
     // Pager 状态，管理当前是第几页
@@ -317,15 +314,12 @@ fun MainScreen(
     // PRD-233: Android Agent Skills 技能库生态工具包
     val agentSkillsToolkitViewModel = remember { AgentSkillsToolkitViewModel() }
     var agentSkillsToolkitTopBar by remember { mutableStateOf(TopBarConfig(title = "Agent Skills Toolkit")) }
-<<<<<<< HEAD
     // PRD-234: Google Play Contact Picker 强制迁移工具包
     val contactPickerViewModel = remember { ContactPickerViewModel() }
     var contactPickerTopBar by remember { mutableStateOf(TopBarConfig(title = "Contact Picker 迁移")) }
-=======
     // PRD-235: Android 17 Per-App 内存限制检测与优化工具包
     val perAppMemoryLimitsViewModel = remember { PerAppMemoryLimitsViewModel() }
     var perAppMemoryLimitsTopBar by remember { mutableStateOf(TopBarConfig(title = "Per-App Memory Limits")) }
->>>>>>> feature/prd-235-android17-memory-limits
 
     // 根据当前页码决定显示哪个 TopBar 配置
     val currentTopBar = when (pagerState.currentPage) {
@@ -583,16 +577,12 @@ fun MainScreen(
                         viewModel = agentSkillsToolkitViewModel,
                         onUpdateTopBar = { agentSkillsToolkitTopBar = it }
                     )
-<<<<<<< HEAD
                     // PRD-234: Google Play Contact Picker 强制迁移工具包
                     38 -> ContactPickerScreen(
                         viewModel = contactPickerViewModel
                     )
-=======
                     // PRD-235: Android 17 Per-App 内存限制检测与优化工具包
                     42 -> PerAppMemoryLimitsScreen(viewModel = perAppMemoryLimitsViewModel)
-
->>>>>>> feature/prd-235-android17-memory-limits
                 }
             }
         }
