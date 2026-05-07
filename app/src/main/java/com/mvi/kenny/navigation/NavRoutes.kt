@@ -127,6 +127,8 @@ sealed class BottomNavRoute(
     data object GlimmerToolkit : BottomNavRoute(route = "glimmer_toolkit", title = "Glimmer", icon = Icons.Default.AutoAwesome)
     // PRD-233: Android Agent Skills 技能库生态工具包
     data object AgentSkillsToolkit : BottomNavRoute(route = "agent_skills_toolkit", title = "Agent Skills", icon = Icons.Default.AutoAwesome)
+    // PRD-234: Google Play Contact Picker 强制迁移工具包
+    data object ContactPicker : BottomNavRoute(route = "contact_picker", title = "Contact迁移", icon = Icons.Default.Policy)
 }
 
 /**
@@ -220,4 +222,6 @@ object NavRoutes {
     const val GLIMMER_TOOLKIT = "glimmer_toolkit"
     // PRD-233: Android Agent Skills 技能库生态工具包
     const val AGENT_SKILLS_TOOLKIT = "agent_skills_toolkit"
+    // PRD-234: Google Play Contact Picker 强制迁移工具包
+    const val CONTACT_PICKER = "contact_picker"
 }

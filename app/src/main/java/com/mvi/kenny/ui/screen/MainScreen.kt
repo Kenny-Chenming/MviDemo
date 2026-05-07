@@ -91,8 +91,9 @@ import com.mvi.kenny.feature.appfunctionstool.AppFunctionsToolViewModel
 import com.mvi.kenny.feature.android17api37tool.Android17Api37ToolScreen
 import com.mvi.kenny.feature.aluminiumosdesktop.AluminiumOSDesktopScreen
 import com.mvi.kenny.feature.aluminiumosdesktop.AluminiumOSDesktopViewModel
-
 import com.mvi.kenny.feature.android17api37tool.Android17Api37ToolViewModel
+import com.mvi.kenny.feature.contactpicker.ContactPickerScreen
+import com.mvi.kenny.feature.contactpicker.ContactPickerViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -215,7 +216,9 @@ fun MainScreen(
         // PRD-230: Jetpack Compose Glimmer AI 眼镜 UI 开发工具包
         BottomNavRoute.GlimmerToolkit,
         // PRD-233: Android Agent Skills 技能库生态工具包
-        BottomNavRoute.AgentSkillsToolkit
+        BottomNavRoute.AgentSkillsToolkit,
+        // PRD-234: Google Play Contact Picker 强制迁移工具包
+        BottomNavRoute.ContactPicker
     )
 
     // Pager 状态，管理当前是第几页
@@ -307,6 +310,9 @@ fun MainScreen(
     // PRD-233: Android Agent Skills 技能库生态工具包
     val agentSkillsToolkitViewModel = remember { AgentSkillsToolkitViewModel() }
     var agentSkillsToolkitTopBar by remember { mutableStateOf(TopBarConfig(title = "Agent Skills Toolkit")) }
+    // PRD-234: Google Play Contact Picker 强制迁移工具包
+    val contactPickerViewModel = remember { ContactPickerViewModel() }
+    var contactPickerTopBar by remember { mutableStateOf(TopBarConfig(title = "Contact Picker 迁移")) }
 
     // 根据当前页码决定显示哪个 TopBar 配置
     val currentTopBar = when (pagerState.currentPage) {
@@ -564,7 +570,10 @@ fun MainScreen(
                         viewModel = agentSkillsToolkitViewModel,
                         onUpdateTopBar = { agentSkillsToolkitTopBar = it }
                     )
-
+                    // PRD-234: Google Play Contact Picker 强制迁移工具包
+                    38 -> ContactPickerScreen(
+                        viewModel = contactPickerViewModel
+                    )
                 }
             }
         }
