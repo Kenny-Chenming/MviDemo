@@ -2,592 +2,425 @@ package com.mvi.kenny.feature.nav3tool
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.mvi.kenny.feature.nav3tool.NavToolState
-import com.mvi.kenny.feature.nav3tool.NavToolIntent
-import com.mvi.kenny.feature.nav3tool.NavToolEffect
-import com.mvi.kenny.feature.nav3tool.NavToolContract
-import com.mvi.kenny.feature.nav3tool.ScanProgress
-import com.mvi.kenny.feature.nav3tool.ScanStatus
-import com.mvi.kenny.feature.nav3tool.NavLifecycleEvent
-import com.mvi.kenny.feature.nav3tool.BackstackSnapshot
-import com.mvi.kenny.feature.nav3tool.BackstackItem
-import com.mvi.kenny.feature.nav3tool.MigrationPreview
-import com.mvi.kenny.feature.nav3tool.CodeChange
-import com.mvi.kenny.feature.nav3tool.ChangeType
-import com.mvi.kenny.feature.nav3tool.KmpPlatform
-import kotlinx.coroutines.*
-import kotlinx.coroutines.channels.Channel
-import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharedFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asSharedFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import java.io.File
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
+import java.util.UUID
 
+// =============================================================
+// NavToolViewModel — Navigation 3 迁移工具 ViewModel
+// =============================================================
 /**
- * ============================================================
- * NavToolViewModel — Navigation 3 迁移工具 ViewModel
- * ============================================================
- * PRD-031 | Navigation 3 迁移与多平台工具套件
+ * ViewModel for Navigation 3 Migration Tool / Navigation 3 迁移工具 ViewModel
  *
- * 职责：
- * - 管理 NavToolState（UI 状态唯一真相来源）
- * - 接收 NavToolIntent（用户意图），执行业务逻辑，输出新状态
- * - 通过 NavToolEffect Channel 发送一次性副作用
+ * Manages all state transitions following MVI pattern.
+ * ViewModelScope is used for all coroutine operations.
  *
- * MVI 数据流：
- * Intent → ViewModel → State → Screen recomposition
- *              ↓
- *           Effect（Channel）
+ * Key responsibilities:
+ * - Simulate Nav2 API scanning with realistic sample data
+ * - Provide API mapping data for the reference guide
+ * - Manage BottomNav migration diff display
+ * - Provide code templates for Nav3 implementation
+ * - Implement decision tree wizard logic
  *
- * @see NavToolContract MVI 契约定义
- * @see NavToolScreen UI 渲染层
+ * @see NavToolContract For State, Intent, Effect definitions
+ * @see NavToolScreen For UI implementation
  */
-@OptIn(ExperimentalStdlibApi::class)
 class NavToolViewModel : ViewModel() {
 
-    // ============================================================
-    // State Management / 状态管理
-    // ============================================================
-
-    /** 主状态流，UI 层 collect */
-    private val _state = MutableStateFlow(NavToolState())
+    // ---------------------------------------------------------
+    // State — single source of truth for UI
+    // ---------------------------------------------------------
+    private val _state = MutableStateFlow(NavToolState.Initial)
     val state: StateFlow<NavToolState> = _state.asStateFlow()
 
-    // ============================================================
-    // Effect Channel / 副作用通道
-    // ============================================================
+    // ---------------------------------------------------------
+    // Effect — one-time events for UI
+    // ---------------------------------------------------------
+    private val _effect = MutableSharedFlow<NavToolEffect>()
+    val effect: SharedFlow<NavToolEffect> = _effect.asSharedFlow()
 
-    /** 一次性副作用（Snackbar / 导航 / 文件操作） */
-    private val _effect = Channel<NavToolEffect>(Channel.BUFFERED)
-    val effect: Flow<NavToolEffect> = _effect.receiveAsFlow()
+    // ---------------------------------------------------------
+    // Internal state
+    // ---------------------------------------------------------
+    private var scanJob: Job? = null
 
-    // ============================================================
-    // Intent Processing / 意图处理
-    // ============================================================
-
+    // ---------------------------------------------------------
+    // Intent processing — process user actions
+    // ---------------------------------------------------------
     /**
-     * 处理用户意图
-     * 入口方法，由 Screen 层调用
+     * Process user intent / 处理用户意图
+     *
+     * Called from UI layer when user performs an action.
+     * Each when branch handles one Intent type.
      */
     fun processIntent(intent: NavToolIntent) {
         when (intent) {
-            // ---------- Tab 切换 ----------
-            is NavToolIntent.SwitchTab -> handleSwitchTab(intent.tab)
-
-            // ---------- 检测报告 ----------
-            is NavToolIntent.StartScan -> handleStartScan()
+            is NavToolIntent.SelectTool -> handleSelectTool(intent.tool)
+            is NavToolIntent.NavigateHome -> handleNavigateHome()
+            is NavToolIntent.StartScan -> handleStartScan(intent.projectPath)
             is NavToolIntent.CancelScan -> handleCancelScan()
             is NavToolIntent.SelectIssue -> handleSelectIssue(intent.issue)
-            is NavToolIntent.ExportScanReport -> handleExportScanReport()
-
-            // ---------- 迁移引擎 ----------
-            is NavToolIntent.ApplyMigration -> handleApplyMigration(intent.changes)
-            is NavToolIntent.PreviewMigration -> handlePreviewMigration(intent.code)
-            is NavToolIntent.ConfirmMigration -> handleConfirmMigration()
-            is NavToolIntent.DiscardMigration -> handleDiscardMigration()
-
-            // ---------- 可视化调试 ----------
-            is NavToolIntent.RefreshBackstack -> handleRefreshBackstack()
-            is NavToolIntent.SelectBackstackNode -> handleSelectBackstackNode(intent.nodeId)
-            is NavToolIntent.CaptureSnapshot -> handleCaptureSnapshot()
-            is NavToolIntent.PlayTransitionPreview -> handlePlayTransitionPreview()
-
-            // ---------- 模板生成 ----------
-            is NavToolIntent.UpdateRouteDef -> handleUpdateRouteDef(intent.yaml)
-            is NavToolIntent.TogglePlatform -> handleTogglePlatform(intent.platform)
-            is NavToolIntent.GenerateTemplate -> handleGenerateTemplate()
-            is NavToolIntent.CopyTemplate -> handleCopyTemplate(intent.platform)
-
-            // ---------- 快照回放 ----------
-            is NavToolIntent.SelectSnapshot -> handleSelectSnapshot(intent.snapshotId)
-            is NavToolIntent.PlaybackSnapshot -> handlePlaybackSnapshot()
-            is NavToolIntent.PauseSnapshot -> handlePauseSnapshot()
-            is NavToolIntent.StepForward -> handleStepForward()
-            is NavToolIntent.StepBackward -> handleStepBackward()
-            is NavToolIntent.ImportSnapshot -> handleImportSnapshot()
-            is NavToolIntent.ExportSnapshot -> handleExportSnapshot()
-
-            // ---------- 生命周期 ----------
-            is NavToolIntent.StartLifecycleMonitor -> handleStartLifecycleMonitor()
-            is NavToolIntent.StopLifecycleMonitor -> handleStopLifecycleMonitor()
-            is NavToolIntent.ClearLifecycleLog -> handleClearLifecycleLog()
+            is NavToolIntent.ClearIssue -> handleClearIssue()
+            is NavToolIntent.FilterApiMappings -> handleFilterApiMappings(intent.category)
+            is NavToolIntent.CopyTemplate -> handleCopyTemplate(intent.template)
+            is NavToolIntent.AnswerDecisionTree -> handleAnswerDecisionTree(intent.answer, intent.nextNodeId)
+            is NavToolIntent.ResetDecisionTree -> handleResetDecisionTree()
+            is NavToolIntent.ExportScanReport -> handleExportScanReport(intent.format)
+            is NavToolIntent.DismissError -> handleDismissError()
         }
     }
 
-    // ============================================================
-    // Tab Switch Handler / Tab 切换处理
-    // ============================================================
-
+    // =============================================================
+    // Tool Selection / 工具选择
+    // =============================================================
     /**
-     * 切换 Tab 时重置与当前 Tab 相关的状态
-     * 保留跨 Tab 的通用状态（如 scanResults）
-     */
-    private fun handleSwitchTab(tab: NavToolTab) {
-        _state.update { currentState ->
-            currentState.copy(
-                currentTab = tab,
-                isLoading = false,
-                error = null
-                // migrationPreview / backstackSnapshot 等 Tab 专属状态按需保留
-            )
-        }
-    }
-
-    // ============================================================
-    // Detection Tab Handlers / 检测报告模块
-    // ============================================================
-
-    /**
-     * 启动 Nav 2 → Nav 3 扫描
-     * 模拟扫描过程：更新 progress，显示 Snackbar 完成
+     * Handle tool selection / 处理工具选择
+     * Switches to the selected tool's detail view.
      *
-     * 注意：真实实现需要接入 Gradle 插件或直接解析项目文件。
-     * 这里用模拟数据展示 UI 效果。
+     * @param tool Selected tool / 选中的工具
      */
-    private fun handleStartScan() {
-        viewModelScope.launch {
-            _state.update { it.copy(scanProgress = ScanProgress(status = ScanStatus.SCANNING, progress = 0f)) }
+    private fun handleSelectTool(tool: ToolId) {
+        _state.update { it.copy(activeTool = tool, isHome = false) }
+    }
 
-            // Simulate scanning progress
-            for (i in 1..10) {
-                if (_state.value.scanProgress.status == ScanStatus.IDLE) break
-                delay(300)
-                _state.update {
-                    it.copy(
-                        scanProgress = ScanProgress(
-                            status = ScanStatus.SCANNING,
-                            progress = i / 10f,
-                            currentFile = "/path/to/project/src/main/java/com/example/MainActivity.kt"
-                        )
-                    )
-                }
+    /**
+     * Handle home navigation / 处理首页导航
+     * Returns to the tool grid home view.
+     */
+    private fun handleNavigateHome() {
+        _state.update { it.copy(isHome = true, selectedIssue = null, decisionTreeResult = null, decisionTreeCurrentNodeId = "root", decisionTreeAnswers = emptyList()) }
+    }
+
+    // =============================================================
+    // Scan / 扫描
+    // =============================================================
+    /**
+     * Start Nav2 API scan / 开始 Nav2 API 扫描
+     *
+     * Simulates scanning a project for Nav2 API usages.
+     * In production, this would integrate with KSP or AST analysis.
+     *
+     * @param projectPath Project path to scan / 要扫描的项目路径
+     */
+    private fun handleStartScan(projectPath: String) {
+        scanJob?.cancel()
+        scanJob = viewModelScope.launch {
+            _state.update { it.copy(scanStatus = ScanStatus.SCANNING, scanProgress = 0f, scanResult = null) }
+
+            // Simulate scanning progress / 模拟扫描进度
+            val sampleIssues = generateSampleScanResult()
+            val totalSteps = 20
+
+            for (step in 1..totalSteps) {
+                delay(150) // Simulate file processing time / 模拟文件处理时间
+                _state.update { it.copy(scanProgress = step.toFloat() / totalSteps) }
             }
 
-            // Mock scan results / 模拟扫描结果
-            val mockResults = listOf(
-                NavFileIssue(
-                    filePath = "/path/to/project/src/main/java/com/example/MainActivity.kt",
-                    issueType = IssueType.NavHostFragment,
-                    lineNumber = 42,
-                    priority = MigrationPriority.P0,
-                    estimatedMinutes = 30,
-                    codeSnippet = "val navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment"
+            // Build final scan result / 构建最终扫描结果
+            val result = ScanResult(
+                totalFilesScanned = 47,
+                totalIssuesFound = sampleIssues.size,
+                issuesBySeverity = mapOf(
+                    Severity.P0_BLOCKER to sampleIssues.count { it.severity == Severity.P0_BLOCKER },
+                    Severity.P1_HIGH to sampleIssues.count { it.severity == Severity.P1_HIGH },
+                    Severity.P2_MEDIUM to sampleIssues.count { it.severity == Severity.P2_MEDIUM },
+                    Severity.P3_LOW to sampleIssues.count { it.severity == Severity.P3_LOW }
                 ),
-                NavFileIssue(
-                    filePath = "/path/to/project/src/main/res/navigation/nav_graph.xml",
-                    issueType = IssueType.NavGraphXml,
-                    lineNumber = 15,
-                    priority = MigrationPriority.P0,
-                    estimatedMinutes = 45,
-                    codeSnippet = "<fragment android:id=\"@+id/nav_home\" android:name=\"com.example.HomeFragment\" />"
-                ),
-                NavFileIssue(
-                    filePath = "/path/to/project/src/main/java/com/example/HomeFragmentArgs.kt",
-                    issueType = IssueType.NavArgs,
-                    lineNumber = 8,
-                    priority = MigrationPriority.P1,
-                    estimatedMinutes = 15,
-                    codeSnippet = "data class HomeFragmentArgs(val userId: String)"
-                ),
-                NavFileIssue(
-                    filePath = "/path/to/project/src/main/res/navigation/nav_graph.xml",
-                    issueType = IssueType.NavDeepLink,
-                    lineNumber = 30,
-                    priority = MigrationPriority.P2,
-                    estimatedMinutes = 10,
-                    codeSnippet = "<deepLink android:id=\"@+id/deeplink_home\" app:uri=\"myapp://home/{userId}\" />"
-                )
+                affectedFiles = sampleIssues.map { it.filePath }.distinct(),
+                estimatedTotalMinutes = sampleIssues.sumOf { it.estimatedMinutes },
+                nav2Version = "2.8.7",
+                recommendation = getMigrationRecommendation(sampleIssues)
             )
 
-            _state.update {
-                it.copy(
-                    scanProgress = ScanProgress(status = ScanStatus.COMPLETE, progress = 1f),
-                    scanResults = mockResults
-                )
-            }
-
-            _effect.send(NavToolEffect.ShowSnackbar("扫描完成，发现 ${mockResults.size} 个待迁移文件"))
+            _state.update { it.copy(scanStatus = ScanStatus.COMPLETED, scanProgress = 1f, scanResult = result) }
+            _effect.emit(NavToolEffect.ShowSnackbar("扫描完成，发现 ${sampleIssues.size} 处 Nav2 API 使用"))
         }
     }
 
     /**
-     * 取消正在进行的扫描
+     * Cancel ongoing scan / 取消正在进行的扫描
      */
     private fun handleCancelScan() {
+        scanJob?.cancel()
+        _state.update { it.copy(scanStatus = ScanStatus.IDLE, scanProgress = 0f) }
+    }
+
+    /**
+     * Generate sample scan result for demonstration / 生成示例扫描结果
+     */
+    private fun generateSampleScanResult(): List<Nav2ApiUsage> = listOf(
+        Nav2ApiUsage(
+            id = UUID.randomUUID().toString(),
+            filePath = "app/src/main/java/com/example/ui/home/HomeFragment.kt",
+            lineNumber = 34,
+            apiName = "NavHostFragment",
+            codeSnippet = "val navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment",
+            severity = Severity.P0_BLOCKER,
+            migrationHint = "将 NavHostFragment 替换为 Compose NavDisplay",
+            estimatedMinutes = 30
+        ),
+        Nav2ApiUsage(
+            id = UUID.randomUUID().toString(),
+            filePath = "app/src/main/java/com/example/ui/home/HomeFragment.kt",
+            lineNumber = 45,
+            apiName = "navController.navigate(route)",
+            codeSnippet = "navController.navigate(R.id.action_home_to_detail, bundleOf(\"id\" to itemId))",
+            severity = Severity.P0_BLOCKER,
+            migrationHint = "改用 navigator.navigateTo(DetailKey(itemId))",
+            estimatedMinutes = 15
+        ),
+        Nav2ApiUsage(
+            id = UUID.randomUUID().toString(),
+            filePath = "app/src/main/java/com/example/navigation/NavGraph.kt",
+            lineNumber = 12,
+            apiName = "navGraph.xml",
+            codeSnippet = "<navigation xmlns:android=\"http://schemas.android.com/apk/res/android\"\n    android:id=\"@+id/nav_graph\">",
+            severity = Severity.P0_BLOCKER,
+            migrationHint = "将 XML NavGraph 重写为 Kotlin DSL (entryProvider)",
+            estimatedMinutes = 60
+        ),
+        Nav2ApiUsage(
+            id = UUID.randomUUID().toString(),
+            filePath = "app/src/main/java/com/example/ui/main/MainActivity.kt",
+            lineNumber = 67,
+            apiName = "NavBackStackEntry",
+            codeSnippet = "navController.currentBackStackEntry.observe(this) { entry ->\n    updateBadge(entry.destination.id)\n}",
+            severity = Severity.P1_HIGH,
+            migrationHint = "改用 navigationState.currentEntryProvider.collectAsState()",
+            estimatedMinutes = 20
+        ),
+        Nav2ApiUsage(
+            id = UUID.randomUUID().toString(),
+            filePath = "app/src/main/java/com/example/ui/main/MainActivity.kt",
+            lineNumber = 89,
+            apiName = "BottomNavigation + NavController",
+            codeSnippet = "bottomNav.setOnItemSelectedListener { item ->\n    navController.navigate(item.itemId) { launchSingleTop = true }\n}",
+            severity = Severity.P1_HIGH,
+            migrationHint = "统一使用 navigator，BottomNavigation 不再持有独立 NavController",
+            estimatedMinutes = 45
+        ),
+        Nav2ApiUsage(
+            id = UUID.randomUUID().toString(),
+            filePath = "app/src/main/java/com/example/ui/main/MainActivity.kt",
+            lineNumber = 112,
+            apiName = "navArgument + Safe Args",
+            codeSnippet = "navArgument(name = \"userId\") { type = NavType.IntType }",
+            severity = Severity.P1_HIGH,
+            migrationHint = "改用 sealed class RouteKey 替代 Safe Args KSP 生成",
+            estimatedMinutes = 30
+        ),
+        Nav2ApiUsage(
+            id = UUID.randomUUID().toString(),
+            filePath = "app/src/main/java/com/example/navigation/NavGraph.kt",
+            lineNumber = 56,
+            apiName = "navArgument uriPatterns",
+            codeSnippet = "uriPattern = listOf(\"https://myapp.com/user/{userId}\")",
+            severity = Severity.P2_MEDIUM,
+            migrationHint = "改用 Nav3 的 uris 参数格式",
+            estimatedMinutes = 10
+        ),
+        Nav2ApiUsage(
+            id = UUID.randomUUID().toString(),
+            filePath = "app/src/main/java/com/example/ui/main/MainActivity.kt",
+            lineNumber = 134,
+            apiName = "popEnterTransition",
+            codeSnippet = "popEnterTransition = fadeIn(animation.fastOutSlowIn)",
+            severity = Severity.P2_MEDIUM,
+            migrationHint = "使用 Nav3 SpatialTransitions API 重写",
+            estimatedMinutes = 15
+        ),
+        Nav2ApiUsage(
+            id = UUID.randomUUID().toString(),
+            filePath = "app/src/main/java/com/example/ui/detail/DetailFragment.kt",
+            lineNumber = 23,
+            apiName = "navController.getBackStackEntry(route)",
+            codeSnippet = "val savedStateHandle = navController.getBackStackEntry(\"home\").savedStateHandle",
+            severity = Severity.P2_MEDIUM,
+            migrationHint = "改用 navigationState.snapshotEntry(HomeKey).savedStateHandle",
+            estimatedMinutes = 15
+        ),
+        Nav2ApiUsage(
+            id = UUID.randomUUID().toString(),
+            filePath = "app/build.gradle.kts",
+            lineNumber = 18,
+            apiName = "Safe Args Plugin",
+            codeSnippet = "id(\"androidx.navigation.safeargs.kotlin\")",
+            severity = Severity.P3_LOW,
+            migrationHint = "Nav3 无需 Safe Args，可移除该插件",
+            estimatedMinutes = 5
+        )
+    )
+
+    /**
+     * Get migration recommendation based on scan results / 根据扫描结果给出迁移建议
+     */
+    private fun getMigrationRecommendation(issues: List<Nav2ApiUsage>): String {
+        val p0Count = issues.count { it.severity == Severity.P0_BLOCKER }
+        val p1Count = issues.count { it.severity == Severity.P1_HIGH }
+        val totalMinutes = issues.sumOf { it.estimatedMinutes }
+
+        return when {
+            p0Count >= 5 -> "建议立即规划 Nav3 迁移。检测到 $p0Count 个阻塞级问题，迁移复杂度高，建议预留 ${(totalMinutes / 60).coerceAtLeast(1)} 周完整迁移时间。"
+            p0Count >= 2 -> "建议在下一个版本中启动 Nav3 迁移。检测到 $p0Count 个阻塞级问题，可分阶段逐步迁移 BottomNavigation 和 NavHostFragment。"
+            else -> "Nav3 迁移优先级中等。建议优先迁移 P0/P1 问题（$p0Count 个阻塞级 + $p1Count 个高优先级），总耗时约 ${totalMinutes} 分钟。"
+        }
+    }
+
+    // =============================================================
+    // Issue Selection / 问题选择
+    // =============================================================
+    /**
+     * Handle issue selection / 处理问题选中
+     *
+     * @param issue Selected issue / 选中的问题
+     */
+    private fun handleSelectIssue(issue: Nav2ApiUsage) {
+        _state.update { it.copy(selectedIssue = issue) }
+    }
+
+    /**
+     * Handle issue clear / 处理问题清除
+     */
+    private fun handleClearIssue() {
+        _state.update { it.copy(selectedIssue = null) }
+    }
+
+    // =============================================================
+    // API Mapping / API 对照
+    // =============================================================
+    /**
+     * Filter API mappings by category / 按分类过滤 API 对照表
+     *
+     * @param category Category to filter by / 要过滤的分类
+     */
+    private fun handleFilterApiMappings(category: String) {
+        _state.update { it.copy(apiMappingFilter = category) }
+    }
+
+    // =============================================================
+    // Template / 模板
+    // =============================================================
+    /**
+     * Handle template copy / 处理模板复制
+     *
+     * @param template Template to copy / 要复制的模板
+     */
+    private fun handleCopyTemplate(template: CodeTemplate) {
+        viewModelScope.launch {
+            _effect.emit(NavToolEffect.CopyToClipboard(template.code, template.title))
+            _effect.emit(NavToolEffect.ShowSnackbar("已复制: ${template.title}"))
+        }
+    }
+
+    // =============================================================
+    // Decision Tree / 决策树
+    // =============================================================
+    /**
+     * Handle decision tree answer / 处理决策树答案
+     *
+     * @param answer Selected answer / 选中的答案
+     * @param nextNodeId Next node ID / 下一节点 ID
+     */
+    private fun handleAnswerDecisionTree(answer: String, nextNodeId: String) {
         _state.update {
-            it.copy(scanProgress = ScanProgress(status = ScanStatus.IDLE, progress = 0f))
+            it.copy(
+                decisionTreeCurrentNodeId = nextNodeId,
+                decisionTreeAnswers = it.decisionTreeAnswers + answer
+            )
         }
     }
 
     /**
-     * 选中扫描问题项，触发 IDE 跳转
+     * Reset decision tree / 重置决策树
      */
-    private fun handleSelectIssue(issue: NavFileIssue) {
-        viewModelScope.launch {
-            _effect.send(NavToolEffect.OpenFile(issue.filePath, issue.lineNumber))
+    private fun handleResetDecisionTree() {
+        _state.update {
+            it.copy(
+                decisionTreeCurrentNodeId = "root",
+                decisionTreeAnswers = emptyList(),
+                decisionTreeResult = null
+            )
         }
     }
 
+    // =============================================================
+    // Report Export / 报告导出
+    // =============================================================
     /**
-     * 导出扫描报告
+     * Handle scan report export / 处理扫描报告导出
+     *
+     * @param format Export format (json/markdown) / 导出格式
      */
-    private fun handleExportScanReport() {
+    private fun handleExportScanReport(format: String) {
         viewModelScope.launch {
-            val report = buildString {
-                appendLine("# Navigation 2 → 3 迁移检测报告")
+            val result = _state.value.scanResult ?: return@launch
+            val dateFormat = SimpleDateFormat("yyyy-MM-dd_HH-mm", Locale.getDefault())
+            val timestamp = dateFormat.format(Date())
+
+            val content = buildString {
+                appendLine("# Nav2 → Nav3 迁移扫描报告")
+                appendLine("> 生成时间: $timestamp")
                 appendLine()
-                _state.value.scanResults.forEach { issue ->
-                    appendLine("## ${issue.filePath}:${issue.lineNumber}")
-                    appendLine("- 类型: ${issue.issueType}")
-                    appendLine("- 优先级: ${issue.priority.label}")
-                    appendLine("- 预估耗时: ${issue.estimatedMinutes} 分钟")
-                    appendLine("```")
-                    appendLine(issue.codeSnippet)
-                    appendLine("```")
-                    appendLine()
+                appendLine("## 概览")
+                appendLine("- 扫描文件数: ${result.totalFilesScanned}")
+                appendLine("- 发现 Nav2 API 使用: ${result.totalIssuesFound} 处")
+                appendLine("- navigation-compose 版本: ${result.nav2Version ?: "未知"}")
+                appendLine()
+                appendLine("### 严重程度分布")
+                result.issuesBySeverity.forEach { (severity, count) ->
+                    appendLine("- ${severity.label}: $count 处")
                 }
-            }
-            _effect.send(NavToolEffect.ExportReport("/tmp/nav3-migration-report.md"))
-            _effect.send(NavToolEffect.CopyToClipboard(report, "迁移检测报告"))
-        }
-    }
-
-    // ============================================================
-    // Migration Tab Handlers / 迁移引擎模块
-    // ============================================================
-
-    /**
-     * 预览迁移效果
-     * 模拟 AI 迁移逻辑：将字符串路由转换为 @Serializable data class 路由
-     */
-    private fun handlePreviewMigration(code: String) {
-        viewModelScope.launch {
-            _state.update { it.copy(isLoading = true) }
-
-            delay(800) // Simulate AI processing
-
-            // Mock migration transformation
-            val migratedCode = code
-                .replace("\"home\"", "HomeRoute")
-                .replace("\"detail/{id}\"", "DetailRoute(id: String)")
-
-            val preview = MigrationPreview(
-                originalCode = code,
-                migratedCode = migratedCode,
-                changes = listOf(
-                    CodeChange(
-                        lineNumber = 1,
-                        changeType = ChangeType.MODIFY,
-                        originalLine = "destination = \"home\"",
-                        newLine = "destination = HomeRoute",
-                        explanation = "字符串路由 → @Serializable data class 路由（类型安全）"
-                    )
-                ),
-                hasAiSuggestion = true,
-                migrationNotes = "已将 1 处字符串路由替换为强类型路由定义，建议配合 kotlin.serialization 进行使用。"
-            )
-
-            _state.update { it.copy(isLoading = false, migrationPreview = preview) }
-        }
-    }
-
-    /**
-     * 应用迁移变更
-     */
-    private fun handleApplyMigration(changes: List<CodeChange>) {
-        viewModelScope.launch {
-            _state.update { it.copy(isLoading = true) }
-            delay(500)
-            _state.update { it.copy(isLoading = false) }
-            _effect.send(NavToolEffect.ShowSnackbar("已应用 ${changes.size} 处迁移变更"))
-        }
-    }
-
-    /**
-     * 确认迁移（提交）
-     */
-    private fun handleConfirmMigration() {
-        viewModelScope.launch {
-            _effect.send(NavToolEffect.ShowSnackbar("迁移已确认，代码已更新"))
-            _state.update { it.copy(migrationPreview = null) }
-        }
-    }
-
-    /**
-     * 放弃迁移预览
-     */
-    private fun handleDiscardMigration() {
-        _state.update { it.copy(migrationPreview = null) }
-    }
-
-    // ============================================================
-    // Visualizer Tab Handlers / 可视化调试模块
-    // ============================================================
-
-    /**
-     * 刷新 BackStack 可视化数据
-     */
-    private fun handleRefreshBackstack() {
-        viewModelScope.launch {
-            _state.update { it.copy(isLoading = true) }
-            delay(400)
-
-            val mockBackstack = listOf(
-                BackstackItem("1", "NavHost", true, null, 0, "CREATE"),
-                BackstackItem("2", "HomeRoute", true, "1", 1, "navigate"),
-                BackstackItem("3", "DetailRoute(id=42)", false, "2", 2, "navigate"),
-                BackstackItem("4", "ProfileRoute", false, "2", 2, "navigate")
-            )
-
-            val snapshot = BackstackSnapshot(
-                snapshotId = "snapshot-${System.currentTimeMillis()}",
-                timestamp = System.currentTimeMillis(),
-                backstackItems = mockBackstack,
-                currentRoute = "HomeRoute",
-                navDisplayState = "Lifecycle.STATE_STARTED"
-            )
-
-            _state.update { it.copy(isLoading = false, backstackSnapshot = snapshot) }
-        }
-    }
-
-    /**
-     * 选中 BackStack 节点
-     */
-    private fun handleSelectBackstackNode(nodeId: String) {
-        // Highlight the selected node in the visualizer
-        viewModelScope.launch {
-            _effect.send(NavToolEffect.ShowSnackbar("已选中节点: $nodeId"))
-        }
-    }
-
-    /**
-     * 捕获当前快照
-     */
-    private fun handleCaptureSnapshot() {
-        viewModelScope.launch {
-            handleRefreshBackstack()
-            delay(500)
-            _effect.send(NavToolEffect.ShowSnackbar("快照已捕获"))
-        }
-    }
-
-    /**
-     * 播放过渡动画预览
-     */
-    private fun handlePlayTransitionPreview() {
-        viewModelScope.launch {
-            _effect.send(NavToolEffect.ShowSnackbar("动画预览：HomeRoute → DetailRoute"))
-        }
-    }
-
-    // ============================================================
-    // Template Tab Handlers / 模板生成模块
-    // ============================================================
-
-    /**
-     * 更新路由定义编辑器内容
-     */
-    private fun handleUpdateRouteDef(yaml: String) {
-        _state.update { it.copy(routeDefEditor = yaml) }
-    }
-
-    /**
-     * 切换目标平台勾选状态
-     */
-    private fun handleTogglePlatform(platform: KmpPlatform) {
-        _state.update { currentState ->
-            val newPlatforms = if (platform in currentState.selectedPlatforms) {
-                currentState.selectedPlatforms - platform
-            } else {
-                currentState.selectedPlatforms + platform
-            }
-            currentState.copy(selectedPlatforms = newPlatforms)
-        }
-    }
-
-    /**
-     * 生成 KMP 路由模板代码
-     */
-    private fun handleGenerateTemplate() {
-        viewModelScope.launch {
-            _state.update { it.copy(isLoading = true) }
-            delay(600)
-
-            val platformTemplates = mutableMapOf<KmpPlatform, String>()
-
-            KmpPlatform.entries.forEach { platform ->
-                if (platform in _state.value.selectedPlatforms) {
-                    platformTemplates[platform] = when (platform) {
-                        KmpPlatform.ANDROID -> buildAndroidTemplate()
-                        KmpPlatform.IOS -> buildIosTemplate()
-                        KmpPlatform.DESKTOP -> buildDesktopTemplate()
-                        KmpPlatform.WEB -> buildWebTemplate()
-                    }
+                appendLine()
+                appendLine("### 受影响文件")
+                result.affectedFiles.forEach { file ->
+                    appendLine("- $file")
                 }
+                appendLine()
+                appendLine("## 迁移建议")
+                appendLine(result.recommendation)
             }
 
-            _state.update { it.copy(isLoading = false, generatedTemplate = platformTemplates) }
-            _effect.send(NavToolEffect.ShowSnackbar("模板生成完成，共 ${platformTemplates.size} 个平台"))
-        }
-    }
-
-    private fun buildAndroidTemplate(): String = """
-        |// Android — Navigation 3 + Kotlin Serialization
-        |@Serializable
-        |object HomeRoute
-        |
-        |@Serializable
-        |data class DetailRoute(val id: String)
-        |
-        |val navGraph = NavHostGraph(
-        |    startDestination = HomeRoute,
-        |    routes = listOf(HomeRoute, DetailRoute)
-        |)
-    """.trimMargin()
-
-    private fun buildIosTemplate(): String = """
-        |// iOS — SwiftUI NavigationPath (Kotlin Multiplatform)
-        |struct HomeRoute: Codable, Hashable {}
-        |
-        |struct DetailRoute: Codable, Hashable {
-        |    let id: String
-        |}
-        |
-        |typealias NavPath = NavigationPath
-    """.trimMargin()
-
-    private fun buildDesktopTemplate(): String = """
-        |// Desktop — Default Compose Navigation
-        |object HomeRoute
-        |
-        |data class DetailRoute(val id: String)
-        |
-        |// Desktop uses standard NavHost pattern
-    """.trimMargin()
-
-    private fun buildWebTemplate(): String = """
-        |// Web — popbackstack() semantic
-        |// Navigation 3 Web 支持 popbackstack() 语义
-        |object HomeRoute
-        |
-        |data class DetailRoute(val id: String)
-        |
-        |// 建议使用 navigation-compose-web 适配器
-    """.trimMargin()
-
-    /**
-     * 复制模板到剪贴板
-     */
-    private fun handleCopyTemplate(platform: KmpPlatform) {
-        viewModelScope.launch {
-            val template = _state.value.generatedTemplate[platform] ?: ""
-            _effect.send(NavToolEffect.CopyToClipboard(template, "${platform.displayName} 路由模板"))
-            _effect.send(NavToolEffect.ShowSnackbar("${platform.displayName} 模板已复制"))
-        }
-    }
-
-    // ============================================================
-    // Snapshot Tab Handlers / 快照回放模块
-    // ============================================================
-
-    /**
-     * 选中历史快照
-     */
-    private fun handleSelectSnapshot(snapshotId: String) {
-        _state.update { it.copy(selectedSnapshotId = snapshotId) }
-    }
-
-    /**
-     * 开始快照回放
-     */
-    private fun handlePlaybackSnapshot() {
-        _state.update { it.copy(isPlayingSnapshot = true) }
-    }
-
-    /**
-     * 暂停快照回放
-     */
-    private fun handlePauseSnapshot() {
-        _state.update { it.copy(isPlayingSnapshot = false) }
-    }
-
-    /**
-     * 快照步进（前进）
-     */
-    private fun handleStepForward() {
-        viewModelScope.launch {
-            _effect.send(NavToolEffect.ShowSnackbar("回放步进 +1"))
-        }
-    }
-
-    /**
-     * 快照步进（后退）
-     */
-    private fun handleStepBackward() {
-        viewModelScope.launch {
-            _effect.send(NavToolEffect.ShowSnackbar("回放步进 -1"))
-        }
-    }
-
-    /**
-     * 导入快照
-     */
-    private fun handleImportSnapshot() {
-        viewModelScope.launch {
-            _effect.send(NavToolEffect.ShowSnackbar("快照导入功能开发中"))
-        }
-    }
-
-    /**
-     * 导出快照
-     */
-    private fun handleExportSnapshot() {
-        viewModelScope.launch {
-            _effect.send(NavToolEffect.ShowSnackbar("快照已导出至 /tmp/nav3-snapshot.json"))
-        }
-    }
-
-    // ============================================================
-    // Lifecycle Tab Handlers / 生命周期调试模块
-    // ============================================================
-
-    /**
-     * 启动生命周期监控
-     */
-    private fun handleStartLifecycleMonitor() {
-        viewModelScope.launch {
-            _state.update { it.copy(isLoading = true) }
-
-            // Simulate lifecycle events
-            val events = listOf(
-                NavLifecycleEvent("evt-1", System.currentTimeMillis(), "STARTED", "STARTED", "navigate(home)"),
-                NavLifecycleEvent("evt-2", System.currentTimeMillis() + 100, "RESUMED", "RESUMED", "HomeScreen onResume"),
-                NavLifecycleEvent("evt-3", System.currentTimeMillis() + 500, "CREATED", "DESTROYED", "navigate(detail)"),
-                NavLifecycleEvent("evt-4", System.currentTimeMillis() + 600, "STARTED", "STARTED", "DetailScreen onStart")
-            )
-
-            _state.update {
-                it.copy(
-                    isLoading = false,
-                    lifecycleEvents = events
-                )
+            val fileName = "nav3-migration-report-$timestamp.${format}"
+            val reportsDir = File(System.getProperty("user.home"), "Downloads").also { it.mkdirs() }
+            val file = File(reportsDir, fileName)
+            withContext(Dispatchers.IO) {
+                file.writeText(content)
             }
 
-            _effect.send(NavToolEffect.ShowSnackbar("生命周期监控已启动"))
+            _effect.emit(NavToolEffect.ExportReport(file.absolutePath))
+            _effect.emit(NavToolEffect.ShowSnackbar("报告已导出: $fileName"))
         }
     }
 
+    // =============================================================
+    // Error Handling / 错误处理
+    // =============================================================
     /**
-     * 停止生命周期监控
+     * Handle dismiss error / 处理关闭错误
      */
-    private fun handleStopLifecycleMonitor() {
-        _state.update { it.copy(isLoading = false) }
-        viewModelScope.launch {
-            _effect.send(NavToolEffect.ShowSnackbar("生命周期监控已停止"))
-        }
+    private fun handleDismissError() {
+        _state.update { it.copy(error = null) }
     }
 
-    /**
-     * 清空生命周期日志
-     */
-    private fun handleClearLifecycleLog() {
-        _state.update { it.copy(lifecycleEvents = emptyList()) }
+    // =============================================================
+    // Lifecycle / 生命周期
+    // =============================================================
+    override fun onCleared() {
+        super.onCleared()
+        scanJob?.cancel()
     }
 }
