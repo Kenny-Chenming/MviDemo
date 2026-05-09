@@ -41,6 +41,8 @@ import com.mvi.kenny.feature.wearos64bit.WearOs64BitScreen
 import com.mvi.kenny.feature.swiftpmmigration.SwiftPMMigrationScreen
 import com.mvi.kenny.feature.agentskillstoolkit.AgentSkillsToolkitScreen
 import com.mvi.kenny.feature.agentskillstoolkit.AgentSkillsToolkitViewModel
+import com.mvi.kenny.feature.android_cli_agent_toolkit.AndroidCLIExternalAgentToolkitScreen
+import com.mvi.kenny.feature.android_cli_agent_toolkit.AndroidCLIExternalAgentToolkitViewModel
 import com.mvi.kenny.feature.perappmemorylimits.PerAppMemoryLimitsScreen
 import com.mvi.kenny.feature.perappmemorylimits.PerAppMemoryLimitsViewModel
 import com.mvi.kenny.feature.devverification.ComplianceDashboardScreen
@@ -222,7 +224,9 @@ fun MainScreen(
         // PRD-234: Google Play Contact Picker 强制迁移工具包
         BottomNavRoute.ContactPicker,
         // PRD-235: Android 17 Per-App 内存限制检测与优化工具包
-        BottomNavRoute.PerAppMemoryLimits
+        BottomNavRoute.PerAppMemoryLimits,
+        // PRD-241: Android CLI × External AI Agent 集成工具包
+        BottomNavRoute.AndroidCLIExternalAgentToolkit
     )
 
     // Pager 状态，管理当前是第几页
@@ -320,6 +324,9 @@ fun MainScreen(
     // PRD-235: Android 17 Per-App 内存限制检测与优化工具包
     val perAppMemoryLimitsViewModel = remember { PerAppMemoryLimitsViewModel() }
     var perAppMemoryLimitsTopBar by remember { mutableStateOf(TopBarConfig(title = "Per-App Memory Limits")) }
+    // PRD-241: Android CLI × External AI Agent 集成工具包
+    val androidCLIExternalAgentToolkitViewModel = remember { AndroidCLIExternalAgentToolkitViewModel() }
+    var androidCLIExternalAgentToolkitTopBar by remember { mutableStateOf(TopBarConfig(title = "Android CLI × External AI Agent")) }
 
     // 根据当前页码决定显示哪个 TopBar 配置
     val currentTopBar = when (pagerState.currentPage) {
@@ -365,6 +372,8 @@ fun MainScreen(
         39 -> aluminiumOSDesktopTopBar
         // PRD-233: Android Agent Skills 技能库生态工具包
         41 -> agentSkillsToolkitTopBar
+        // PRD-241: Android CLI × External AI Agent 集成工具包
+        43 -> androidCLIExternalAgentToolkitTopBar
 
         else -> homeTopBar
     }
@@ -583,6 +592,12 @@ fun MainScreen(
                     )
                     // PRD-235: Android 17 Per-App 内存限制检测与优化工具包
                     42 -> PerAppMemoryLimitsScreen(viewModel = perAppMemoryLimitsViewModel)
+                    // PRD-241: Android CLI × External AI Agent 集成工具包
+                    43 -> AndroidCLIExternalAgentToolkitScreen(
+                        state = androidCLIExternalAgentToolkitViewModel.state.collectAsState().value,
+                        viewModel = androidCLIExternalAgentToolkitViewModel,
+                        onUpdateTopBar = { androidCLIExternalAgentToolkitTopBar = it }
+                    )
                 }
             }
         }
