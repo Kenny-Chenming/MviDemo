@@ -597,7 +597,7 @@ fun MainScreen(
                     // PRD-240: Android Studio Panda 4 AI Agent 增强工具包
                     44 -> Panda4AgentToolsScreen(
                         state = panda4AgentToolsViewModel.state.collectAsState().value,
-                        onIntent = panda4AgentToolsViewModel::onIntent,
+                        onIntent = panda4AgentToolsViewModel::sendIntent,
                         effect = panda4AgentToolsViewModel.effect
                     )
                 }
