@@ -41,6 +41,8 @@ import com.mvi.kenny.feature.wearos64bit.WearOs64BitScreen
 import com.mvi.kenny.feature.swiftpmmigration.SwiftPMMigrationScreen
 import com.mvi.kenny.feature.agentskillstoolkit.AgentSkillsToolkitScreen
 import com.mvi.kenny.feature.agentskillstoolkit.AgentSkillsToolkitViewModel
+import com.mvi.kenny.feature.panda4agenttools.Panda4AgentToolsScreen
+import com.mvi.kenny.feature.panda4agenttools.Panda4AgentToolsViewModel
 import com.mvi.kenny.feature.perappmemorylimits.PerAppMemoryLimitsScreen
 import com.mvi.kenny.feature.perappmemorylimits.PerAppMemoryLimitsViewModel
 import com.mvi.kenny.feature.devverification.ComplianceDashboardScreen
@@ -222,7 +224,9 @@ fun MainScreen(
         // PRD-234: Google Play Contact Picker 强制迁移工具包
         BottomNavRoute.ContactPicker,
         // PRD-235: Android 17 Per-App 内存限制检测与优化工具包
-        BottomNavRoute.PerAppMemoryLimits
+        BottomNavRoute.PerAppMemoryLimits,
+        // PRD-240: Android Studio Panda 4 AI Agent 增强工具包
+        BottomNavRoute.Panda4AgentTools
     )
 
     // Pager 状态，管理当前是第几页
@@ -320,6 +324,9 @@ fun MainScreen(
     // PRD-235: Android 17 Per-App 内存限制检测与优化工具包
     val perAppMemoryLimitsViewModel = remember { PerAppMemoryLimitsViewModel() }
     var perAppMemoryLimitsTopBar by remember { mutableStateOf(TopBarConfig(title = "Per-App Memory Limits")) }
+    // PRD-240: Android Studio Panda 4 AI Agent 增强工具包
+    val panda4AgentToolsViewModel = remember { Panda4AgentToolsViewModel() }
+    var panda4AgentToolsTopBar by remember { mutableStateOf(TopBarConfig(title = "Panda 4 Agent Toolkit")) }
 
     // 根据当前页码决定显示哪个 TopBar 配置
     val currentTopBar = when (pagerState.currentPage) {
@@ -365,6 +372,10 @@ fun MainScreen(
         39 -> aluminiumOSDesktopTopBar
         // PRD-233: Android Agent Skills 技能库生态工具包
         41 -> agentSkillsToolkitTopBar
+        // PRD-235: Android 17 Per-App 内存限制检测与优化工具包
+        42 -> perAppMemoryLimitsTopBar
+        // PRD-240: Android Studio Panda 4 AI Agent 增强工具包
+        44 -> panda4AgentToolsTopBar
 
         else -> homeTopBar
     }
@@ -583,6 +594,12 @@ fun MainScreen(
                     )
                     // PRD-235: Android 17 Per-App 内存限制检测与优化工具包
                     42 -> PerAppMemoryLimitsScreen(viewModel = perAppMemoryLimitsViewModel)
+                    // PRD-240: Android Studio Panda 4 AI Agent 增强工具包
+                    44 -> Panda4AgentToolsScreen(
+                        state = panda4AgentToolsViewModel.state.collectAsState().value,
+                        onIntent = panda4AgentToolsViewModel::onIntent,
+                        effect = panda4AgentToolsViewModel.effect
+                    )
                 }
             }
         }
