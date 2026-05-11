@@ -782,7 +782,7 @@ private fun AgentWebSearchTab(
         ) {
             OutlinedTextField(
                 value = state.searchUrlInput,
-                onValueChange = { /* updated separately */ },
+                onValueChange = { onIntent(Panda4AgentToolsIntent.UpdateSearchUrlInput(it)) },
                 modifier = Modifier.weight(1f),
                 placeholder = { Text("输入 URL 分析质量...", color = C.TextSecondary, fontSize = 12.sp) },
                 singleLine = true,

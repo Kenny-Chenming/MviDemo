@@ -376,6 +376,7 @@ class Panda4AgentToolsViewModel : ViewModel() {
             is Panda4AgentToolsIntent.ToggleRuleEnabled -> handleToggleRule(intent.id)
             is Panda4AgentToolsIntent.AnalyzeAdoptionRate -> handleAnalyzeAdoption()
             is Panda4AgentToolsIntent.AnalyzeSearchUrl -> handleAnalyzeUrl(intent.url)
+            is Panda4AgentToolsIntent.UpdateSearchUrlInput -> handleUpdateSearchUrlInput(intent.text)
             is Panda4AgentToolsIntent.AddKnowledgeBase -> handleAddKb(intent.kb)
             is Panda4AgentToolsIntent.DeleteKnowledgeBase -> handleDeleteKb(intent.id)
             is Panda4AgentToolsIntent.UpdateKbInput -> handleUpdateKbInput(intent.title, intent.content, intent.type)
@@ -528,6 +529,10 @@ class Panda4AgentToolsViewModel : ViewModel() {
                 searchResult = result
             )
         }
+    }
+
+    private fun handleUpdateSearchUrlInput(text: String) {
+        _state.value = _state.value.copy(searchUrlInput = text)
     }
 
     private fun handleAddKb(kb: KnowledgeBase) {

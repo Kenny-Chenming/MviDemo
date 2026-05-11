@@ -391,6 +391,7 @@ sealed class Panda4AgentToolsIntent {
     // ── Agent Web Search ────────────────────────────────────────
     /** 分析 URL 质量 */
     data class AnalyzeSearchUrl(val url: String) : Panda4AgentToolsIntent()
+    data class UpdateSearchUrlInput(val text: String) : Panda4AgentToolsIntent()
 
     /** 添加知识库条目 */
     data class AddKnowledgeBase(val kb: KnowledgeBase) : Panda4AgentToolsIntent()
