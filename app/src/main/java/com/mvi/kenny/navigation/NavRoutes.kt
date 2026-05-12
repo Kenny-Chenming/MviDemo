@@ -31,6 +31,7 @@ import androidx.compose.material.icons.filled.CheckCircle
 import androidx.compose.material.icons.filled.Policy
 import androidx.compose.material.icons.filled.AccountTree
 import androidx.compose.material.icons.filled.Layers
+import androidx.compose.material.icons.filled.BugReport
 import androidx.compose.ui.graphics.vector.ImageVector
 
 /**
@@ -133,6 +134,8 @@ sealed class BottomNavRoute(
     data object PerAppMemoryLimits : BottomNavRoute(route = "per_app_memory_limits", title = "Per-App Mem", icon = Icons.Default.Memory)
     // PRD-241: Android CLI × External AI Agent 集成工具包
     data object AndroidCLIExternalAgentToolkit : BottomNavRoute(route = "android_cli_external_agent_toolkit", title = "CLI×Agent", icon = Icons.Default.AutoAwesome)
+    // PRD-242: Android Studio Quail 调试/性能工具包
+    data object QuailDebugTools : BottomNavRoute(route = "quail_debug_tools", title = "Quail调试", icon = Icons.Default.BugReport)
 }
 
 /**
@@ -232,4 +235,6 @@ object NavRoutes {
     const val PER_APP_MEMORY_LIMITS = "per_app_memory_limits"
     // PRD-241: Android CLI × External AI Agent 集成工具包
     const val ANDROID_CLI_EXTERNAL_AGENT_TOOLKIT = "android_cli_external_agent_toolkit"
+    // PRD-242: Android Studio Quail 调试/性能工具包
+    const val QUAIL_DEBUG_TOOLS = "quail_debug_tools"
 }

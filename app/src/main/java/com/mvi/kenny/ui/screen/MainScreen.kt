@@ -98,6 +98,8 @@ import com.mvi.kenny.feature.aluminiumosdesktop.AluminiumOSDesktopViewModel
 import com.mvi.kenny.feature.android17api37tool.Android17Api37ToolViewModel
 import com.mvi.kenny.feature.contactpicker.ContactPickerScreen
 import com.mvi.kenny.feature.contactpicker.ContactPickerViewModel
+import com.mvi.kenny.feature.quailldebugtools.QuailDebugToolsScreen
+import com.mvi.kenny.feature.quailldebugtools.QuailDebugToolsViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -226,7 +228,9 @@ fun MainScreen(
         // PRD-235: Android 17 Per-App 内存限制检测与优化工具包
         BottomNavRoute.PerAppMemoryLimits,
         // PRD-241: Android CLI × External AI Agent 集成工具包
-        BottomNavRoute.AndroidCLIExternalAgentToolkit
+        BottomNavRoute.AndroidCLIExternalAgentToolkit,
+        // PRD-242: Android Studio Quail 调试/性能工具包
+        BottomNavRoute.QuailDebugTools
     )
 
     // Pager 状态，管理当前是第几页
@@ -327,6 +331,9 @@ fun MainScreen(
     // PRD-241: Android CLI × External AI Agent 集成工具包
     val androidCLIExternalAgentToolkitViewModel = remember { AndroidCLIExternalAgentToolkitViewModel() }
     var androidCLIExternalAgentToolkitTopBar by remember { mutableStateOf(TopBarConfig(title = "Android CLI × External AI Agent")) }
+    // PRD-242: Android Studio Quail 调试/性能工具包
+    val quailDebugToolsViewModel = remember { QuailDebugToolsViewModel() }
+    var quailDebugToolsTopBar by remember { mutableStateOf(TopBarConfig(title = "Quail 调试/性能工具包")) }
 
     // 根据当前页码决定显示哪个 TopBar 配置
     val currentTopBar = when (pagerState.currentPage) {
@@ -374,6 +381,8 @@ fun MainScreen(
         41 -> agentSkillsToolkitTopBar
         // PRD-241: Android CLI × External AI Agent 集成工具包
         43 -> androidCLIExternalAgentToolkitTopBar
+        // PRD-242: Android Studio Quail 调试/性能工具包
+        44 -> quailDebugToolsTopBar
 
         else -> homeTopBar
     }
@@ -597,6 +606,10 @@ fun MainScreen(
                         state = androidCLIExternalAgentToolkitViewModel.state.collectAsState().value,
                         viewModel = androidCLIExternalAgentToolkitViewModel,
                         onUpdateTopBar = { androidCLIExternalAgentToolkitTopBar = it }
+                    )
+                    // PRD-242: Android Studio Quail 调试/性能工具包
+                    44 -> QuailDebugToolsScreen(
+                        viewModel = quailDebugToolsViewModel
                     )
                 }
             }
