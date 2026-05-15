@@ -100,6 +100,8 @@ import com.mvi.kenny.feature.contactpicker.ContactPickerScreen
 import com.mvi.kenny.feature.contactpicker.ContactPickerViewModel
 import com.mvi.kenny.feature.quailldebugtools.QuailDebugToolsScreen
 import com.mvi.kenny.feature.quailldebugtools.QuailDebugToolsViewModel
+import com.mvi.kenny.feature.appastool.AppAsToolScreen
+import com.mvi.kenny.feature.appastool.AppAsToolViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -230,7 +232,9 @@ fun MainScreen(
         // PRD-241: Android CLI × External AI Agent 集成工具包
         BottomNavRoute.AndroidCLIExternalAgentToolkit,
         // PRD-242: Android Studio Quail 调试/性能工具包
-        BottomNavRoute.QuailDebugTools
+        BottomNavRoute.QuailDebugTools,
+        // PRD-250: Android AppFunctions App-as-Tool 开发工具包
+        BottomNavRoute.AppAsTool
     )
 
     // Pager 状态，管理当前是第几页
@@ -333,6 +337,7 @@ fun MainScreen(
     var androidCLIExternalAgentToolkitTopBar by remember { mutableStateOf(TopBarConfig(title = "Android CLI × External AI Agent")) }
     // PRD-242: Android Studio Quail 调试/性能工具包
     val quailDebugToolsViewModel = remember { QuailDebugToolsViewModel() }
+    val appAsToolViewModel = remember { AppAsToolViewModel() }
     var quailDebugToolsTopBar by remember { mutableStateOf(TopBarConfig(title = "Quail 调试/性能工具包")) }
 
     // 根据当前页码决定显示哪个 TopBar 配置
@@ -610,6 +615,11 @@ fun MainScreen(
                     // PRD-242: Android Studio Quail 调试/性能工具包
                     44 -> QuailDebugToolsScreen(
                         viewModel = quailDebugToolsViewModel
+                    )
+                    // PRD-250: Android AppFunctions App-as-Tool 开发工具包
+                    45 -> AppAsToolScreen(
+                        viewModel = appAsToolViewModel,
+                        onNavigateBack = { /* no-op: Tab navigation handles back */ }
                     )
                 }
             }
