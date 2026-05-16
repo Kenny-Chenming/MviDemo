@@ -30,6 +30,7 @@ import androidx.compose.material.icons.filled.VolumeUp
 import androidx.compose.material.icons.filled.CheckCircle
 import androidx.compose.material.icons.filled.Policy
 import androidx.compose.material.icons.filled.AccountTree
+import androidx.compose.material.icons.filled.Code
 import androidx.compose.material.icons.filled.Layers
 import androidx.compose.material.icons.filled.BugReport
 import androidx.compose.ui.graphics.vector.ImageVector
@@ -136,6 +137,8 @@ sealed class BottomNavRoute(
     data object AndroidCLIExternalAgentToolkit : BottomNavRoute(route = "android_cli_external_agent_toolkit", title = "CLI×Agent", icon = Icons.Default.AutoAwesome)
     // PRD-242: Android Studio Quail 调试/性能工具包
     data object QuailDebugTools : BottomNavRoute(route = "quail_debug_tools", title = "Quail调试", icon = Icons.Default.BugReport)
+    // PRD-232: Kotlin 2.2.20 Swift Export iOS 原生互联络工具包
+    data object SwiftExportTool : BottomNavRoute(route = "swift_export_tool", title = "Swift Export", icon = Icons.Default.Code)
 }
 
 /**
@@ -237,4 +240,6 @@ object NavRoutes {
     const val ANDROID_CLI_EXTERNAL_AGENT_TOOLKIT = "android_cli_external_agent_toolkit"
     // PRD-242: Android Studio Quail 调试/性能工具包
     const val QUAIL_DEBUG_TOOLS = "quail_debug_tools"
+    // PRD-232: Kotlin 2.2.20 Swift Export iOS 原生互联络工具包
+    const val SWIFT_EXPORT_TOOL = "swift_export_tool"
 }

@@ -45,6 +45,8 @@ import com.mvi.kenny.feature.android_cli_agent_toolkit.AndroidCLIExternalAgentTo
 import com.mvi.kenny.feature.android_cli_agent_toolkit.AndroidCLIExternalAgentToolkitViewModel
 import com.mvi.kenny.feature.perappmemorylimits.PerAppMemoryLimitsScreen
 import com.mvi.kenny.feature.perappmemorylimits.PerAppMemoryLimitsViewModel
+import com.mvi.kenny.feature.swiftexporttool.SwiftExportToolScreen
+import com.mvi.kenny.feature.swiftexporttool.SwiftExportToolViewModel
 import com.mvi.kenny.feature.devverification.ComplianceDashboardScreen
 import com.mvi.kenny.feature.devverifytool.DevVerifyToolScreen
 import com.mvi.kenny.feature.prd210compliance.Prd210ComplianceScreen
@@ -230,7 +232,9 @@ fun MainScreen(
         // PRD-241: Android CLI × External AI Agent 集成工具包
         BottomNavRoute.AndroidCLIExternalAgentToolkit,
         // PRD-242: Android Studio Quail 调试/性能工具包
-        BottomNavRoute.QuailDebugTools
+        BottomNavRoute.QuailDebugTools,
+        // PRD-232: Kotlin 2.2.20 Swift Export iOS 原生互联络工具包
+        BottomNavRoute.SwiftExportTool
     )
 
     // Pager 状态，管理当前是第几页
@@ -334,6 +338,9 @@ fun MainScreen(
     // PRD-242: Android Studio Quail 调试/性能工具包
     val quailDebugToolsViewModel = remember { QuailDebugToolsViewModel() }
     var quailDebugToolsTopBar by remember { mutableStateOf(TopBarConfig(title = "Quail 调试/性能工具包")) }
+    // PRD-232: Kotlin 2.2.20 Swift Export iOS 原生互联络工具包
+    val swiftExportToolViewModel = remember { SwiftExportToolViewModel() }
+    var swiftExportToolTopBar by remember { mutableStateOf(TopBarConfig(title = "Swift Export")) }
 
     // 根据当前页码决定显示哪个 TopBar 配置
     val currentTopBar = when (pagerState.currentPage) {
@@ -383,6 +390,8 @@ fun MainScreen(
         43 -> androidCLIExternalAgentToolkitTopBar
         // PRD-242: Android Studio Quail 调试/性能工具包
         44 -> quailDebugToolsTopBar
+        // PRD-232: Kotlin 2.2.20 Swift Export iOS 原生互联络工具包
+        45 -> swiftExportToolTopBar
 
         else -> homeTopBar
     }
@@ -610,6 +619,11 @@ fun MainScreen(
                     // PRD-242: Android Studio Quail 调试/性能工具包
                     44 -> QuailDebugToolsScreen(
                         viewModel = quailDebugToolsViewModel
+                    )
+                    // PRD-232: Kotlin 2.2.20 Swift Export iOS 原生互联络工具包
+                    45 -> SwiftExportToolScreen(
+                        onNavigateTo = { },
+                        viewModel = swiftExportToolViewModel
                     )
                 }
             }
