@@ -18,6 +18,7 @@ import androidx.compose.material.icons.filled.VerifiedUser
 import androidx.compose.material.icons.filled.LocationOn
 import androidx.compose.material.icons.filled.SystemUpdateAlt
 import androidx.compose.material.icons.filled.DirectionsCar
+import androidx.compose.material.icons.filled.Phone
 import androidx.compose.material.icons.filled.Widgets
 import androidx.compose.material.icons.filled.Share
 import androidx.compose.material.icons.filled.AutoAwesome
@@ -70,6 +71,8 @@ sealed class BottomNavRoute(
     data object HealthPermissions : BottomNavRoute(route = "health_permissions", title = "健康权限", icon = Icons.Default.Shield)
     // PRD-141: Compose Grid + FlexBox 双布局 API 开发工具包
     data object ComposeLayoutsKit : BottomNavRoute(route = "compose_layouts_kit", title = "Grid/FlexBox", icon = Icons.Rounded.GridOn)
+    // PRD-254: Jetpack Telecom v1.1.0 VoIP Native Visibility 集成工具包
+    data object TelecomVoIP : BottomNavRoute(route = "telecom_voip", title = "Telecom", icon = Icons.Default.Phone)
 }
 
 /**
@@ -117,4 +120,6 @@ object NavRoutes {
     const val HEALTH_PERMISSIONS = "health_permissions"
     // PRD-141: Compose Grid + FlexBox 双布局 API 开发工具包
     const val COMPOSE_LAYOUTS_KIT = "compose_layouts_kit"
+    // PRD-254: Jetpack Telecom v1.1.0 VoIP Native Visibility 集成工具包
+    const val TELECOM_VOIP = "telecom_voip"
 }
