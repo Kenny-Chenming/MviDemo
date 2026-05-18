@@ -102,6 +102,10 @@ import com.mvi.kenny.feature.contactpicker.ContactPickerScreen
 import com.mvi.kenny.feature.contactpicker.ContactPickerViewModel
 import com.mvi.kenny.feature.quailldebugtools.QuailDebugToolsScreen
 import com.mvi.kenny.feature.quailldebugtools.QuailDebugToolsViewModel
+import com.mvi.kenny.feature.appastool.AppAsToolScreen
+import com.mvi.kenny.feature.appastool.AppAsToolViewModel
+import com.mvi.kenny.feature.kotlinpausablecompositiontool.KotlinPausableCompositionScreen
+import com.mvi.kenny.feature.kotlinpausablecompositiontool.KotlinPausableCompositionViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -233,8 +237,12 @@ fun MainScreen(
         BottomNavRoute.AndroidCLIExternalAgentToolkit,
         // PRD-242: Android Studio Quail 调试/性能工具包
         BottomNavRoute.QuailDebugTools,
+        // PRD-250: Android AppFunctions App-as-Tool 开发工具包
+        BottomNavRoute.AppAsTool,
         // PRD-232: Kotlin 2.2.20 Swift Export iOS 原生互联络工具包
-        BottomNavRoute.SwiftExportTool
+        BottomNavRoute.SwiftExportTool,
+        // PRD-257: Kotlin 2.2 Context Parameters + Compose Pausable Composition 开发者适配工具包
+        BottomNavRoute.KotlinPausableComposition
     )
 
     // Pager 状态，管理当前是第几页
@@ -337,6 +345,11 @@ fun MainScreen(
     var androidCLIExternalAgentToolkitTopBar by remember { mutableStateOf(TopBarConfig(title = "Android CLI × External AI Agent")) }
     // PRD-242: Android Studio Quail 调试/性能工具包
     val quailDebugToolsViewModel = remember { QuailDebugToolsViewModel() }
+    val appAsToolViewModel = remember { AppAsToolViewModel() }
+    var appAsToolTopBar by remember { mutableStateOf(TopBarConfig(title = "App as Tool")) }
+    // PRD-257: Kotlin 2.2 Context Parameters + Compose Pausable Composition 开发者适配工具包
+    val kotlinPausableCompositionViewModel = remember { KotlinPausableCompositionViewModel() }
+    var kotlinPausableCompositionTopBar by remember { mutableStateOf(TopBarConfig(title = "Kotlin 2.2 + Pausable Composition")) }
     var quailDebugToolsTopBar by remember { mutableStateOf(TopBarConfig(title = "Quail 调试/性能工具包")) }
     // PRD-232: Kotlin 2.2.20 Swift Export iOS 原生互联络工具包
     val swiftExportToolViewModel = remember { SwiftExportToolViewModel() }
@@ -390,8 +403,11 @@ fun MainScreen(
         43 -> androidCLIExternalAgentToolkitTopBar
         // PRD-242: Android Studio Quail 调试/性能工具包
         44 -> quailDebugToolsTopBar
+        45 -> appAsToolTopBar
         // PRD-232: Kotlin 2.2.20 Swift Export iOS 原生互联络工具包
-        45 -> swiftExportToolTopBar
+        46 -> swiftExportToolTopBar
+        // PRD-257: Kotlin 2.2 Context Parameters + Compose Pausable Composition
+        47 -> kotlinPausableCompositionTopBar
 
         else -> homeTopBar
     }
@@ -620,10 +636,20 @@ fun MainScreen(
                     44 -> QuailDebugToolsScreen(
                         viewModel = quailDebugToolsViewModel
                     )
+                    // PRD-250: Android AppFunctions App-as-Tool 开发工具包
+                    45 -> AppAsToolScreen(
+                        viewModel = appAsToolViewModel,
+                        onNavigateBack = { /* no-op: Tab navigation handles back */ }
+                    )
                     // PRD-232: Kotlin 2.2.20 Swift Export iOS 原生互联络工具包
-                    45 -> SwiftExportToolScreen(
+                    46 -> SwiftExportToolScreen(
                         onNavigateTo = { },
                         viewModel = swiftExportToolViewModel
+                    )
+                    // PRD-257: Kotlin 2.2 Context Parameters + Compose Pausable Composition
+                    47 -> KotlinPausableCompositionScreen(
+                        viewModel = kotlinPausableCompositionViewModel,
+                        onUpdateTopBar = { kotlinPausableCompositionTopBar = it }
                     )
                 }
             }

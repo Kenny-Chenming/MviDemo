@@ -464,4 +464,15 @@ Pure video playback, compatibility priority → PiP</string>
     <string name="android_skills_select_type">Select Skill Type</string>
     <string name="android_skills_add_condition">Add trigger condition</string>
     <string name="android_skills_clear_all">Clear All</string>
+
+    <!-- PRD-257: Kotlin 2.2 Context Parameters + Compose Pausable Composition -->
+    <string name="kotlin_pausable_composition_title">Kotlin 2.2 + Pausable Composition</string>
+    <string name="kotlin_pausable_composition_tab_context_params">Context Parameters</string>
+    <string name="kotlin_pausable_composition_tab_pausable_comp">Pausable Composition</string>
+    <string name="kotlin_pausable_composition_tab_perf_tool">性能调优工具</string>
+    <string name="kotlin_pausable_composition_tab_cxc">C×C 集成指南</string>
+    <string name="kotlin_pausable_composition_tab_lazycolumn">LazyColumn 优化</string>
+    <string name="kotlin_pausable_composition_code_copied">已复制到剪贴板</string>
+    <string name="kotlin_pausable_composition_scan_start">开始扫描</string>
+    <string name="kotlin_pausable_composition_scanning">扫描中…</string>
 </resources>
