@@ -106,6 +106,8 @@ import com.mvi.kenny.feature.appastool.AppAsToolScreen
 import com.mvi.kenny.feature.appastool.AppAsToolViewModel
 import com.mvi.kenny.feature.kotlinpausablecompositiontool.KotlinPausableCompositionScreen
 import com.mvi.kenny.feature.kotlinpausablecompositiontool.KotlinPausableCompositionViewModel
+import com.mvi.kenny.feature.xrglassestoolkit.XRGlassesToolkitScreen
+import com.mvi.kenny.feature.xrglassestoolkit.XRGlassesToolkitViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -242,7 +244,9 @@ fun MainScreen(
         // PRD-232: Kotlin 2.2.20 Swift Export iOS 原生互联络工具包
         BottomNavRoute.SwiftExportTool,
         // PRD-257: Kotlin 2.2 Context Parameters + Compose Pausable Composition 开发者适配工具包
-        BottomNavRoute.KotlinPausableComposition
+        BottomNavRoute.KotlinPausableComposition,
+        // PRD-258: Android XR AI Glasses 开发工具包
+        BottomNavRoute.XRGlassesToolkit
     )
 
     // Pager 状态，管理当前是第几页
@@ -350,6 +354,9 @@ fun MainScreen(
     // PRD-257: Kotlin 2.2 Context Parameters + Compose Pausable Composition 开发者适配工具包
     val kotlinPausableCompositionViewModel = remember { KotlinPausableCompositionViewModel() }
     var kotlinPausableCompositionTopBar by remember { mutableStateOf(TopBarConfig(title = "Kotlin 2.2 + Pausable Composition")) }
+    // PRD-258: Android XR AI Glasses 开发工具包
+    val xrGlassesToolkitViewModel = remember { XRGlassesToolkitViewModel() }
+    var xrGlassesToolkitTopBar by remember { mutableStateOf(TopBarConfig(title = "Android XR AI Glasses")) }
     var quailDebugToolsTopBar by remember { mutableStateOf(TopBarConfig(title = "Quail 调试/性能工具包")) }
     // PRD-232: Kotlin 2.2.20 Swift Export iOS 原生互联络工具包
     val swiftExportToolViewModel = remember { SwiftExportToolViewModel() }
@@ -650,6 +657,11 @@ fun MainScreen(
                     47 -> KotlinPausableCompositionScreen(
                         viewModel = kotlinPausableCompositionViewModel,
                         onUpdateTopBar = { kotlinPausableCompositionTopBar = it }
+                    )
+                    // PRD-258: Android XR AI Glasses 开发工具包
+                    48 -> XRGlassesToolkitScreen(
+                        viewModel = xrGlassesToolkitViewModel,
+                        onUpdateTopBar = { xrGlassesToolkitTopBar = it }
                     )
                 }
             }
