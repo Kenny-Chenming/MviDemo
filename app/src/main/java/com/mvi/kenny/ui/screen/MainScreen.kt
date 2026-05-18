@@ -102,6 +102,8 @@ import com.mvi.kenny.feature.quailldebugtools.QuailDebugToolsScreen
 import com.mvi.kenny.feature.quailldebugtools.QuailDebugToolsViewModel
 import com.mvi.kenny.feature.appastool.AppAsToolScreen
 import com.mvi.kenny.feature.appastool.AppAsToolViewModel
+import com.mvi.kenny.feature.kotlinpausablecompositiontool.KotlinPausableCompositionScreen
+import com.mvi.kenny.feature.kotlinpausablecompositiontool.KotlinPausableCompositionViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -234,7 +236,9 @@ fun MainScreen(
         // PRD-242: Android Studio Quail 调试/性能工具包
         BottomNavRoute.QuailDebugTools,
         // PRD-250: Android AppFunctions App-as-Tool 开发工具包
-        BottomNavRoute.AppAsTool
+        BottomNavRoute.AppAsTool,
+        // PRD-257: Kotlin 2.2 Context Parameters + Compose Pausable Composition 开发者适配工具包
+        BottomNavRoute.KotlinPausableComposition
     )
 
     // Pager 状态，管理当前是第几页
@@ -338,6 +342,9 @@ fun MainScreen(
     // PRD-242: Android Studio Quail 调试/性能工具包
     val quailDebugToolsViewModel = remember { QuailDebugToolsViewModel() }
     val appAsToolViewModel = remember { AppAsToolViewModel() }
+    // PRD-257: Kotlin 2.2 Context Parameters + Compose Pausable Composition 开发者适配工具包
+    val kotlinPausableCompositionViewModel = remember { KotlinPausableCompositionViewModel() }
+    var kotlinPausableCompositionTopBar by remember { mutableStateOf(TopBarConfig(title = "Kotlin 2.2 + Pausable Composition")) }
     var quailDebugToolsTopBar by remember { mutableStateOf(TopBarConfig(title = "Quail 调试/性能工具包")) }
 
     // 根据当前页码决定显示哪个 TopBar 配置
@@ -388,6 +395,8 @@ fun MainScreen(
         43 -> androidCLIExternalAgentToolkitTopBar
         // PRD-242: Android Studio Quail 调试/性能工具包
         44 -> quailDebugToolsTopBar
+        // PRD-257: Kotlin 2.2 Context Parameters + Compose Pausable Composition
+        46 -> kotlinPausableCompositionTopBar
 
         else -> homeTopBar
     }
@@ -620,6 +629,11 @@ fun MainScreen(
                     45 -> AppAsToolScreen(
                         viewModel = appAsToolViewModel,
                         onNavigateBack = { /* no-op: Tab navigation handles back */ }
+                    )
+                    // PRD-257: Kotlin 2.2 Context Parameters + Compose Pausable Composition
+                    46 -> KotlinPausableCompositionScreen(
+                        viewModel = kotlinPausableCompositionViewModel,
+                        onUpdateTopBar = { kotlinPausableCompositionTopBar = it }
                     )
                 }
             }

@@ -138,6 +138,8 @@ sealed class BottomNavRoute(
     data object QuailDebugTools : BottomNavRoute(route = "quail_debug_tools", title = "Quail调试", icon = Icons.Default.BugReport)
     // PRD-250: Android AppFunctions App-as-Tool 开发工具包
     data object AppAsTool : BottomNavRoute(route = "app_as_tool", title = "App as Tool", icon = Icons.Default.AutoAwesome)
+    // PRD-257: Kotlin 2.2 Context Parameters + Compose Pausable Composition 开发者适配工具包
+    data object KotlinPausableComposition : BottomNavRoute(route = "kotlin_pausable_composition", title = "Kotlin 2.2", icon = Icons.Default.AutoAwesome)
 }
 
 /**
@@ -241,4 +243,6 @@ object NavRoutes {
     const val QUAIL_DEBUG_TOOLS = "quail_debug_tools"
     // PRD-250: Android AppFunctions App-as-Tool 开发工具包
     const val APP_AS_TOOL = "app_as_tool"
+    // PRD-257: Kotlin 2.2 Context Parameters + Compose Pausable Composition 开发者适配工具包
+    const val KOTLIN_PAUSABLE_COMPOSITION = "kotlin_pausable_composition"
 }
