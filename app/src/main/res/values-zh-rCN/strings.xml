@@ -56,4 +56,25 @@
     <string name="common_success">成功</string>
     <string name="common_cancel">取消</string>
     <string name="common_ok">确定</string>
+
+    <!-- PRD-262: Android 17 App Memory Limits 开发者适配工具包 -->
+    <string name="app_memory_limits_title">App Memory Limits 工具包</string>
+    <string name="app_memory_limits_tab_overview">总览</string>
+    <string name="app_memory_limits_tab_tools">工具</string>
+    <string name="app_memory_limits_tab_ci">CI验证</string>
+    <string name="app_memory_limits_detect_device">检测设备</string>
+    <string name="app_memory_limits_device_ram">设备RAM</string>
+    <string name="app_memory_limits_app_limit">App内存上限</string>
+    <string name="app_memory_limits_risk_high">高风险</string>
+    <string name="app_memory_limits_risk_medium">中风险</string>
+    <string name="app_memory_limits_risk_low">低风险</string>
+    <string name="app_memory_limits_copied">已复制</string>
+    <string name="app_memory_limits_query_tool">查询工具</string>
+    <string name="app_memory_limits_debug_tool">调试工具</string>
+    <string name="app_memory_limits_ci_tool">CI工具</string>
+    <string name="app_memory_limits_assessment_tool">评估工具</string>
+    <string name="app_memory_limits_optimization_guide">优化指南</string>
+    <string name="app_memory_limits_profiling_guide">Profiling集成</string>
+    <string name="app_memory_limits_oom_guide">OOM关系解读</string>
+    <string name="app_memory_limits_ram_testing">RAM分级测试</string>
 </resources>

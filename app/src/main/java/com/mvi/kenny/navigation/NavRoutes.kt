@@ -133,6 +133,8 @@ sealed class BottomNavRoute(
     data object ContactPicker : BottomNavRoute(route = "contact_picker", title = "Contact迁移", icon = Icons.Default.Policy)
     // PRD-235: Android 17 Per-App 内存限制检测与优化工具包
     data object PerAppMemoryLimits : BottomNavRoute(route = "per_app_memory_limits", title = "Per-App Mem", icon = Icons.Default.Memory)
+    // PRD-262: Android 17 App Memory Limits 开发者适配工具包
+    data object AppMemoryLimits : BottomNavRoute(route = "app_memory_limits", title = "App Memory Limits", icon = Icons.Default.Memory)
     // PRD-241: Android CLI × External AI Agent 集成工具包
     data object AndroidCLIExternalAgentToolkit : BottomNavRoute(route = "android_cli_external_agent_toolkit", title = "CLI×Agent", icon = Icons.Default.AutoAwesome)
     // PRD-242: Android Studio Quail 调试/性能工具包
@@ -149,6 +151,8 @@ sealed class BottomNavRoute(
     data object Panda4Workflow : BottomNavRoute(route = "panda4_workflow", title = "Panda 4 AI", icon = Icons.Default.AutoAwesome)
     // PRD-260: Android CLI + Skills AI Agent 开发工作流工具包
     data object AndroidCliSkillsToolkit : BottomNavRoute(route = "android_cli_skills_toolkit", title = "CLI Skills", icon = Icons.Default.AutoAwesome)
+    // PRD-262: Android 17 App Memory Limits 开发者适配工具包
+    data object AppMemoryLimits : BottomNavRoute(route = "app_memory_limits", title = "Mem Limits", icon = Icons.Default.Memory)
 }
 
 /**
@@ -262,4 +266,7 @@ object NavRoutes {
     const val PAND_4_WORKFLOW = "panda4_workflow"
     // PRD-260: Android CLI + Skills AI Agent 开发工作流工具包
     const val ANDROID_CLI_SKILLS_TOOLKIT = "android_cli_skills_toolkit"
+    // PRD-262: Android 17 App Memory Limits 开发者适配工具包
+    const val APP_MEMORY_LIMITS = "app_memory_limits"
+    const val APP_MEMORY_LIMITS_DETAIL = "app_memory_limits_detail/{toolId}"
 }

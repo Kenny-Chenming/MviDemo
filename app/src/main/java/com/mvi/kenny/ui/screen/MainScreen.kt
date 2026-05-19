@@ -45,6 +45,8 @@ import com.mvi.kenny.feature.android_cli_agent_toolkit.AndroidCLIExternalAgentTo
 import com.mvi.kenny.feature.android_cli_agent_toolkit.AndroidCLIExternalAgentToolkitViewModel
 import com.mvi.kenny.feature.perappmemorylimits.PerAppMemoryLimitsScreen
 import com.mvi.kenny.feature.perappmemorylimits.PerAppMemoryLimitsViewModel
+import com.mvi.kenny.feature.appmemorylimits.AppMemoryLimitsScreen
+import com.mvi.kenny.feature.appmemorylimits.AppMemoryLimitsViewModel
 import com.mvi.kenny.feature.swiftexporttool.SwiftExportToolScreen
 import com.mvi.kenny.feature.swiftexporttool.SwiftExportToolViewModel
 import com.mvi.kenny.feature.devverification.ComplianceDashboardScreen
@@ -102,6 +104,8 @@ import com.mvi.kenny.feature.contactpicker.ContactPickerScreen
 import com.mvi.kenny.feature.contactpicker.ContactPickerViewModel
 import com.mvi.kenny.feature.quailldebugtools.QuailDebugToolsScreen
 import com.mvi.kenny.feature.quailldebugtools.QuailDebugToolsViewModel
+import com.mvi.kenny.feature.appmemorylimits.AppMemoryLimitsScreen
+import com.mvi.kenny.feature.appmemorylimits.AppMemoryLimitsViewModel
 import com.mvi.kenny.feature.appastool.AppAsToolScreen
 import com.mvi.kenny.feature.appastool.AppAsToolViewModel
 import com.mvi.kenny.feature.kotlinpausablecompositiontool.KotlinPausableCompositionScreen
@@ -239,6 +243,8 @@ fun MainScreen(
         BottomNavRoute.ContactPicker,
         // PRD-235: Android 17 Per-App 内存限制检测与优化工具包
         BottomNavRoute.PerAppMemoryLimits,
+        // PRD-262: Android 17 App Memory Limits 开发者适配工具包
+        BottomNavRoute.AppMemoryLimits,
         // PRD-241: Android CLI × External AI Agent 集成工具包
         BottomNavRoute.AndroidCLIExternalAgentToolkit,
         // PRD-242: Android Studio Quail 调试/性能工具包
@@ -254,7 +260,9 @@ fun MainScreen(
         // PRD-259: Android Studio Panda 4 AI 工作流工具包
         BottomNavRoute.Panda4Workflow,
         // PRD-260: Android CLI + Skills AI Agent 开发工作流工具包
-        BottomNavRoute.AndroidCliSkillsToolkit
+        BottomNavRoute.AndroidCliSkillsToolkit,
+        // PRD-262: Android 17 App Memory Limits 开发者适配工具包
+        BottomNavRoute.AppMemoryLimits
     )
 
     // Pager 状态，管理当前是第几页
@@ -352,6 +360,9 @@ fun MainScreen(
     // PRD-235: Android 17 Per-App 内存限制检测与优化工具包
     val perAppMemoryLimitsViewModel = remember { PerAppMemoryLimitsViewModel() }
     var perAppMemoryLimitsTopBar by remember { mutableStateOf(TopBarConfig(title = "Per-App Memory Limits")) }
+    // PRD-262: Android 17 App Memory Limits 开发者适配工具包
+    val appMemoryLimitsViewModel = remember { AppMemoryLimitsViewModel() }
+    var appMemoryLimitsTopBar by remember { mutableStateOf(TopBarConfig(title = "App Memory Limits")) }
     // PRD-241: Android CLI × External AI Agent 集成工具包
     val androidCLIExternalAgentToolkitViewModel = remember { AndroidCLIExternalAgentToolkitViewModel() }
     var androidCLIExternalAgentToolkitTopBar by remember { mutableStateOf(TopBarConfig(title = "Android CLI × External AI Agent")) }
@@ -373,6 +384,9 @@ fun MainScreen(
     val androidCliSkillsToolkitViewModel = remember { AndroidCliSkillsToolkitViewModel() }
     var androidCliSkillsToolkitTopBar by remember { mutableStateOf(TopBarConfig(title = "Android CLI + Skills 工具箱")) }
     var quailDebugToolsTopBar by remember { mutableStateOf(TopBarConfig(title = "Quail 调试/性能工具包")) }
+    // PRD-262: Android 17 App Memory Limits 开发者适配工具包
+    val appMemoryLimitsViewModel = remember { AppMemoryLimitsViewModel() }
+    var appMemoryLimitsTopBar by remember { mutableStateOf(TopBarConfig(title = "App Memory Limits 工具包")) }
     // PRD-232: Kotlin 2.2.20 Swift Export iOS 原生互联络工具包
     val swiftExportToolViewModel = remember { SwiftExportToolViewModel() }
     var swiftExportToolTopBar by remember { mutableStateOf(TopBarConfig(title = "Swift Export")) }
@@ -693,6 +707,10 @@ fun MainScreen(
                     50 -> AndroidCliSkillsToolkitScreen(
                         viewModel = androidCliSkillsToolkitViewModel,
                         onNavigateBack = { pendingTabToSelect = 0 }
+                    )
+                    // PRD-262: Android 17 App Memory Limits 开发者适配工具包
+                    51 -> AppMemoryLimitsScreen(
+                        viewModel = appMemoryLimitsViewModel
                     )
                 }
             }
