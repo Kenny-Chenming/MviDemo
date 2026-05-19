@@ -110,6 +110,8 @@ import com.mvi.kenny.feature.xrglassestoolkit.XRGlassesToolkitScreen
 import com.mvi.kenny.feature.xrglassestoolkit.XRGlassesToolkitViewModel
 import com.mvi.kenny.feature.panda4workflow.Panda4WorkflowScreen
 import com.mvi.kenny.feature.panda4workflow.Panda4WorkflowViewModel
+import com.mvi.kenny.feature.androiddeverification.AndroidDevVerificationScreen
+import com.mvi.kenny.feature.androiddeverification.AndroidDevVerificationViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -250,7 +252,9 @@ fun MainScreen(
         // PRD-258: Android XR AI Glasses 开发工具包
         BottomNavRoute.XRGlassesToolkit,
         // PRD-259: Android Studio Panda 4 AI 工作流工具包
-        BottomNavRoute.Panda4Workflow
+        BottomNavRoute.Panda4Workflow,
+        // PRD-261: Android 开发者验证合规与 CI 集成工具包
+        BottomNavRoute.AndroidDevVerification
     )
 
     // Pager 状态，管理当前是第几页
@@ -365,6 +369,9 @@ fun MainScreen(
     var xrGlassesToolkitTopBar by remember { mutableStateOf(TopBarConfig(title = "Android XR AI Glasses")) }
     // PRD-259: Android Studio Panda 4 AI 工作流工具包
     var panda4WorkflowTopBar by remember { mutableStateOf(TopBarConfig(title = "Panda 4 AI 工作流")) }
+    // PRD-261: Android 开发者验证合规与 CI 集成工具包
+    val androidDevVerificationViewModel = remember { AndroidDevVerificationViewModel() }
+    var androidDevVerificationTopBar by remember { mutableStateOf(TopBarConfig(title = "Dev合规工具")) }
     var quailDebugToolsTopBar by remember { mutableStateOf(TopBarConfig(title = "Quail 调试/性能工具包")) }
     // PRD-232: Kotlin 2.2.20 Swift Export iOS 原生互联络工具包
     val swiftExportToolViewModel = remember { SwiftExportToolViewModel() }
@@ -427,6 +434,8 @@ fun MainScreen(
         48 -> xrGlassesToolkitTopBar
         // PRD-259: Android Studio Panda 4 AI 工作流工具包
         49 -> panda4WorkflowTopBar
+        // PRD-261: Android 开发者验证合规与 CI 集成工具包
+        50 -> androidDevVerificationTopBar
 
         else -> homeTopBar
     }
@@ -679,6 +688,11 @@ fun MainScreen(
                     49 -> Panda4WorkflowScreen(
                         viewModel = panda4WorkflowViewModel,
                         onNavigateBack = { pendingTabToSelect = 0 }
+                    )
+                    // PRD-261: Android 开发者验证合规与 CI 集成工具包
+                    50 -> AndroidDevVerificationScreen(
+                        viewModel = androidDevVerificationViewModel,
+                        onUpdateTopBar = { androidDevVerificationTopBar = it }
                     )
                 }
             }
