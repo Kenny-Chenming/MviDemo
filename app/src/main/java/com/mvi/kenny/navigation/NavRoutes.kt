@@ -145,6 +145,8 @@ sealed class BottomNavRoute(
     data object KotlinPausableComposition : BottomNavRoute(route = "kotlin_pausable_composition", title = "Kotlin 2.2", icon = Icons.Default.AutoAwesome)
     // PRD-258: Android XR AI Glasses 开发工具包
     data object XRGlassesToolkit : BottomNavRoute(route = "xr_glasses_toolkit", title = "AI Glasses", icon = Icons.Default.AutoAwesome)
+    // PRD-259: Android Studio Panda 4 AI 工作流工具包
+    data object Panda4Workflow : BottomNavRoute(route = "panda4_workflow", title = "Panda 4 AI", icon = Icons.Default.AutoAwesome)
 }
 
 /**
@@ -254,4 +256,6 @@ object NavRoutes {
     const val KOTLIN_PAUSABLE_COMPOSITION = "kotlin_pausable_composition"
     // PRD-258: Android XR AI Glasses 开发工具包
     const val XR_GLASSES_TOOLKIT = "xr_glasses_toolkit"
+    // PRD-259: Android Studio Panda 4 AI 工作流工具包
+    const val PAND_4_WORKFLOW = "panda4_workflow"
 }
