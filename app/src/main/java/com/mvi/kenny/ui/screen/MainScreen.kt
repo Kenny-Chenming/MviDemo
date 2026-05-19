@@ -435,21 +435,28 @@ fun MainScreen(
         39 -> aluminiumOSDesktopTopBar
         // PRD-233: Android Agent Skills 技能库生态工具包
         41 -> agentSkillsToolkitTopBar
+        // PRD-234: Google Play Contact Picker 强制迁移工具包
+        42 -> contactPickerTopBar
+        // PRD-235: Android 17 Per-App 内存限制检测与优化工具包
+        44 -> perAppMemoryLimitsTopBar
+        // PRD-262: Android 17 App Memory Limits 开发者适配工具包
+        45 -> appMemoryLimitsTopBar
         // PRD-241: Android CLI × External AI Agent 集成工具包
-        43 -> androidCLIExternalAgentToolkitTopBar
+        46 -> androidCLIExternalAgentToolkitTopBar
         // PRD-242: Android Studio Quail 调试/性能工具包
-        44 -> quailDebugToolsTopBar
-        45 -> appAsToolTopBar
+        47 -> quailDebugToolsTopBar
+        // PRD-250: Android AppFunctions App-as-Tool 开发工具包
+        48 -> appAsToolTopBar
         // PRD-232: Kotlin 2.2.20 Swift Export iOS 原生互联络工具包
-        46 -> swiftExportToolTopBar
+        49 -> swiftExportToolTopBar
         // PRD-257: Kotlin 2.2 Context Parameters + Compose Pausable Composition
-        47 -> kotlinPausableCompositionTopBar
+        50 -> kotlinPausableCompositionTopBar
         // PRD-258: Android XR AI Glasses 开发工具包
-        48 -> xrGlassesToolkitTopBar
+        51 -> xrGlassesToolkitTopBar
         // PRD-259: Android Studio Panda 4 AI 工作流工具包
-        49 -> panda4WorkflowTopBar
+        52 -> panda4WorkflowTopBar
         // PRD-260: Android CLI + Skills AI Agent 开发工作流工具包
-        50 -> androidCliSkillsToolkitTopBar
+        53 -> androidCliSkillsToolkitTopBar
 
         else -> homeTopBar
     }
@@ -663,48 +670,50 @@ fun MainScreen(
                         onUpdateTopBar = { agentSkillsToolkitTopBar = it }
                     )
                     // PRD-234: Google Play Contact Picker 强制迁移工具包
-                    38 -> ContactPickerScreen(
+                    43 -> ContactPickerScreen(
                         viewModel = contactPickerViewModel
                     )
                     // PRD-235: Android 17 Per-App 内存限制检测与优化工具包
-                    42 -> PerAppMemoryLimitsScreen(viewModel = perAppMemoryLimitsViewModel)
+                    44 -> PerAppMemoryLimitsScreen(viewModel = perAppMemoryLimitsViewModel)
+                    // PRD-262: Android 17 App Memory Limits 开发者适配工具包
+                    45 -> AppMemoryLimitsScreen(viewModel = appMemoryLimitsViewModel)
                     // PRD-241: Android CLI × External AI Agent 集成工具包
-                    43 -> AndroidCLIExternalAgentToolkitScreen(
+                    46 -> AndroidCLIExternalAgentToolkitScreen(
                         state = androidCLIExternalAgentToolkitViewModel.state.collectAsState().value,
                         viewModel = androidCLIExternalAgentToolkitViewModel,
                         onUpdateTopBar = { androidCLIExternalAgentToolkitTopBar = it }
                     )
                     // PRD-242: Android Studio Quail 调试/性能工具包
-                    44 -> QuailDebugToolsScreen(
+                    47 -> QuailDebugToolsScreen(
                         viewModel = quailDebugToolsViewModel
                     )
                     // PRD-250: Android AppFunctions App-as-Tool 开发工具包
-                    45 -> AppAsToolScreen(
+                    48 -> AppAsToolScreen(
                         viewModel = appAsToolViewModel,
                         onNavigateBack = { /* no-op: Tab navigation handles back */ }
                     )
                     // PRD-232: Kotlin 2.2.20 Swift Export iOS 原生互联络工具包
-                    46 -> SwiftExportToolScreen(
+                    49 -> SwiftExportToolScreen(
                         onNavigateTo = { },
                         viewModel = swiftExportToolViewModel
                     )
                     // PRD-257: Kotlin 2.2 Context Parameters + Compose Pausable Composition
-                    47 -> KotlinPausableCompositionScreen(
+                    50 -> KotlinPausableCompositionScreen(
                         viewModel = kotlinPausableCompositionViewModel,
                         onUpdateTopBar = { kotlinPausableCompositionTopBar = it }
                     )
                     // PRD-258: Android XR AI Glasses 开发工具包
-                    48 -> XRGlassesToolkitScreen(
+                    51 -> XRGlassesToolkitScreen(
                         viewModel = xrGlassesToolkitViewModel,
                         onUpdateTopBar = { xrGlassesToolkitTopBar = it }
                     )
                     // PRD-259: Android Studio Panda 4 AI 工作流工具包
-                    49 -> Panda4WorkflowScreen(
+                    52 -> Panda4WorkflowScreen(
                         viewModel = panda4WorkflowViewModel,
                         onNavigateBack = { pendingTabToSelect = 0 }
                     )
                     // PRD-260: Android CLI + Skills AI Agent 开发工作流工具包
-                    50 -> AndroidCliSkillsToolkitScreen(
+                    53 -> AndroidCliSkillsToolkitScreen(
                         viewModel = androidCliSkillsToolkitViewModel,
                         onNavigateBack = { pendingTabToSelect = 0 }
                     )
