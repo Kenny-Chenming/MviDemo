@@ -476,6 +476,26 @@ Pure video playback, compatibility priority → PiP</string>
     <string name="kotlin_pausable_composition_scan_start">开始扫描</string>
     <string name="kotlin_pausable_composition_scanning">扫描中…</string>
 
+    <!-- PRD-261: Android 开发者验证合规与 CI 集成工具包 -->
+    <string name="android_dev_verification_title">Android 开发者验证工具箱</string>
+    <string name="android_dev_verification_tab_detection">验证检测</string>
+    <string name="android_dev_verification_tab_policy">政策解读</string>
+    <string name="android_dev_verification_tab_distribution">分发指南</string>
+    <string name="android_dev_verification_tab_alternatives">替代方案</string>
+    <string name="android_dev_verification_tab_integration">集成工具</string>
+    <string name="android_dev_verification_scan_apk">检测 APK</string>
+    <string name="android_dev_verification_scanning">扫描中…</string>
+    <string name="android_dev_verification_no_scan">尚未扫描</string>
+    <string name="android_dev_verification_generate_report">生成合规报告</string>
+    <string name="android_dev_verification_risk_safe">安全 / Safe</string>
+    <string name="android_dev_verification_risk_pending">待确认 / Pending</string>
+    <string name="android_dev_verification_risk_non_compliant">未合规 / Non-compliant</string>
+    <string name="android_dev_verification_risk_unknown">未知 / Unknown</string>
+    <string name="android_dev_verification_report_title">合规报告</string>
+    <string name="android_dev_verification_copy_report">复制报告</string>
+    <string name="android_dev_verification_close">关闭</string>
+    <string name="android_dev_verification_copied">已复制到剪贴板</string>
+
     <!-- PRD-260: Android CLI + Skills AI Agent 开发工作流工具包 -->
     <string name="android_cli_skills_toolkit_title">Android CLI + Skills 工具箱</string>
     <string name="android_cli_skills_tab_getting_started">上手指南</string>
@@ -492,4 +512,10 @@ Pure video playback, compatibility priority → PiP</string>
     <string name="android_cli_skills_skill_description">Description</string>
     <string name="android_cli_skills_skill_triggers">Triggers (comma-separated)</string>
     <string name="android_cli_skills_copy_schema">Copy Schema</string>
+
+    <!-- PRD-262: Android 17 App Memory Limits 开发者适配工具包 -->
+    <string name="app_memory_limits">App Memory Limits</string>
+
+    <!-- PRD-263: Android 17 Create My Widget 生成式 UI 开发工具包 -->
+    <string name="create_my_widget">Create My Widget</string>
 </resources>

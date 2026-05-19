@@ -112,6 +112,10 @@ import com.mvi.kenny.feature.panda4workflow.Panda4WorkflowScreen
 import com.mvi.kenny.feature.panda4workflow.Panda4WorkflowViewModel
 import com.mvi.kenny.feature.androidcliskillstoolkit.AndroidCliSkillsToolkitScreen
 import com.mvi.kenny.feature.androidcliskillstoolkit.AndroidCliSkillsToolkitViewModel
+import com.mvi.kenny.feature.androiddeverification.AndroidDevVerificationScreen
+import com.mvi.kenny.feature.androiddeverification.AndroidDevVerificationViewModel
+import com.mvi.kenny.feature.createmywidget.CreateMyWidgetScreen
+import com.mvi.kenny.feature.createmywidget.CreateMyWidgetViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -254,7 +258,11 @@ fun MainScreen(
         // PRD-259: Android Studio Panda 4 AI 工作流工具包
         BottomNavRoute.Panda4Workflow,
         // PRD-260: Android CLI + Skills AI Agent 开发工作流工具包
-        BottomNavRoute.AndroidCliSkillsToolkit
+        BottomNavRoute.AndroidCliSkillsToolkit,
+        // PRD-261: Android 开发者验证合规与 CI 集成工具包
+        BottomNavRoute.AndroidDevVerification,
+        // PRD-263: Android 17 Create My Widget 生成式 UI 开发工具包
+        BottomNavRoute.CreateMyWidget
     )
 
     // Pager 状态，管理当前是第几页
@@ -372,6 +380,12 @@ fun MainScreen(
     // PRD-260: Android CLI + Skills AI Agent 开发工作流工具包
     val androidCliSkillsToolkitViewModel = remember { AndroidCliSkillsToolkitViewModel() }
     var androidCliSkillsToolkitTopBar by remember { mutableStateOf(TopBarConfig(title = "Android CLI + Skills 工具箱")) }
+    // PRD-261: Android 开发者验证合规与 CI 集成工具包
+    val androidDevVerificationViewModel = remember { AndroidDevVerificationViewModel() }
+    var androidDevVerificationTopBar by remember { mutableStateOf(TopBarConfig(title = "Dev合规工具")) }
+    // PRD-263: Android 17 Create My Widget 生成式 UI 开发工具包
+    val createMyWidgetViewModel = remember { CreateMyWidgetViewModel() }
+    var createMyWidgetTopBar by remember { mutableStateOf(TopBarConfig(title = "Create My Widget")) }
     var quailDebugToolsTopBar by remember { mutableStateOf(TopBarConfig(title = "Quail 调试/性能工具包")) }
     // PRD-232: Kotlin 2.2.20 Swift Export iOS 原生互联络工具包
     val swiftExportToolViewModel = remember { SwiftExportToolViewModel() }
@@ -436,6 +450,10 @@ fun MainScreen(
         49 -> panda4WorkflowTopBar
         // PRD-260: Android CLI + Skills AI Agent 开发工作流工具包
         50 -> androidCliSkillsToolkitTopBar
+        // PRD-261: Android 开发者验证合规与 CI 集成工具包
+        51 -> androidDevVerificationTopBar
+        // PRD-263: Android 17 Create My Widget 生成式 UI 开发工具包
+        52 -> createMyWidgetTopBar
 
         else -> homeTopBar
     }
@@ -694,6 +712,13 @@ fun MainScreen(
                         viewModel = androidCliSkillsToolkitViewModel,
                         onNavigateBack = { pendingTabToSelect = 0 }
                     )
+                    // PRD-261: Android 开发者验证合规与 CI 集成工具包
+                    51 -> AndroidDevVerificationScreen(
+                        viewModel = androidDevVerificationViewModel,
+                        onUpdateTopBar = { androidDevVerificationTopBar = it }
+                    )
+                    // PRD-263: Android 17 Create My Widget 生成式 UI 开发工具包
+                    52 -> CreateMyWidgetScreen(viewModel = createMyWidgetViewModel)
                 }
             }
         }
