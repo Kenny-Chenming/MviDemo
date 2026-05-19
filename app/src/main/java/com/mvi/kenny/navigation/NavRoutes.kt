@@ -147,6 +147,8 @@ sealed class BottomNavRoute(
     data object XRGlassesToolkit : BottomNavRoute(route = "xr_glasses_toolkit", title = "AI Glasses", icon = Icons.Default.AutoAwesome)
     // PRD-259: Android Studio Panda 4 AI 工作流工具包
     data object Panda4Workflow : BottomNavRoute(route = "panda4_workflow", title = "Panda 4 AI", icon = Icons.Default.AutoAwesome)
+    // PRD-260: Android CLI + Skills AI Agent 开发工作流工具包
+    data object AndroidCliSkillsToolkit : BottomNavRoute(route = "android_cli_skills_toolkit", title = "CLI Skills", icon = Icons.Default.AutoAwesome)
 }
 
 /**
@@ -258,4 +260,6 @@ object NavRoutes {
     const val XR_GLASSES_TOOLKIT = "xr_glasses_toolkit"
     // PRD-259: Android Studio Panda 4 AI 工作流工具包
     const val PAND_4_WORKFLOW = "panda4_workflow"
+    // PRD-260: Android CLI + Skills AI Agent 开发工作流工具包
+    const val ANDROID_CLI_SKILLS_TOOLKIT = "android_cli_skills_toolkit"
 }
