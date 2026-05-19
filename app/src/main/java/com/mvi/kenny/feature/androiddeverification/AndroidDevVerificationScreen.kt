@@ -1062,7 +1062,8 @@ private fun rememberPolicyItems(): List<PolicyItem> = listOf(
     PolicyItem(
         id = 3,
         title = "认证设备定义 / Certified Devices",
-        description = "预装 Google Play Services 并通过 Google 兼容性测试 (CTS) 的设备为认证设备。未验证开发者的 APK 在此类设备上将被限制安装。"
+        description = "预装 Google Play Services 并通过 Google 兼容性测试 (CTS) 的设备为认证设备。未验证开发者的 APK 在此类设备上将被限制安装。",
+        severity = "info"
     )
 )
 // ============================================================
@@ -1821,7 +1822,7 @@ private fun CliCommandCard() {
                 "verify-dev report --package=com.example.app --format=json",
                 "",
                 "# CI 环境验证 / CI environment verification",
-                "verify-dev ci-check --token=\$DEV_VERIFICATION_TOKEN"
+                "verify-dev ci-check --token=\${'$'}DEV_VERIFICATION_TOKEN"
             )
             commands.forEach { cmd ->
                 Text(
@@ -1869,7 +1870,7 @@ jobs:
       - name: Verify Developer
         run: |
           verify-dev ci-check \\
-            --token=\${{ secrets.DEV_VERIFICATION_TOKEN }} \\
+            --token=\\${'{'}secrets.DEV_VERIFICATION_TOKEN} \\
             --package=com.example.app
       - name: Build
         run: ./gradlew assembleRelease
@@ -1879,10 +1880,10 @@ verify_dev:
   stage: pre-build
   script:
     - verify-dev ci-check \\
-      --token=\$DEV_VERIFICATION_TOKEN \\
+      --token=\${'$'}DEV_VERIFICATION_TOKEN \\
       --package=com.example.app
   rules:
-    - if: '\$CI_COMMIT_BRANCH == "main"'
+    - if: '\${'$'}CI_COMMIT_BRANCH == "main"'
                 """.trimIndent()
             )
 

@@ -150,7 +150,7 @@ sealed class BottomNavRoute(
     // PRD-260: Android CLI + Skills AI Agent 开发工作流工具包
     data object AndroidCliSkillsToolkit : BottomNavRoute(route = "android_cli_skills_toolkit", title = "CLI Skills", icon = Icons.Default.AutoAwesome)
     // PRD-261: Android 开发者验证合规与 CI 集成工具包
-    data object AndroidDevVerification : BottomNavRoute(route = "android_dev_verification", title = "Dev合规", icon = Icons.Default.Security)
+    data object AndroidDevVerification : BottomNavRoute(route = "android_dev_verification", title = "Dev合规", icon = Icons.Default.Shield)
 }
 
 /**
