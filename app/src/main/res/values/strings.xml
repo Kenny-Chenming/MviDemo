@@ -495,4 +495,21 @@ Pure video playback, compatibility priority → PiP</string>
     <string name="android_dev_verification_copy_report">复制报告</string>
     <string name="android_dev_verification_close">关闭</string>
     <string name="android_dev_verification_copied">已复制到剪贴板</string>
+
+    <!-- PRD-260: Android CLI + Skills AI Agent 开发工作流工具包 -->
+    <string name="android_cli_skills_toolkit_title">Android CLI + Skills 工具箱</string>
+    <string name="android_cli_skills_tab_getting_started">上手指南</string>
+    <string name="android_cli_skills_tab_skills_specs">Skills规范</string>
+    <string name="android_cli_skills_tab_llm_integration">LLM集成</string>
+    <string name="android_cli_skills_tab_engineering_tools">工程工具</string>
+    <string name="android_cli_skills_tab_ecosystem">生态广场</string>
+    <string name="android_cli_skills_copied">已复制</string>
+    <string name="android_cli_skills_cli_placeholder">android agent status</string>
+    <string name="android_cli_skills_execute">执行</string>
+    <string name="android_cli_skills_clear">清空</string>
+    <string name="android_cli_skills_skill_editor">Skill 编辑器</string>
+    <string name="android_cli_skills_skill_name">Skill Name</string>
+    <string name="android_cli_skills_skill_description">Description</string>
+    <string name="android_cli_skills_skill_triggers">Triggers (comma-separated)</string>
+    <string name="android_cli_skills_copy_schema">Copy Schema</string>
 </resources>
