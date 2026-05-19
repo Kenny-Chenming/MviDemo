@@ -52,6 +52,12 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.expandVertically
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.shrinkVertically
+import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.OutlinedTextFieldDefaults
@@ -511,7 +517,7 @@ private fun LlmProviderComparisonCard() {
 
 @Composable private fun rememberLlmIntegrationSnippets(): List<CodeSnippet> = listOf(
     CodeSnippet(id = "llm-claude-config", title = "配置 Claude Provider", language = "bash",
-        content = "# 配置 Claude Provider\nandroid config set provider claude\nandroid config set model claude-sonnet-4-20250514\nandroid config set api-key $ANTHROPIC_API_KEY\n\n# 验证连接\nandroid agent status\n\n# 查看可用模型\nandroid config list-models"),
+        content = "# 配置 Claude Provider\nandroid config set provider claude\nandroid config set model claude-sonnet-4-20250514\nandroid config set api-key ${'$'}ANTHROPIC_API_KEY_PLACEHOLDER\n\n# 验证连接\nandroid agent status\n\n# 查看可用模型\nandroid config list-models"),
     CodeSnippet(id = "llm-vibe-coding", title = "Vibe Coding 实战工作流", language = "bash",
         content = "# Vibe Coding 工作流（纯自然语言开发）\n\n# 1. 描述需求\nandroid agent describe \\\n  --prompt \"实现一个实时聊天功能，支持文字和图片\"\n\n# 2. Agent 生成代码\nandroid agent generate \\\n  --mode=vibe \\\n  --context=full-project\n\n# 3. 自动构建测试\nandroid build --variant=debug --agent=auto\n\n# 4. 查看构建报告\nandroid agent report --format=markdown"),
     CodeSnippet(id = "llm-multi-agent", title = "多 Agent 协作", language = "bash",
@@ -535,9 +541,13 @@ private fun EngineeringToolsTab(state: AndroidCliSkillsToolkitState, viewModel: 
         item { KbQueryCard(viewModel) }
         item { CICard(viewModel) }
         items(snippets) { snippet ->
-            CodeSnippetCard(snippet,            CodeSnippetCard(snippet, state.copiedSnippetId == snippet.id, snippet.id in state.expandedCardIds,
+            CodeSnippetCard(
+                snippet = snippet,
+                isCopied = state.copiedSnippetId == snippet.id,
+                isExpanded = snippet.id in state.expandedCardIds,
                 onToggle = { viewModel.sendIntent(AndroidCliSkillsToolkitIntent.ToggleCard(snippet.id)) },
-                onCopy = { viewModel.sendIntent(AndroidCliSkillsToolkitIntent.CopySnippet(snippet.id, snippet.content)) })
+                onCopy = { viewModel.sendIntent(AndroidCliSkillsToolkitIntent.CopySnippet(snippet.id, snippet.content)) }
+            )
         }
         item { Spacer(modifier = Modifier.height(32.dp)) }
     }
