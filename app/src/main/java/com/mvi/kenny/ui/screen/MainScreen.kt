@@ -108,6 +108,8 @@ import com.mvi.kenny.feature.kotlinpausablecompositiontool.KotlinPausableComposi
 import com.mvi.kenny.feature.kotlinpausablecompositiontool.KotlinPausableCompositionViewModel
 import com.mvi.kenny.feature.xrglassestoolkit.XRGlassesToolkitScreen
 import com.mvi.kenny.feature.xrglassestoolkit.XRGlassesToolkitViewModel
+import com.mvi.kenny.feature.panda4workflow.Panda4WorkflowScreen
+import com.mvi.kenny.feature.panda4workflow.Panda4WorkflowViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -246,7 +248,9 @@ fun MainScreen(
         // PRD-257: Kotlin 2.2 Context Parameters + Compose Pausable Composition 开发者适配工具包
         BottomNavRoute.KotlinPausableComposition,
         // PRD-258: Android XR AI Glasses 开发工具包
-        BottomNavRoute.XRGlassesToolkit
+        BottomNavRoute.XRGlassesToolkit,
+        // PRD-259: Android Studio Panda 4 AI 工作流工具包
+        BottomNavRoute.Panda4Workflow
     )
 
     // Pager 状态，管理当前是第几页
@@ -356,7 +360,11 @@ fun MainScreen(
     var kotlinPausableCompositionTopBar by remember { mutableStateOf(TopBarConfig(title = "Kotlin 2.2 + Pausable Composition")) }
     // PRD-258: Android XR AI Glasses 开发工具包
     val xrGlassesToolkitViewModel = remember { XRGlassesToolkitViewModel() }
+    // PRD-259: Android Studio Panda 4 AI 工作流工具包
+    val panda4WorkflowViewModel = remember { Panda4WorkflowViewModel() }
     var xrGlassesToolkitTopBar by remember { mutableStateOf(TopBarConfig(title = "Android XR AI Glasses")) }
+    // PRD-259: Android Studio Panda 4 AI 工作流工具包
+    var panda4WorkflowTopBar by remember { mutableStateOf(TopBarConfig(title = "Panda 4 AI 工作流")) }
     var quailDebugToolsTopBar by remember { mutableStateOf(TopBarConfig(title = "Quail 调试/性能工具包")) }
     // PRD-232: Kotlin 2.2.20 Swift Export iOS 原生互联络工具包
     val swiftExportToolViewModel = remember { SwiftExportToolViewModel() }
@@ -415,6 +423,10 @@ fun MainScreen(
         46 -> swiftExportToolTopBar
         // PRD-257: Kotlin 2.2 Context Parameters + Compose Pausable Composition
         47 -> kotlinPausableCompositionTopBar
+        // PRD-258: Android XR AI Glasses 开发工具包
+        48 -> xrGlassesToolkitTopBar
+        // PRD-259: Android Studio Panda 4 AI 工作流工具包
+        49 -> panda4WorkflowTopBar
 
         else -> homeTopBar
     }
@@ -662,6 +674,11 @@ fun MainScreen(
                     48 -> XRGlassesToolkitScreen(
                         viewModel = xrGlassesToolkitViewModel,
                         onUpdateTopBar = { xrGlassesToolkitTopBar = it }
+                    )
+                    // PRD-259: Android Studio Panda 4 AI 工作流工具包
+                    49 -> Panda4WorkflowScreen(
+                        viewModel = panda4WorkflowViewModel,
+                        onNavigateBack = { pendingTabToSelect = 0 }
                     )
                 }
             }
