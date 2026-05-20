@@ -116,6 +116,10 @@ import com.mvi.kenny.feature.androiddeverification.AndroidDevVerificationScreen
 import com.mvi.kenny.feature.androiddeverification.AndroidDevVerificationViewModel
 import com.mvi.kenny.feature.createmywidget.CreateMyWidgetScreen
 import com.mvi.kenny.feature.createmywidget.CreateMyWidgetViewModel
+import com.mvi.kenny.feature.ai_studio_vibe_coding.AiStudioToolkitScreen
+import com.mvi.kenny.feature.ai_studio_vibe_coding.AiStudioToolkitViewModel
+import com.mvi.kenny.feature.migrationassistant.MigrationToolkitScreen
+import com.mvi.kenny.feature.migrationassistant.MigrationToolkitViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -262,7 +266,11 @@ fun MainScreen(
         // PRD-261: Android 开发者验证合规与 CI 集成工具包
         BottomNavRoute.AndroidDevVerification,
         // PRD-263: Android 17 Create My Widget 生成式 UI 开发工具包
-        BottomNavRoute.CreateMyWidget
+        BottomNavRoute.CreateMyWidget,
+        // PRD-267: Google AI Studio Android Vibe Coding 开发工具包
+        BottomNavRoute.AiStudioVibeCoding,
+        // PRD-268: Android Studio Migration Assistant 移植工具包
+        BottomNavRoute.MigrationAssistant
     )
 
     // Pager 状态，管理当前是第几页
@@ -386,6 +394,12 @@ fun MainScreen(
     // PRD-263: Android 17 Create My Widget 生成式 UI 开发工具包
     val createMyWidgetViewModel = remember { CreateMyWidgetViewModel() }
     var createMyWidgetTopBar by remember { mutableStateOf(TopBarConfig(title = "Create My Widget")) }
+    // PRD-267: Google AI Studio Android Vibe Coding 开发工具包
+    val aiStudioVibeCodingViewModel = remember { AiStudioToolkitViewModel() }
+    var aiStudioVibeCodingTopBar by remember { mutableStateOf(TopBarConfig(title = "AI Studio Vibe Coding")) }
+    // PRD-268: Android Studio Migration Assistant 移植工具包
+    val migrationToolkitViewModel = remember { MigrationToolkitViewModel() }
+    var migrationToolkitTopBar by remember { mutableStateOf(TopBarConfig(title = "Migration Assistant")) }
     var quailDebugToolsTopBar by remember { mutableStateOf(TopBarConfig(title = "Quail 调试/性能工具包")) }
     // PRD-232: Kotlin 2.2.20 Swift Export iOS 原生互联络工具包
     val swiftExportToolViewModel = remember { SwiftExportToolViewModel() }
@@ -454,6 +468,10 @@ fun MainScreen(
         51 -> androidDevVerificationTopBar
         // PRD-263: Android 17 Create My Widget 生成式 UI 开发工具包
         52 -> createMyWidgetTopBar
+        // PRD-267: Google AI Studio Android Vibe Coding 开发工具包
+        53 -> aiStudioVibeCodingTopBar
+        // PRD-268: Android Studio Migration Assistant 移植工具包
+        54 -> migrationToolkitTopBar
 
         else -> homeTopBar
     }
@@ -719,6 +737,16 @@ fun MainScreen(
                     )
                     // PRD-263: Android 17 Create My Widget 生成式 UI 开发工具包
                     52 -> CreateMyWidgetScreen(viewModel = createMyWidgetViewModel)
+                    // PRD-267: Google AI Studio Android Vibe Coding 开发工具包
+                    53 -> AiStudioToolkitScreen(
+                        viewModel = aiStudioVibeCodingViewModel,
+                        onNavigateBack = { /* Tab navigation handles back */ }
+                    )
+                    // PRD-268: Android Studio Migration Assistant 移植工具包
+                    54 -> MigrationToolkitScreen(
+                        viewModel = migrationToolkitViewModel,
+                        onUpdateTopBar = { migrationToolkitTopBar = it }
+                    )
                 }
             }
         }

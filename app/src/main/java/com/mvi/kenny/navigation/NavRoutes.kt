@@ -155,6 +155,10 @@ sealed class BottomNavRoute(
     data object AndroidDevVerification : BottomNavRoute(route = "android_dev_verification", title = "Dev合规", icon = Icons.Default.Shield)
     // PRD-263: Android 17 Create My Widget 生成式 UI 开发工具包
     data object CreateMyWidget : BottomNavRoute(route = "create_my_widget", title = "Create My Widget", icon = Icons.Default.AutoAwesome)
+    // PRD-267: Google AI Studio Android Vibe Coding 开发工具包
+    data object AiStudioVibeCoding : BottomNavRoute(route = "ai_studio_vibe_coding", title = "AI Studio", icon = Icons.Default.Code)
+    // PRD-268: Android Studio Migration Assistant 移植工具包
+    data object MigrationAssistant : BottomNavRoute(route = "migration_assistant", title = "Migration", icon = Icons.Default.SwapHoriz)
 }
 
 /**
@@ -276,4 +280,8 @@ object NavRoutes {
     // PRD-263: Android 17 Create My Widget 生成式 UI 开发工具包
     const val CREATE_MY_WIDGET = "create_my_widget"
     const val CREATE_MY_WIDGET_DETAIL = "create_my_widget_detail/{toolId}"
+    // PRD-267: Google AI Studio Android Vibe Coding 开发工具包
+    const val AI_STUDIO_VIBE_CODING = "ai_studio_vibe_coding"
+    // PRD-268: Android Studio Migration Assistant 移植工具包
+    const val MIGRATION_ASSISTANT = "migration_assistant"
 }
