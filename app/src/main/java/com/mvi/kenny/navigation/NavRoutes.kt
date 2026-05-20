@@ -159,6 +159,8 @@ sealed class BottomNavRoute(
     data object AiStudioVibeCoding : BottomNavRoute(route = "ai_studio_vibe_coding", title = "AI Studio", icon = Icons.Default.Code)
     // PRD-268: Android Studio Migration Assistant 移植工具包
     data object MigrationAssistant : BottomNavRoute(route = "migration_assistant", title = "Migration", icon = Icons.Default.SwapHoriz)
+    // PRD-265: Wear OS 7 AppFunctions API 开发者工具包
+    data object WearOs7Toolkit : BottomNavRoute(route = "wearos7_toolkit", title = "Wear OS 7", icon = Icons.Default.Watch)
 }
 
 /**
@@ -284,4 +286,6 @@ object NavRoutes {
     const val AI_STUDIO_VIBE_CODING = "ai_studio_vibe_coding"
     // PRD-268: Android Studio Migration Assistant 移植工具包
     const val MIGRATION_ASSISTANT = "migration_assistant"
+    // PRD-265: Wear OS 7 AppFunctions API 开发者工具包
+    const val WEAR_OS_7_TOOLKIT = "wearos7_toolkit"
 }
