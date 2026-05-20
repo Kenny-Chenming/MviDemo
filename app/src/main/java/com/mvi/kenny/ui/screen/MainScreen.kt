@@ -104,8 +104,6 @@ import com.mvi.kenny.feature.contactpicker.ContactPickerScreen
 import com.mvi.kenny.feature.contactpicker.ContactPickerViewModel
 import com.mvi.kenny.feature.quailldebugtools.QuailDebugToolsScreen
 import com.mvi.kenny.feature.quailldebugtools.QuailDebugToolsViewModel
-import com.mvi.kenny.feature.appmemorylimits.AppMemoryLimitsScreen
-import com.mvi.kenny.feature.appmemorylimits.AppMemoryLimitsViewModel
 import com.mvi.kenny.feature.appastool.AppAsToolScreen
 import com.mvi.kenny.feature.appastool.AppAsToolViewModel
 import com.mvi.kenny.feature.kotlinpausablecompositiontool.KotlinPausableCompositionScreen
@@ -114,6 +112,8 @@ import com.mvi.kenny.feature.xrglassestoolkit.XRGlassesToolkitScreen
 import com.mvi.kenny.feature.xrglassestoolkit.XRGlassesToolkitViewModel
 import com.mvi.kenny.feature.panda4workflow.Panda4WorkflowScreen
 import com.mvi.kenny.feature.panda4workflow.Panda4WorkflowViewModel
+import com.mvi.kenny.feature.adbdsecurity.AdbdSecurityScreen
+import com.mvi.kenny.feature.adbdsecurity.AdbdSecurityViewModel
 import com.mvi.kenny.feature.androidcliskillstoolkit.AndroidCliSkillsToolkitScreen
 import com.mvi.kenny.feature.androidcliskillstoolkit.AndroidCliSkillsToolkitViewModel
 import androidx.lifecycle.ViewModelProvider
@@ -262,7 +262,9 @@ fun MainScreen(
         // PRD-260: Android CLI + Skills AI Agent 开发工作流工具包
         BottomNavRoute.AndroidCliSkillsToolkit,
         // PRD-262: Android 17 App Memory Limits 开发者适配工具包
-        BottomNavRoute.AppMemoryLimits
+        BottomNavRoute.AppMemoryLimits,
+        // PRD-264: Android adbd CVE-2026-0073 无线ADB漏洞检测与安全加固工具包
+        BottomNavRoute.AdbdSecurity
     )
 
     // Pager 状态，管理当前是第几页
@@ -383,10 +385,10 @@ fun MainScreen(
     // PRD-260: Android CLI + Skills AI Agent 开发工作流工具包
     val androidCliSkillsToolkitViewModel = remember { AndroidCliSkillsToolkitViewModel() }
     var androidCliSkillsToolkitTopBar by remember { mutableStateOf(TopBarConfig(title = "Android CLI + Skills 工具箱")) }
+    // PRD-264: Android adbd CVE-2026-0073 无线ADB漏洞检测与安全加固工具包
+    val adbdSecurityViewModel = remember { AdbdSecurityViewModel() }
+    var adbdSecurityTopBar by remember { mutableStateOf(TopBarConfig(title = "CVE-2026-0073 Security")) }
     var quailDebugToolsTopBar by remember { mutableStateOf(TopBarConfig(title = "Quail 调试/性能工具包")) }
-    // PRD-262: Android 17 App Memory Limits 开发者适配工具包
-    val appMemoryLimitsViewModel = remember { AppMemoryLimitsViewModel() }
-    var appMemoryLimitsTopBar by remember { mutableStateOf(TopBarConfig(title = "App Memory Limits 工具包")) }
     // PRD-232: Kotlin 2.2.20 Swift Export iOS 原生互联络工具包
     val swiftExportToolViewModel = remember { SwiftExportToolViewModel() }
     var swiftExportToolTopBar by remember { mutableStateOf(TopBarConfig(title = "Swift Export")) }
@@ -720,6 +722,10 @@ fun MainScreen(
                     // PRD-262: Android 17 App Memory Limits 开发者适配工具包
                     51 -> AppMemoryLimitsScreen(
                         viewModel = appMemoryLimitsViewModel
+                    )
+                    // PRD-264: Android adbd CVE-2026-0073 无线ADB漏洞检测与安全加固工具包
+                    54 -> AdbdSecurityScreen(
+                        viewModel = adbdSecurityViewModel
                     )
                 }
             }

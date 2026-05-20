@@ -151,8 +151,8 @@ sealed class BottomNavRoute(
     data object Panda4Workflow : BottomNavRoute(route = "panda4_workflow", title = "Panda 4 AI", icon = Icons.Default.AutoAwesome)
     // PRD-260: Android CLI + Skills AI Agent 开发工作流工具包
     data object AndroidCliSkillsToolkit : BottomNavRoute(route = "android_cli_skills_toolkit", title = "CLI Skills", icon = Icons.Default.AutoAwesome)
-    // PRD-262: Android 17 App Memory Limits 开发者适配工具包
-    data object AppMemoryLimits : BottomNavRoute(route = "app_memory_limits", title = "Mem Limits", icon = Icons.Default.Memory)
+    // PRD-264: Android adbd CVE-2026-0073 无线ADB漏洞检测与安全加固工具包
+    data object AdbdSecurity : BottomNavRoute(route = "adbd_security", title = "CVE-2026-0073", icon = Icons.Default.BugReport)
 }
 
 /**
@@ -269,4 +269,6 @@ object NavRoutes {
     // PRD-262: Android 17 App Memory Limits 开发者适配工具包
     const val APP_MEMORY_LIMITS = "app_memory_limits"
     const val APP_MEMORY_LIMITS_DETAIL = "app_memory_limits_detail/{toolId}"
+    // PRD-264: Android adbd CVE-2026-0073 无线ADB漏洞检测与安全加固工具包
+    const val ADBD_SECURITY = "adbd_security"
 }
