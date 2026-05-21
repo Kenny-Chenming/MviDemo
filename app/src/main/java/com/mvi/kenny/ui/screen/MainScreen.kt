@@ -102,6 +102,8 @@ import com.mvi.kenny.feature.quailldebugtools.QuailDebugToolsScreen
 import com.mvi.kenny.feature.quailldebugtools.QuailDebugToolsViewModel
 import com.mvi.kenny.feature.appastool.AppAsToolScreen
 import com.mvi.kenny.feature.appastool.AppAsToolViewModel
+import com.mvi.kenny.feature.verifiedfinancialcalls.VerifiedFinancialCallsScreen
+import com.mvi.kenny.feature.verifiedfinancialcalls.VerifiedFinancialCallsViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -234,7 +236,9 @@ fun MainScreen(
         // PRD-242: Android Studio Quail 调试/性能工具包
         BottomNavRoute.QuailDebugTools,
         // PRD-250: Android AppFunctions App-as-Tool 开发工具包
-        BottomNavRoute.AppAsTool
+        BottomNavRoute.AppAsTool,
+        // PRD-257: Verified Financial Calls API 集成工具包
+        BottomNavRoute.VerifiedFinancialCalls
     )
 
     // Pager 状态，管理当前是第几页
@@ -338,7 +342,9 @@ fun MainScreen(
     // PRD-242: Android Studio Quail 调试/性能工具包
     val quailDebugToolsViewModel = remember { QuailDebugToolsViewModel() }
     val appAsToolViewModel = remember { AppAsToolViewModel() }
+    val verifiedFinancialCallsViewModel = remember { VerifiedFinancialCallsViewModel() }
     var quailDebugToolsTopBar by remember { mutableStateOf(TopBarConfig(title = "Quail 调试/性能工具包")) }
+    var verifiedFinancialCallsTopBar by remember { mutableStateOf(TopBarConfig(title = "来电验证 / Verified Calls")) }
 
     // 根据当前页码决定显示哪个 TopBar 配置
     val currentTopBar = when (pagerState.currentPage) {
@@ -388,6 +394,8 @@ fun MainScreen(
         43 -> androidCLIExternalAgentToolkitTopBar
         // PRD-242: Android Studio Quail 调试/性能工具包
         44 -> quailDebugToolsTopBar
+        // PRD-257: Verified Financial Calls API 集成工具包
+        46 -> verifiedFinancialCallsTopBar
 
         else -> homeTopBar
     }
@@ -620,6 +628,10 @@ fun MainScreen(
                     45 -> AppAsToolScreen(
                         viewModel = appAsToolViewModel,
                         onNavigateBack = { /* no-op: Tab navigation handles back */ }
+                    )
+                    // PRD-257: Verified Financial Calls API 集成工具包
+                    46 -> VerifiedFinancialCallsScreen(
+                        viewModel = verifiedFinancialCallsViewModel
                     )
                 }
             }

@@ -12,6 +12,7 @@ import androidx.compose.material.icons.filled.Memory
 import androidx.compose.material.icons.filled.Watch
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.Shield
+import androidx.compose.material.icons.filled.Security
 import androidx.compose.material.icons.filled.Star
 import androidx.compose.material.icons.filled.SystemUpdate
 import androidx.compose.material.icons.filled.VerifiedUser
@@ -138,6 +139,8 @@ sealed class BottomNavRoute(
     data object QuailDebugTools : BottomNavRoute(route = "quail_debug_tools", title = "Quail调试", icon = Icons.Default.BugReport)
     // PRD-250: Android AppFunctions App-as-Tool 开发工具包
     data object AppAsTool : BottomNavRoute(route = "app_as_tool", title = "App as Tool", icon = Icons.Default.AutoAwesome)
+    // PRD-257: Verified Financial Calls API 集成工具包
+    data object VerifiedFinancialCalls : BottomNavRoute(route = "verified_financial_calls", title = "来电验证", icon = Icons.Default.Security)
 }
 
 /**
@@ -241,4 +244,6 @@ object NavRoutes {
     const val QUAIL_DEBUG_TOOLS = "quail_debug_tools"
     // PRD-250: Android AppFunctions App-as-Tool 开发工具包
     const val APP_AS_TOOL = "app_as_tool"
+    // PRD-257: Verified Financial Calls API 集成工具包
+    const val VERIFIED_FINANCIAL_CALLS = "verified_financial_calls"
 }
