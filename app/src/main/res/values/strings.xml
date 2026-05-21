@@ -518,4 +518,19 @@ Pure video playback, compatibility priority → PiP</string>
 
     <!-- PRD-263: Android 17 Create My Widget 生成式 UI 开发工具包 -->
     <string name="create_my_widget">Create My Widget</string>
+
+    <!-- PRD-258: Jetpack Navigation 3 响应式导航集成工具包 -->
+    <string name="nav3_toolkit_title">Nav3 响应式导航工具包</string>
+    <string name="nav3_toolkit_tab_getting_started">入门与迁移</string>
+    <string name="nav3_toolkit_tab_adaptive_nav">自适应导航</string>
+    <string name="nav3_toolkit_tab_foldable">折叠屏集成</string>
+    <string name="nav3_toolkit_tab_cross_device">跨设备状态</string>
+    <string name="nav3_toolkit_tab_ci_tools">CI验证工具</string>
+    <string name="nav3_toolkit_copy_navgraph">复制 NavGraph XML</string>
+    <string name="nav3_toolkit_copied">已复制到剪贴板</string>
+    <string name="nav3_toolkit_legacy_mode">显示 v2.x 代码</string>
+    <string name="nav3_toolkit_v3_mode">显示 v3 代码</string>
+    <string name="nav3_toolkit_search_placeholder">搜索章节…</string>
+    <string name="nav3_toolkit_expand">展开</string>
+    <string name="nav3_toolkit_collapse">收起</string>
 </resources>

@@ -147,6 +147,8 @@ sealed class BottomNavRoute(
     data object KotlinPausableComposition : BottomNavRoute(route = "kotlin_pausable_composition", title = "Kotlin 2.2", icon = Icons.Default.AutoAwesome)
     // PRD-258: Android XR AI Glasses 开发工具包
     data object XRGlassesToolkit : BottomNavRoute(route = "xr_glasses_toolkit", title = "AI Glasses", icon = Icons.Default.AutoAwesome)
+    // PRD-258: Jetpack Navigation 3 响应式导航集成工具包
+    data object Nav3Toolkit : BottomNavRoute(route = "nav3_toolkit", title = "Nav3工具包", icon = Icons.Default.AccountTree)
     // PRD-259: Android Studio Panda 4 AI 工作流工具包
     data object Panda4Workflow : BottomNavRoute(route = "panda4_workflow", title = "Panda 4 AI", icon = Icons.Default.AutoAwesome)
     // PRD-260: Android CLI + Skills AI Agent 开发工作流工具包
@@ -155,6 +157,8 @@ sealed class BottomNavRoute(
     data object AndroidDevVerification : BottomNavRoute(route = "android_dev_verification", title = "Dev合规", icon = Icons.Default.Shield)
     // PRD-263: Android 17 Create My Widget 生成式 UI 开发工具包
     data object CreateMyWidget : BottomNavRoute(route = "create_my_widget", title = "Create My Widget", icon = Icons.Default.AutoAwesome)
+    // PRD-259: Android CLI 1.0 AI Agent 开发集成工具包
+    data object AndroidCliToolkit : BottomNavRoute(route = "android_cli_toolkit", title = "CLI Agent", icon = Icons.Default.Code)
 }
 
 /**
@@ -264,6 +268,8 @@ object NavRoutes {
     const val KOTLIN_PAUSABLE_COMPOSITION = "kotlin_pausable_composition"
     // PRD-258: Android XR AI Glasses 开发工具包
     const val XR_GLASSES_TOOLKIT = "xr_glasses_toolkit"
+    // PRD-258: Jetpack Navigation 3 响应式导航集成工具包
+    const val NAV3_TOOLKIT = "nav3_toolkit"
     // PRD-259: Android Studio Panda 4 AI 工作流工具包
     const val PAND_4_WORKFLOW = "panda4_workflow"
     // PRD-260: Android CLI + Skills AI Agent 开发工作流工具包
@@ -276,4 +282,6 @@ object NavRoutes {
     // PRD-263: Android 17 Create My Widget 生成式 UI 开发工具包
     const val CREATE_MY_WIDGET = "create_my_widget"
     const val CREATE_MY_WIDGET_DETAIL = "create_my_widget_detail/{toolId}"
+    // PRD-259: Android CLI 1.0 AI Agent 开发集成工具包
+    const val ANDROID_CLI_TOOLKIT = "android_cli_toolkit"
 }

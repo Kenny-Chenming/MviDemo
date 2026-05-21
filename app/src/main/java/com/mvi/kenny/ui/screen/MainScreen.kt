@@ -36,6 +36,8 @@ import com.mvi.kenny.feature.aiagent.AIAgentScreen
 import com.mvi.kenny.feature.qaframework.QAFrameworkScreen
 import com.mvi.kenny.feature.appfunctions.AppFuncDesignToolScreen
 import com.mvi.kenny.feature.nav3tool.NavToolScreen
+import com.mvi.kenny.feature.nav3toolkit.Nav3ToolkitScreen
+import com.mvi.kenny.feature.nav3toolkit.Nav3ToolkitViewModel
 import com.mvi.kenny.feature.page16kb.Page16KbScreen
 import com.mvi.kenny.feature.wearos64bit.WearOs64BitScreen
 import com.mvi.kenny.feature.swiftpmmigration.SwiftPMMigrationScreen
@@ -116,6 +118,8 @@ import com.mvi.kenny.feature.androiddeverification.AndroidDevVerificationScreen
 import com.mvi.kenny.feature.androiddeverification.AndroidDevVerificationViewModel
 import com.mvi.kenny.feature.createmywidget.CreateMyWidgetScreen
 import com.mvi.kenny.feature.createmywidget.CreateMyWidgetViewModel
+import com.mvi.kenny.feature.androidclitoolkit.AndroidCliToolkitScreen
+import com.mvi.kenny.feature.androidclitoolkit.AndroidCliToolkitViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -255,6 +259,8 @@ fun MainScreen(
         BottomNavRoute.KotlinPausableComposition,
         // PRD-258: Android XR AI Glasses 开发工具包
         BottomNavRoute.XRGlassesToolkit,
+        // PRD-258: Jetpack Navigation 3 响应式导航集成工具包
+        BottomNavRoute.Nav3Toolkit,
         // PRD-259: Android Studio Panda 4 AI 工作流工具包
         BottomNavRoute.Panda4Workflow,
         // PRD-260: Android CLI + Skills AI Agent 开发工作流工具包
@@ -262,7 +268,9 @@ fun MainScreen(
         // PRD-261: Android 开发者验证合规与 CI 集成工具包
         BottomNavRoute.AndroidDevVerification,
         // PRD-263: Android 17 Create My Widget 生成式 UI 开发工具包
-        BottomNavRoute.CreateMyWidget
+        BottomNavRoute.CreateMyWidget,
+        // PRD-259: Android CLI 1.0 AI Agent 开发集成工具包
+        BottomNavRoute.AndroidCliToolkit
     )
 
     // Pager 状态，管理当前是第几页
@@ -372,9 +380,13 @@ fun MainScreen(
     var kotlinPausableCompositionTopBar by remember { mutableStateOf(TopBarConfig(title = "Kotlin 2.2 + Pausable Composition")) }
     // PRD-258: Android XR AI Glasses 开发工具包
     val xrGlassesToolkitViewModel = remember { XRGlassesToolkitViewModel() }
+    // PRD-258: Jetpack Navigation 3 响应式导航集成工具包
+    val nav3ToolkitViewModel = remember { Nav3ToolkitViewModel() }
     // PRD-259: Android Studio Panda 4 AI 工作流工具包
     val panda4WorkflowViewModel = remember { Panda4WorkflowViewModel() }
     var xrGlassesToolkitTopBar by remember { mutableStateOf(TopBarConfig(title = "Android XR AI Glasses")) }
+    // PRD-258: Jetpack Navigation 3 响应式导航集成工具包
+    var nav3ToolkitTopBar by remember { mutableStateOf(TopBarConfig(title = "Nav3 响应式导航工具包")) }
     // PRD-259: Android Studio Panda 4 AI 工作流工具包
     var panda4WorkflowTopBar by remember { mutableStateOf(TopBarConfig(title = "Panda 4 AI 工作流")) }
     // PRD-260: Android CLI + Skills AI Agent 开发工作流工具包
@@ -386,6 +398,9 @@ fun MainScreen(
     // PRD-263: Android 17 Create My Widget 生成式 UI 开发工具包
     val createMyWidgetViewModel = remember { CreateMyWidgetViewModel() }
     var createMyWidgetTopBar by remember { mutableStateOf(TopBarConfig(title = "Create My Widget")) }
+    // PRD-259: Android CLI 1.0 AI Agent 开发集成工具包
+    val androidCliToolkitViewModel = remember { AndroidCliToolkitViewModel() }
+    var androidCliToolkitTopBar by remember { mutableStateOf(TopBarConfig(title = "Android CLI 1.0")) }
     var quailDebugToolsTopBar by remember { mutableStateOf(TopBarConfig(title = "Quail 调试/性能工具包")) }
     // PRD-232: Kotlin 2.2.20 Swift Export iOS 原生互联络工具包
     val swiftExportToolViewModel = remember { SwiftExportToolViewModel() }
@@ -454,6 +469,10 @@ fun MainScreen(
         51 -> androidDevVerificationTopBar
         // PRD-263: Android 17 Create My Widget 生成式 UI 开发工具包
         52 -> createMyWidgetTopBar
+        // PRD-258: Jetpack Navigation 3 响应式导航集成工具包
+        53 -> nav3ToolkitTopBar
+        // PRD-259: Android CLI 1.0 AI Agent 开发集成工具包
+        54 -> androidCliToolkitTopBar
 
         else -> homeTopBar
     }
@@ -719,6 +738,13 @@ fun MainScreen(
                     )
                     // PRD-263: Android 17 Create My Widget 生成式 UI 开发工具包
                     52 -> CreateMyWidgetScreen(viewModel = createMyWidgetViewModel)
+                    // PRD-258: Jetpack Navigation 3 响应式导航集成工具包
+                    53 -> Nav3ToolkitScreen(viewModel = nav3ToolkitViewModel)
+                    // PRD-259: Android CLI 1.0 AI Agent 开发集成工具包
+                    54 -> AndroidCliToolkitScreen(
+                        viewModel = androidCliToolkitViewModel,
+                        onNavigateBack = { pendingTabToSelect = 0 }
+                    )
                 }
             }
         }
