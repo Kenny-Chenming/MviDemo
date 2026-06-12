@@ -104,6 +104,8 @@ import com.mvi.kenny.feature.appastool.AppAsToolScreen
 import com.mvi.kenny.feature.appastool.AppAsToolViewModel
 import com.mvi.kenny.feature.verifiedfinancialcalls.VerifiedFinancialCallsScreen
 import com.mvi.kenny.feature.verifiedfinancialcalls.VerifiedFinancialCallsViewModel
+import com.mvi.kenny.feature.webmcp.WebMcpScreen
+import com.mvi.kenny.feature.webmcp.WebMcpViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -238,7 +240,9 @@ fun MainScreen(
         // PRD-250: Android AppFunctions App-as-Tool 开发工具包
         BottomNavRoute.AppAsTool,
         // PRD-257: Verified Financial Calls API 集成工具包
-        BottomNavRoute.VerifiedFinancialCalls
+        BottomNavRoute.VerifiedFinancialCalls,
+        // PRD-262: WebMCP Android WebView Agent 集成工具包
+        BottomNavRoute.WebMcpToolkit
     )
 
     // Pager 状态，管理当前是第几页
@@ -343,6 +347,8 @@ fun MainScreen(
     val quailDebugToolsViewModel = remember { QuailDebugToolsViewModel() }
     val appAsToolViewModel = remember { AppAsToolViewModel() }
     val verifiedFinancialCallsViewModel = remember { VerifiedFinancialCallsViewModel() }
+    // PRD-262: WebMCP Android WebView Agent 集成工具包
+    val webMcpViewModel = remember { WebMcpViewModel() }
     var quailDebugToolsTopBar by remember { mutableStateOf(TopBarConfig(title = "Quail 调试/性能工具包")) }
     var verifiedFinancialCallsTopBar by remember { mutableStateOf(TopBarConfig(title = "来电验证 / Verified Calls")) }
 
@@ -632,6 +638,11 @@ fun MainScreen(
                     // PRD-257: Verified Financial Calls API 集成工具包
                     46 -> VerifiedFinancialCallsScreen(
                         viewModel = verifiedFinancialCallsViewModel
+                    )
+                    // PRD-262: WebMCP Android WebView Agent 集成工具包
+                    49 -> WebMcpScreen(
+                        viewModel = webMcpViewModel,
+                        onNavigateBack = { /* no-op: Tab navigation handles back */ }
                     )
                 }
             }

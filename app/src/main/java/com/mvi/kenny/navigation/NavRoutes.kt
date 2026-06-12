@@ -141,6 +141,8 @@ sealed class BottomNavRoute(
     data object AppAsTool : BottomNavRoute(route = "app_as_tool", title = "App as Tool", icon = Icons.Default.AutoAwesome)
     // PRD-257: Verified Financial Calls API 集成工具包
     data object VerifiedFinancialCalls : BottomNavRoute(route = "verified_financial_calls", title = "来电验证", icon = Icons.Default.Security)
+    // PRD-262: WebMCP Android WebView Agent 集成工具包
+    data object WebMcpToolkit : BottomNavRoute(route = "web_mcp_toolkit", title = "WebMCP", icon = Icons.Default.Security)
 }
 
 /**
@@ -246,4 +248,6 @@ object NavRoutes {
     const val APP_AS_TOOL = "app_as_tool"
     // PRD-257: Verified Financial Calls API 集成工具包
     const val VERIFIED_FINANCIAL_CALLS = "verified_financial_calls"
+    // PRD-262: WebMCP Android WebView Agent 集成工具包
+    const val WEB_MCP_TOOLKIT = "web_mcp_toolkit"
 }
