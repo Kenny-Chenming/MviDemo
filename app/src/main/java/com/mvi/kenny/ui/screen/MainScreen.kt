@@ -397,12 +397,20 @@ fun MainScreen(
         39 -> aluminiumOSDesktopTopBar
         // PRD-233: Android Agent Skills 技能库生态工具包
         41 -> agentSkillsToolkitTopBar
+        // PRD-234: Google Play Contact Picker 强制迁移工具包
+        42 -> contactPickerTopBar
+        // PRD-235: Android 17 Per-App 内存限制检测与优化工具包
+        43 -> perAppMemoryLimitsTopBar
         // PRD-241: Android CLI × External AI Agent 集成工具包
-        43 -> androidCLIExternalAgentToolkitTopBar
+        44 -> androidCLIExternalAgentToolkitTopBar
         // PRD-242: Android Studio Quail 调试/性能工具包
-        44 -> quailDebugToolsTopBar
+        45 -> quailDebugToolsTopBar
+        // PRD-250: Android AppFunctions App-as-Tool 开发工具包
+        46 -> appAsToolViewModel.state.collectAsState().value.let { homeTopBar }  // AppAsTool manages its own TopBar
         // PRD-257: Verified Financial Calls API 集成工具包
-        46 -> verifiedFinancialCallsTopBar
+        47 -> verifiedFinancialCallsTopBar
+        // PRD-266: Material Views → Compose 迁移工具包
+        48 -> migrationToolkitTopBar
 
         else -> homeTopBar
     }
@@ -616,32 +624,32 @@ fun MainScreen(
                         onUpdateTopBar = { agentSkillsToolkitTopBar = it }
                     )
                     // PRD-234: Google Play Contact Picker 强制迁移工具包
-                    38 -> ContactPickerScreen(
+                    42 -> ContactPickerScreen(
                         viewModel = contactPickerViewModel
                     )
                     // PRD-235: Android 17 Per-App 内存限制检测与优化工具包
-                    42 -> PerAppMemoryLimitsScreen(viewModel = perAppMemoryLimitsViewModel)
+                    43 -> PerAppMemoryLimitsScreen(viewModel = perAppMemoryLimitsViewModel)
                     // PRD-241: Android CLI × External AI Agent 集成工具包
-                    43 -> AndroidCLIExternalAgentToolkitScreen(
+                    44 -> AndroidCLIExternalAgentToolkitScreen(
                         state = androidCLIExternalAgentToolkitViewModel.state.collectAsState().value,
                         viewModel = androidCLIExternalAgentToolkitViewModel,
                         onUpdateTopBar = { androidCLIExternalAgentToolkitTopBar = it }
                     )
                     // PRD-242: Android Studio Quail 调试/性能工具包
-                    44 -> QuailDebugToolsScreen(
+                    45 -> QuailDebugToolsScreen(
                         viewModel = quailDebugToolsViewModel
                     )
                     // PRD-250: Android AppFunctions App-as-Tool 开发工具包
-                    45 -> AppAsToolScreen(
+                    46 -> AppAsToolScreen(
                         viewModel = appAsToolViewModel,
                         onNavigateBack = { /* no-op: Tab navigation handles back */ }
                     )
                     // PRD-257: Verified Financial Calls API 集成工具包
-                    46 -> VerifiedFinancialCallsScreen(
+                    47 -> VerifiedFinancialCallsScreen(
                         viewModel = verifiedFinancialCallsViewModel
                     )
                     // PRD-266: Material Views → Compose 迁移工具包
-                    47 -> MigrationToolkitScreen(
+                    48 -> MigrationToolkitScreen(
                         viewModel = migrationToolkitViewModel
                     )
                 }
