@@ -141,6 +141,8 @@ sealed class BottomNavRoute(
     data object AppAsTool : BottomNavRoute(route = "app_as_tool", title = "App as Tool", icon = Icons.Default.AutoAwesome)
     // PRD-257: Verified Financial Calls API 集成工具包
     data object VerifiedFinancialCalls : BottomNavRoute(route = "verified_financial_calls", title = "来电验证", icon = Icons.Default.Security)
+    // PRD-266: Material Views → Compose 迁移工具包
+    data object MigrationToolkit : BottomNavRoute(route = "migration_toolkit", title = "Views迁移", icon = Icons.Default.SwapHoriz)
 }
 
 /**
@@ -246,4 +248,16 @@ object NavRoutes {
     const val APP_AS_TOOL = "app_as_tool"
     // PRD-257: Verified Financial Calls API 集成工具包
     const val VERIFIED_FINANCIAL_CALLS = "verified_financial_calls"
+    // PRD-266: Material Views → Compose 迁移工具包
+    const val MIGRATION_TOOLKIT = "migration_toolkit"
+    const val MIGRATION_TOOLKIT_ASSESSMENT = "migration_toolkit_assessment"
+    const val MIGRATION_TOOLKIT_CONVERTER = "migration_toolkit_converter"
+    const val MIGRATION_TOOLKIT_MAPPING = "migration_toolkit_mapping"
+    const val MIGRATION_TOOLKIT_THEME = "migration_toolkit_theme"
+    const val MIGRATION_TOOLKIT_HYBRID = "migration_toolkit_hybrid"
+    const val MIGRATION_TOOLKIT_MDC_MAINTENANCE = "migration_toolkit_mdc_maintenance"
+    const val MIGRATION_TOOLKIT_M2_M3 = "migration_toolkit_m2_m3"
+    const val MIGRATION_TOOLKIT_EXPRESSIVE = "migration_toolkit_expressive"
+    const val MIGRATION_TOOLKIT_DYNAMIC_COLOR = "migration_toolkit_dynamic_color"
+    const val MIGRATION_TOOLKIT_STYLES_API = "migration_toolkit_styles_api"
 }

@@ -86,6 +86,9 @@ import com.mvi.kenny.feature.otpdelay.OtpDelayViewModel
 import com.mvi.kenny.feature.room3migration.Room3MigrationScreen
 import com.mvi.kenny.feature.room3migration.Room3MigrationViewModel
 import com.mvi.kenny.feature.room3importmigration.Room3ImportMigrationScreen
+import com.mvi.kenny.feature.migrationtoolkit.MigrationToolkitScreen
+import com.mvi.kenny.feature.migrationtoolkit.MigrationToolkitViewModel
+import com.mvi.kenny.feature.room3importmigration.Room3ImportMigrationScreen
 import com.mvi.kenny.feature.room3importmigration.Room3ImportMigrationViewModel
 import com.mvi.kenny.feature.android17memory.Android17MemoryScreen
 import com.mvi.kenny.feature.android17memory.Android17MemoryViewModel
@@ -238,7 +241,9 @@ fun MainScreen(
         // PRD-250: Android AppFunctions App-as-Tool 开发工具包
         BottomNavRoute.AppAsTool,
         // PRD-257: Verified Financial Calls API 集成工具包
-        BottomNavRoute.VerifiedFinancialCalls
+        BottomNavRoute.VerifiedFinancialCalls,
+        // PRD-266: Material Views → Compose 迁移工具包
+        BottomNavRoute.MigrationToolkit
     )
 
     // Pager 状态，管理当前是第几页
@@ -343,8 +348,10 @@ fun MainScreen(
     val quailDebugToolsViewModel = remember { QuailDebugToolsViewModel() }
     val appAsToolViewModel = remember { AppAsToolViewModel() }
     val verifiedFinancialCallsViewModel = remember { VerifiedFinancialCallsViewModel() }
+    val migrationToolkitViewModel = remember { MigrationToolkitViewModel() }
     var quailDebugToolsTopBar by remember { mutableStateOf(TopBarConfig(title = "Quail 调试/性能工具包")) }
     var verifiedFinancialCallsTopBar by remember { mutableStateOf(TopBarConfig(title = "来电验证 / Verified Calls")) }
+    var migrationToolkitTopBar by remember { mutableStateOf(TopBarConfig(title = "Views → Compose 迁移工具包")) }
 
     // 根据当前页码决定显示哪个 TopBar 配置
     val currentTopBar = when (pagerState.currentPage) {
@@ -632,6 +639,10 @@ fun MainScreen(
                     // PRD-257: Verified Financial Calls API 集成工具包
                     46 -> VerifiedFinancialCallsScreen(
                         viewModel = verifiedFinancialCallsViewModel
+                    )
+                    // PRD-266: Material Views → Compose 迁移工具包
+                    47 -> MigrationToolkitScreen(
+                        viewModel = migrationToolkitViewModel
                     )
                 }
             }
