@@ -126,6 +126,8 @@ import com.mvi.kenny.feature.androidclitoolkit.AndroidCliToolkitViewModel
 import com.mvi.kenny.feature.verifiedfinancialcalls.VerifiedFinancialCallsScreen
 import com.mvi.kenny.feature.verifiedfinancialcalls.VerifiedFinancialCallsViewModel
 import com.mvi.kenny.feature.appfunctionsmcp.AppFunctionsMcpScreen
+import com.mvi.kenny.feature.exoplayermedia3migration.ExoPlayer2Media3MigrationToolScreen
+import com.mvi.kenny.feature.exoplayermedia3migration.ExoPlayer2Media3MigrationToolViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -284,7 +286,9 @@ fun MainScreen(
         // PRD-266: Material Views → Compose 迁移工具包
         BottomNavRoute.MigrationToolkit,
         // PRD-274: Android AppFunctions On-Device MCP 开发工具包
-        BottomNavRoute.AppFunctionsMcp
+        BottomNavRoute.AppFunctionsMcp,
+        // PRD-277: Android 17 ExoPlayer 2 → Media3 强制迁移工具包
+        BottomNavRoute.ExoPlayerMedia3Migration
     )
 
     // Pager 状态，管理当前是第几页
@@ -423,6 +427,9 @@ fun MainScreen(
     val migrationToolkitViewModel = remember { MigrationToolkitViewModel() }
     var verifiedFinancialCallsTopBar by remember { mutableStateOf(TopBarConfig(title = "来电验证 / Verified Calls")) }
     var migrationToolkitTopBar by remember { mutableStateOf(TopBarConfig(title = "Views → Compose 迁移工具包")) }
+    // PRD-277: Android 17 ExoPlayer 2 → Media3 强制迁移工具包
+    val exoPlayerMedia3MigrationViewModel = remember { ExoPlayer2Media3MigrationToolViewModel() }
+    var exoPlayerMedia3MigrationTopBar by remember { mutableStateOf(TopBarConfig(title = "ExoPlayer → Media3")) }
 
     // 根据当前页码决定显示哪个 TopBar 配置
     val currentTopBar = when (pagerState.currentPage) {
@@ -499,6 +506,10 @@ fun MainScreen(
         55 -> verifiedFinancialCallsTopBar
         // PRD-266: Material Views → Compose 迁移工具包
         56 -> migrationToolkitTopBar
+        // PRD-274: Android AppFunctions On-Device MCP 开发工具包
+        58 -> homeTopBar  // AppFunctionsMcp uses its own TopBar
+        // PRD-277: Android 17 ExoPlayer 2 → Media3 强制迁移工具包
+        59 -> exoPlayerMedia3MigrationTopBar
 
         else -> homeTopBar
     }
@@ -781,6 +792,10 @@ fun MainScreen(
                     )
                     // PRD-274: Android AppFunctions On-Device MCP 开发工具包
                     58 -> AppFunctionsMcpScreen()
+                    // PRD-277: Android 17 ExoPlayer 2 → Media3 强制迁移工具包
+                    59 -> ExoPlayer2Media3MigrationToolScreen(
+                        viewModel = exoPlayerMedia3MigrationViewModel
+                    )
                 }
             }
         }

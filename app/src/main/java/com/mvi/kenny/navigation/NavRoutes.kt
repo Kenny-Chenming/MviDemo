@@ -166,6 +166,8 @@ sealed class BottomNavRoute(
     data object MigrationToolkit : BottomNavRoute(route = "migration_toolkit", title = "Views迁移", icon = Icons.Default.SwapHoriz)
     // PRD-274: Android AppFunctions On-Device MCP 开发工具包
     data object AppFunctionsMcp : BottomNavRoute(route = "appfunctions_mcp", title = "AppFunctions MCP", icon = Icons.Default.AutoAwesome)
+    // PRD-277: Android 17 ExoPlayer 2 → Media3 强制迁移工具包
+    data object ExoPlayerMedia3Migration : BottomNavRoute(route = "exoplayer_media3_migration", title = "Media3迁移", icon = Icons.Default.SwapHoriz)
 }
 
 /**
@@ -307,4 +309,6 @@ object NavRoutes {
     const val MIGRATION_TOOLKIT_STYLES_API = "migration_toolkit_styles_api"
     // PRD-274: Android AppFunctions On-Device MCP 开发工具包
     const val APP_FUNCTIONS_MCP = "appfunctions_mcp"
+    // PRD-277: Android 17 ExoPlayer 2 → Media3 强制迁移工具包
+    const val EXOPLAYER_MEDIA3_MIGRATION = "exoplayer_media3_migration"
 }
