@@ -12,6 +12,7 @@ import androidx.compose.material.icons.filled.Memory
 import androidx.compose.material.icons.filled.Watch
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.Shield
+import androidx.compose.material.icons.filled.Security
 import androidx.compose.material.icons.filled.Star
 import androidx.compose.material.icons.filled.SystemUpdate
 import androidx.compose.material.icons.filled.VerifiedUser
@@ -141,10 +142,12 @@ sealed class BottomNavRoute(
     data object QuailDebugTools : BottomNavRoute(route = "quail_debug_tools", title = "Quail调试", icon = Icons.Default.BugReport)
     // PRD-232: Kotlin 2.2.20 Swift Export iOS 原生互联络工具包
     data object SwiftExportTool : BottomNavRoute(route = "swift_export_tool", title = "Swift Export", icon = Icons.Default.Code)
-    // PRD-250: Android AppFunctions App-as-Tool 开发工具包
-    data object AppAsTool : BottomNavRoute(route = "app_as_tool", title = "App as Tool", icon = Icons.Default.AutoAwesome)
     // PRD-257: Kotlin 2.2 Context Parameters + Compose Pausable Composition 开发者适配工具包
     data object KotlinPausableComposition : BottomNavRoute(route = "kotlin_pausable_composition", title = "Kotlin 2.2", icon = Icons.Default.AutoAwesome)
+    // PRD-250: Android AppFunctions App-as-Tool 开发工具包
+    data object AppAsTool : BottomNavRoute(route = "app_as_tool", title = "App as Tool", icon = Icons.Default.AutoAwesome)
+    // PRD-257: Verified Financial Calls API 集成工具包
+    data object VerifiedFinancialCalls : BottomNavRoute(route = "verified_financial_calls", title = "来电验证", icon = Icons.Default.Security)
     // PRD-258: Android XR AI Glasses 开发工具包
     data object XRGlassesToolkit : BottomNavRoute(route = "xr_glasses_toolkit", title = "AI Glasses", icon = Icons.Default.AutoAwesome)
     // PRD-258: Jetpack Navigation 3 响应式导航集成工具包
@@ -159,6 +162,10 @@ sealed class BottomNavRoute(
     data object CreateMyWidget : BottomNavRoute(route = "create_my_widget", title = "Create My Widget", icon = Icons.Default.AutoAwesome)
     // PRD-259: Android CLI 1.0 AI Agent 开发集成工具包
     data object AndroidCliToolkit : BottomNavRoute(route = "android_cli_toolkit", title = "CLI Agent", icon = Icons.Default.Code)
+    // PRD-266: Material Views → Compose 迁移工具包
+    data object MigrationToolkit : BottomNavRoute(route = "migration_toolkit", title = "Views迁移", icon = Icons.Default.SwapHoriz)
+    // PRD-274: Android AppFunctions On-Device MCP 开发工具包
+    data object AppFunctionsMcp : BottomNavRoute(route = "appfunctions_mcp", title = "AppFunctions MCP", icon = Icons.Default.AutoAwesome)
 }
 
 /**
@@ -284,4 +291,20 @@ object NavRoutes {
     const val CREATE_MY_WIDGET_DETAIL = "create_my_widget_detail/{toolId}"
     // PRD-259: Android CLI 1.0 AI Agent 开发集成工具包
     const val ANDROID_CLI_TOOLKIT = "android_cli_toolkit"
+    // PRD-257: Verified Financial Calls API 集成工具包
+    const val VERIFIED_FINANCIAL_CALLS = "verified_financial_calls"
+    // PRD-266: Material Views → Compose 迁移工具包
+    const val MIGRATION_TOOLKIT = "migration_toolkit"
+    const val MIGRATION_TOOLKIT_ASSESSMENT = "migration_toolkit_assessment"
+    const val MIGRATION_TOOLKIT_CONVERTER = "migration_toolkit_converter"
+    const val MIGRATION_TOOLKIT_MAPPING = "migration_toolkit_mapping"
+    const val MIGRATION_TOOLKIT_THEME = "migration_toolkit_theme"
+    const val MIGRATION_TOOLKIT_HYBRID = "migration_toolkit_hybrid"
+    const val MIGRATION_TOOLKIT_MDC_MAINTENANCE = "migration_toolkit_mdc_maintenance"
+    const val MIGRATION_TOOLKIT_M2_M3 = "migration_toolkit_m2_m3"
+    const val MIGRATION_TOOLKIT_EXPRESSIVE = "migration_toolkit_expressive"
+    const val MIGRATION_TOOLKIT_DYNAMIC_COLOR = "migration_toolkit_dynamic_color"
+    const val MIGRATION_TOOLKIT_STYLES_API = "migration_toolkit_styles_api"
+    // PRD-274: Android AppFunctions On-Device MCP 开发工具包
+    const val APP_FUNCTIONS_MCP = "appfunctions_mcp"
 }

@@ -90,6 +90,9 @@ import com.mvi.kenny.feature.otpdelay.OtpDelayViewModel
 import com.mvi.kenny.feature.room3migration.Room3MigrationScreen
 import com.mvi.kenny.feature.room3migration.Room3MigrationViewModel
 import com.mvi.kenny.feature.room3importmigration.Room3ImportMigrationScreen
+import com.mvi.kenny.feature.migrationtoolkit.MigrationToolkitScreen
+import com.mvi.kenny.feature.migrationtoolkit.MigrationToolkitViewModel
+import com.mvi.kenny.feature.room3importmigration.Room3ImportMigrationScreen
 import com.mvi.kenny.feature.room3importmigration.Room3ImportMigrationViewModel
 import com.mvi.kenny.feature.android17memory.Android17MemoryScreen
 import com.mvi.kenny.feature.android17memory.Android17MemoryViewModel
@@ -120,6 +123,9 @@ import com.mvi.kenny.feature.createmywidget.CreateMyWidgetScreen
 import com.mvi.kenny.feature.createmywidget.CreateMyWidgetViewModel
 import com.mvi.kenny.feature.androidclitoolkit.AndroidCliToolkitScreen
 import com.mvi.kenny.feature.androidclitoolkit.AndroidCliToolkitViewModel
+import com.mvi.kenny.feature.verifiedfinancialcalls.VerifiedFinancialCallsScreen
+import com.mvi.kenny.feature.verifiedfinancialcalls.VerifiedFinancialCallsViewModel
+import com.mvi.kenny.feature.appfunctionsmcp.AppFunctionsMcpScreen
 import androidx.lifecycle.ViewModelProvider
 import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -267,10 +273,18 @@ fun MainScreen(
         BottomNavRoute.AndroidCliSkillsToolkit,
         // PRD-261: Android 开发者验证合规与 CI 集成工具包
         BottomNavRoute.AndroidDevVerification,
+        // PRD-262: Android 17 App Memory Limits 开发者适配工具包
+        BottomNavRoute.AppMemoryLimits,
         // PRD-263: Android 17 Create My Widget 生成式 UI 开发工具包
         BottomNavRoute.CreateMyWidget,
         // PRD-259: Android CLI 1.0 AI Agent 开发集成工具包
-        BottomNavRoute.AndroidCliToolkit
+        BottomNavRoute.AndroidCliToolkit,
+        // PRD-257: Verified Financial Calls API 集成工具包
+        BottomNavRoute.VerifiedFinancialCalls,
+        // PRD-266: Material Views → Compose 迁移工具包
+        BottomNavRoute.MigrationToolkit,
+        // PRD-274: Android AppFunctions On-Device MCP 开发工具包
+        BottomNavRoute.AppFunctionsMcp
     )
 
     // Pager 状态，管理当前是第几页
@@ -405,6 +419,10 @@ fun MainScreen(
     // PRD-232: Kotlin 2.2.20 Swift Export iOS 原生互联络工具包
     val swiftExportToolViewModel = remember { SwiftExportToolViewModel() }
     var swiftExportToolTopBar by remember { mutableStateOf(TopBarConfig(title = "Swift Export")) }
+    val verifiedFinancialCallsViewModel = remember { VerifiedFinancialCallsViewModel() }
+    val migrationToolkitViewModel = remember { MigrationToolkitViewModel() }
+    var verifiedFinancialCallsTopBar by remember { mutableStateOf(TopBarConfig(title = "来电验证 / Verified Calls")) }
+    var migrationToolkitTopBar by remember { mutableStateOf(TopBarConfig(title = "Views → Compose 迁移工具包")) }
 
     // 根据当前页码决定显示哪个 TopBar 配置
     val currentTopBar = when (pagerState.currentPage) {
@@ -450,8 +468,12 @@ fun MainScreen(
         39 -> aluminiumOSDesktopTopBar
         // PRD-233: Android Agent Skills 技能库生态工具包
         41 -> agentSkillsToolkitTopBar
+        // PRD-234: Google Play Contact Picker 强制迁移工具包
+        42 -> contactPickerTopBar
+        // PRD-235: Android 17 Per-App 内存限制检测与优化工具包
+        43 -> perAppMemoryLimitsTopBar
         // PRD-241: Android CLI × External AI Agent 集成工具包
-        43 -> androidCLIExternalAgentToolkitTopBar
+        44 -> androidCLIExternalAgentToolkitTopBar
         // PRD-242: Android Studio Quail 调试/性能工具包
         44 -> quailDebugToolsTopBar
         45 -> appAsToolTopBar
@@ -473,6 +495,10 @@ fun MainScreen(
         53 -> nav3ToolkitTopBar
         // PRD-259: Android CLI 1.0 AI Agent 开发集成工具包
         54 -> androidCliToolkitTopBar
+        // PRD-257: Verified Financial Calls API 集成工具包
+        55 -> verifiedFinancialCallsTopBar
+        // PRD-266: Material Views → Compose 迁移工具包
+        56 -> migrationToolkitTopBar
 
         else -> homeTopBar
     }
@@ -686,65 +712,75 @@ fun MainScreen(
                         onUpdateTopBar = { agentSkillsToolkitTopBar = it }
                     )
                     // PRD-234: Google Play Contact Picker 强制迁移工具包
-                    38 -> ContactPickerScreen(
+                    42 -> ContactPickerScreen(
                         viewModel = contactPickerViewModel
                     )
                     // PRD-235: Android 17 Per-App 内存限制检测与优化工具包
-                    42 -> PerAppMemoryLimitsScreen(viewModel = perAppMemoryLimitsViewModel)
+                    43 -> PerAppMemoryLimitsScreen(viewModel = perAppMemoryLimitsViewModel)
                     // PRD-241: Android CLI × External AI Agent 集成工具包
-                    43 -> AndroidCLIExternalAgentToolkitScreen(
+                    44 -> AndroidCLIExternalAgentToolkitScreen(
                         state = androidCLIExternalAgentToolkitViewModel.state.collectAsState().value,
                         viewModel = androidCLIExternalAgentToolkitViewModel,
                         onUpdateTopBar = { androidCLIExternalAgentToolkitTopBar = it }
                     )
                     // PRD-242: Android Studio Quail 调试/性能工具包
-                    44 -> QuailDebugToolsScreen(
+                    45 -> QuailDebugToolsScreen(
                         viewModel = quailDebugToolsViewModel
                     )
                     // PRD-250: Android AppFunctions App-as-Tool 开发工具包
-                    45 -> AppAsToolScreen(
+                    46 -> AppAsToolScreen(
                         viewModel = appAsToolViewModel,
                         onNavigateBack = { /* no-op: Tab navigation handles back */ }
                     )
                     // PRD-232: Kotlin 2.2.20 Swift Export iOS 原生互联络工具包
-                    46 -> SwiftExportToolScreen(
+                    47 -> SwiftExportToolScreen(
                         onNavigateTo = { },
                         viewModel = swiftExportToolViewModel
                     )
                     // PRD-257: Kotlin 2.2 Context Parameters + Compose Pausable Composition
-                    47 -> KotlinPausableCompositionScreen(
+                    48 -> KotlinPausableCompositionScreen(
                         viewModel = kotlinPausableCompositionViewModel,
                         onUpdateTopBar = { kotlinPausableCompositionTopBar = it }
                     )
                     // PRD-258: Android XR AI Glasses 开发工具包
-                    48 -> XRGlassesToolkitScreen(
+                    49 -> XRGlassesToolkitScreen(
                         viewModel = xrGlassesToolkitViewModel,
                         onUpdateTopBar = { xrGlassesToolkitTopBar = it }
                     )
                     // PRD-259: Android Studio Panda 4 AI 工作流工具包
-                    49 -> Panda4WorkflowScreen(
+                    50 -> Panda4WorkflowScreen(
                         viewModel = panda4WorkflowViewModel,
                         onNavigateBack = { pendingTabToSelect = 0 }
                     )
                     // PRD-260: Android CLI + Skills AI Agent 开发工作流工具包
-                    50 -> AndroidCliSkillsToolkitScreen(
+                    51 -> AndroidCliSkillsToolkitScreen(
                         viewModel = androidCliSkillsToolkitViewModel,
                         onNavigateBack = { pendingTabToSelect = 0 }
                     )
                     // PRD-261: Android 开发者验证合规与 CI 集成工具包
-                    51 -> AndroidDevVerificationScreen(
+                    52 -> AndroidDevVerificationScreen(
                         viewModel = androidDevVerificationViewModel,
                         onUpdateTopBar = { androidDevVerificationTopBar = it }
                     )
                     // PRD-263: Android 17 Create My Widget 生成式 UI 开发工具包
-                    52 -> CreateMyWidgetScreen(viewModel = createMyWidgetViewModel)
+                    53 -> CreateMyWidgetScreen(viewModel = createMyWidgetViewModel)
                     // PRD-258: Jetpack Navigation 3 响应式导航集成工具包
-                    53 -> Nav3ToolkitScreen(viewModel = nav3ToolkitViewModel)
+                    54 -> Nav3ToolkitScreen(viewModel = nav3ToolkitViewModel)
                     // PRD-259: Android CLI 1.0 AI Agent 开发集成工具包
-                    54 -> AndroidCliToolkitScreen(
+                    55 -> AndroidCliToolkitScreen(
                         viewModel = androidCliToolkitViewModel,
                         onNavigateBack = { pendingTabToSelect = 0 }
                     )
+                    // PRD-257: Verified Financial Calls API 集成工具包
+                    56 -> VerifiedFinancialCallsScreen(
+                        viewModel = verifiedFinancialCallsViewModel
+                    )
+                    // PRD-266: Material Views → Compose 迁移工具包
+                    57 -> MigrationToolkitScreen(
+                        viewModel = migrationToolkitViewModel
+                    )
+                    // PRD-274: Android AppFunctions On-Device MCP 开发工具包
+                    58 -> AppFunctionsMcpScreen()
                 }
             }
         }
