@@ -107,6 +107,7 @@ import com.mvi.kenny.feature.appastool.AppAsToolScreen
 import com.mvi.kenny.feature.appastool.AppAsToolViewModel
 import com.mvi.kenny.feature.verifiedfinancialcalls.VerifiedFinancialCallsScreen
 import com.mvi.kenny.feature.verifiedfinancialcalls.VerifiedFinancialCallsViewModel
+import com.mvi.kenny.feature.appfunctionsmcp.AppFunctionsMcpScreen
 import androidx.lifecycle.ViewModelProvider
 import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -243,7 +244,9 @@ fun MainScreen(
         // PRD-257: Verified Financial Calls API 集成工具包
         BottomNavRoute.VerifiedFinancialCalls,
         // PRD-266: Material Views → Compose 迁移工具包
-        BottomNavRoute.MigrationToolkit
+        BottomNavRoute.MigrationToolkit,
+        // PRD-274: Android AppFunctions On-Device MCP 开发工具包
+        BottomNavRoute.AppFunctionsMcp
     )
 
     // Pager 状态，管理当前是第几页
@@ -652,6 +655,8 @@ fun MainScreen(
                     48 -> MigrationToolkitScreen(
                         viewModel = migrationToolkitViewModel
                     )
+                    // PRD-274: Android AppFunctions On-Device MCP 开发工具包
+                    49 -> AppFunctionsMcpScreen()
                 }
             }
         }

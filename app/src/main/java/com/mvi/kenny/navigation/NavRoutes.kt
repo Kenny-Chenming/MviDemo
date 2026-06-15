@@ -143,6 +143,8 @@ sealed class BottomNavRoute(
     data object VerifiedFinancialCalls : BottomNavRoute(route = "verified_financial_calls", title = "来电验证", icon = Icons.Default.Security)
     // PRD-266: Material Views → Compose 迁移工具包
     data object MigrationToolkit : BottomNavRoute(route = "migration_toolkit", title = "Views迁移", icon = Icons.Default.SwapHoriz)
+    // PRD-274: Android AppFunctions On-Device MCP 开发工具包
+    data object AppFunctionsMcp : BottomNavRoute(route = "appfunctions_mcp", title = "AppFunctions MCP", icon = Icons.Default.AutoAwesome)
 }
 
 /**
@@ -260,4 +262,6 @@ object NavRoutes {
     const val MIGRATION_TOOLKIT_EXPRESSIVE = "migration_toolkit_expressive"
     const val MIGRATION_TOOLKIT_DYNAMIC_COLOR = "migration_toolkit_dynamic_color"
     const val MIGRATION_TOOLKIT_STYLES_API = "migration_toolkit_styles_api"
+    // PRD-274: Android AppFunctions On-Device MCP 开发工具包
+    const val APP_FUNCTIONS_MCP = "appfunctions_mcp"
 }
