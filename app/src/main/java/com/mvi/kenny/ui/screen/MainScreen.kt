@@ -104,6 +104,12 @@ import com.mvi.kenny.feature.appastool.AppAsToolScreen
 import com.mvi.kenny.feature.appastool.AppAsToolViewModel
 import com.mvi.kenny.feature.verifiedfinancialcalls.VerifiedFinancialCallsScreen
 import com.mvi.kenny.feature.verifiedfinancialcalls.VerifiedFinancialCallsViewModel
+// PRD-280: Android Skills 安全扫描工具包
+import com.mvi.kenny.feature.skillssecuritytoolkit.SkillsSecurityToolkitScreen
+import com.mvi.kenny.feature.skillssecuritytoolkit.SkillsSecurityToolkitViewModel
+// PRD-283: Android MDC-Views → Compose 迁移工具包
+import com.mvi.kenny.feature.mdcviewscomposemigration.MdcToComposeToolScreen
+import com.mvi.kenny.feature.mdcviewscomposemigration.MdcToComposeToolViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -238,7 +244,11 @@ fun MainScreen(
         // PRD-250: Android AppFunctions App-as-Tool 开发工具包
         BottomNavRoute.AppAsTool,
         // PRD-257: Verified Financial Calls API 集成工具包
-        BottomNavRoute.VerifiedFinancialCalls
+        BottomNavRoute.VerifiedFinancialCalls,
+        // PRD-280: Android Skills 安全扫描工具包
+        BottomNavRoute.AndroidSkillsSecurity,
+        // PRD-283: Android MDC-Views → Compose 迁移工具包
+        BottomNavRoute.MdcToComposeMigration
     )
 
     // Pager 状态，管理当前是第几页
@@ -345,6 +355,12 @@ fun MainScreen(
     val verifiedFinancialCallsViewModel = remember { VerifiedFinancialCallsViewModel() }
     var quailDebugToolsTopBar by remember { mutableStateOf(TopBarConfig(title = "Quail 调试/性能工具包")) }
     var verifiedFinancialCallsTopBar by remember { mutableStateOf(TopBarConfig(title = "来电验证 / Verified Calls")) }
+    // PRD-280: Android Skills 安全扫描工具包
+    val skillsSecurityToolkitViewModel = remember { SkillsSecurityToolkitViewModel() }
+    var skillsSecurityToolkitTopBar by remember { mutableStateOf(TopBarConfig(title = "Skills 安全扫描工具包")) }
+    // PRD-283: Android MDC-Views → Compose 迁移工具包
+    val mdcToComposeToolViewModel = remember { MdcToComposeToolViewModel() }
+    var mdcToComposeToolTopBar by remember { mutableStateOf(TopBarConfig(title = "MDC → Compose 迁移工具包")) }
 
     // 根据当前页码决定显示哪个 TopBar 配置
     val currentTopBar = when (pagerState.currentPage) {
@@ -396,6 +412,10 @@ fun MainScreen(
         44 -> quailDebugToolsTopBar
         // PRD-257: Verified Financial Calls API 集成工具包
         46 -> verifiedFinancialCallsTopBar
+        // PRD-280: Android Skills 安全扫描工具包
+        47 -> skillsSecurityToolkitTopBar
+        // PRD-283: Android MDC-Views → Compose 迁移工具包
+        48 -> mdcToComposeToolTopBar
 
         else -> homeTopBar
     }
@@ -632,6 +652,15 @@ fun MainScreen(
                     // PRD-257: Verified Financial Calls API 集成工具包
                     46 -> VerifiedFinancialCallsScreen(
                         viewModel = verifiedFinancialCallsViewModel
+                    )
+                    // PRD-280: Android Skills 安全扫描工具包
+                    47 -> SkillsSecurityToolkitScreen(
+                        viewModel = skillsSecurityToolkitViewModel,
+                        onUpdateTopBar = { skillsSecurityToolkitTopBar = it }
+                    )
+                    // PRD-283: Android MDC-Views → Compose 迁移工具包
+                    48 -> MdcToComposeToolScreen(
+                        viewModel = mdcToComposeToolViewModel
                     )
                 }
             }
