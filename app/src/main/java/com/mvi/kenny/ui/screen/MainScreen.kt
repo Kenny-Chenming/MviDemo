@@ -110,6 +110,9 @@ import com.mvi.kenny.feature.skillssecuritytoolkit.SkillsSecurityToolkitViewMode
 // PRD-283: Android MDC-Views → Compose 迁移工具包
 import com.mvi.kenny.feature.mdcviewscomposemigration.MdcToComposeToolScreen
 import com.mvi.kenny.feature.mdcviewscomposemigration.MdcToComposeToolViewModel
+// PRD-289: Android XR SDK DP4 开发工具包
+import com.mvi.kenny.feature.xrsdkdevkit.XrDevKitScreen
+import com.mvi.kenny.feature.xrsdkdevkit.XrDevKitViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -248,7 +251,9 @@ fun MainScreen(
         // PRD-280: Android Skills 安全扫描工具包
         BottomNavRoute.AndroidSkillsSecurity,
         // PRD-283: Android MDC-Views → Compose 迁移工具包
-        BottomNavRoute.MdcToComposeMigration
+        BottomNavRoute.MdcToComposeMigration,
+        // PRD-289: Android XR SDK DP4 开发工具包
+        BottomNavRoute.XrSdkDevKit
     )
 
     // Pager 状态，管理当前是第几页
@@ -361,6 +366,9 @@ fun MainScreen(
     // PRD-283: Android MDC-Views → Compose 迁移工具包
     val mdcToComposeToolViewModel = remember { MdcToComposeToolViewModel() }
     var mdcToComposeToolTopBar by remember { mutableStateOf(TopBarConfig(title = "MDC → Compose 迁移工具包")) }
+    // PRD-289: Android XR SDK DP4 开发工具包
+    val xrSdkDevKitViewModel = remember { XrDevKitViewModel() }
+    var xrSdkDevKitTopBar by remember { mutableStateOf(TopBarConfig(title = "XR SDK 开发工具包")) }
 
     // 根据当前页码决定显示哪个 TopBar 配置
     val currentTopBar = when (pagerState.currentPage) {
@@ -416,6 +424,8 @@ fun MainScreen(
         47 -> skillsSecurityToolkitTopBar
         // PRD-283: Android MDC-Views → Compose 迁移工具包
         48 -> mdcToComposeToolTopBar
+        // PRD-289: Android XR SDK DP4 开发工具包
+        49 -> xrSdkDevKitTopBar
 
         else -> homeTopBar
     }
@@ -661,6 +671,11 @@ fun MainScreen(
                     // PRD-283: Android MDC-Views → Compose 迁移工具包
                     48 -> MdcToComposeToolScreen(
                         viewModel = mdcToComposeToolViewModel
+                    )
+                    // PRD-289: Android XR SDK DP4 开发工具包
+                    49 -> XrDevKitScreen(
+                        viewModel = xrSdkDevKitViewModel,
+                        onUpdateTopBar = { xrSdkDevKitTopBar = it }
                     )
                 }
             }

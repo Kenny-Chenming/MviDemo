@@ -14,6 +14,7 @@ import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.Shield
 import androidx.compose.material.icons.filled.Security
 import androidx.compose.material.icons.filled.Star
+import androidx.compose.material.icons.filled.Visibility
 import androidx.compose.material.icons.filled.SystemUpdate
 import androidx.compose.material.icons.filled.VerifiedUser
 import androidx.compose.material.icons.filled.LocationOn
@@ -107,6 +108,8 @@ sealed class BottomNavRoute(
     data object AndroidSkills : BottomNavRoute(route = "android_skills", title = "Android Skills", icon = Icons.Default.AutoAwesome)
     // PRD-280: Android Skills 安全扫描工具包
     data object AndroidSkillsSecurity : BottomNavRoute(route = "android_skills_security", title = "Skills安全", icon = Icons.Default.Security)
+    // PRD-289: Android XR SDK DP4 开发工具包
+    data object XrSdkDevKit : BottomNavRoute(route = "xr_sdk_dev_kit", title = "XR SDK", icon = Icons.Default.Visibility)
     // PRD-283: Android MDC-Views → Compose 迁移工具包（下一代版）
     data object MdcToComposeMigration : BottomNavRoute(route = "mdc_views_compose_migration", title = "MDC迁移", icon = Icons.Default.Layers)
     // PRD-185: Android AppFunctions SDK 开发工具包
@@ -254,4 +257,6 @@ object NavRoutes {
     const val APP_AS_TOOL = "app_as_tool"
     // PRD-257: Verified Financial Calls API 集成工具包
     const val VERIFIED_FINANCIAL_CALLS = "verified_financial_calls"
+    // PRD-289: Android XR SDK DP4 开发工具包
+    const val XR_SDK_DEV_KIT = "xr_sdk_dev_kit"
 }
