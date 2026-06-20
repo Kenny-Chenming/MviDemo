@@ -112,6 +112,8 @@ sealed class BottomNavRoute(
     data object XrSdkDevKit : BottomNavRoute(route = "xr_sdk_dev_kit", title = "XR SDK", icon = Icons.Default.Visibility)
     // PRD-292: Google ADK for Android 开发工具包
     data object AdkAndroid : BottomNavRoute(route = "adk_android", title = "ADK Android", icon = Icons.Default.AutoAwesome)
+    // PRD-293: Google Antigravity 2.0 Android 集成开发工具包
+    data object Antigravity2 : BottomNavRoute(route = "antigravity2", title = "Antigravity 2.0", icon = Icons.Default.AutoAwesome)
     // PRD-283: Android MDC-Views → Compose 迁移工具包（下一代版）
     data object MdcToComposeMigration : BottomNavRoute(route = "mdc_views_compose_migration", title = "MDC迁移", icon = Icons.Default.Layers)
     // PRD-185: Android AppFunctions SDK 开发工具包
@@ -263,4 +265,6 @@ object NavRoutes {
     const val XR_SDK_DEV_KIT = "xr_sdk_dev_kit"
     // PRD-292: Google ADK for Android 开发工具包
     const val ADK_ANDROID = "adk_android"
+    // PRD-293: Google Antigravity 2.0 Android 集成开发工具包
+    const val ANTIGRAVITY2 = "antigravity2"
 }
