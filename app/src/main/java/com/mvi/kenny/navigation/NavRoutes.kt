@@ -28,6 +28,7 @@ import androidx.compose.material.icons.filled.BatteryChargingFull
 import androidx.compose.material.icons.filled.SwapHoriz
 import androidx.compose.material.icons.filled.VpnKey
 import androidx.compose.material.icons.filled.DesktopWindows
+import androidx.compose.material.icons.filled.Storage
 import androidx.compose.material.icons.filled.VolumeUp
 import androidx.compose.material.icons.filled.CheckCircle
 import androidx.compose.material.icons.filled.Policy
@@ -108,6 +109,8 @@ sealed class BottomNavRoute(
     data object AndroidSkills : BottomNavRoute(route = "android_skills", title = "Android Skills", icon = Icons.Default.AutoAwesome)
     // PRD-280: Android Skills 安全扫描工具包
     data object AndroidSkillsSecurity : BottomNavRoute(route = "android_skills_security", title = "Skills安全", icon = Icons.Default.Security)
+    // PRD-294: Room 3.0 KMP 数据库迁移工具包
+    data object Room3KmpMigration : BottomNavRoute(route = "room3_kmp_migration", title = "Room3 KMP", icon = Icons.Default.Storage)
     // PRD-289: Android XR SDK DP4 开发工具包
     data object XrSdkDevKit : BottomNavRoute(route = "xr_sdk_dev_kit", title = "XR SDK", icon = Icons.Default.Visibility)
     // PRD-292: Google ADK for Android 开发工具包
@@ -259,8 +262,8 @@ object NavRoutes {
     const val APP_AS_TOOL = "app_as_tool"
     // PRD-257: Verified Financial Calls API 集成工具包
     const val VERIFIED_FINANCIAL_CALLS = "verified_financial_calls"
-    // PRD-289: Android XR SDK DP4 开发工具包
-    const val XR_SDK_DEV_KIT = "xr_sdk_dev_kit"
     // PRD-292: Google ADK for Android 开发工具包
     const val ADK_ANDROID = "adk_android"
+    // PRD-294: Room 3.0 KMP 数据库迁移工具包
+    const val ROOM3_KMP_MIGRATION = "room3_kmp_migration"
 }
