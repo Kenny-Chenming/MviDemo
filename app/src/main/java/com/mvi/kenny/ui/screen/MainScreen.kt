@@ -113,6 +113,9 @@ import com.mvi.kenny.feature.mdcviewscomposemigration.MdcToComposeToolViewModel
 // PRD-289: Android XR SDK DP4 开发工具包
 import com.mvi.kenny.feature.xrsdkdevkit.XrDevKitScreen
 import com.mvi.kenny.feature.xrsdkdevkit.XrDevKitViewModel
+// PRD-292: Google ADK for Android 开发工具包
+import com.mvi.kenny.feature.adkandroid.AdkAndroidScreen
+import com.mvi.kenny.feature.adkandroid.AdkAndroidViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -253,7 +256,9 @@ fun MainScreen(
         // PRD-283: Android MDC-Views → Compose 迁移工具包
         BottomNavRoute.MdcToComposeMigration,
         // PRD-289: Android XR SDK DP4 开发工具包
-        BottomNavRoute.XrSdkDevKit
+        BottomNavRoute.XrSdkDevKit,
+        // PRD-292: Google ADK for Android 开发工具包
+        BottomNavRoute.AdkAndroid
     )
 
     // Pager 状态，管理当前是第几页
@@ -369,6 +374,9 @@ fun MainScreen(
     // PRD-289: Android XR SDK DP4 开发工具包
     val xrSdkDevKitViewModel = remember { XrDevKitViewModel() }
     var xrSdkDevKitTopBar by remember { mutableStateOf(TopBarConfig(title = "XR SDK 开发工具包")) }
+    // PRD-292: Google ADK for Android 开发工具包
+    val adkAndroidViewModel = remember { AdkAndroidViewModel() }
+    var adkAndroidTopBar by remember { mutableStateOf(TopBarConfig(title = "Google ADK for Android")) }
 
     // 根据当前页码决定显示哪个 TopBar 配置
     val currentTopBar = when (pagerState.currentPage) {
@@ -426,6 +434,8 @@ fun MainScreen(
         48 -> mdcToComposeToolTopBar
         // PRD-289: Android XR SDK DP4 开发工具包
         49 -> xrSdkDevKitTopBar
+        // PRD-292: Google ADK for Android 开发工具包
+        50 -> adkAndroidTopBar
 
         else -> homeTopBar
     }
@@ -676,6 +686,11 @@ fun MainScreen(
                     49 -> XrDevKitScreen(
                         viewModel = xrSdkDevKitViewModel,
                         onUpdateTopBar = { xrSdkDevKitTopBar = it }
+                    )
+                    // PRD-292: Google ADK for Android 开发工具包
+                    50 -> AdkAndroidScreen(
+                        viewModel = adkAndroidViewModel,
+                        onNavigateToLab = { /* Tab navigation handled internally */ }
                     )
                 }
             }
