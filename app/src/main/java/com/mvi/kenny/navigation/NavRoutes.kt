@@ -14,6 +14,7 @@ import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.Shield
 import androidx.compose.material.icons.filled.Security
 import androidx.compose.material.icons.filled.Star
+import androidx.compose.material.icons.filled.Visibility
 import androidx.compose.material.icons.filled.SystemUpdate
 import androidx.compose.material.icons.filled.VerifiedUser
 import androidx.compose.material.icons.filled.LocationOn
@@ -31,7 +32,6 @@ import androidx.compose.material.icons.filled.VolumeUp
 import androidx.compose.material.icons.filled.CheckCircle
 import androidx.compose.material.icons.filled.Policy
 import androidx.compose.material.icons.filled.AccountTree
-import androidx.compose.material.icons.filled.Code
 import androidx.compose.material.icons.filled.Layers
 import androidx.compose.material.icons.filled.BugReport
 import androidx.compose.ui.graphics.vector.ImageVector
@@ -106,6 +106,14 @@ sealed class BottomNavRoute(
     data object OrientationEnforcement : BottomNavRoute(route = "orientation_enforcement", title = "大屏方向锁定", icon = Icons.Default.SwapHoriz)
     // PRD-184: Android CLI & Android Skills 工具包
     data object AndroidSkills : BottomNavRoute(route = "android_skills", title = "Android Skills", icon = Icons.Default.AutoAwesome)
+    // PRD-280: Android Skills 安全扫描工具包
+    data object AndroidSkillsSecurity : BottomNavRoute(route = "android_skills_security", title = "Skills安全", icon = Icons.Default.Security)
+    // PRD-289: Android XR SDK DP4 开发工具包
+    data object XrSdkDevKit : BottomNavRoute(route = "xr_sdk_dev_kit", title = "XR SDK", icon = Icons.Default.Visibility)
+    // PRD-292: Google ADK for Android 开发工具包
+    data object AdkAndroid : BottomNavRoute(route = "adk_android", title = "ADK Android", icon = Icons.Default.AutoAwesome)
+    // PRD-283: Android MDC-Views → Compose 迁移工具包（下一代版）
+    data object MdcToComposeMigration : BottomNavRoute(route = "mdc_views_compose_migration", title = "MDC迁移", icon = Icons.Default.Layers)
     // PRD-185: Android AppFunctions SDK 开发工具包
     data object AppFunctionTest : BottomNavRoute(route = "app_function_test", title = "SDK 测试", icon = Icons.Default.CheckCircle)
     // PRD-186: Android 17 SMS OTP Delay 合规检测与迁移工具包
@@ -134,38 +142,14 @@ sealed class BottomNavRoute(
     data object ContactPicker : BottomNavRoute(route = "contact_picker", title = "Contact迁移", icon = Icons.Default.Policy)
     // PRD-235: Android 17 Per-App 内存限制检测与优化工具包
     data object PerAppMemoryLimits : BottomNavRoute(route = "per_app_memory_limits", title = "Per-App Mem", icon = Icons.Default.Memory)
-    // PRD-262: Android 17 App Memory Limits 开发者适配工具包
-    data object AppMemoryLimits : BottomNavRoute(route = "app_memory_limits", title = "App Memory Limits", icon = Icons.Default.Memory)
     // PRD-241: Android CLI × External AI Agent 集成工具包
     data object AndroidCLIExternalAgentToolkit : BottomNavRoute(route = "android_cli_external_agent_toolkit", title = "CLI×Agent", icon = Icons.Default.AutoAwesome)
     // PRD-242: Android Studio Quail 调试/性能工具包
     data object QuailDebugTools : BottomNavRoute(route = "quail_debug_tools", title = "Quail调试", icon = Icons.Default.BugReport)
-    // PRD-232: Kotlin 2.2.20 Swift Export iOS 原生互联络工具包
-    data object SwiftExportTool : BottomNavRoute(route = "swift_export_tool", title = "Swift Export", icon = Icons.Default.Code)
-    // PRD-257: Kotlin 2.2 Context Parameters + Compose Pausable Composition 开发者适配工具包
-    data object KotlinPausableComposition : BottomNavRoute(route = "kotlin_pausable_composition", title = "Kotlin 2.2", icon = Icons.Default.AutoAwesome)
     // PRD-250: Android AppFunctions App-as-Tool 开发工具包
     data object AppAsTool : BottomNavRoute(route = "app_as_tool", title = "App as Tool", icon = Icons.Default.AutoAwesome)
     // PRD-257: Verified Financial Calls API 集成工具包
     data object VerifiedFinancialCalls : BottomNavRoute(route = "verified_financial_calls", title = "来电验证", icon = Icons.Default.Security)
-    // PRD-258: Android XR AI Glasses 开发工具包
-    data object XRGlassesToolkit : BottomNavRoute(route = "xr_glasses_toolkit", title = "AI Glasses", icon = Icons.Default.AutoAwesome)
-    // PRD-258: Jetpack Navigation 3 响应式导航集成工具包
-    data object Nav3Toolkit : BottomNavRoute(route = "nav3_toolkit", title = "Nav3工具包", icon = Icons.Default.AccountTree)
-    // PRD-259: Android Studio Panda 4 AI 工作流工具包
-    data object Panda4Workflow : BottomNavRoute(route = "panda4_workflow", title = "Panda 4 AI", icon = Icons.Default.AutoAwesome)
-    // PRD-260: Android CLI + Skills AI Agent 开发工作流工具包
-    data object AndroidCliSkillsToolkit : BottomNavRoute(route = "android_cli_skills_toolkit", title = "CLI Skills", icon = Icons.Default.AutoAwesome)
-    // PRD-261: Android 开发者验证合规与 CI 集成工具包
-    data object AndroidDevVerification : BottomNavRoute(route = "android_dev_verification", title = "Dev合规", icon = Icons.Default.Shield)
-    // PRD-263: Android 17 Create My Widget 生成式 UI 开发工具包
-    data object CreateMyWidget : BottomNavRoute(route = "create_my_widget", title = "Create My Widget", icon = Icons.Default.AutoAwesome)
-    // PRD-259: Android CLI 1.0 AI Agent 开发集成工具包
-    data object AndroidCliToolkit : BottomNavRoute(route = "android_cli_toolkit", title = "CLI Agent", icon = Icons.Default.Code)
-    // PRD-266: Material Views → Compose 迁移工具包
-    data object MigrationToolkit : BottomNavRoute(route = "migration_toolkit", title = "Views迁移", icon = Icons.Default.SwapHoriz)
-    // PRD-274: Android AppFunctions On-Device MCP 开发工具包
-    data object AppFunctionsMcp : BottomNavRoute(route = "appfunctions_mcp", title = "AppFunctions MCP", icon = Icons.Default.AutoAwesome)
 }
 
 /**
@@ -237,6 +221,10 @@ object NavRoutes {
     const val ORIENTATION_ENFORCEMENT = "orientation_enforcement"
     // PRD-184: Android CLI & Android Skills 工具包
     const val ANDROID_SKILLS = "android_skills"
+    // PRD-280: Android Skills 安全扫描工具包
+    const val ANDROID_SKILLS_SECURITY = "android_skills_security"
+    // PRD-283: Android MDC-Views → Compose 迁移工具包
+    const val MDC_VIEWS_COMPOSE_MIGRATION = "mdc_views_compose_migration"
     // PRD-185: Android AppFunctions SDK 开发工具包
     const val APP_FUNCTION_TEST = "app_function_test"
     // PRD-186: Android 17 SMS OTP Delay 合规检测与迁移工具包
@@ -267,44 +255,12 @@ object NavRoutes {
     const val ANDROID_CLI_EXTERNAL_AGENT_TOOLKIT = "android_cli_external_agent_toolkit"
     // PRD-242: Android Studio Quail 调试/性能工具包
     const val QUAIL_DEBUG_TOOLS = "quail_debug_tools"
-    // PRD-232: Kotlin 2.2.20 Swift Export iOS 原生互联络工具包
-    const val SWIFT_EXPORT_TOOL = "swift_export_tool"
     // PRD-250: Android AppFunctions App-as-Tool 开发工具包
     const val APP_AS_TOOL = "app_as_tool"
-    // PRD-257: Kotlin 2.2 Context Parameters + Compose Pausable Composition 开发者适配工具包
-    const val KOTLIN_PAUSABLE_COMPOSITION = "kotlin_pausable_composition"
-    // PRD-258: Android XR AI Glasses 开发工具包
-    const val XR_GLASSES_TOOLKIT = "xr_glasses_toolkit"
-    // PRD-258: Jetpack Navigation 3 响应式导航集成工具包
-    const val NAV3_TOOLKIT = "nav3_toolkit"
-    // PRD-259: Android Studio Panda 4 AI 工作流工具包
-    const val PAND_4_WORKFLOW = "panda4_workflow"
-    // PRD-260: Android CLI + Skills AI Agent 开发工作流工具包
-    const val ANDROID_CLI_SKILLS_TOOLKIT = "android_cli_skills_toolkit"
-    // PRD-261: Android 开发者验证合规与 CI 集成工具包
-    const val ANDROID_DEV_VERIFICATION = "android_dev_verification"
-    // PRD-262: Android 17 App Memory Limits 开发者适配工具包
-    const val APP_MEMORY_LIMITS = "app_memory_limits"
-    const val APP_MEMORY_LIMITS_DETAIL = "app_memory_limits_detail/{toolId}"
-    // PRD-263: Android 17 Create My Widget 生成式 UI 开发工具包
-    const val CREATE_MY_WIDGET = "create_my_widget"
-    const val CREATE_MY_WIDGET_DETAIL = "create_my_widget_detail/{toolId}"
-    // PRD-259: Android CLI 1.0 AI Agent 开发集成工具包
-    const val ANDROID_CLI_TOOLKIT = "android_cli_toolkit"
     // PRD-257: Verified Financial Calls API 集成工具包
     const val VERIFIED_FINANCIAL_CALLS = "verified_financial_calls"
-    // PRD-266: Material Views → Compose 迁移工具包
-    const val MIGRATION_TOOLKIT = "migration_toolkit"
-    const val MIGRATION_TOOLKIT_ASSESSMENT = "migration_toolkit_assessment"
-    const val MIGRATION_TOOLKIT_CONVERTER = "migration_toolkit_converter"
-    const val MIGRATION_TOOLKIT_MAPPING = "migration_toolkit_mapping"
-    const val MIGRATION_TOOLKIT_THEME = "migration_toolkit_theme"
-    const val MIGRATION_TOOLKIT_HYBRID = "migration_toolkit_hybrid"
-    const val MIGRATION_TOOLKIT_MDC_MAINTENANCE = "migration_toolkit_mdc_maintenance"
-    const val MIGRATION_TOOLKIT_M2_M3 = "migration_toolkit_m2_m3"
-    const val MIGRATION_TOOLKIT_EXPRESSIVE = "migration_toolkit_expressive"
-    const val MIGRATION_TOOLKIT_DYNAMIC_COLOR = "migration_toolkit_dynamic_color"
-    const val MIGRATION_TOOLKIT_STYLES_API = "migration_toolkit_styles_api"
-    // PRD-274: Android AppFunctions On-Device MCP 开发工具包
-    const val APP_FUNCTIONS_MCP = "appfunctions_mcp"
+    // PRD-289: Android XR SDK DP4 开发工具包
+    const val XR_SDK_DEV_KIT = "xr_sdk_dev_kit"
+    // PRD-292: Google ADK for Android 开发工具包
+    const val ADK_ANDROID = "adk_android"
 }
