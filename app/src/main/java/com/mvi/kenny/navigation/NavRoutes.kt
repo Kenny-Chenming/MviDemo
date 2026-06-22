@@ -111,6 +111,8 @@ sealed class BottomNavRoute(
     data object AndroidSkillsSecurity : BottomNavRoute(route = "android_skills_security", title = "Skills安全", icon = Icons.Default.Security)
     // PRD-294: Room 3.0 KMP 数据库迁移工具包
     data object Room3KmpMigration : BottomNavRoute(route = "room3_kmp_migration", title = "Room3 KMP", icon = Icons.Default.Storage)
+    // PRD-296: Android 17 Continue On (Handoff) API 开发工具包
+    data object ContinueOn : BottomNavRoute(route = "continue_on", title = "ContinueOn", icon = Icons.Default.Share)
     // PRD-289: Android XR SDK DP4 开发工具包
     data object XrSdkDevKit : BottomNavRoute(route = "xr_sdk_dev_kit", title = "XR SDK", icon = Icons.Default.Visibility)
     // PRD-292: Google ADK for Android 开发工具包
@@ -266,4 +268,6 @@ object NavRoutes {
     const val ADK_ANDROID = "adk_android"
     // PRD-294: Room 3.0 KMP 数据库迁移工具包
     const val ROOM3_KMP_MIGRATION = "room3_kmp_migration"
+    // PRD-296: Android 17 Continue On (Handoff) API 开发工具包
+    const val CONTINUE_ON = "continue_on"
 }

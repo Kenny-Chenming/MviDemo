@@ -119,6 +119,9 @@ import com.mvi.kenny.feature.adkandroid.AdkAndroidViewModel
 // PRD-294: Room 3.0 KMP 数据库迁移工具包
 import com.mvi.kenny.feature.room3kmpmigration.Room3KmpMigrationScreen
 import com.mvi.kenny.feature.room3kmpmigration.Room3KmpMigrationViewModel
+// PRD-296: Android 17 Continue On (Handoff) API 开发工具包
+import com.mvi.kenny.feature.continueon.ContinueOnScreen
+import com.mvi.kenny.feature.continueon.ContinueOnViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -263,7 +266,9 @@ fun MainScreen(
         // PRD-292: Google ADK for Android 开发工具包
         BottomNavRoute.AdkAndroid,
         // PRD-294: Room 3.0 KMP 数据库迁移工具包
-        BottomNavRoute.Room3KmpMigration
+        BottomNavRoute.Room3KmpMigration,
+        // PRD-296: Android 17 Continue On (Handoff) API 开发工具包
+        BottomNavRoute.ContinueOn
     )
 
     // Pager 状态，管理当前是第几页
@@ -385,6 +390,8 @@ fun MainScreen(
     // PRD-294: Room 3.0 KMP 数据库迁移工具包
     val room3KmpMigrationViewModel = remember { Room3KmpMigrationViewModel() }
     var room3KmpMigrationTopBar by remember { mutableStateOf(TopBarConfig(title = "Room 3.0 KMP 迁移")) }
+    // PRD-296: Android 17 Continue On (Handoff) API 开发工具包
+    val continueOnViewModel = remember { ContinueOnViewModel() }
 
     // 根据当前页码决定显示哪个 TopBar 配置
     val currentTopBar = when (pagerState.currentPage) {
@@ -706,6 +713,11 @@ fun MainScreen(
                     51 -> Room3KmpMigrationScreen(
                         viewModel = room3KmpMigrationViewModel,
                         onUpdateTopBar = { room3KmpMigrationTopBar = it }
+                    )
+                    // PRD-296: Android 17 Continue On (Handoff) API 开发工具包
+                    52 -> ContinueOnScreen(
+                        viewModel = continueOnViewModel,
+                        onNavigateBack = { /* Tab navigation handles back */ }
                     )
                 }
             }
