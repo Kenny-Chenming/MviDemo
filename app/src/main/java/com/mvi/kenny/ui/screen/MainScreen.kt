@@ -104,6 +104,8 @@ import com.mvi.kenny.feature.appastool.AppAsToolScreen
 import com.mvi.kenny.feature.appastool.AppAsToolViewModel
 import com.mvi.kenny.feature.verifiedfinancialcalls.VerifiedFinancialCallsScreen
 import com.mvi.kenny.feature.verifiedfinancialcalls.VerifiedFinancialCallsViewModel
+// PRD-299: KMP 新默认项目结构迁移工具包
+import com.mvi.kenny.feature.kmpnewstructuremigration.KMPNewStructureMigrationScreen
 // PRD-280: Android Skills 安全扫描工具包
 import com.mvi.kenny.feature.skillssecuritytoolkit.SkillsSecurityToolkitScreen
 import com.mvi.kenny.feature.skillssecuritytoolkit.SkillsSecurityToolkitViewModel
@@ -263,7 +265,9 @@ fun MainScreen(
         // PRD-292: Google ADK for Android 开发工具包
         BottomNavRoute.AdkAndroid,
         // PRD-294: Room 3.0 KMP 数据库迁移工具包
-        BottomNavRoute.Room3KmpMigration
+        BottomNavRoute.Room3KmpMigration,
+        // PRD-299: KMP 新默认项目结构迁移工具包
+        BottomNavRoute.KMPNewStructureMigration
     )
 
     // Pager 状态，管理当前是第几页
@@ -706,6 +710,10 @@ fun MainScreen(
                     51 -> Room3KmpMigrationScreen(
                         viewModel = room3KmpMigrationViewModel,
                         onUpdateTopBar = { room3KmpMigrationTopBar = it }
+                    )
+                    // PRD-299: KMP 新默认项目结构迁移工具包
+                    52 -> KMPNewStructureMigrationScreen(
+                        onNavigateBack = { /* Tab navigation handles back */ }
                     )
                 }
             }

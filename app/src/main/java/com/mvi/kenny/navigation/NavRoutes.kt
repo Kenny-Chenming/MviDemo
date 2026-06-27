@@ -137,6 +137,8 @@ sealed class BottomNavRoute(
     data object AluminiumOSDesktop : BottomNavRoute(route = "aluminium_os_desktop", title = "Aluminium OS", icon = Icons.Default.DesktopWindows)
     // PRD-231: KMP × AGP 9.0 不兼容迁移工具包
     data object KMPAGP90 : BottomNavRoute(route = "kmp_agp_90", title = "KMP AGP9", icon = Icons.Default.AccountTree)
+    // PRD-299: KMP 新默认项目结构迁移工具包
+    data object KMPNewStructureMigration : BottomNavRoute(route = "kmp_new_structure_migration", title = "KMP结构迁移", icon = Icons.Default.AccountTree)
     // PRD-230: Jetpack Compose Glimmer AI 眼镜 UI 开发工具包
     data object GlimmerToolkit : BottomNavRoute(route = "glimmer_toolkit", title = "Glimmer", icon = Icons.Default.AutoAwesome)
     // PRD-233: Android Agent Skills 技能库生态工具包
@@ -262,6 +264,8 @@ object NavRoutes {
     const val APP_AS_TOOL = "app_as_tool"
     // PRD-257: Verified Financial Calls API 集成工具包
     const val VERIFIED_FINANCIAL_CALLS = "verified_financial_calls"
+    // PRD-299: KMP 新默认项目结构迁移工具包
+    const val KMP_NEW_STRUCTURE_MIGRATION = "kmp_new_structure_migration"
     // PRD-292: Google ADK for Android 开发工具包
     const val ADK_ANDROID = "adk_android"
     // PRD-294: Room 3.0 KMP 数据库迁移工具包
