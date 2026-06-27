@@ -152,6 +152,8 @@ sealed class BottomNavRoute(
     data object AppAsTool : BottomNavRoute(route = "app_as_tool", title = "App as Tool", icon = Icons.Default.AutoAwesome)
     // PRD-257: Verified Financial Calls API 集成工具包
     data object VerifiedFinancialCalls : BottomNavRoute(route = "verified_financial_calls", title = "来电验证", icon = Icons.Default.Security)
+    // PRD-297: Android AppFunctions AI 工作流中间件
+    data object AppFunctionsWorkflow : BottomNavRoute(route = "appfunctions_workflow", title = "工作流", icon = Icons.Default.AccountTree)
 }
 
 /**
@@ -261,6 +263,8 @@ object NavRoutes {
     const val APP_AS_TOOL = "app_as_tool"
     // PRD-257: Verified Financial Calls API 集成工具包
     const val VERIFIED_FINANCIAL_CALLS = "verified_financial_calls"
+    // PRD-297: Android AppFunctions AI 工作流中间件
+    const val APP_FUNCTIONS_WORKFLOW = "appfunctions_workflow"
     // PRD-289: Android XR SDK DP4 开发工具包
     const val XR_SDK_DEV_KIT = "xr_sdk_dev_kit"
     // PRD-292: Google ADK for Android 开发工具包

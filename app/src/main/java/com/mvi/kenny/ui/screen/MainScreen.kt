@@ -119,6 +119,9 @@ import com.mvi.kenny.feature.adkandroid.AdkAndroidViewModel
 // PRD-293: Google Antigravity 2.0 Android 集成开发工具包
 import com.mvi.kenny.feature.antigravity2.Antigravity2Screen
 import com.mvi.kenny.feature.antigravity2.Antigravity2ViewModel
+// PRD-297: Android AppFunctions AI 工作流中间件
+import com.mvi.kenny.feature.appfunctionsworkflow.AppFunctionsWorkflowScreen
+import com.mvi.kenny.feature.appfunctionsworkflow.AppFunctionsWorkflowViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -263,7 +266,9 @@ fun MainScreen(
         // PRD-292: Google ADK for Android 开发工具包
         BottomNavRoute.AdkAndroid,
         // PRD-293: Google Antigravity 2.0 Android 集成开发工具包
-        BottomNavRoute.Antigravity2
+        BottomNavRoute.Antigravity2,
+        // PRD-297: Android AppFunctions AI 工作流中间件
+        BottomNavRoute.AppFunctionsWorkflow
     )
 
     // Pager 状态，管理当前是第几页
@@ -385,6 +390,9 @@ fun MainScreen(
     // PRD-293: Google Antigravity 2.0 Android 集成开发工具包
     val antigravity2ViewModel = remember { Antigravity2ViewModel() }
     var antigravity2TopBar by remember { mutableStateOf(TopBarConfig(title = "Antigravity 2.0")) }
+    // PRD-297: Android AppFunctions AI 工作流中间件
+    val appFunctionsWorkflowViewModel = remember { AppFunctionsWorkflowViewModel() }
+    var appFunctionsWorkflowTopBar by remember { mutableStateOf(TopBarConfig(title = "AppFunctions 工作流")) }
 
     // 根据当前页码决定显示哪个 TopBar 配置
     val currentTopBar = when (pagerState.currentPage) {
@@ -446,6 +454,8 @@ fun MainScreen(
         50 -> adkAndroidTopBar
         // PRD-293: Google Antigravity 2.0 Android 集成开发工具包
         51 -> antigravity2TopBar
+        // PRD-297: Android AppFunctions AI 工作流中间件
+        52 -> appFunctionsWorkflowTopBar
 
         else -> homeTopBar
     }
@@ -705,6 +715,11 @@ fun MainScreen(
                     // PRD-293: Google Antigravity 2.0 Android 集成开发工具包
                     51 -> Antigravity2Screen(
                         viewModel = antigravity2ViewModel
+                    )
+                    // PRD-297: Android AppFunctions AI 工作流中间件
+                    52 -> AppFunctionsWorkflowScreen(
+                        viewModel = appFunctionsWorkflowViewModel,
+                        onNavigateBack = { pendingTabToSelect = 0 }
                     )
                 }
             }
