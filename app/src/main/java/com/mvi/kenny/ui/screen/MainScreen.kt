@@ -121,6 +121,9 @@ import com.mvi.kenny.feature.adkandroid.AdkAndroidViewModel
 // PRD-294: Room 3.0 KMP 数据库迁移工具包
 import com.mvi.kenny.feature.room3kmpmigration.Room3KmpMigrationScreen
 import com.mvi.kenny.feature.room3kmpmigration.Room3KmpMigrationViewModel
+// PRD-304: Android 开发者身份验证合规批量管理平台
+import com.mvi.kenny.feature.devverificationbatch.VerificationDashboardScreen
+import com.mvi.kenny.feature.devverificationbatch.VerificationDashboardViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -267,7 +270,9 @@ fun MainScreen(
         // PRD-294: Room 3.0 KMP 数据库迁移工具包
         BottomNavRoute.Room3KmpMigration,
         // PRD-299: KMP 新默认项目结构迁移工具包
-        BottomNavRoute.KMPNewStructureMigration
+        BottomNavRoute.KMPNewStructureMigration,
+        // PRD-304: Android 开发者身份验证合规批量管理平台
+        BottomNavRoute.DevVerificationBatch
     )
 
     // Pager 状态，管理当前是第几页
@@ -389,6 +394,9 @@ fun MainScreen(
     // PRD-294: Room 3.0 KMP 数据库迁移工具包
     val room3KmpMigrationViewModel = remember { Room3KmpMigrationViewModel() }
     var room3KmpMigrationTopBar by remember { mutableStateOf(TopBarConfig(title = "Room 3.0 KMP 迁移")) }
+    // PRD-304: Android 开发者身份验证合规批量管理平台
+    val devVerificationBatchViewModel = remember { VerificationDashboardViewModel() }
+    var devVerificationBatchTopBar by remember { mutableStateOf(TopBarConfig(title = "Dev批量验证")) }
 
     // 根据当前页码决定显示哪个 TopBar 配置
     val currentTopBar = when (pagerState.currentPage) {
@@ -450,6 +458,8 @@ fun MainScreen(
         50 -> adkAndroidTopBar
         // PRD-294: Room 3.0 KMP 数据库迁移工具包
         51 -> room3KmpMigrationTopBar
+        // PRD-304: Android 开发者身份验证合规批量管理平台
+        52 -> devVerificationBatchTopBar
 
         else -> homeTopBar
     }
@@ -714,6 +724,11 @@ fun MainScreen(
                     // PRD-299: KMP 新默认项目结构迁移工具包
                     52 -> KMPNewStructureMigrationScreen(
                         onNavigateBack = { /* Tab navigation handles back */ }
+                    )
+                    // PRD-304: Android 开发者身份验证合规批量管理平台
+                    53 -> VerificationDashboardScreen(
+                        viewModel = devVerificationBatchViewModel,
+                        onUpdateTopBar = { devVerificationBatchTopBar = it }
                     )
                 }
             }

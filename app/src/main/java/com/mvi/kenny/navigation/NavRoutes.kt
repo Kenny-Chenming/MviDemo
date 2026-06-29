@@ -35,6 +35,7 @@ import androidx.compose.material.icons.filled.Policy
 import androidx.compose.material.icons.filled.AccountTree
 import androidx.compose.material.icons.filled.Layers
 import androidx.compose.material.icons.filled.BugReport
+import androidx.compose.material.icons.filled.ManageAccounts
 import androidx.compose.ui.graphics.vector.ImageVector
 
 /**
@@ -155,6 +156,8 @@ sealed class BottomNavRoute(
     data object AppAsTool : BottomNavRoute(route = "app_as_tool", title = "App as Tool", icon = Icons.Default.AutoAwesome)
     // PRD-257: Verified Financial Calls API 集成工具包
     data object VerifiedFinancialCalls : BottomNavRoute(route = "verified_financial_calls", title = "来电验证", icon = Icons.Default.Security)
+    // PRD-304: Android 开发者身份验证合规批量管理平台
+    data object DevVerificationBatch : BottomNavRoute(route = "dev_verification_batch", title = "Dev批量验证", icon = Icons.Default.ManageAccounts)
 }
 
 /**
@@ -270,4 +273,6 @@ object NavRoutes {
     const val ADK_ANDROID = "adk_android"
     // PRD-294: Room 3.0 KMP 数据库迁移工具包
     const val ROOM3_KMP_MIGRATION = "room3_kmp_migration"
+    // PRD-304: Android 开发者身份验证合规批量管理平台
+    const val DEV_VERIFICATION_BATCH = "dev_verification_batch"
 }
