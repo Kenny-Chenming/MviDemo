@@ -154,6 +154,8 @@ sealed class BottomNavRoute(
     data object VerifiedFinancialCalls : BottomNavRoute(route = "verified_financial_calls", title = "来电验证", icon = Icons.Default.Security)
     // PRD-297: Android AppFunctions AI 工作流中间件
     data object AppFunctionsWorkflow : BottomNavRoute(route = "appfunctions_workflow", title = "工作流", icon = Icons.Default.AccountTree)
+    // PRD-308: Android Photo Picker & Scoped Storage 合规迁移工具包
+    data object PhotoStorageCompliance : BottomNavRoute(route = "photo_storage_compliance", title = "Photo合规", icon = Icons.Default.Policy)
 }
 
 /**
@@ -265,6 +267,8 @@ object NavRoutes {
     const val VERIFIED_FINANCIAL_CALLS = "verified_financial_calls"
     // PRD-297: Android AppFunctions AI 工作流中间件
     const val APP_FUNCTIONS_WORKFLOW = "appfunctions_workflow"
+    // PRD-308: Android Photo Picker & Scoped Storage 合规迁移工具包
+    const val PHOTO_STORAGE_COMPLIANCE = "photo_storage_compliance"
     // PRD-289: Android XR SDK DP4 开发工具包
     const val XR_SDK_DEV_KIT = "xr_sdk_dev_kit"
     // PRD-292: Google ADK for Android 开发工具包

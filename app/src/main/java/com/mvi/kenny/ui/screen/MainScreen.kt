@@ -122,6 +122,8 @@ import com.mvi.kenny.feature.antigravity2.Antigravity2ViewModel
 // PRD-297: Android AppFunctions AI 工作流中间件
 import com.mvi.kenny.feature.appfunctionsworkflow.AppFunctionsWorkflowScreen
 import com.mvi.kenny.feature.appfunctionsworkflow.AppFunctionsWorkflowViewModel
+import com.mvi.kenny.feature.photostoragecompliance.PhotoStorageComplianceScreen
+import com.mvi.kenny.feature.photostoragecompliance.PhotoStorageComplianceViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -268,7 +270,8 @@ fun MainScreen(
         // PRD-293: Google Antigravity 2.0 Android 集成开发工具包
         BottomNavRoute.Antigravity2,
         // PRD-297: Android AppFunctions AI 工作流中间件
-        BottomNavRoute.AppFunctionsWorkflow
+        BottomNavRoute.AppFunctionsWorkflow,
+        BottomNavRoute.PhotoStorageCompliance
     )
 
     // Pager 状态，管理当前是第几页
@@ -392,6 +395,7 @@ fun MainScreen(
     var antigravity2TopBar by remember { mutableStateOf(TopBarConfig(title = "Antigravity 2.0")) }
     // PRD-297: Android AppFunctions AI 工作流中间件
     val appFunctionsWorkflowViewModel = remember { AppFunctionsWorkflowViewModel() }
+    val photoStorageComplianceViewModel = remember { PhotoStorageComplianceViewModel() }
     var appFunctionsWorkflowTopBar by remember { mutableStateOf(TopBarConfig(title = "AppFunctions 工作流")) }
 
     // 根据当前页码决定显示哪个 TopBar 配置
@@ -456,6 +460,8 @@ fun MainScreen(
         51 -> antigravity2TopBar
         // PRD-297: Android AppFunctions AI 工作流中间件
         52 -> appFunctionsWorkflowTopBar
+        // PRD-308: Android Photo Picker & Scoped Storage 合规迁移工具包
+        53 -> TopBarConfig(title = "Photo Picker 合规工具")
 
         else -> homeTopBar
     }
@@ -719,6 +725,11 @@ fun MainScreen(
                     // PRD-297: Android AppFunctions AI 工作流中间件
                     52 -> AppFunctionsWorkflowScreen(
                         viewModel = appFunctionsWorkflowViewModel,
+                        onNavigateBack = { pendingTabToSelect = 0 }
+                    )
+                    // PRD-308: Android Photo Picker & Scoped Storage 合规迁移工具包
+                    53 -> PhotoStorageComplianceScreen(
+                        viewModel = photoStorageComplianceViewModel,
                         onNavigateBack = { pendingTabToSelect = 0 }
                     )
                 }
