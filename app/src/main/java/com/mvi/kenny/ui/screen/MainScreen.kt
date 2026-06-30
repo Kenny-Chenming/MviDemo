@@ -75,6 +75,8 @@ import com.mvi.kenny.feature.agenticai.AgenticAIScreen
 import com.mvi.kenny.feature.agenticai.AgenticAIViewModel
 import com.mvi.kenny.feature.backgroundaudiohardening.BackgroundAudioHardeningScreen
 import com.mvi.kenny.feature.backgroundaudiohardening.BackgroundAudioHardeningViewModel
+import com.mvi.kenny.feature.audiobackgroundtool.AudioMigrationToolScreen
+import com.mvi.kenny.feature.audiobackgroundtool.AudioMigrationToolViewModel
 import com.mvi.kenny.feature.orientationenforcement.OrientationEnforcementScreen
 import com.mvi.kenny.feature.orientationenforcement.OrientationEnforcementViewModel
 import com.mvi.kenny.feature.androidskills.AndroidSkillsScreen
@@ -263,7 +265,9 @@ fun MainScreen(
         // PRD-292: Google ADK for Android 开发工具包
         BottomNavRoute.AdkAndroid,
         // PRD-294: Room 3.0 KMP 数据库迁移工具包
-        BottomNavRoute.Room3KmpMigration
+        BottomNavRoute.Room3KmpMigration,
+        // PRD-306: Android 17 后台音频 Foreground Service 迁移检测与适配工具包
+        BottomNavRoute.AudioMigrationTool
     )
 
     // Pager 状态，管理当前是第几页
@@ -385,6 +389,9 @@ fun MainScreen(
     // PRD-294: Room 3.0 KMP 数据库迁移工具包
     val room3KmpMigrationViewModel = remember { Room3KmpMigrationViewModel() }
     var room3KmpMigrationTopBar by remember { mutableStateOf(TopBarConfig(title = "Room 3.0 KMP 迁移")) }
+    // PRD-306: Android 17 后台音频 Foreground Service 迁移检测与适配工具包
+    val audioMigrationToolViewModel = remember { AudioMigrationToolViewModel() }
+    var audioMigrationToolTopBar by remember { mutableStateOf(TopBarConfig(title = "Android 17 音频迁移工具")) }
 
     // 根据当前页码决定显示哪个 TopBar 配置
     val currentTopBar = when (pagerState.currentPage) {
@@ -446,6 +453,8 @@ fun MainScreen(
         50 -> adkAndroidTopBar
         // PRD-294: Room 3.0 KMP 数据库迁移工具包
         51 -> room3KmpMigrationTopBar
+        // PRD-306: Android 17 后台音频 Foreground Service 迁移检测与适配工具包
+        52 -> audioMigrationToolTopBar
 
         else -> homeTopBar
     }
@@ -706,6 +715,11 @@ fun MainScreen(
                     51 -> Room3KmpMigrationScreen(
                         viewModel = room3KmpMigrationViewModel,
                         onUpdateTopBar = { room3KmpMigrationTopBar = it }
+                    )
+                    // PRD-306: Android 17 后台音频 Foreground Service 迁移检测与适配工具包
+                    52 -> AudioMigrationToolScreen(
+                        viewModel = audioMigrationToolViewModel,
+                        onUpdateTopBar = { audioMigrationToolTopBar = it }
                     )
                 }
             }

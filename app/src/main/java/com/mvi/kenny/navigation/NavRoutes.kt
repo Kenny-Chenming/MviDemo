@@ -153,6 +153,8 @@ sealed class BottomNavRoute(
     data object AppAsTool : BottomNavRoute(route = "app_as_tool", title = "App as Tool", icon = Icons.Default.AutoAwesome)
     // PRD-257: Verified Financial Calls API 集成工具包
     data object VerifiedFinancialCalls : BottomNavRoute(route = "verified_financial_calls", title = "来电验证", icon = Icons.Default.Security)
+    // PRD-306: Android 17 后台音频 Foreground Service 迁移检测与适配工具包
+    data object AudioMigrationTool : BottomNavRoute(route = "audio_migration_tool", title = "音频迁移", icon = Icons.Default.VolumeUp)
 }
 
 /**
@@ -266,4 +268,6 @@ object NavRoutes {
     const val ADK_ANDROID = "adk_android"
     // PRD-294: Room 3.0 KMP 数据库迁移工具包
     const val ROOM3_KMP_MIGRATION = "room3_kmp_migration"
+    // PRD-306: Android 17 后台音频 Foreground Service 迁移检测与适配工具包
+    const val AUDIO_MIGRATION_TOOL = "audio_migration_tool"
 }
