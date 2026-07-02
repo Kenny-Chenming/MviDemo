@@ -464,4 +464,12 @@ Pure video playback, compatibility priority → PiP</string>
     <string name="android_skills_select_type">Select Skill Type</string>
     <string name="android_skills_add_condition">Add trigger condition</string>
     <string name="android_skills_clear_all">Clear All</string>
+
+    <!-- PRD-S: Google Play Billing Library 9 企业级迁移工具包 -->
+    <string name="play_billing_migration_title">PBL 9 Migration</string>
+    <string name="play_billing_migration_tab_dashboard">Dashboard</string>
+    <string name="play_billing_migration_tab_scan">Scan</string>
+    <string name="play_billing_migration_tab_wizard">Wizard</string>
+    <string name="play_billing_migration_tab_cicd">CI/CD</string>
+    <string name="play_billing_migration_tab_report">Report</string>
 </resources>

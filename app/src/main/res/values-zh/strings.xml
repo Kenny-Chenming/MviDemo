@@ -96,4 +96,12 @@
     <string name="android_skills_select_type">选择 Skill 类型</string>
     <string name="android_skills_add_condition">添加触发条件</string>
     <string name="android_skills_clear_all">清除所有</string>
+
+    <!-- PRD-S: Google Play Billing Library 9 企业级迁移工具包 -->
+    <string name="play_billing_migration_title">PBL 9 迁移工具</string>
+    <string name="play_billing_migration_tab_dashboard">仪表板</string>
+    <string name="play_billing_migration_tab_scan">扫描</string>
+    <string name="play_billing_migration_tab_wizard">向导</string>
+    <string name="play_billing_migration_tab_cicd">CI/CD</string>
+    <string name="play_billing_migration_tab_report">报告</string>
 </resources>

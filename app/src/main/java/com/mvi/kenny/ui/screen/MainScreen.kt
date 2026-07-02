@@ -77,6 +77,9 @@ import com.mvi.kenny.feature.backgroundaudiohardening.BackgroundAudioHardeningSc
 import com.mvi.kenny.feature.backgroundaudiohardening.BackgroundAudioHardeningViewModel
 import com.mvi.kenny.feature.audiobackgroundtool.AudioMigrationToolScreen
 import com.mvi.kenny.feature.audiobackgroundtool.AudioMigrationToolViewModel
+// PRD-S: Google Play Billing Library 9 企业级迁移工具包
+import com.mvi.kenny.feature.playbillingmigration.PlayBillingMigrationScreen
+import com.mvi.kenny.feature.playbillingmigration.PlayBillingMigrationViewModel
 import com.mvi.kenny.feature.orientationenforcement.OrientationEnforcementScreen
 import com.mvi.kenny.feature.orientationenforcement.OrientationEnforcementViewModel
 import com.mvi.kenny.feature.androidskills.AndroidSkillsScreen
@@ -267,7 +270,9 @@ fun MainScreen(
         // PRD-294: Room 3.0 KMP 数据库迁移工具包
         BottomNavRoute.Room3KmpMigration,
         // PRD-306: Android 17 后台音频 Foreground Service 迁移检测与适配工具包
-        BottomNavRoute.AudioMigrationTool
+        BottomNavRoute.AudioMigrationTool,
+        // PRD-S: Google Play Billing Library 9 企业级迁移工具包
+        BottomNavRoute.PlayBillingMigration
     )
 
     // Pager 状态，管理当前是第几页
@@ -392,6 +397,9 @@ fun MainScreen(
     // PRD-306: Android 17 后台音频 Foreground Service 迁移检测与适配工具包
     val audioMigrationToolViewModel = remember { AudioMigrationToolViewModel() }
     var audioMigrationToolTopBar by remember { mutableStateOf(TopBarConfig(title = "Android 17 音频迁移工具")) }
+    // PRD-S: Google Play Billing Library 9 企业级迁移工具包
+    val playBillingMigrationViewModel = remember { PlayBillingMigrationViewModel() }
+    var playBillingMigrationTopBar by remember { mutableStateOf(TopBarConfig(title = "PBL 9 迁移工具")) }
 
     // 根据当前页码决定显示哪个 TopBar 配置
     val currentTopBar = when (pagerState.currentPage) {
@@ -455,6 +463,8 @@ fun MainScreen(
         51 -> room3KmpMigrationTopBar
         // PRD-306: Android 17 后台音频 Foreground Service 迁移检测与适配工具包
         52 -> audioMigrationToolTopBar
+        // PRD-S: Google Play Billing Library 9 企业级迁移工具包
+        53 -> playBillingMigrationTopBar
 
         else -> homeTopBar
     }
@@ -720,6 +730,11 @@ fun MainScreen(
                     52 -> AudioMigrationToolScreen(
                         viewModel = audioMigrationToolViewModel,
                         onUpdateTopBar = { audioMigrationToolTopBar = it }
+                    )
+                    // PRD-S: Google Play Billing Library 9 企业级迁移工具包
+                    53 -> PlayBillingMigrationScreen(
+                        viewModel = playBillingMigrationViewModel,
+                        onNavigateBack = { /* Uses internal topBar, no callback needed */ }
                     )
                 }
             }
